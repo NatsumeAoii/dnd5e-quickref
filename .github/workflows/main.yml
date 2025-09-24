@@ -3,7 +3,7 @@ name: Lint, Build, and Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["master"]
+    branches: ["master"] # Changed to master to match your file
   workflow_dispatch:
 
 permissions:
@@ -57,13 +57,24 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Minify HTML, CSS, and JS files
+      - name: Minify and copy files
         run: |
-          mkdir -p dist/css dist/js dist/themes
+          # Create the directory structure
+          mkdir -p dist/css dist/js dist/themes dist/img
+
+          # Minify and process assets
           npx html-minifier --input-dir . --output-dir dist --file-ext html --collapse-whitespace --remove-comments --remove-optional-tags
           npx css-minify --dir ./css --output ./dist/css
           npx css-minify --dir ./themes --output ./dist/themes
           npx terser ./js/quickref.js -c -m -o ./dist/js/quickref.js
+          
+          # --- ADDED LINES ---
+          # Copy the theme manifest and all icon images
+          cp themes/themes.json ./dist/themes/
+          cp -r img/. ./dist/img/
+          # -----------------
+
+          # Copy other assets
           cp favicon.ico ./dist/
           cp -r js/*.json ./dist/js/
 
