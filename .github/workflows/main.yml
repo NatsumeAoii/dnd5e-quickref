@@ -3,7 +3,7 @@ name: Lint, Build, and Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["master"] # Changed to master to match your file
+    branches: ["master"]
   workflow_dispatch:
 
 permissions:
@@ -27,7 +27,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm' # Add caching for npm dependencies
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
@@ -64,15 +64,25 @@ jobs:
 
           # Minify and process assets
           npx html-minifier --input-dir . --output-dir dist --file-ext html --collapse-whitespace --remove-comments --remove-optional-tags
-          npx css-minify --dir ./css --output ./dist/css
-          npx css-minify --dir ./themes --output ./dist/themes
           npx terser ./js/quickref.js -c -m -o ./dist/js/quickref.js
           
-          # --- ADDED LINES ---
+          # --- MODIFIED CSS MINIFICATION ---
+          # Minify each CSS file individually to control the output name
+          npx css-minify -f ./css/quickref.css -o ./dist/css/quickref.css
+          npx css-minify -f ./css/icons.css -o ./dist/css/icons.css
+          npx css-minify -f ./themes/baldurs-gate.css -o ./dist/themes/baldurs-gate.css
+          npx css-minify -f ./themes/cyberpunk.css -o ./dist/themes/cyberpunk.css
+          npx css-minify -f ./themes/dracula.css -o ./dist/themes/dracula.css
+          npx css-minify -f ./themes/high-contrast.css -o ./dist/themes/high-contrast.css
+          npx css-minify -f ./themes/nord.css -o ./dist/themes/nord.css
+          npx css-minify -f ./themes/sepia.css -o ./dist/themes/sepia.css
+          npx css-minify -f ./themes/solarized.css -o ./dist/themes/solarized.css
+          npx css-minify -f ./themes/steampunk.css -o ./dist/themes/steampunk.css
+          # --------------------------------
+
           # Copy the theme manifest and all icon images
           cp themes/themes.json ./dist/themes/
           cp -r img/. ./dist/img/
-          # -----------------
 
           # Copy other assets
           cp favicon.ico ./dist/
@@ -88,4 +98,4 @@ jobs:
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions-rs/deploy-pages@v4
