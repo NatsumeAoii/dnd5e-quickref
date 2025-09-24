@@ -85,7 +85,7 @@
 
     class A11yService {
         #announcerEl;
-        constructor(domProvider) { try { this.#announcerEl = domProvider.get(CONFIG.ELEMENT_IDS.ARIA_ANNOUNCER); } catch (e) { console.warn("ARIA announcer not found."); } }
+        constructor(domProvider) { try { this.#announcerEl = domProvider.get(CONFIG.ELEMENT_IDS.ARIA_ANNOUNCER); } catch { console.warn("ARIA announcer not found."); } }
         announce(message) { if (this.#announcerEl) { this.#announcerEl.textContent = message; } }
     }
 
