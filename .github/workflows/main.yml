@@ -66,7 +66,6 @@ jobs:
           npx html-minifier --input-dir . --output-dir dist --file-ext html --collapse-whitespace --remove-comments --remove-optional-tags
           npx terser ./js/quickref.js -c -m -o ./dist/js/quickref.js
           
-          # --- MODIFIED CSS MINIFICATION ---
           # Minify each CSS file individually to control the output name
           npx css-minify -f ./css/quickref.css -o ./dist/css/quickref.css
           npx css-minify -f ./css/icons.css -o ./dist/css/icons.css
@@ -78,8 +77,7 @@ jobs:
           npx css-minify -f ./themes/sepia.css -o ./dist/themes/sepia.css
           npx css-minify -f ./themes/solarized.css -o ./dist/themes/solarized.css
           npx css-minify -f ./themes/steampunk.css -o ./dist/themes/steampunk.css
-          # --------------------------------
-
+          
           # Copy the theme manifest and all icon images
           cp themes/themes.json ./dist/themes/
           cp -r img/. ./dist/img/
@@ -98,4 +96,4 @@ jobs:
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions-rs/deploy-pages@v4
+        uses: actions/deploy-pages@v4
