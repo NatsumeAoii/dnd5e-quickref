@@ -5,11 +5,11 @@ html[data-theme='solarized'][data-mode='light'] {
     --color-text-subtle: #839496;
     --color-card-bg: #eee8d5;
     --color-header-text: #fdf6e3;
-    --color-shadow: rgba(88, 110, 117, 0.15);
-    --color-shadow-strong: rgba(88, 110, 117, 0.25);
+    --color-shadow: rgb(88 110 117 / 15%);
+    --color-shadow-strong: rgb(88 110 117 / 25%);
     --color-hr: #cdc8b7;
     --color-link: #268bd2;
-    --color-item-hover-bg: rgba(38, 139, 210, 0.08);
+    --color-item-hover-bg: rgb(38 139 210 / 8%);
 
     /* Solarized Light Section Palette - Saturated for more punch */
     --color-movement: #d33682; /* Magenta, was dc322f */
@@ -30,11 +30,11 @@ html[data-theme='solarized'][data-mode='dark'] {
     --color-text-subtle: #657b83;
     --color-card-bg: #073642;
     --color-header-text: #fdf6e3;
-    --color-shadow: rgba(0, 0, 0, 0.4);
-    --color-shadow-strong: rgba(0, 0, 0, 0.6);
+    --color-shadow: rgb(0 0 0 / 40%);
+    --color-shadow-strong: rgb(0 0 0 / 60%);
     --color-hr: #586e75;
     --color-link: #268bd2;
-    --color-item-hover-bg: rgba(38, 139, 210, 0.1);
+    --color-item-hover-bg: rgb(38 139 210 / 10%);
 
     /* Solarized Dark Section Palette - Saturated for more punch */
     --color-movement: #d33682; /* Magenta, was dc322f */

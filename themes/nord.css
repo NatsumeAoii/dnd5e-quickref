@@ -3,13 +3,13 @@ html[data-theme='nord'][data-mode='light'] {
     --color-bg: #eceff4;
     --color-text: #2e3440;
     --color-text-subtle: #4c566a;
-    --color-card-bg: #ffffff;
-    --color-header-text: #ffffff;
-    --color-shadow: rgba(46, 52, 64, 0.1);
-    --color-shadow-strong: rgba(46, 52, 64, 0.2);
+    --color-card-bg: #fff;
+    --color-header-text: #fff;
+    --color-shadow: rgb(46 52 64 / 10%);
+    --color-shadow-strong: rgb(46 52 64 / 20%);
     --color-hr: #d8dee9;
     --color-link: #5e81ac;
-    --color-item-hover-bg: rgba(94, 129, 172, 0.1);
+    --color-item-hover-bg: rgb(94 129 172 / 10%);
 
     /* Nord Light Section Palette - Saturated for more punch */
     --color-movement: #c25562; /* More Saturated Red */
@@ -29,12 +29,12 @@ html[data-theme='nord'][data-mode='dark'] {
     --color-text: #d8dee9;
     --color-text-subtle: #9299a8;
     --color-card-bg: #3b4252;
-    --color-header-text: #ffffff;
-    --color-shadow: rgba(0, 0, 0, 0.4);
-    --color-shadow-strong: rgba(0, 0, 0, 0.6);
+    --color-header-text: #fff;
+    --color-shadow: rgb(0 0 0 / 40%);
+    --color-shadow-strong: rgb(0 0 0 / 60%);
     --color-hr: #4c566a;
     --color-link: #88c0d0;
-    --color-item-hover-bg: rgba(136, 192, 208, 0.1);
+    --color-item-hover-bg: rgb(136 192 208 / 10%);
 
     /* Nord Dark Section Palette - Saturated for more punch */
     --color-movement: #bf616a;

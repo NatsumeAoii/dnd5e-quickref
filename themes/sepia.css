@@ -5,11 +5,11 @@ html[data-theme='sepia'][data-mode='light'] {
     --color-text-subtle: #7a6b5a;
     --color-card-bg: #f9f0e5;
     --color-header-text: #f9f0e5;
-    --color-shadow: rgba(67, 52, 35, 0.15);
-    --color-shadow-strong: rgba(67, 52, 35, 0.25);
+    --color-shadow: rgb(67 52 35 / 15%);
+    --color-shadow-strong: rgb(67 52 35 / 25%);
     --color-hr: #d4c6b5;
     --color-link: #8c5e35;
-    --color-item-hover-bg: rgba(140, 94, 53, 0.08);
+    --color-item-hover-bg: rgb(140 94 53 / 8%);
 
     /* Sepia Light Palette Section Colors */
     --color-movement: #a54a4a;
@@ -30,11 +30,11 @@ html[data-theme='sepia'][data-mode='dark'] {
     --color-text-subtle: #9e8f7e;
     --color-card-bg: #4d4133;
     --color-header-text: #f9f0e5;
-    --color-shadow: rgba(0, 0, 0, 0.3);
-    --color-shadow-strong: rgba(0, 0, 0, 0.5);
+    --color-shadow: rgb(0 0 0 / 30%);
+    --color-shadow-strong: rgb(0 0 0 / 50%);
     --color-hr: #6b5c4b;
     --color-link: #e0b686;
-    --color-item-hover-bg: rgba(224, 182, 134, 0.1);
+    --color-item-hover-bg: rgb(224 182 134 / 10%);
 
     /* Sepia Dark Palette Section Colors */
     --color-movement: #e88d8d;

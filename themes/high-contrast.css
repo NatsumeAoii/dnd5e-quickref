@@ -1,49 +1,49 @@
 /* High Contrast Light Mode */
 html[data-theme='high-contrast'][data-mode='light'] {
-    --color-bg: #ffffff;
-    --color-text: #000000;
-    --color-text-subtle: #222222;
+    --color-bg: #fff;
+    --color-text: #000;
+    --color-text-subtle: #222;
     --color-card-bg: #f0f0f0;
-    --color-header-text: #ffffff;
-    --color-shadow: rgba(0, 0, 0, 0.4);
-    --color-shadow-strong: rgba(0, 0, 0, 0.6);
-    --color-hr: #999999;
-    --color-link: #0000ff;
-    --color-item-hover-bg: rgba(0, 0, 255, 0.15);
+    --color-header-text: #fff;
+    --color-shadow: rgb(0 0 0 / 40%);
+    --color-shadow-strong: rgb(0 0 0 / 60%);
+    --color-hr: #999;
+    --color-link: #00f;
+    --color-item-hover-bg: rgb(0 0 255 / 15%);
 
     /* High Contrast Light Section Palette */
-    --color-movement: #dd0000;
+    --color-movement: #d00;
     --color-action: #b39b00;
-    --color-bonus-action: #dd00dd;
-    --color-reaction: #00bb00;
+    --color-bonus-action: #d0d;
+    --color-reaction: #0b0;
     --color-condition: #cc7000;
-    --color-environment: #00bbbb;
-    --color-settings: #000000;
-    --color-accept: #00bb00;
+    --color-environment: #0bb;
+    --color-settings: #000;
+    --color-accept: #0b0;
     --color-favorite: #b39b00;
 }
 
 /* High Contrast Dark Mode */
 html[data-theme='high-contrast'][data-mode='dark'] {
-    --color-bg: #000000;
-    --color-text: #ffffff;
-    --color-text-subtle: #dddddd;
-    --color-card-bg: #111111;
-    --color-header-text: #000000;
-    --color-shadow: rgba(255, 255, 255, 0.4);
-    --color-shadow-strong: rgba(255, 255, 255, 0.6);
-    --color-hr: #666666;
-    --color-link: #00ffff;
-    --color-item-hover-bg: rgba(0, 255, 255, 0.15);
+    --color-bg: #000;
+    --color-text: #fff;
+    --color-text-subtle: #ddd;
+    --color-card-bg: #111;
+    --color-header-text: #000;
+    --color-shadow: rgb(255 255 255 / 40%);
+    --color-shadow-strong: rgb(255 255 255 / 60%);
+    --color-hr: #666;
+    --color-link: #0ff;
+    --color-item-hover-bg: rgb(0 255 255 / 15%);
 
     /* High Contrast Dark Section Palette */
-    --color-movement: #ff0000;
-    --color-action: #ffff00;
-    --color-bonus-action: #ff00ff;
-    --color-reaction: #00ff00;
+    --color-movement: #f00;
+    --color-action: #ff0;
+    --color-bonus-action: #f0f;
+    --color-reaction: #0f0;
     --color-condition: #ff8c00;
-    --color-environment: #00ffff;
-    --color-settings: #ffffff;
-    --color-accept: #00ff00;
-    --color-favorite: #ffff00;
+    --color-environment: #0ff;
+    --color-settings: #fff;
+    --color-accept: #0f0;
+    --color-favorite: #ff0;
 }

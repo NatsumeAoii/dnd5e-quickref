@@ -4,12 +4,12 @@ html[data-theme='steampunk'][data-mode='light'] {
     --color-text: #5a452d; /* Dark Brown */
     --color-text-subtle: #8b745b;
     --color-card-bg: #faf3e9;
-    --color-header-text: #ffffff;
-    --color-shadow: rgba(90, 69, 45, 0.15);
-    --color-shadow-strong: rgba(90, 69, 45, 0.25);
+    --color-header-text: #fff;
+    --color-shadow: rgb(90 69 45 / 15%);
+    --color-shadow-strong: rgb(90 69 45 / 25%);
     --color-hr: #d3c4b0;
     --color-link: #8b4513; /* Saddle Brown */
-    --color-item-hover-bg: rgba(184, 115, 51, 0.1);
+    --color-item-hover-bg: rgb(184 115 51 / 10%);
 
     /* Steampunk Light Section Palette */
     --color-movement: #9a4f32; /* Terracotta */
@@ -29,12 +29,12 @@ html[data-theme='steampunk'][data-mode='dark'] {
     --color-text: #e4d9c7; /* Cream */
     --color-text-subtle: #a89d8b;
     --color-card-bg: #5a452d;
-    --color-header-text: #ffffff;
-    --color-shadow: rgba(0, 0, 0, 0.4);
-    --color-shadow-strong: rgba(0, 0, 0, 0.6);
+    --color-header-text: #fff;
+    --color-shadow: rgb(0 0 0 / 40%);
+    --color-shadow-strong: rgb(0 0 0 / 60%);
     --color-hr: #7a604a;
     --color-link: #e6b88a; /* Bright Brass */
-    --color-item-hover-bg: rgba(230, 184, 138, 0.1);
+    --color-item-hover-bg: rgb(230 184 138 / 10%);
 
     /* Steampunk Dark Section Palette */
     --color-movement: #e87a5a; /* Terracotta */

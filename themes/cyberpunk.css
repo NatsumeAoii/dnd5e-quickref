@@ -4,12 +4,12 @@ html[data-theme='cyberpunk'][data-mode='light'] {
     --color-text: #0d0221; /* Near Black */
     --color-text-subtle: #4e4a59;
     --color-card-bg: #f5f5f5;
-    --color-header-text: #ffffff; /* WCAG: White on neons is best */
-    --color-shadow: rgba(13, 2, 33, 0.2);
-    --color-shadow-strong: rgba(13, 2, 33, 0.3);
+    --color-header-text: #fff; /* WCAG: White on neons is best */
+    --color-shadow: rgb(13 2 33 / 20%);
+    --color-shadow-strong: rgb(13 2 33 / 30%);
     --color-hr: #c0c0c0;
-    --color-link: #ff00ff; /* Magenta */
-    --color-item-hover-bg: rgba(0, 240, 255, 0.15);
+    --color-link: #f0f; /* Magenta */
+    --color-item-hover-bg: rgb(0 240 255 / 15%);
 
     /* Cyberpunk Light Section Palette */
     --color-movement: #d9006c; /* WCAG-safe Magenta */
@@ -30,20 +30,20 @@ html[data-theme='cyberpunk'][data-mode='dark'] {
     --color-text-subtle: #8a91ab;
     --color-card-bg: #15053a;
     --color-header-text: #0d0221; /* Black on neons is best */
-    --color-shadow: rgba(0, 240, 255, 0.2);
-    --color-shadow-strong: rgba(0, 240, 255, 0.3);
+    --color-shadow: rgb(0 240 255 / 20%);
+    --color-shadow-strong: rgb(0 240 255 / 30%);
     --color-hr: #4a3f6d;
     --color-link: #f8f162; /* Neon Yellow */
-    --color-item-hover-bg: rgba(255, 0, 255, 0.1);
+    --color-item-hover-bg: rgb(255 0 255 / 10%);
 
     /* Cyberpunk Dark Section Palette */
-    --color-movement: #ff00ff; /* Magenta */
+    --color-movement: #f0f; /* Magenta */
     --color-action: #00f0ff; /* Cyan */
     --color-bonus-action: #9f72e3; /* Lavender */
     --color-reaction: #50fa7b; /* Laser Green */
     --color-condition: #f8f162; /* Neon Yellow */
     --color-environment: #a0a0a0; /* Steel Gray */
-    --color-settings: #ffffff;
+    --color-settings: #fff;
     --color-accept: #50fa7b;
-    --color-favorite: #ff00ff;
+    --color-favorite: #f0f;
 }
