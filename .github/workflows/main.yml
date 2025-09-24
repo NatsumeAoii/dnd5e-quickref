@@ -66,18 +66,20 @@ jobs:
           npx html-minifier --input-dir . --output-dir dist --file-ext html --collapse-whitespace --remove-comments --remove-optional-tags
           npx terser ./js/quickref.js -c -m -o ./dist/js/quickref.js
           
+          # --- REPLACED CSS MINIFICATION WITH CSSO ---
           # Minify each CSS file individually to control the output name
-          npx css-minify -f ./css/quickref.css -o ./dist/css/quickref.css
-          npx css-minify -f ./css/icons.css -o ./dist/css/icons.css
-          npx css-minify -f ./themes/baldurs-gate.css -o ./dist/themes/baldurs-gate.css
-          npx css-minify -f ./themes/cyberpunk.css -o ./dist/themes/cyberpunk.css
-          npx css-minify -f ./themes/dracula.css -o ./dist/themes/dracula.css
-          npx css-minify -f ./themes/high-contrast.css -o ./dist/themes/high-contrast.css
-          npx css-minify -f ./themes/nord.css -o ./dist/themes/nord.css
-          npx css-minify -f ./themes/sepia.css -o ./dist/themes/sepia.css
-          npx css-minify -f ./themes/solarized.css -o ./dist/themes/solarized.css
-          npx css-minify -f ./themes/steampunk.css -o ./dist/themes/steampunk.css
-          
+          npx csso -i ./css/quickref.css -o ./dist/css/quickref.css
+          npx csso -i ./css/icons.css -o ./dist/css/icons.css
+          npx csso -i ./themes/baldurs-gate.css -o ./dist/themes/baldurs-gate.css
+          npx csso -i ./themes/cyberpunk.css -o ./dist/themes/cyberpunk.css
+          npx csso -i ./themes/dracula.css -o ./dist/themes/dracula.css
+          npx csso -i ./themes/high-contrast.css -o ./dist/themes/high-contrast.css
+          npx csso -i ./themes/nord.css -o ./dist/themes/nord.css
+          npx csso -i ./themes/sepia.css -o ./dist/themes/sepia.css
+          npx csso -i ./themes/solarized.css -o ./dist/themes/solarized.css
+          npx csso -i ./themes/steampunk.css -o ./dist/themes/steampunk.css
+          # -------------------------------------------
+
           # Copy the theme manifest and all icon images
           cp themes/themes.json ./dist/themes/
           cp -r img/. ./dist/img/
