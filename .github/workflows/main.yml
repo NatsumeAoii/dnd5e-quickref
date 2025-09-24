@@ -16,7 +16,6 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # ---- NEW: LINTING JOB ----
   lint:
     name: Run Code Linters
     runs-on: ubuntu-latest
@@ -28,19 +27,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm' # Add caching for npm dependencies
 
-      - name: Install linting dependencies
-        run: npm install -g eslint stylelint stylelint-config-standard
+      - name: Install dependencies
+        run: npm install
 
       - name: Run ESLint for JavaScript
-        run: eslint . --ext .js
+        run: npx eslint .
 
       - name: Run Stylelint for CSS
-        run: stylelint "**/*.css"
+        run: npx stylelint "**/*.css"
 
-  # ---- MODIFIED: DEPLOYMENT JOB ----
   build-and-deploy:
-    needs: lint 
+    needs: lint
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -53,17 +52,18 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
-      - name: Install minification tools
-        run: npm install -g html-minifier css-minify terser
+      - name: Install dependencies
+        run: npm install
 
       - name: Minify HTML, CSS, and JS files
         run: |
           mkdir -p dist/css dist/js dist/themes
-          html-minifier --input-dir . --output-dir dist --file-ext html --collapse-whitespace --remove-comments --remove-optional-tags
-          css-minify --dir ./css --output ./dist/css
-          css-minify --dir ./themes --output ./dist/themes
-          terser ./js/quickref.js -c -m -o ./dist/js/quickref.js
+          npx html-minifier --input-dir . --output-dir dist --file-ext html --collapse-whitespace --remove-comments --remove-optional-tags
+          npx css-minify --dir ./css --output ./dist/css
+          npx css-minify --dir ./themes --output ./dist/themes
+          npx terser ./js/quickref.js -c -m -o ./dist/js/quickref.js
           cp favicon.ico ./dist/
           cp -r js/*.json ./dist/js/
 
