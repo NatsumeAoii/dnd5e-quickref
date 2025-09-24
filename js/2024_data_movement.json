@@ -1,0 +1,148 @@
+[
+    {
+        "title": "Climb",
+        "optional": "Standard rule",
+        "icon": "crags",
+        "subtitle": "Cost: +1ft per 1ft",
+        "description": "Movement cost: Each foot of movement costs 1 extra foot (2ft total per foot climbed).",
+        "reference": "PHB 2024, pg. 292.",
+        "bullets": [
+            "A creature with a climbing speed ignores this extra cost.",
+            "The DM might require a Strength (Athletics) check for a particularly difficult or slippery surface."
+        ]
+    },
+    {
+        "title": "Crawl",
+        "optional": "Standard rule",
+        "icon": "crawl",
+        "subtitle": "Cost: +1ft per 1ft",
+        "description": "Movement cost: Each foot of movement costs 1 extra foot (2ft total per foot crawled).",
+        "reference": "PHB 2024, pg. 292.",
+        "bullets": [
+            "Crawling is the only way to move while you have the Prone condition (unless you use magic)."
+        ]
+    },
+    {
+        "title": "Difficult terrain",
+        "optional": "Standard rule",
+        "icon": "stonepile",
+        "subtitle": "Cost: +1ft per 1ft",
+        "reference": "PHB 2024, pg. 292.",
+        "description": "Moving in difficult terrain costs an additional foot of speed for every foot moved.",
+        "bullets": [
+            "Every foot of movement costs 1 extra foot (e.g., moving 5 feet in difficult terrain costs 10 feet of speed).",
+            "Difficult terrain isn't cumulative; either a space is difficult terrain or it isn't."
+        ]
+    },
+    {
+        "title": "Drop Prone",
+        "optional": "Standard rule",
+        "icon": "falling",
+        "subtitle": "Cost: 0ft",
+        "description": "You can drop prone without using any of your speed. This is not an action and costs no movement.",
+        "reference": "PHB 2024, pg. 292.",
+        "bullets": [
+            "To move while prone, you must crawl.",
+            "Dropping prone gives you the <i>Prone</i> condition, which has tactical advantages and disadvantages."
+        ]
+    },
+    {
+        "title": "Flying",
+        "optional": "Standard rule",
+        "icon": "angelwings",
+        "subtitle": "Cost: 1ft per 1ft",
+        "description": "Movement cost: 1 foot of speed for every 1 foot flown.",
+        "reference": "PHB 2024, pg. 293.",
+        "bullets": [
+            "While you have a fly speed, you can stay aloft until you land, fall or die.",
+            "While flying, you fall if you have the <i>Incapacitated</i> or <i>Prone</i> condition or your fly speed is reduced to 0.",
+            "You can stay aloft in those circumstances if you can hover."
+        ]
+    },
+    {
+        "title": "Grapple Move",
+        "optional": "Standard rule",
+        "icon": "grab",
+        "subtitle": "Modifier: Difficult Terrain",
+        "description": "Drag or carry a grappled creature with you. The penalty has been simplified.",
+        "reference": "PHB 2024, pg. 317.",
+        "bullets": [
+            "If you move while grappling another creature, your movement is through <b>Difficult Terrain</b> (each foot moved costs 1 extra foot), unless the creature is two or more sizes smaller than you.",
+            "This is a simplification from the 'halved speed' rule in the 2014 PHB."
+        ]
+    },
+    {
+        "title": "Improvise",
+        "optional": "Standard rule",
+        "icon": "juggler",
+        "subtitle": "Any stunt not on this list",
+        "description": "Perform any movement or stunt you can imagine.",
+        "reference": "PHB 2024, pg. 289.",
+        "bullets": [
+            "When you describe a kind of movement not detailed elsewhere in the rules, the DM tells you whether it is possible and what kind of roll you need to make, if any, to determine success or failure."
+        ]
+    },
+    {
+        "title": "Jump",
+        "optional": "Standard rule",
+        "icon": "wingfoot",
+        "subtitle": "Distance: up to STR score",
+        "description": "When you move, you can jump a distance up to your Strength score. The rules for high and long jumps have been unified.",
+        "reference": "PHB 2024, pg. 292.",
+        "bullets": [
+            "You can jump a number of feet horizontally up to your Strength score (minimum 0). Each foot jumped costs one foot of movement.",
+            "To make a high jump, you make a <b>Strength (Athletics)</b> check. The result is how many feet you can clear vertically. This also costs movement.",
+            "A running start (moving 10 feet prior) is no longer required for a maximum distance jump."
+        ]
+    },
+    {
+        "title": "Move",
+        "optional": "Standard rule",
+        "icon": "run",
+        "subtitle": "Cost: 1ft per 1ft",
+        "description": "Movement cost: 1 foot of speed for every 1 foot moved. You can use your movement at any point during your turn, before, after, or broken up between your action.",
+        "reference": "PHB 2024, pg. 292.",
+        "bullets": [
+            "If you have multiple speeds (e.g., walking and flying), you can switch between them. Subtract the distance already moved from the new speed.",
+            "You can move through a nonhostile creature's space. You can only move through a hostile creature's space if it is at least two sizes larger or smaller than you.",
+            "Another creature's space is always difficult terrain for you.",
+            "You can't willingly end your move in another creature's space."
+        ]
+    },
+    {
+        "title": "Stand Up",
+        "optional": "Standard rule",
+        "icon": "strong",
+        "subtitle": "Cost: half movement speed",
+        "description": "Movement cost: half of your total speed. This removes the Prone condition.",
+        "reference": "PHB 2024, pg. 292.",
+        "bullets": [
+            "You can't stand up if you don't have enough movement left or if your speed is 0.",
+            "For example, if your speed is 30 feet, you must spend 15 feet of movement to stand up."
+        ]
+    },
+    {
+        "title": "Swim",
+        "optional": "Standard rule",
+        "icon": "atsea",
+        "subtitle": "Cost: +1ft per 1ft",
+        "description": "Movement cost: Each foot of movement costs 1 extra foot (2ft total per foot swam).",
+        "reference": "PHB 2024, pg. 292.",
+        "bullets": [
+            "A creature with a swimming speed ignores this extra cost.",
+            "The DM might require a Strength (Athletics) check for rough water or strong currents."
+        ]
+    },
+    {
+        "title": "Travel Pace",
+        "optional": "Standard rule",
+        "icon": "run",
+        "subtitle": "Traveling for an hour or more",
+        "description": "While traveling for an hour or more, a group of adventurers can move at a normal, fast, or slow pace.",
+        "reference": "PHB 2024, pg. 183.",
+        "bullets": [
+            "<table><tr><th style='text-align:left'>Pace</th><th>Distance per Hour</th><th>Distance per Day</th><th style='text-align:left'>Effect</th></tr><tr><td>Fast</td><td>4 miles</td><td>30 miles</td><td>Disadvantage on Perception checks</td></tr><tr><td>Normal</td><td>3 miles</td><td>24 miles</td><td>-</td></tr><tr><td>Slow</td><td>2 miles</td><td>18 miles</td><td>Can use Stealth</td></tr></table>",
+            "<b>Forced March:</b> For each hour of travel beyond 8 hours, characters make a Constitution save (DC 10 + 1 per hour past 8). On a failure, they gain one level of exhaustion."
+        ]
+    }
+]

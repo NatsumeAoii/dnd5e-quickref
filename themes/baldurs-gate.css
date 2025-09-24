@@ -1,0 +1,49 @@
+/* Baldur's Gate Light Mode */
+html[data-theme='baldurs-gate'][data-mode='light'] {
+    --color-bg: #fbf8e8; /* Light Parchment */
+    --color-text: #3c2f5d; /* Deep Purple */
+    --color-text-subtle: #6a5a8a;
+    --color-card-bg: #fefdf5;
+    --color-header-text: #ffffff;
+    --color-shadow: rgba(60, 47, 93, 0.15);
+    --color-shadow-strong: rgba(60, 47, 93, 0.25);
+    --color-hr: #e1d9c4;
+    --color-link: #8a3a3b; /* Rich Red */
+    --color-item-hover-bg: rgba(247, 211, 91, 0.2);
+
+    /* Baldur's Gate Light Section Palette */
+    --color-movement: #a93226; /* Crimson */
+    --color-action: #4a5d8a; /* Steel Blue */
+    --color-bonus-action: #8879d4; /* Arcane Lavender */
+    --color-reaction: #2e8b57; /* Forest Green */
+    --color-condition: #d98a28; /* Ornate Gold */
+    --color-environment: #6b4f3a; /* Worn Leather */
+    --color-settings: #3c2f5d; /* Deep Purple */
+    --color-accept: #2e8b57;
+    --color-favorite: #f7d35b; /* Gilded Gold */
+}
+
+/* Baldur's Gate Dark Mode */
+html[data-theme='baldurs-gate'][data-mode='dark'] {
+    --color-bg: #1e162f; /* Abyssal Purple */
+    --color-text: #eadfa9; /* Arcane Parchment */
+    --color-text-subtle: #a09680;
+    --color-card-bg: #2a213f; /* Magical Purple */
+    --color-header-text: #ffffff;
+    --color-shadow: rgba(0, 0, 0, 0.5);
+    --color-shadow-strong: rgba(0, 0, 0, 0.7);
+    --color-hr: #4a3e60;
+    --color-link: #f7d35b; /* Gilded Gold */
+    --color-item-hover-bg: rgba(247, 211, 91, 0.1);
+
+    /* Baldur's Gate Dark Section Palette */
+    --color-movement: #c0392b; /* Crimson */
+    --color-action: #5d75b3; /* Steel Blue */
+    --color-bonus-action: #8879d4; /* Arcane Lavender */
+    --color-reaction: #3ca96a; /* Forest Green */
+    --color-condition: #f7d35b; /* Gilded Gold */
+    --color-environment: #9d7f64; /* Worn Leather */
+    --color-settings: #8879d4; /* Arcane Lavender */
+    --color-accept: #3ca96a;
+    --color-favorite: #f7d35b;
+}

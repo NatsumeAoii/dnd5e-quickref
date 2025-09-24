@@ -1,0 +1,49 @@
+/* Sepia Light Mode */
+html[data-theme='sepia'][data-mode='light'] {
+    --color-bg: #f1e4d3;
+    --color-text: #433423;
+    --color-text-subtle: #7a6b5a;
+    --color-card-bg: #f9f0e5;
+    --color-header-text: #f9f0e5;
+    --color-shadow: rgba(67, 52, 35, 0.15);
+    --color-shadow-strong: rgba(67, 52, 35, 0.25);
+    --color-hr: #d4c6b5;
+    --color-link: #8c5e35;
+    --color-item-hover-bg: rgba(140, 94, 53, 0.08);
+
+    /* Sepia Light Palette Section Colors */
+    --color-movement: #a54a4a;
+    --color-action: #6b6b6b;
+    --color-bonus-action: #7063a8;
+    --color-reaction: #4a7d55;
+    --color-condition: #9c7b3a;
+    --color-environment: #2a7f7f;
+    --color-settings: #4e6482;
+    --color-accept: #4a7d55;
+    --color-favorite: #b8860b;
+}
+
+/* Sepia Dark Mode */
+html[data-theme='sepia'][data-mode='dark'] {
+    --color-bg: #3a3024;
+    --color-text: #dcd0c0;
+    --color-text-subtle: #9e8f7e;
+    --color-card-bg: #4d4133;
+    --color-header-text: #f9f0e5;
+    --color-shadow: rgba(0, 0, 0, 0.3);
+    --color-shadow-strong: rgba(0, 0, 0, 0.5);
+    --color-hr: #6b5c4b;
+    --color-link: #e0b686;
+    --color-item-hover-bg: rgba(224, 182, 134, 0.1);
+
+    /* Sepia Dark Palette Section Colors */
+    --color-movement: #e88d8d;
+    --color-action: #b0b0b0;
+    --color-bonus-action: #b5a9f2;
+    --color-reaction: #8ed99b;
+    --color-condition: #e6c886;
+    --color-environment: #78dada;
+    --color-settings: #9eb7d7;
+    --color-accept: #8ed99b;
+    --color-favorite: #e6c886;
+}

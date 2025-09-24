@@ -1,0 +1,99 @@
+[
+    {
+        "title": "Cast a Spell",
+        "optional": "Standard rule",
+        "icon": "magicswirl",
+        "subtitle": "Cast time of 1 reaction",
+        "description": "Cast a spell with a casting time of 1 reaction.",
+        "reference": "PHB 2024, pg. 301.",
+        "bullets": [
+            "<b>Trigger:</b> As specified by the spell's description.",
+            "Examples: <i>Shield</i> triggers when you are hit by an attack, <i>Counterspell</i> triggers when you see a creature casting a spell, and <i>Feather Fall</i> triggers when you or a creature within 60 feet of you falls."
+        ]
+    },
+    {
+        "title": "Identify a Spell",
+        "optional": "Standard rule",
+        "icon": "eyeball",
+        "subtitle": "Identify a spell being cast",
+        "description": "Use your knowledge of the arcane to identify a spell as it is being cast.",
+        "reference": "PHB 2024, pg. 303.",
+        "bullets": [
+            "This was an optional rule in XGE, now a standard rule.",
+            "<b>Trigger:</b> A creature you can see casts a spell or you encounter a magical effect.",
+            "<b>Reaction or Action:</b> Make an Intelligence (Arcana) check. The DC equals 10 + the spell's level.",
+            "On a success, you identify the spell if you are reacting to its casting, or you learn the properties of a magical effect if you are studying it with an action.",
+            "This allows you to decide whether to use <i>Counterspell</i> effectively."
+        ]
+    },
+    {
+        "title": "Opportunity Attack",
+        "optional": "Standard rule",
+        "icon": "crossedswords",
+        "subtitle": "Enemy leaves your reach",
+        "description": "You can make a melee attack against a foe that leaves your reach.",
+        "reference": "PHB 2024, pg. 295.",
+        "bullets": [
+            "<b>Trigger:</b> A hostile creature you can see moves out of your reach.",
+            "<b>Reaction:</b> You make one melee attack against the provoking creature.",
+            "The attack interrupts the creature's movement, occurring right before it leaves your reach.",
+            "You don't provoke an opportunity attack when you Teleport or when someone or something moves you without using your movement or action.",
+            "The <b>Disengage</b> action prevents you from provoking opportunity attacks for the rest of your turn."
+        ]
+    },
+    {
+        "title": "Readied Action",
+        "optional": "Standard rule",
+        "icon": "stopwatch",
+        "subtitle": "Part of your Ready action",
+        "description": "Execute the activity specified by your Ready action.",
+        "reference": "PHB 2024, pg. 291.",
+        "bullets": [
+            "<b>Trigger:</b> The perceivable circumstance you defined when you took the Ready action on your turn.",
+            "<b>Reaction:</b> You perform the action, bonus action, or move you chose to ready. This occurs immediately after the trigger finishes.",
+            "If you ready a spell, you cast it on your turn but use your reaction to release it. This requires Concentration, which can be broken."
+        ]
+    },
+    {
+        "title": "Parry*",
+        "optional": "Optional rule",
+        "icon": "shield",
+        "subtitle": "Defend against a melee attack",
+        "description": "Add a bonus to your AC against one melee attack that would hit you. This rule is an adaptation of NPC abilities for player use.",
+        "reference": "DMG 2024, pg. 247.",
+        "bullets": [
+            "<b>(Optional Rule – DMG):</b>",
+            "<b>Trigger:</b> Another creature hits you with a melee attack.",
+            "<b>Reaction:</b> You must be able to see the attacker and be wielding a melee weapon.",
+            "You add your proficiency bonus to your AC for that attack, potentially causing the attack to miss.",
+            "This rule is based on the Parry reaction available to many martial NPCs."
+        ]
+    },
+    {
+        "title": "Grapple Opportunity Attack **",
+        "optional": "Homebrew rule",
+        "icon": "grab",
+        "subtitle": "Stop an enemy from fleeing",
+        "description": "A house rule allowing a creature to attempt a Grapple in place of a damage-dealing Opportunity Attack.",
+        "reference": "PHB (2024) pg. 295 & pg. 317.",
+        "bullets": [
+            "<b>(Uncommon Homebrew Rule):</b>",
+            "<b>Trigger:</b> A hostile creature you can see moves out of your reach.",
+            "<b>RAW:</b> An Opportunity Attack is 'one melee attack'. Because the 2024 Grapple is an Unarmed Strike (a type of melee attack), this is now arguably Rules As Written, though DMs may rule that the 'special' nature of the Grapple attack prevents its use here.",
+            "<b>Homebrew:</b> The DM explicitly allows you to make an Unarmed Strike to Grapple instead of dealing damage, potentially stopping the creature by imposing the Grappled condition (Speed 0)."
+        ]
+    },
+    {
+        "title": "Dive for Cover **",
+        "optional": "Homebrew rule",
+        "icon": "falling",
+        "subtitle": "Dodge an area effect",
+        "description": "A house rule that allows a creature to use their reaction to avoid area-of-effect damage.",
+        "bullets": [
+            "<b>(Rare Homebrew Rule):</b>",
+            "<b>Trigger:</b> You are subjected to an effect that requires you to make a Dexterity saving throw (like a <i>Fireball</i>).",
+            "<b>Reaction:</b> You can use your reaction to dive for cover.",
+            "<b>Effect:</b> You gain Advantage on the Dexterity saving throw. After the save, you land Prone."
+        ]
+    }
+]

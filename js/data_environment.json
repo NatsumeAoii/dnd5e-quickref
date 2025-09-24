@@ -1,0 +1,341 @@
+[
+    {
+        "title": "Lightly obscured",
+        "optional": "Standard rule",
+        "icon": "bleedingeye",
+        "subtitle": "Disadvantage on Perception",
+        "description": "Dim light, patchy fog, moderate foliage, or heavy precipitation can create a lightly obscured area.",
+        "reference": "PHB, pg. 183.",
+        "bullets": [
+            "Creatures have <b>disadvantage on Wisdom (Perception)</b> checks that rely on sight.",
+            "A creature's location can be pinpointed, but fine details are hard to make out.",
+            "Attempting to hide in a lightly obscured area is not possible unless you are at least heavily obscured from the creature you are hiding from (e.g., behind cover)."
+        ],
+        "tags": ["environment_obscurance"]
+    },
+    {
+        "title": "Heavily obscured",
+        "optional": "Standard rule",
+        "icon": "lightningtear",
+        "subtitle": "Effectively blinded",
+        "description": "Darkness, opaque fog, dense foliage, or magical effects like the <i>Fog Cloud</i> spell create a heavily obscured area.",
+        "reference": "PHB, pg. 183.",
+        "bullets": [
+            "A creature in a heavily obscured area effectively suffers from the <b>blinded condition</b>.",
+            "This means it automatically fails any ability check that requires sight.",
+            "Attack rolls against the creature have advantage, and the creature's attack rolls have disadvantage.",
+            "A creature can attempt to hide in a heavily obscured area, as it cannot be seen."
+        ],
+        "tags": ["environment_obscurance"]
+    },
+    {
+        "title": "Bright light",
+        "optional": "Standard rule",
+        "icon": "starpupil",
+        "subtitle": "Normal vision",
+        "description": "Bright light lets most creatures see normally. Even on a gloomy day, most outdoor areas are in bright light.",
+        "reference": "PHB, pg. 183.",
+        "bullets": [
+            "Sources include direct sunlight, the radius of a <i>Daylight</i> spell, or the immediate area of torches, lanterns, and fires.",
+            "Some creatures, such as drow and kobolds, have the <b>Sunlight Sensitivity</b> trait, which gives them disadvantage on attack rolls and Wisdom (Perception) checks that rely on sight when they, the target of their attack, or whatever they are trying to perceive is in direct sunlight."
+        ],
+        "tags": ["environment_light"]
+    },
+    {
+        "title": "Dim light",
+        "optional": "Standard rule",
+        "icon": "semiclosedeye",
+        "subtitle": "Lightly obscured",
+        "description": "Dim light, also called shadows, creates a lightly obscured area. An area of dim light is usually a boundary between a source of bright light and surrounding darkness.",
+        "reference": "PHB, pg. 183.",
+        "bullets": [
+            "Creatures in dim light have disadvantage on Wisdom (Perception) checks that rely on sight.",
+            "Natural sources include twilight, dawn, or the light of a particularly bright full moon.",
+            "Creatures with <b>Darkvision</b> can see in dim light as if it were bright light, but only in shades of gray."
+        ],
+        "tags": ["environment_light"]
+    },
+    {
+        "title": "Darkness",
+        "optional": "Standard rule",
+        "icon": "worriedeyes",
+        "subtitle": "Heavily obscured",
+        "description": "Darkness creates a heavily obscured area. Creatures without special senses are effectively blinded in darkness.",
+        "reference": "PHB, pg. 183.",
+        "bullets": [
+            "Examples include unlit dungeons, moonless nights outdoors, or areas of magical darkness (like from the <i>Darkness</i> spell).",
+            "Creatures with <b>Darkvision</b> can see in non-magical darkness within a specified range as if it were dim light (meaning they still have disadvantage on Perception checks). They cannot discern color in darkness.",
+            "Magical darkness blocks even Darkvision."
+        ],
+        "tags": ["environment_light"]
+    },
+    {
+        "title": "Blindsight",
+        "optional": "Standard rule",
+        "icon": "oneeyed",
+        "subtitle": "Perceive without sight",
+        "description": "A creature with blindsight can perceive its surroundings without relying on sight, within a specific radius.",
+        "reference": "PHB, pg. 183, MM pg. 8.",
+        "bullets": [
+            "Creatures without eyes, such as oozes, and creatures with heightened senses, such as bats and true dragons, have this sense.",
+            "It is effective in darkness (including magical darkness), and it foils invisibility and visual illusions.",
+            "A creature with blindsight is still subject to the blinded condition if its non-visual sense is impaired (e.g., a bat in an area of magical silence).",
+            "It does not grant the ability to perceive color or visual detail."
+        ],
+        "tags": ["environment_vision"]
+    },
+    {
+        "title": "Darkvision",
+        "optional": "Standard rule",
+        "icon": "semiclosedeye",
+        "subtitle": "Limited vision in darkness",
+        "description": "A creature with darkvision can see better in the dark or in low light, within a certain radius.",
+        "reference": "PHB, pg. 183.",
+        "bullets": [
+            "Within its specified range, a creature with darkvision can see in <b>dim light as if it were bright light</b>, and in <b>darkness as if it were dim light</b>.",
+            "In darkness, the creature can't discern color, only shades of gray.",
+            "Darkvision does not allow a creature to see through magical darkness, such as that created by the <i>Darkness</i> spell.",
+            "Since darkness is treated as dim light, a creature using darkvision in complete darkness still has disadvantage on Wisdom (Perception) checks that rely on sight."
+        ],
+        "tags": ["environment_vision"]
+    },
+    {
+        "title": "Truesight",
+        "optional": "Standard rule",
+        "icon": "eyeshield",
+        "subtitle": "See true forms",
+        "description": "A creature with truesight can, out to a specific range, see in normal and magical darkness, see invisible creatures and objects, automatically detect visual illusions and succeed on saving throws against them, and perceive the original form of a shapechanger or a creature that is transformed by magic.",
+        "reference": "PHB, pg. 184, MM pg. 9.",
+        "bullets": [
+            "<b>Sees in Darkness:</b> Perceives normally in both magical and nonmagical darkness.",
+            "<b>Sees Invisible:</b> Sees invisible creatures and objects as if they were visible.",
+            "<b>Detects Illusions:</b> Automatically identifies visual illusions for what they are.",
+            "<b>Perceives True Form:</b> Sees the true form of shapechangers or magically transformed creatures.",
+            "<b>Sees into Ethereal Plane:</b> Can see into the Ethereal Plane from the Material Plane, and vice versa."
+        ],
+        "tags": ["environment_vision"]
+    },
+    {
+        "title": "Half cover",
+        "optional": "Standard rule",
+        "icon": "brokenshield",
+        "subtitle": "+2 AC & Dex saves",
+        "description": "An obstacle covers at least half of a target’s body.",
+        "reference": "PHB, pg. 196.",
+        "bullets": [
+            "Provides a <b>+2 bonus to AC and Dexterity saving throws</b>.",
+            "Examples: a low wall, large piece of furniture, a narrow tree trunk, or another creature (whether friendly or hostile).",
+            "<b>DM's Adjudication:</b> To determine if a target has cover, trace an imaginary line from the center of the attacker's space to the center of the target's space. If this line is partially blocked by an obstacle, the target has cover."
+        ],
+        "tags": ["environment_cover"]
+    },
+    {
+        "title": "Three-quarters cover",
+        "optional": "Standard rule",
+        "icon": "crackedshield",
+        "subtitle": "+5 AC & Dex saves",
+        "description": "An obstacle covers about three-quarters of a target’s body.",
+        "reference": "PHB, pg. 196.",
+        "bullets": [
+            "Provides a <b>+5 bonus to AC and Dexterity saving throws</b>.",
+            "Examples: a portcullis, an arrow slit, or a thick tree trunk.",
+            "<b>DM's Adjudication:</b> To determine if a target has cover, trace an imaginary line from the center of the attacker's space to the center of the target's space. If this line is mostly blocked by an obstacle, the target has three-quarters cover."
+        ],
+        "tags": ["environment_cover"]
+    },
+    {
+        "title": "Total cover",
+        "optional": "Standard rule",
+        "icon": "shield",
+        "subtitle": "Cannot be targeted directly",
+        "description": "A target is completely concealed by an obstacle.",
+        "reference": "PHB, pg. 196.",
+        "bullets": [
+            "A target with total cover <b>cannot be targeted directly</b> by an attack or a spell.",
+            "An attack or spell can still affect a target with total cover through an area of effect if the effect can spread around the obstacle (e.g., the explosion from a <i>Fireball</i>).",
+            "If multiple sources of cover are available, only the most protective one applies."
+        ],
+        "tags": ["environment_cover"]
+    },
+    {
+        "title": "Falling",
+        "optional": "Standard rule",
+        "icon": "falling",
+        "subtitle": "1d6 per 10 feet (max 20d6)",
+        "description": "A fall from a great height is a significant danger.",
+        "reference": "PHB, pg. 183; XGE, pg. 77.",
+        "bullets": [
+            "A creature takes <b>1d6 bludgeoning damage for every 10 feet</b> it fell, to a maximum of <b>20d6</b>.",
+            "The creature lands <b>prone</b>, unless it avoids taking damage from the fall (e.g., via the <i>Feather Fall</i> spell).",
+            "<b>Rate of Falling (XGE):</b> A creature falls 500 feet instantly on the turn it begins to fall. If still falling, it descends 500 feet at the end of each of its subsequent turns. This means a creature can act on its turn while falling.",
+            "<b>Flying Creatures:</b> If a flying creature is knocked prone, has its speed reduced to 0, or is otherwise deprived of the ability to move, it falls unless it has the ability to hover or is being held aloft by magic.",
+            "<b>Homebrew - Common (Falling on a Creature):</b> If a falling creature lands on another, the falling damage is split evenly between them. Both must make a DC 15 Dexterity saving throw or be knocked prone."
+        ],
+        "tags": ["environment_other"]
+    },
+    {
+        "title": "Suffocating",
+        "optional": "Standard rule",
+        "icon": "drowning",
+        "subtitle": "Holding your breath",
+        "description": "A creature deprived of air can hold its breath and survive for a short time.",
+        "reference": "PHB, pg. 183.",
+        "bullets": [
+            "A creature can hold its breath for a number of minutes equal to <b>1 + its Constitution modifier</b> (minimum of 30 seconds).",
+            "When a creature runs out of breath or is choking, it can survive for a number of rounds equal to its <b>Constitution modifier</b> (minimum of 1 round).",
+            "At the start of its next turn after that, it drops to 0 hit points and is dying.",
+            "A suffocating creature can't regain hit points or be stabilized until it can breathe again."
+        ],
+        "tags": ["environment_other"]
+    },
+    {
+        "title": "Underwater Combat",
+        "optional": "Standard rule",
+        "icon": "atsea",
+        "subtitle": "Fighting in water",
+        "description": "When adventuring underwater, combat is significantly affected for creatures without a swimming speed.",
+        "reference": "PHB, pg. 198.",
+        "bullets": [
+            "<b>Melee Attacks:</b> A creature without a swimming speed has <b>disadvantage</b> on melee weapon attack rolls unless the weapon is a dagger, javelin, shortsword, spear, or trident.",
+            "<b>Ranged Attacks:</b> Ranged weapon attacks automatically miss targets beyond the weapon's normal range. Within normal range, the attack roll has <b>disadvantage</b> unless the weapon is a crossbow, a net, or a thrown weapon like a javelin (firearms misfire).",
+            "<b>Resistance:</b> Creatures and objects fully immersed in water have <b>resistance to fire damage</b>."
+        ],
+        "tags": ["environment_other"]
+    },
+    {
+        "title": "Extreme Cold*",
+        "optional": "Optional rule",
+        "icon": "thermometercold",
+        "subtitle": "Risk of Exhaustion",
+        "description": "Creatures exposed to extreme cold must make saving throws to resist its effects.",
+        "reference": "DMG, pg. 110.",
+        "bullets": [
+            "At temperatures at or below 0° F (-18° C), a creature exposed to the cold must succeed on a <b>DC 10 Constitution saving throw</b> at the end of each hour or gain one level of <b>Exhaustion</b>.",
+            "Creatures with resistance or immunity to cold damage automatically succeed, as do those wearing appropriate cold weather gear or naturally adapted to cold climates."
+        ],
+        "tags": ["environment_other"]
+    },
+    {
+        "title": "Extreme Heat*",
+        "optional": "Optional rule",
+        "icon": "sun",
+        "subtitle": "Risk of Exhaustion",
+        "description": "Creatures exposed to extreme heat must make saving throws to resist its effects.",
+        "reference": "DMG, pg. 110.",
+        "bullets": [
+            "At temperatures at or above 100° F (38° C), a creature exposed to the heat and without access to water must make a Constitution saving throw at the end of each hour or gain one level of <b>Exhaustion</b>.",
+            "The DC is <b>5 for the first hour and increases by 1</b> for each additional hour.",
+            "Creatures wearing medium/heavy armor or heavy clothing have <b>disadvantage</b> on the save.",
+            "Creatures with resistance or immunity to fire damage automatically succeed, as do those naturally adapted to hot climates."
+        ],
+        "tags": ["environment_other"]
+    },
+    {
+        "title": "Heavy Precipitation*",
+        "optional": "Optional rule",
+        "icon": "fog",
+        "subtitle": "Affects perception and fire",
+        "description": "Heavy rain or snowfall lightly obscures the area and affects perception.",
+        "reference": "DMG, pg. 110.",
+        "bullets": [
+            "Heavy rain or snow creates a <b>Lightly Obscured</b> area, imposing disadvantage on Wisdom (Perception) checks that rely on sight.",
+            "Heavy rain also imposes <b>disadvantage on Wisdom (Perception)</b> checks that rely on hearing.",
+            "It extinguishes open flames (candles, torches, etc.)."
+        ],
+        "tags": ["environment_other"]
+    },
+    {
+        "title": "High Altitude*",
+        "optional": "Optional rule",
+        "icon": "mountainclimbing",
+        "subtitle": "Risk of Exhaustion",
+        "description": "Traveling at high altitudes is taxing on the body for those not acclimated.",
+        "reference": "DMG, pg. 110.",
+        "bullets": [
+            "At altitudes of 10,000 feet or higher, a creature traveling for more than 8 hours must make a <b>DC 10 Constitution saving throw</b> at the end of the day for every hour past 8. On a failure, they gain one level of <b>Exhaustion</b>.",
+            "Creatures acclimated to high altitude automatically succeed on this save. A creature becomes acclimated after spending 30 days at that altitude."
+        ],
+        "tags": ["environment_other"]
+    },
+    {
+        "title": "Lingering Injuries*",
+        "optional": "Optional rule",
+        "icon": "swordbreak",
+        "subtitle": "Lasting wounds from combat",
+        "description": "An optional rule to add lasting consequences to grievous wounds.",
+        "reference": "DMG, pg. 272.",
+        "bullets": [
+            "A creature might sustain a lingering injury when it takes a critical hit, drops to 0 hit points but isn't killed outright, or fails a death saving throw by 5 or more.",
+            "The DM can have the player roll on the Lingering Injuries table for an effect.",
+            "Examples: <b>Lose an Eye</b> (disadvantage on ranged attacks and sight-based Perception), <b>Limp</b> (speed reduced by 5 ft, must use a cane/crutch), <b>Internal Injury</b> (disadvantage on CON saves), <b>Horrible Scar</b> (disadvantage on Persuasion, advantage on Intimidation)."
+        ],
+        "tags": ["environment_other"]
+    },
+    {
+        "title": "Massive Damage*",
+        "optional": "Optional rule",
+        "icon": "internalinjury",
+        "subtitle": "Risk of System Shock",
+        "description": "This optional rule makes combat deadlier by adding consequences to taking a huge hit.",
+        "reference": "DMG, pg. 273.",
+        "bullets": [
+            "When a creature takes damage from a single source equal to or greater than <b>half its hit point maximum</b>, it must succeed on a <b>DC 15 Constitution saving throw</b>.",
+            "On a failure, the creature suffers a random effect from the System Shock table. Examples include: reeling until its next turn (disadvantage on attacks/ability checks), speed dropping to 0 for 1 minute, or being stunned until the end of its next turn."
+        ],
+        "tags": ["environment_other"]
+    },
+    {
+        "title": "Rest Variants*",
+        "optional": "Optional rule",
+        "icon": "nightsleep",
+        "subtitle": "Change game pacing",
+        "description": "These optional rules change the duration of short and long rests to alter the pacing of a campaign.",
+        "reference": "DMG, pg. 267.",
+        "bullets": [
+            "<b>Epic Heroism:</b> A short rest is 5 minutes, and a long rest is 1 hour. This is for high-action, fast-paced games.",
+            "<b>Gritty Realism:</b> A short rest is 8 hours, and a long rest is 7 days. This makes encounters more dangerous and encourages careful resource management and downtime."
+        ],
+        "tags": ["environment_other"]
+    },
+    {
+        "title": "Slippery Ice*",
+        "optional": "Optional rule",
+        "icon": "icecube",
+        "subtitle": "Difficult Terrain, risk of falling",
+        "description": "Slippery ice is Difficult Terrain. When a creature moves onto it, it risks falling Prone.",
+        "reference": "DMG, pg. 110.",
+        "bullets": [
+            "Slippery ice is <b>Difficult Terrain</b>.",
+            "When a creature moves onto a slippery ice surface for the first time on a turn, it must succeed on a <b>DC 10 Dexterity (Acrobatics) check</b> or fall prone."
+        ],
+        "tags": ["environment_other"]
+    },
+    {
+        "title": "Strong Wind*",
+        "optional": "Optional rule",
+        "icon": "windsock",
+        "subtitle": "Affects attacks and perception",
+        "description": "A strong wind imposes penalties on ranged attacks and perception, and can affect flight.",
+        "reference": "DMG, pg. 110.",
+        "bullets": [
+            "A strong wind (21 to 30 mph) imposes <b>disadvantage on ranged weapon attack rolls</b> and on Wisdom (Perception) checks that rely on hearing.",
+            "It extinguishes open flames, disperses fog, and makes flying by nonmagical means difficult.",
+            "A flying creature in a strong wind must land at the end of its turn or fall.",
+            "<b>Gale (31-50 mph):</b> A gale has the same effects, plus it makes nonmagical flight impossible. Ranged weapon attacks are impossible."
+        ],
+        "tags": ["environment_other"]
+    },
+    {
+        "title": "Traps*",
+        "optional": "Optional rule",
+        "icon": "tripwire",
+        "subtitle": "Hidden dangers",
+        "description": "Traps can be found almost anywhere and can be either mechanical or magical in nature.",
+        "reference": "DMG, pgs. 120-121; XGE, pgs. 113-123.",
+        "bullets": [
+            "<b>Detecting/Disabling:</b> A trap's description specifies the checks and DCs to find or disable it. Finding a trap usually requires a Wisdom (Perception) check. Disabling it may require a Dexterity check with thieves' tools, an Intelligence (Investigation) check, or a successful <i>Dispel Magic</i> spell for magical traps.",
+            "<b>XGE Complex Traps:</b> Xanathar's introduces complex traps that act on initiative, have their own actions and reactions, and can change over time, making them more like a combat encounter than a single hazard."
+        ],
+        "tags": ["environment_other"]
+    }
+]

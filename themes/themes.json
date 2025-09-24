@@ -1,0 +1,40 @@
+{
+    "themes": [
+      {
+        "id": "original",
+        "displayName": "Original"
+      },
+      {
+        "id": "sepia",
+        "displayName": "Sepia"
+      },
+      {
+        "id": "dracula",
+        "displayName": "Dracula"
+      },
+      {
+        "id": "high-contrast",
+        "displayName": "High Contrast"
+      },
+      {
+        "id": "solarized",
+        "displayName": "Solarized"
+      },
+      {
+        "id": "nord",
+        "displayName": "Nord"
+      },
+      {
+        "id": "cyberpunk",
+        "displayName": "Cyberpunk"
+      },
+      {
+        "id": "steampunk",
+        "displayName": "Steampunk"
+      },
+      {
+        "id": "baldurs-gate",
+        "displayName": "Baldur's Gate"
+      }
+    ]
+  }

@@ -1,0 +1,45 @@
+/* Dracula Light Mode (Creative Interpretation) */
+html[data-theme='dracula'][data-mode='light'] {
+    --color-bg: #f8f8f2;
+    --color-text: #282a36;
+    --color-text-subtle: #6272a4;
+    --color-card-bg: #ffffff;
+    --color-header-text: #f8f8f2;
+    --color-shadow: rgba(40, 42, 54, 0.1);
+    --color-shadow-strong: rgba(40, 42, 54, 0.2);
+    --color-hr: #e0e0e0;
+    --color-link: #bd93f9;
+    --color-item-hover-bg: rgba(189, 147, 249, 0.1);
+    --color-movement: #ff5555;
+    --color-action: #66d9ef;
+    --color-bonus-action: #aa7ff0; /* WCAG Fix: Darkened for contrast */
+    --color-reaction: #50fa7b;
+    --color-condition: #ffb86c;
+    --color-environment: #8be9fd;
+    --color-settings: #6272a4;
+    --color-accept: #50fa7b;
+    --color-favorite: #f1fa8c;
+}
+
+/* Dracula Dark Mode */
+html[data-theme='dracula'][data-mode='dark'] {
+    --color-bg: #282a36;
+    --color-text: #f8f8f2;
+    --color-text-subtle: #6272a4;
+    --color-card-bg: #44475a;
+    --color-header-text: #f8f8f2;
+    --color-shadow: rgba(0, 0, 0, 0.4);
+    --color-shadow-strong: rgba(0, 0, 0, 0.6);
+    --color-hr: #6272a4;
+    --color-link: #8be9fd;
+    --color-item-hover-bg: rgba(139, 233, 253, 0.1);
+    --color-movement: #ff5555; /* WCAG Note: Passes for large text */
+    --color-action: #f1fa8c;
+    --color-bonus-action: #9f72e3; /* WCAG Fix: Darkened for contrast */
+    --color-reaction: #50fa7b;
+    --color-condition: #ffb86c;
+    --color-environment: #8be9fd;
+    --color-settings: #9f72e3; /* WCAG Fix: Matched bonus action */
+    --color-accept: #50fa7b;
+    --color-favorite: #f1fa8c;
+}

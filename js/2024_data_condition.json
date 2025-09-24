@@ -1,0 +1,274 @@
+[
+    {
+        "title": "Blinded",
+        "optional": "Standard rule",
+        "icon": "oneeyed",
+        "subtitle": "You can't see",
+        "description": "You have a total inability to see.",
+        "reference": "PHB 2024, pg. 367-368.",
+        "bullets": [
+            "You automatically fail any d20 Test that requires sight.",
+            "You have <b>disadvantage on attack rolls</b>.",
+            "Attack rolls against you have <b>advantage</b>."
+        ]
+    },
+    {
+        "title": "Charmed",
+        "optional": "Standard rule",
+        "icon": "smitten",
+        "subtitle": "You are charmed",
+        "description": "You are charmed by another creature, the charmer.",
+        "reference": "PHB 2024, pg. 367-368.",
+        "bullets": [
+            "You can't attack the charmer or target them with a harmful spell or ability.",
+            "The charmer has <b>advantage on Charisma checks</b> in social interaction with you."
+        ]
+    },
+    {
+        "title": "Dazed",
+        "optional": "Standard rule",
+        "icon": "internalinjury",
+        "subtitle": "You have limited activity",
+        "description": "A new condition that limits what you can do on your turn.",
+        "reference": "PHB 2024, pg. 367-368.",
+        "bullets": [
+            "You can take either an Action or a Bonus Action on your turn, but not both. You can still move and take a Reaction.",
+            "You cannot Concentrate on spells or other effects.",
+            "<b>Design Intent:</b> Dazed replaces 'Stun-locking' effects from many spells and monster abilities. It's less debilitating than Stunned but still highly disruptive, preventing a character from using their full action economy."
+        ]
+    },
+    {
+        "title": "Deafened",
+        "optional": "Standard rule",
+        "icon": "elfear",
+        "subtitle": "You can't hear",
+        "description": "You have a total inability to hear.",
+        "reference": "PHB 2024, pg. 367-368.",
+        "bullets": [
+            "You automatically fail any d20 Test that requires hearing."
+        ]
+    },
+    {
+        "title": "Dying",
+        "optional": "Standard rule",
+        "icon": "deadhead",
+        "subtitle": "You are at 0 Hit Points",
+        "description": "You are at 0 Hit Points and at risk of death.",
+        "reference": "PHB 2024, pg. 341.",
+        "bullets": [
+            "When you drop to 0 HP, you become Unconscious and are Dying.",
+            "<b>Death Saving Throws:</b> At the start of each of your turns, make a Death Save (a d20 roll with no modifiers). On a 10 or higher, you score a success. On a 9 or lower, a failure.",
+            "<b>3 Successes:</b> You become Stable.",
+            "<b>3 Failures:</b> You die.",
+            "A <b>Natural 1</b> counts as two failures. A <b>Natural 20</b> means you regain 1 Hit Point.",
+            "<b>Damage at 0 HP:</b> Taking damage while at 0 HP causes one Death Save failure (two if the damage is from a critical hit)."
+        ]
+    },
+    {
+        "title": "Exhaustion",
+        "optional": "Standard rule",
+        "icon": "crawl",
+        "subtitle": "You are exhausted",
+        "description": "Exhaustion is measured in 10 levels. Each level gives a cumulative -1 penalty to all d20 Tests.",
+        "reference": "PHB 2024, pg. 368.",
+        "bullets": [
+            "<b>Penalty per Level:</b> You suffer a cumulative -1 penalty to all d20 Tests (attack rolls, saving throws, ability checks) for each level of Exhaustion.",
+            "<b>Level 5:</b> Your Speed is halved.",
+            "<b>Level 7:</b> Your Speed becomes 0.",
+            "<b>Level 10:</b> You die.",
+            "Finishing a Long Rest removes 1 level of Exhaustion."
+        ]
+    },
+    {
+        "title": "Frightened",
+        "optional": "Standard rule",
+        "icon": "sharpsmile",
+        "subtitle": "You are frightened",
+        "description": "You are frightened of a source of fear.",
+        "reference": "PHB 2024, pg. 368.",
+        "bullets": [
+            "You have <b>disadvantage on d20 Tests</b> while the source of your fear is within your line of sight.",
+            "You can't willingly move closer to the source of your fear."
+        ]
+    },
+    {
+        "title": "Grappled",
+        "optional": "Standard rule",
+        "icon": "grab",
+        "subtitle": "You are grappled",
+        "description": "You are held in a creature's grasp.",
+        "reference": "PHB 2024, pg. 368.",
+        "bullets": [
+            "Your Speed becomes 0, and you can't benefit from any bonus to your Speed.",
+            "You have <b>disadvantage on attack rolls</b> against any creature other than the one grappling you.",
+            "The condition ends if the grappler is Incapacitated or if you are moved outside the grappler's reach.",
+            "You can attempt to escape with the <b>Escape</b> action."
+        ]
+    },
+    {
+        "title": "Incapacitated",
+        "optional": "Standard rule",
+        "icon": "internalinjury",
+        "subtitle": "You can't take actions",
+        "description": "You can't take an Action, Bonus Action, or Reaction.",
+        "reference": "PHB 2024, pg. 368.",
+        "bullets": [
+            "This is a component of several other conditions. It is a more severe version of Dazed."
+        ]
+    },
+    {
+        "title": "Invisible",
+        "optional": "Standard rule",
+        "icon": "invisible",
+        "subtitle": "You can't be seen",
+        "description": "You are impossible to see without magic or a special sense.",
+        "reference": "PHB 2024, pg. 368.",
+        "bullets": [
+            "For the purpose of hiding, you are Heavily Obscured.",
+            "You have <b>advantage on attack rolls</b>.",
+            "Attack rolls against you have <b>disadvantage</b>."
+        ]
+    },
+    {
+        "title": "Paralyzed",
+        "optional": "Standard rule",
+        "icon": "internalinjury",
+        "subtitle": "You are paralyzed",
+        "description": "You are frozen, unable to move or act.",
+        "reference": "PHB 2024, pg. 368.",
+        "bullets": [
+            "You are <b>Incapacitated</b> and can't move or speak.",
+            "Attack rolls against you have <b>advantage</b>.",
+            "Any attack that hits you is a <b>critical hit</b> if the attacker is within 5 feet of you.",
+            "You automatically fail Strength and Dexterity saving throws."
+        ]
+    },
+    {
+        "title": "Petrified",
+        "optional": "Standard rule",
+        "icon": "stonepile",
+        "subtitle": "You are transformed into stone",
+        "description": "You are transformed into a solid, inanimate substance.",
+        "reference": "PHB 2024, pg. 368.",
+        "bullets": [
+            "You are <b>Incapacitated</b>, can't move or speak, and are unaware of your surroundings.",
+            "Attack rolls against you have <b>advantage</b>.",
+            "You automatically fail Strength and Dexterity saving throws.",
+            "You have <b>resistance to all damage</b>.",
+            "You are immune to poison and disease.",
+            "Your weight is multiplied by ten, and you stop aging."
+        ]
+    },
+    {
+        "title": "Poisoned",
+        "optional": "Standard rule",
+        "icon": "deathcab",
+        "subtitle": "You are poisoned",
+        "description": "A toxin is affecting you.",
+        "reference": "PHB 2024, pg. 368.",
+        "bullets": [
+            "You have <b>disadvantage on attack rolls and ability checks</b>."
+        ]
+    },
+    {
+        "title": "Prone",
+        "optional": "Standard rule",
+        "icon": "crawl",
+        "subtitle": "You are prone",
+        "description": "You are lying on the ground.",
+        "reference": "PHB 2024, pg. 368.",
+        "bullets": [
+            "Your only movement option is to Crawl (which costs double movement) until you stand up.",
+            "Standing up costs half your Speed.",
+            "You have <b>disadvantage on attack rolls</b>.",
+            "An attack roll against you has <b>advantage</b> if the attacker is within 5 feet. Otherwise, the attack roll has <b>disadvantage</b>."
+        ]
+    },
+    {
+        "title": "Restrained",
+        "optional": "Standard rule",
+        "icon": "imprisoned",
+        "subtitle": "You are restrained",
+        "description": "You are held in place by a physical or magical effect.",
+        "reference": "PHB 2024, pg. 368.",
+        "bullets": [
+            "Your Speed becomes 0, and you can't benefit from any bonus to your Speed.",
+            "You have <b>disadvantage on attack rolls</b>.",
+            "Attack rolls against you have <b>advantage</b>.",
+            "You have <b>disadvantage on Dexterity saving throws</b>."
+        ]
+    },
+    {
+        "title": "Slowed",
+        "optional": "Standard rule",
+        "icon": "snail",
+        "subtitle": "Your movement is hindered",
+        "description": "A new condition that impedes movement and reactions.",
+        "reference": "PHB 2024, pg. 368.",
+        "bullets": [
+            "Your Speed is halved.",
+            "You have disadvantage on Dexterity saving throws.",
+            "You can take either an Action or a Bonus Action on your turn, but not both.",
+            "You can't take the Disengage action.",
+            "<b>Design Intent:</b> Slowed is a powerful control condition that replaces many disparate effects in the 2014 rules. It's less severe than Stunned but more impactful on mobile characters than simply reducing speed."
+        ]
+    },
+    {
+        "title": "Stunned",
+        "optional": "Standard rule",
+        "icon": "internalinjury",
+        "subtitle": "You are stunned",
+        "description": "You are overwhelmed and unable to act.",
+        "reference": "PHB 2024, pg. 368.",
+        "bullets": [
+            "You are <b>Incapacitated</b> and can't move.",
+            "Attack rolls against you have <b>advantage</b>.",
+            "You automatically fail Strength and Dexterity saving throws."
+        ]
+    },
+    {
+        "title": "Suffocating",
+        "optional": "Standard rule",
+        "icon": "drowning",
+        "subtitle": "Holding your breath",
+        "description": "A creature can hold its breath for a number of minutes equal to 1 + its Constitution modifier (minimum 30 seconds). When it runs out of breath, it can survive for a number of rounds equal to its Constitution modifier (minimum 1 round). At the start of its next turn, it drops to 0 hit points and is dying.",
+        "reference": "PHB, pg. 184.",
+        "bullets": [
+            "You can hold your breath for <b>1 + CON modifier</b> minutes (min 30s).",
+            "When out of breath, you can survive for <b>CON modifier</b> rounds (min 1).",
+            "At the start of your next turn after that, you drop to 0 HP and are dying.",
+            "You cannot regain hit points or be stabilized until you can breathe again."
+        ]
+    },
+    {
+        "title": "Unconscious",
+        "optional": "Standard rule",
+        "icon": "coma",
+        "subtitle": "You are unconscious",
+        "description": "You are senseless and unaware.",
+        "reference": "PHB 2024, pg. 368.",
+        "bullets": [
+            "You are <b>Incapacitated</b>, can't move or speak, and are unaware of your surroundings.",
+            "You drop whatever you're holding and fall Prone.",
+            "Attack rolls against you have <b>advantage</b>.",
+            "Any attack that hits you is a <b>critical hit</b> if the attacker is within 5 feet of you.",
+            "You automatically fail Strength and Dexterity saving throws.",
+            "If you are at 0 Hit Points, you are subject to the Dying rules."
+        ]
+    },
+    {
+        "title": "Madness*",
+        "optional": "Optional rule",
+        "icon": "architectmask",
+        "subtitle": "Your mind is damaged",
+        "description": "This optional rule system from the DMG introduces mental trauma with short-term, long-term, and indefinite effects.",
+        "reference": "DMG, pg. 236.",
+        "bullets": [
+            "<b>(Optional Rule – DMG):</b>",
+            "A character might suffer madness from traumatic events, such as failing a Sanity saving throw, seeing an aberration from the Far Realm, or from spells like <i>Contact Other Plane</i>.",
+            "<b>Short-Term Madness (1d10 minutes):</b> Effects like being stunned, becoming paralyzed with fear, or babbling incoherently.",
+            "<b>Long-Term Madness (1d10 x 10 hours):</b> Effects like developing a phobia, having hallucinations, or suffering from extreme paranoia.",
+            "<b>Indefinite Madness:</b> A permanent change to the character's personality or beliefs, curable only by powerful magic like <i>Greater Restoration</i> or <i>Wish</i>."
+        ]
+    }
+]
