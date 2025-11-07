@@ -1,49 +1,43 @@
-/* Steampunk Light Mode */
 html[data-theme='steampunk'][data-mode='light'] {
-    --color-bg: #f4e8d5; /* Aged Parchment */
-    --color-text: #5a452d; /* Dark Brown */
+    --color-bg: #f4e8d5;
+    --color-text: #5a452d;
     --color-text-subtle: #8b745b;
     --color-card-bg: #faf3e9;
     --color-header-text: #fff;
     --color-shadow: rgb(90 69 45 / 15%);
     --color-shadow-strong: rgb(90 69 45 / 25%);
     --color-hr: #d3c4b0;
-    --color-link: #8b4513; /* Saddle Brown */
+    --color-link: #8b4513;
     --color-item-hover-bg: rgb(184 115 51 / 10%);
-
-    /* Steampunk Light Section Palette */
-    --color-movement: #9a4f32; /* Terracotta */
-    --color-action: #4a6c8c; /* Steel Blue */
-    --color-bonus-action: #5d4c7c; /* Muted Purple */
-    --color-reaction: #4a9c8c; /* Verdigris */
-    --color-condition: #c5a05a; /* Polished Brass */
-    --color-environment: #8b745b; /* Dusty Brown */
-    --color-settings: #5a452d; /* Dark Brown */
+    --color-movement: #9a4f32;
+    --color-action: #4a6c8c;
+    --color-bonus-action: #5d4c7c;
+    --color-reaction: #4a9c8c;
+    --color-condition: #c5a05a;
+    --color-environment: #8b745b;
+    --color-settings: #5a452d;
     --color-accept: #4a9c8c;
-    --color-favorite: #b87333; /* Polished Copper */
+    --color-favorite: #b87333;
 }
 
-/* Steampunk Dark Mode */
 html[data-theme='steampunk'][data-mode='dark'] {
-    --color-bg: #3d2b1f; /* Dark Mahogany */
-    --color-text: #e4d9c7; /* Cream */
+    --color-bg: #3d2b1f;
+    --color-text: #e4d9c7;
     --color-text-subtle: #a89d8b;
     --color-card-bg: #5a452d;
     --color-header-text: #fff;
     --color-shadow: rgb(0 0 0 / 40%);
     --color-shadow-strong: rgb(0 0 0 / 60%);
     --color-hr: #7a604a;
-    --color-link: #e6b88a; /* Bright Brass */
+    --color-link: #e6b88a;
     --color-item-hover-bg: rgb(230 184 138 / 10%);
-
-    /* Steampunk Dark Section Palette */
-    --color-movement: #e87a5a; /* Terracotta */
-    --color-action: #7c9dbd; /* Steel Blue */
-    --color-bonus-action: #9f8fbf; /* Muted Purple */
-    --color-reaction: #62c7b5; /* Verdigris */
-    --color-condition: #f0c984; /* Polished Brass */
-    --color-environment: #a89d8b; /* Dusty Brown */
-    --color-settings: #e4d9c7; /* Cream */
+    --color-movement: #e87a5a;
+    --color-action: #7c9dbd;
+    --color-bonus-action: #9f8fbf;
+    --color-reaction: #62c7b5;
+    --color-condition: #f0c984;
+    --color-environment: #a89d8b;
+    --color-settings: #e4d9c7;
     --color-accept: #62c7b5;
-    --color-favorite: #e09c6c; /* Polished Copper */
+    --color-favorite: #e09c6c;
 }

@@ -1,4 +1,3 @@
-/* Nord Light (Snow Storm) - Higher Vibrancy */
 html[data-theme='nord'][data-mode='light'] {
     --color-bg: #eceff4;
     --color-text: #2e3440;
@@ -10,20 +9,17 @@ html[data-theme='nord'][data-mode='light'] {
     --color-hr: #d8dee9;
     --color-link: #5e81ac;
     --color-item-hover-bg: rgb(94 129 172 / 10%);
-
-    /* Nord Light Section Palette - Saturated for more punch */
-    --color-movement: #c25562; /* More Saturated Red */
-    --color-action: #749ac1; /* More Saturated Blue */
+    --color-movement: #c25562;
+    --color-action: #749ac1;
     --color-bonus-action: #b48ead;
-    --color-reaction: #9fba82; /* More Saturated Green */
-    --color-condition: #e8c47b; /* More Saturated Yellow */
-    --color-environment: #7dbbc9; /* More Saturated Cyan */
+    --color-reaction: #9fba82;
+    --color-condition: #e8c47b;
+    --color-environment: #7dbbc9;
     --color-settings: #4c566a;
     --color-accept: #9fba82;
     --color-favorite: #d08770;
 }
 
-/* Nord Dark - Higher Vibrancy */
 html[data-theme='nord'][data-mode='dark'] {
     --color-bg: #2e3440;
     --color-text: #d8dee9;
@@ -35,8 +31,6 @@ html[data-theme='nord'][data-mode='dark'] {
     --color-hr: #4c566a;
     --color-link: #88c0d0;
     --color-item-hover-bg: rgb(136 192 208 / 10%);
-
-    /* Nord Dark Section Palette - Saturated for more punch */
     --color-movement: #bf616a;
     --color-action: #81a1c1;
     --color-bonus-action: #b48ead;

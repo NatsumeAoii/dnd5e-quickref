@@ -4,15 +4,26 @@
         "optional": "Standard rule",
         "icon": "crossedswords",
         "subtitle": "Melee or ranged attack",
-        "description": "Perform a melee or ranged attack with a weapon, or make an Unarmed Strike. This is the most common action to take in combat.",
+        "description": "Perform a melee or ranged attack, an Unarmed Strike, or a special combat maneuver like Grapple or Shove.",
         "reference": "PHB 2024, pgs. 290, 317.",
         "bullets": [
-            "Certain features, such as the Warrior's <i>Extra Attack</i>, allow you to make more than one attack with this single action. Each attack is a separate roll and can target different creatures. You can also move between these attacks.",
-            "<b>Unarmed Strike:</b> You can make a special melee attack to Grapple, Shove, or deal damage. To deal damage, make a melee attack roll. On a hit, it deals 1 + your Strength modifier bludgeoning damage.",
-            "<b>Weapon Mastery:</b> When you attack with a weapon, you can apply a special Mastery property (like Push, Slow, or Topple) if you are a Warrior or have the Weapon Master feat.",
-            "<b>Two-Weapon Fighting:</b> The <i>Nick</i> weapon property (on Scimitars, Light Hammers, etc.) allows you to make an extra attack with that weapon as part of this action (no bonus action required), but you don't add your ability modifier to the damage.",
-            "<b>Advantage Sources:</b> Attacking a Blinded, Paralyzed, Petrified, Restrained, Stunned, or Unconscious target. Melee attacks against a Prone target. Attacking while you are Invisible.",
-            "<b>Disadvantage Sources:</b> Attacking while you are Blinded, Frightened, Poisoned, or Restrained. Ranged attacks against a Prone target. Attacking a target that is Invisible."
+            {
+                "type": "paragraph",
+                "content": "The Attack action is the foundation of martial combat. It allows you to make one or more weapon attacks or Unarmed Strikes, and it serves as the gateway to tactical maneuvers that control the battlefield."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Certain features, such as the Warrior's <i>Extra Attack</i>, allow you to make more than one attack with this single action. Each attack is a separate roll and can target different creatures. You can also move between these attacks.",
+                    "<b>Unarmed Strike:</b> You can make a special melee attack to Grapple, Shove, or deal damage. To deal damage, make a melee attack roll. On a hit, it deals 1 + your Strength modifier bludgeoning damage.",
+                    "<b>Weapon Mastery:</b> When you attack with a weapon, you can apply a special Mastery property (like Push, Slow, or Topple) if you are a Warrior or have the Weapon Master feat.",
+                    "<b>Two-Weapon Fighting:</b> The <i>Nick</i> weapon property (on Scimitars, Light Hammers, etc.) allows you to make an extra attack with that weapon as part of this action (no bonus action required), but you don't add your ability modifier to the damage."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Remember that various conditions can grant Advantage or Disadvantage on your attack rolls, making battlefield positioning and awareness crucial for any attacker."
+            }
         ]
     },
     {
@@ -20,12 +31,25 @@
         "optional": "Standard rule",
         "icon": "magicswirl",
         "subtitle": "Cast time of 1 action",
-        "description": "Cast a spell with a casting time of 1 action.",
+        "description": "Cast a spell with a casting time of 1 action, the most common type used in combat.",
         "reference": "PHB 2024, pgs. 290, 301.",
         "bullets": [
-            "<b>Bonus Action Spell Rule:</b> The only rule limiting the number of spells per turn is this: If you cast any spell as a Bonus Action, the only other spell you can cast that turn is a cantrip with a 1-Action casting time.",
-            "There is no general rule against casting two leveled spells in one turn (e.g., using Action Surge).",
-            "<b>Concentration:</b> Many spells require concentration. You lose concentration if you: cast another spell that requires concentration, take damage (requiring a CON save vs. DC 10 or half the damage taken), are Incapacitated, or die."
+            {
+                "type": "paragraph",
+                "content": "This is the primary way a spellcaster uses their magic in battle. While you can still move, this action consumes the main part of your turn and is subject to important rules regarding spellcasting frequency and concentration."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Bonus Action Spell Rule:</b> The only rule limiting the number of spells per turn is this: If you cast any spell as a Bonus Action, the only other spell you can cast that turn is a cantrip with a 1-Action casting time.",
+                    "There is no general rule against casting two leveled spells in one turn (e.g., using Action Surge).",
+                    "<b>Concentration:</b> Many spells require concentration. You lose concentration if you: cast another spell that requires concentration, take damage (requiring a CON save vs. DC 10 or half the damage taken), are Incapacitated, or die."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Mastering spellcasting involves managing not just your spell slots, but also the strict action economy of these rules and the critical task of protecting your concentration."
+            }
         ]
     },
     {
@@ -33,11 +57,24 @@
         "optional": "Standard rule",
         "icon": "sprint",
         "subtitle": "Double movement speed",
-        "description": "Gain extra movement for the current turn equal to your speed after applying any modifiers.",
-        "reference": "PHB 2024, pg. 291",
+        "description": "Gain extra movement for the turn equal to your speed, effectively doubling your movement potential.",
+        "reference": "PHB 2024, pg. 291.",
         "bullets": [
-            "For example, if your speed is 30 feet, using the Dash action gives you an additional 30 feet of movement for the turn, for a total of 60 feet.",
-            "This movement is subject to all normal rules and can provoke opportunity attacks."
+            {
+                "type": "paragraph",
+                "content": "The Dash action is your best option for covering long distances quickly, whether you're charging an enemy or retreating to a safer position. It provides a simple but significant boost to your mobility for the turn."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "For example, if your speed is 30 feet, using the Dash action gives you an additional 30 feet of movement for the turn, for a total of 60 feet.",
+                    "This movement is subject to all normal rules and can provoke opportunity attacks."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This action provides no defensive benefit; to move through a threatened area safely, you must use the Disengage action instead."
+            }
         ]
     },
     {
@@ -45,14 +82,26 @@
         "optional": "Standard rule",
         "icon": "swordbreak",
         "subtitle": "Knock item from enemy's grasp",
-        "description": "Attempt to knock an item from a creature's grasp.",
+        "description": "As one of your attacks, attempt to knock an item from a creature's grasp using a Strength (Athletics) check.",
         "reference": "PHB 2024, pg. 291.",
         "bullets": [
-            "This was an optional rule in the 2014 DMG, now a standard action.",
-            "You use one of your attacks from the Attack action to make a special check.",
-            "You make a <b>Strength (Athletics)</b> check contested by the target's <b>Strength (Athletics)</b> or <b>Dexterity (Acrobatics)</b> check (target's choice).",
-            "If you win, your attack deals no damage, but the target drops one item of your choice that it is holding.",
-            "The target has <b>advantage</b> on its check if it is holding the item with two or more hands."
+            {
+                "type": "paragraph",
+                "content": "Now a standard combat maneuver, Disarm offers a tactical way to neutralize a threat without dealing damage by removing their weapon or focus. This is performed as part of the Attack action."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You use one of your attacks from the Attack action to make a special check.",
+                    "You make a <b>Strength (Athletics)</b> check contested by the target's <b>Strength (Athletics)</b> or <b>Dexterity (Acrobatics)</b> check (target's choice).",
+                    "If you win, your attack deals no damage, but the target drops one item of your choice that it is holding.",
+                    "The target has <b>advantage</b> on its check if it is holding the item with two or more hands."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This is highly effective against enemies who rely on a single powerful weapon, but less so against those with natural weapons or multiple options."
+            }
         ]
     },
     {
@@ -60,11 +109,24 @@
         "optional": "Standard rule",
         "icon": "journey",
         "subtitle": "Prevent opportunity attacks",
-        "description": "For the rest of your turn, your movement doesn't provoke opportunity attacks.",
-        "reference": "PHB 2024, pg. 291",
+        "description": "For the rest of your turn, your movement doesn't provoke opportunity attacks, allowing for a safe retreat.",
+        "reference": "PHB 2024, pg. 291.",
         "bullets": [
-            "This is the primary way to safely move out of an enemy's reach in melee.",
-            "The benefit lasts only until the end of the current turn."
+            {
+                "type": "paragraph",
+                "content": "This is a purely tactical action focused on repositioning. It allows you to move away from one or more enemies without fear of taking damage, making it a vital tool for controlling your position on the battlefield."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "This is the primary way to safely move out of an enemy's reach in melee.",
+                    "The benefit lasts only until the end of the current turn."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This is an essential option for ranged characters or spellcasters who need to create distance, or for any character needing to escape a dangerous foe."
+            }
         ]
     },
     {
@@ -72,12 +134,25 @@
         "optional": "Standard rule",
         "icon": "dodging",
         "subtitle": "Increase defenses",
-        "description": "Focus entirely on avoiding attacks, making you a much harder target to hit.",
-        "reference": "PHB 2024, pg. 291",
+        "description": "Focus entirely on avoiding attacks, imposing disadvantage on attackers and granting advantage on Dexterity saves.",
+        "reference": "PHB 2024, pg. 291.",
         "bullets": [
-            "Until the start of your next turn, any attack roll made against you has <b>disadvantage</b> if you can see the attacker.",
-            "You also make <b>Dexterity saving throws with advantage</b>.",
-            "You lose this benefit if you are <i>Incapacitated</i> or if your speed drops to 0."
+            {
+                "type": "paragraph",
+                "content": "When you anticipate a heavy onslaught or a dangerous area-of-effect spell, the Dodge action is your best defensive maneuver. The benefit lasts until the start of your next turn, giving you protection through a full round of combat."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Until the start of your next turn, any attack roll made against you has <b>disadvantage</b> if you can see the attacker.",
+                    "You also make <b>Dexterity saving throws with advantage</b>.",
+                    "You lose this benefit if you are <i>Incapacitated</i> or if your speed drops to 0."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This is an excellent choice when holding a chokepoint, protecting an ally, or simply trying to survive until your next turn."
+            }
         ]
     },
     {
@@ -85,10 +160,13 @@
         "optional": "Standard rule",
         "icon": "roundshield",
         "subtitle": "Equip or unequip a shield",
-        "description": "It takes one action to equip or unequip a shield.",
+        "description": "Use your action to either equip a shield by strapping it on, or to unequip it.",
         "reference": "PHB 2024, pg. 153.",
         "bullets": [
-            "This is a specific use of the Use an Object action. Unlike armor, which takes several minutes to don or doff, a shield can be equipped or removed in the midst of combat."
+            {
+                "type": "paragraph",
+                "content": "Unlike drawing a weapon, which is a free interaction, managing a shield requires your full action. This represents the time needed to properly secure or release the straps, forcing a choice between defense and other actions on your turn."
+            }
         ]
     },
     {
@@ -96,12 +174,25 @@
         "optional": "Standard rule",
         "icon": "manacles",
         "subtitle": "Escape a grapple or restraint",
-        "description": "Attempt to free yourself from a grapple or a similar effect.",
-        "reference": "PHB 2024, pg. 291",
+        "description": "Use your action to attempt to free yourself from a grapple or similar effect by making a check against a fixed DC.",
+        "reference": "PHB 2024, pg. 291.",
         "bullets": [
-            "To escape a grapple, you use your action to make a <b>Strength (Athletics)</b> or <b>Dexterity (Acrobatics)</b> check (your choice) against the effect's escape DC.",
-            "For a grapple initiated by a creature, the DC is that creature's grapple DC (8 + STR mod + Prof Bonus).",
-            "This action can also be used for other effects that specify an escape, like being caught in a net."
+            {
+                "type": "paragraph",
+                "content": "When grappled or restrained, the Escape action is your direct path to freedom. The 2024 rules streamline this by having you roll against a static DC set by the effect, rather than a contested check."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "To escape a grapple, you use your action to make a <b>Strength (Athletics)</b> or <b>Dexterity (Acrobatics)</b> check (your choice) against the effect's escape DC.",
+                    "For a grapple initiated by a creature, the DC is that creature's grapple DC (8 + STR mod + Prof Bonus).",
+                    "This action can also be used for other effects that specify an escape, like being caught in a net."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This change makes escaping more predictable and less dependent on an opponent's roll, allowing for more reliable tactical planning."
+            }
         ]
     },
     {
@@ -109,26 +200,51 @@
         "optional": "Standard rule",
         "icon": "grab",
         "subtitle": "Special unarmed strike",
-        "description": "Attempt to seize a creature and hold it in place. This now forces a saving throw instead of a contested check.",
+        "description": "As one of your attacks, attempt to seize a creature, forcing them to make a Strength save or become Grappled.",
         "reference": "PHB 2024, pg. 317.",
         "bullets": [
-            "This replaces one of your attacks when you take the Attack action. You need at least one free hand.",
-            "The target must be no more than one size larger than you and must be within your reach.",
-            "The target must make a <b>Strength saving throw</b> (DC = 8 + your Strength modifier + your proficiency bonus).",
-            "<b>Probability:</b> A fixed DC makes success more predictable. A level 5 Barbarian with 18 STR (+4) has a Grapple DC of 15. A creature with a +2 STR save must roll a 13 or higher, giving the Barbarian a 60% chance of success.",
-            "On a failed save, the target gains the <b>Grappled</b> condition (its speed becomes 0). The condition ends if you become Incapacitated or if the target uses its action to Escape."
+            {
+                "type": "paragraph",
+                "content": "Grappling is now faster and more consistent, using a saving throw from the target instead of a contested check. This makes it a more reliable control tactic for strong characters, initiated as part of the Attack action."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "This replaces one of your attacks when you take the Attack action. You need at least one free hand.",
+                    "The target must be no more than one size larger than you and must be within your reach.",
+                    "The target must make a <b>Strength saving throw</b> (DC = 8 + your Strength modifier + your proficiency bonus).",
+                    "On a failed save, the target gains the <b>Grappled</b> condition."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "A successful grapple is an excellent way to lock down a single enemy, preventing them from reaching your more vulnerable allies."
+            }
         ]
     },
     {
         "title": "Help",
         "optional": "Standard rule",
-        "icon": "telepathy",
+        "icon": "allforone",
         "subtitle": "Grant an ally advantage",
-        "description": "You can lend your aid to another creature, making their task easier or distracting a foe.",
-        "reference": "PHB 2024, pg. 291",
+        "description": "Use your action to aid an ally, giving them advantage on either an ability check or an attack roll.",
+        "reference": "PHB 2024, pg. 291.",
         "bullets": [
-            "<b>Aid an Ability Check:</b> You help another creature with a d20 Test. They gain <b>advantage</b> on the next ability check they make, provided they make it before the start of your next turn.",
-            "<b>Distract an Enemy:</b> Alternatively, you can aid an ally in attacking a creature within 5 feet of you. You feint or otherwise distract the target. The next attack roll from an ally against that target has <b>advantage</b>, provided the attack occurs before the start of your next turn."
+            {
+                "type": "paragraph",
+                "content": "The Help action allows you to directly assist an ally, either by distracting a foe to create an opening or by collaborating on a task. You can choose one of two distinct ways to aid another creature."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Aid an Ability Check:</b> You help another creature with a d20 Test. They gain <b>advantage</b> on the next ability check they make, provided they make it before the start of your next turn.",
+                    "<b>Distract an Enemy:</b> Alternatively, you can aid an ally in attacking a creature within 5 feet of you. The next attack roll from an ally against that target has <b>advantage</b>, provided the attack occurs before the start of your next turn."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This is a fantastic way to improve the odds for a critical attack, like a Rogue's Sneak Attack or a Paladin's Divine Smite, making teamwork a tangible mechanic."
+            }
         ]
     },
     {
@@ -136,14 +252,27 @@
         "optional": "Standard rule",
         "icon": "hood",
         "subtitle": "Attempt to hide",
-        "description": "Attempt to become unseen and unheard. The mechanics for this have been standardized.",
+        "description": "Make a DC 15 Dexterity (Stealth) check to conceal yourself, gaining the benefits of the Invisible condition.",
         "reference": "PHB 2024, pg. 291.",
         "bullets": [
-            "You must be heavily obscured or behind at least three-quarters cover to attempt to hide.",
-            "Make a <b>DC 15 Dexterity (Stealth)</b> check. You cannot hide from a creature that can see you.",
-            "On a success, you gain the <b>Invisible</b> condition relative to other creatures. Make a note of your check's total.",
-            "A creature can use the Search action to make a Wisdom (Perception) check against your Stealth check's total to find you.",
-            "The Invisible condition ends if you make a sound louder than a whisper, make an attack roll, cast a spell with a verbal component, or are no longer obscured/behind cover."
+            {
+                "type": "paragraph",
+                "content": "The rules for hiding have been clarified to be more consistent. Success on a check against a fixed DC makes you effectively Invisible until you reveal yourself or are found."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You must be heavily obscured or behind at least three-quarters cover to attempt to hide. You cannot hide from a creature that can see you.",
+                    "Make a <b>DC 15 Dexterity (Stealth)</b> check.",
+                    "On a success, you gain the <b>Invisible</b> condition relative to other creatures. Make a note of your check's total.",
+                    "A creature can use the Search action to make a Wisdom (Perception) check against your Stealth check's total to find you.",
+                    "The Invisible condition ends if you make a sound louder than a whisper, make an attack roll, cast a spell with a verbal component, or are no longer obscured/behind cover."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This new standardized DC makes stealth a more reliable tactical option, with clear conditions for both success and failure."
+            }
         ]
     },
     {
@@ -151,10 +280,23 @@
         "optional": "Standard rule",
         "icon": "juggler",
         "subtitle": "Any action not on this list",
-        "description": "Perform any action you can imagine that isn't covered by the other actions.",
+        "description": "Perform any action you can imagine that isn't covered by the other standard actions, subject to DM approval.",
         "reference": "PHB 2024, pg. 291.",
         "bullets": [
-            "When you describe an action not detailed elsewhere, the DM tells you whether it's possible and what kind of d20 Test, if any, you need to make to determine success or failure."
+            {
+                "type": "paragraph",
+                "content": "When you want to attempt something creative and unconventional, you use the Improvise action. It is up to the DM to adjudicate what is possible and what checks, if any, are required."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "When you describe an action not detailed elsewhere, the DM tells you whether it's possible and what kind of d20 Test, if any, you need to make to determine success or failure."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This action codifies the 'rule of cool', ensuring there's always a space in the rules for player ingenuity and spontaneous ideas."
+            }
         ]
     },
     {
@@ -162,13 +304,51 @@
         "optional": "Standard rule",
         "icon": "conversation",
         "subtitle": "Socially affect a creature",
-        "description": "Attempt to socially influence a creature, even during combat.",
+        "description": "Use your action to persuade, deceive, or intimidate a creature, potentially altering their behavior mid-combat.",
         "reference": "PHB 2024, pg. 291.",
         "bullets": [
-            "As an action, you can try to influence a creature you can communicate with.",
-            "Make a Charisma check using Deception, Intimidation, or Persuasion. The DM might have you contest this with the creature's Wisdom (Insight) check.",
-            "The creature's attitude (Friendly, Indifferent, Hostile) can affect the DC.",
-            "A success can cause a temporary behavioral shift, such as getting a hostile creature to pause and listen, but it does not impose a condition like Charmed or Frightened."
+            {
+                "type": "paragraph",
+                "content": "The Influence action provides a mechanical framework for social interaction in initiative order, allowing for outcomes beyond simply fighting to the death. It relies on a Charisma check to sway a creature's attitude."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "As an action, you can try to influence a creature you can communicate with.",
+                    "Make a Charisma check using Deception, Intimidation, or Persuasion. The DM might have you contest this with the creature's Wisdom (Insight) check.",
+                    "The creature's attitude (Friendly, Indifferent, Hostile) can affect the DC.",
+                    "A success can cause a temporary behavioral shift, such as getting a hostile creature to pause and listen, but it does not impose a condition like Charmed or Frightened."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This is a great tool for charismatic characters to de-escalate fights, create distractions, or achieve objectives without bloodshed."
+            }
+        ]
+    },
+    {
+        "title": "Interact with an Object",
+        "optional": "Standard rule",
+        "icon": "snatch",
+        "subtitle": "Your one free interaction",
+        "description": "You can also interact with one object or feature of the environment for free as part of your move or action.",
+        "reference": "PHB 2024, pg. 294.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "This is not a standalone Action, but a crucial part of your turn's action economy. If you need to perform a second, similar task, you must use the 'Use an Object' action instead."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You can perform this interaction during your move or your action.",
+                    "Examples include: drawing or sheathing a sword, opening or closing a door, withdrawing a potion from your backpack, picking up a dropped item, or taking a bauble from a table."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This rule is why you can draw your sword and attack, but cannot sheathe that sword and then draw a bow in the same turn without using your full action."
+            }
         ]
     },
     {
@@ -176,13 +356,26 @@
         "optional": "Standard rule",
         "icon": "stopwatch",
         "subtitle": "Choose trigger and action",
-        "description": "Prepare to act in response to a specific, perceivable trigger.",
+        "description": "Use your action to prepare a reaction. You set a perceivable trigger and choose an action to perform when it occurs.",
         "reference": "PHB 2024, pg. 291.",
         "bullets": [
-            "First, define a perceivable trigger (e.g., 'When an enemy opens the door').",
-            "Then, choose the action you will take in response (e.g., 'I'll cast Fire Bolt at it') or choose to move up to your speed.",
-            "When the trigger occurs, you can use your reaction to perform the readied action. This happens immediately after the trigger is complete.",
-            "If you ready a spell, you cast it on your turn but hold its energy, which requires <b>concentration</b>. If your concentration is broken, the spell and spell slot are lost."
+            {
+                "type": "paragraph",
+                "content": "The Ready action allows you to act outside of your turn, interrupting the normal flow of combat. It's a two-part process: you use your action to set the conditions, and your reaction to execute the plan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "First, define a perceivable trigger (e.g., 'When an enemy opens the door').",
+                    "Then, choose the action you will take in response (e.g., 'I'll cast Fire Bolt at it') or choose to move up to your speed.",
+                    "When the trigger occurs, you can use your reaction to perform the readied action. This happens immediately after the trigger is complete.",
+                    "If you ready a spell, you cast it on your turn but hold its energy, which requires <b>concentration</b>. If your concentration is broken, the spell and spell slot are lost."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This is a powerful tactical option, but if the trigger never occurs, you lose both your action and your reaction for the round."
+            }
         ]
     },
     {
@@ -190,12 +383,25 @@
         "optional": "Standard rule",
         "icon": "magnifyingglass",
         "subtitle": "Attempt to find something",
-        "description": "Devote your attention to finding something that is hidden or not obvious.",
+        "description": "Devote your attention to finding something hidden or not obvious, making a Perception or Investigation check.",
         "reference": "PHB 2024, pg. 291.",
         "bullets": [
-            "You make a <b>Wisdom (Perception)</b> check to find a hidden creature or object.",
-            "You make an <b>Intelligence (Investigation)</b> check to find clues that suggest a hidden object's presence or to deduce how a trap works.",
-            "The DM may call for other checks, such as Wisdom (Survival) to find tracks."
+            {
+                "type": "paragraph",
+                "content": "While passive Perception represents your general awareness, the Search action represents a focused, deliberate effort to find something specific. The nature of your search determines which skill you use."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You make a <b>Wisdom (Perception)</b> check to find a hidden creature or object.",
+                    "You make an <b>Intelligence (Investigation)</b> check to find clues that suggest a hidden object's presence or to deduce how a trap works.",
+                    "The DM may call for other checks, such as Wisdom (Survival) to find tracks."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This is the action to take when you know something is amiss and you need to take a moment to carefully examine your surroundings."
+            }
         ]
     },
     {
@@ -203,14 +409,25 @@
         "optional": "Standard rule",
         "icon": "hand",
         "subtitle": "Special unarmed strike",
-        "description": "Attempt to knock a creature prone or push it 5 feet away from you. This now forces a saving throw.",
+        "description": "As one of your attacks, attempt to either knock a creature prone or push it 5 feet away by forcing a Strength save.",
         "reference": "PHB 2024, pg. 317.",
         "bullets": [
-            "This replaces one of your attacks when you take the Attack action. The target must be no more than one size larger than you and within your reach.",
-            "The target must make a <b>Strength saving throw</b> (DC = 8 + your Strength modifier + your proficiency bonus).",
-            "<b>Probability:</b> Like Grapple, the fixed DC provides consistent odds. A Fighter with 16 STR (+3) at level 1 has a Shove DC of 13. A goblin with a +0 STR save fails on a roll of 12 or lower (60% success rate for the Fighter).",
-            "On a failed save, you choose one of two effects: either you knock the target <b>Prone</b>, or you push it <b>5 feet</b> directly away from you.",
-            "The <i>Push</i> Weapon Mastery property provides a similar effect without replacing an attack."
+            {
+                "type": "paragraph",
+                "content": "Like Grapple, Shove is now resolved with a saving throw instead of a contested check, making it a faster and more reliable battlefield control maneuver. It replaces one of your attacks from the Attack action."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "This replaces one of your attacks when you take the Attack action. The target must be no more than one size larger than you and within your reach.",
+                    "The target must make a <b>Strength saving throw</b> (DC = 8 + your Strength modifier + your proficiency bonus).",
+                    "On a failed save, you choose one of two effects: either you knock the target <b>Prone</b>, or you push it <b>5 feet</b> directly away from you."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Knocking a foe prone is an excellent way to grant your melee allies advantage, while pushing can create space or move an enemy into a hazard."
+            }
         ]
     },
     {
@@ -218,12 +435,25 @@
         "optional": "Standard rule",
         "icon": "firstaid",
         "subtitle": "Aid a dying creature",
-        "description": "Stop a dying creature from needing to make death saving throws.",
+        "description": "Use your action and a DC 10 Medicine check to stop a dying creature from needing to make death saving throws.",
         "reference": "PHB 2024, pg. 341.",
         "bullets": [
-            "You use your action to administer first aid to an unconscious creature at 0 hit points.",
-            "Make a <b>DC 10 Wisdom (Medicine)</b> check. A Healer's Kit allows you to automatically succeed.",
-            "On a success, the creature becomes stable. It is no longer dying but remains unconscious at 0 HP. A stable creature regains 1 hit point after 1d4 hours."
+            {
+                "type": "paragraph",
+                "content": "This is a non-magical way to save a companion who has fallen to 0 Hit Points. Success makes them stable, though they remain unconscious and at 0 HP until they regain at least one hit point."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You use your action to administer first aid to an unconscious creature at 0 hit points.",
+                    "Make a <b>DC 10 Wisdom (Medicine)</b> check. A Healer's Kit allows you to automatically succeed.",
+                    "On a success, the creature becomes stable. It is no longer dying but remains unconscious at 0 HP. A stable creature regains 1 hit point after 1d4 hours."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "While healing magic is faster at returning an ally to the fight, this action is a crucial option for any character when magical resources are low."
+            }
         ]
     },
     {
@@ -231,78 +461,179 @@
         "optional": "Standard rule",
         "icon": "bookmarklet",
         "subtitle": "Learn about a creature",
-        "description": "Observe a creature to learn useful information about it.",
+        "description": "Use your action and an Intelligence check to learn a piece of tactical information about a creature.",
         "reference": "PHB 2024, pg. 291.",
         "bullets": [
-            "Choose a creature you can see or hear and make an Intelligence check using a skill related to the creature's type (e.g., Arcana for constructs, Nature for beasts, Religion for undead).",
-            "The DC is 10 + the creature's Challenge Rating (minimum 1).",
-            "On a success, you learn one of the following about the target: its Armor Class, its Speed, its highest or lowest ability score, or one of its damage resistances, immunities, or vulnerabilities."
+            {
+                "type": "paragraph",
+                "content": "The Study action provides a clear mechanic for using your knowledge skills in combat, rewarding players who invest in Intelligence by revealing a creature's tactical details."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Choose a creature you can see or hear and make an Intelligence check using a skill related to the creature's type (e.g., Arcana for constructs, Nature for beasts, Religion for undead).",
+                    "The DC is 10 + the creature's Challenge Rating (minimum 1).",
+                    "On a success, you learn one of the following about the target: its Armor Class, its Speed, its highest or lowest ability score, or one of its damage resistances, immunities, or vulnerabilities."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This action can provide a critical edge in a tough fight, allowing the party to exploit a weakness or avoid a powerful defense."
+            }
         ]
     },
     {
         "title": "Use an Object",
         "optional": "Standard rule",
         "icon": "snatch",
-        "subtitle": "Interact, use special abilities",
-        "description": "Interact with an object or use an object that requires an action.",
-        "reference": "PHB 2024, pg. 291",
+        "subtitle": "Use a second or complex object",
+        "description": "Use your action to interact with a second object or to use an object that requires special attention, like a potion.",
+        "reference": "PHB 2024, pg. 291.",
         "bullets": [
-            "You get one free 'object interaction' on your turn (drawing a weapon, opening a door, etc.). This action is used for more complex interactions.",
-            "This action is used to activate special items, such as drinking a potion, using alchemist's fire, or activating certain magic items."
+            {
+                "type": "paragraph",
+                "content": "While you get one free object interaction on your turn, this action is for when you need to do more or when an item's use is too complex for a simple interaction."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "This action is used to activate special items, such as drinking a potion, using alchemist's fire, or activating certain magic items.",
+                    "It's also used if you've already used your free Object Interaction. For example, if you opened a door (free), you would need to use this action to then pull a lever."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This is the action that governs using most consumable items in the game, making action economy a key part of their strategic use."
+            }
         ]
     },
     {
-        "title": "Use class feature",
+        "title": "Use Class Feature",
         "optional": "Standard rule",
         "icon": "embrassedenergy",
         "subtitle": "Some features use actions",
-        "description": "Use a racial or class feature that uses an action",
+        "description": "Activate a class, species, or other feature that explicitly requires an action as detailed in its description.",
         "reference": "See class page for more information.",
-        "bullets": []
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "This is a catch-all for the many unique abilities granted by your character choices. Always check a feature's description to see what type of action it requires, as this can vary widely."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Examples from the 2024 PHB include a Paladin's Lay on Hands, a Cleric's Channel Divinity: Divine Spark, or a Druid's Wild Shape."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "These features are often the most powerful and defining abilities your character has, making them a cornerstone of your turn."
+            }
+        ]
     },
     {
         "title": "Climb onto a Bigger Creature*",
         "optional": "Optional rule",
         "icon": "mountainclimbing",
         "subtitle": "Climb a larger foe",
-        "description": "A large opponent can be treated as terrain for the purpose of climbing onto it.",
+        "description": "As an action, attempt to climb onto a creature at least two sizes larger than you, treating it like terrain.",
         "reference": "DMG 2024, pg. 247.",
         "bullets": [
-            "<b>(Optional Rule – DMG):</b>",
-            "As an action, a creature can make a Strength (Athletics) check to climb onto a creature at least two sizes larger.",
-            "The DC is the target creature's Fortitude DC.",
-            "On a success, the climber moves into the target's space and clings to it. The climber moves with the target.",
-            "The climber has Advantage on attack rolls against the creature it is climbing on.",
-            "The larger creature can use its action to make a Strength (Athletics) check against the climber's Fortitude DC to dislodge them."
+            {
+                "type": "paragraph",
+                "content": "This optional rule provides a framework for cinematic encounters with massive foes, allowing smaller creatures to scale them to gain a tactical advantage or target a specific weak point."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "As an action, a creature can make a Strength (Athletics) check to climb onto a creature at least two sizes larger.",
+                    "The DC is the target creature's Fortitude DC.",
+                    "On a success, the climber moves into the target's space and clings to it. The climber moves with the target.",
+                    "The climber has Advantage on attack rolls against the creature it is climbing on.",
+                    "The larger creature can use its action to make a Strength (Athletics) check against the climber's Fortitude DC to dislodge them."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This can create memorable, 'Shadow of the Colossus' style moments in your game, but it requires the DM to adjudicate the specific circumstances and potential risks."
+            }
         ]
     },
     {
-        "title": "Administer Potion **",
+        "title": "Administer Potion**",
         "optional": "Homebrew rule",
-        "icon": "firstaid",
+        "icon": "healthpotion",
         "subtitle": "Use a potion on another",
-        "description": "A common homebrew that splits the action economy of potion use.",
+        "description": "A homebrew that splits the action economy of potion use between self and others.",
         "bullets": [
-            "This homebrew adapts to the common 'bonus action to drink' rule.",
-            "<b>Drinking a Potion (Self):</b> Use a bonus action.",
-            "<b>Administering a Potion (Other):</b> Use a full action. This involves retrieving the potion, moving to the ally, and carefully administering it, justifying the longer time cost."
+            {
+                "type": "paragraph",
+                "content": "This popular house rule makes potions more accessible for self-use while keeping the tactical cost for aiding an ally, reflecting the difference in difficulty between drinking a potion and administering one to a fallen comrade."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Drinking a Potion (Self):</b> Use a bonus action.",
+                    "<b>Administering a Potion (Other):</b> Use a full action. This involves retrieving the potion, moving to the ally, and carefully administering it, justifying the longer time cost."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This change can significantly improve the flow of combat and make healing potions a more viable mid-combat option for all characters, not just those with healing spells."
+            }
         ]
     },
     {
-        "title": "Called Shot **",
+        "title": "Called Shot**",
         "optional": "Homebrew rule",
         "icon": "archerytarget",
         "subtitle": "Target a specific body part",
-        "description": "A common house rule to allow targeting specific parts of an enemy for an added effect, at the cost of accuracy.",
+        "description": "A house rule allowing an attacker to take a penalty on their roll for a chance to inflict a specific debilitating effect.",
         "bullets": [
-            "<b>(Common Homebrew Rule):</b>",
-            "This remains a popular homebrew option. The 2024 rules still assume attacks target vital areas generally.",
-            "As an action, declare a 'called shot' and take a penalty to your attack roll (typically -5).",
-            "On a hit, you apply an additional effect based on the location targeted:",
-            "<b>Head:</b> Impose the Dazed condition until the end of its next turn.",
-            "<b>Arm/Hand:</b> Force the target to drop one held item.",
-            "<b>Leg/Foot:</b> Impose the Slowed condition until the end of its next turn.",
-            "<b>Eye:</b> Impose the Blinded condition for 1 round (often requires a higher penalty, like -10)."
+            {
+                "type": "paragraph",
+                "content": "This homebrew adds cinematic flair to combat, allowing for effects beyond simple damage. It rewards tactical thinking but can slow down gameplay if not managed with a clear, simple set of rules."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "As an action, declare a 'called shot' and take a penalty to your attack roll (typically -5).",
+                    "On a hit, you apply an additional effect based on the location targeted:",
+                    "<b>Head:</b> Impose the Dazed condition until the end of its next turn.",
+                    "<b>Arm/Hand:</b> Force the target to drop one held item.",
+                    "<b>Leg/Foot:</b> Impose the Slowed condition until the end of its next turn.",
+                    "<b>Eye:</b> Impose the Blinded condition for 1 round (often requires a higher penalty, like -10)."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Using the new 2024 conditions like Dazed and Slowed makes this house rule feel fresh and integrated with the updated system."
+            }
+        ]
+    },
+    {
+        "title": "Guard**",
+        "optional": "Homebrew rule",
+        "icon": "shield",
+        "subtitle": "Protect an adjacent ally",
+        "description": "A homebrew action allowing a character to actively defend an ally, imposing disadvantage on attacks against them.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "This homebrew action provides a dedicated 'tanking' mechanic, creating a clear risk/reward for characters focused on protecting others. It allows a defender to actively interpose themselves."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "As an action, choose one ally within 5 feet of you. Until the start of your next turn, any attack roll made against that ally has disadvantage as long as you are within 5 feet of them.",
+                    "However, until the start of your next turn, any attack that misses your protected ally can be redirected to you. The attacker uses the original attack roll to see if it hits your AC.",
+                    "While using this action, your speed is 0."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This action is a powerful tool for defenders, but the redirection mechanic makes it a risky maneuver against accurate or numerous foes."
+            }
         ]
     }
 ]

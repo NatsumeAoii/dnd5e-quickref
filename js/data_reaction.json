@@ -4,11 +4,24 @@
         "optional": "Standard rule",
         "icon": "magicswirl",
         "subtitle": "Cast time of 1 reaction",
-        "description": "Cast a spell with a casting time of 1 reaction.",
+        "description": "Cast an instantaneous spell in response to a specific trigger as defined in the spell's description.",
         "reference": "PHB, pg. 202.",
         "bullets": [
-            "<b>Trigger:</b> As specified by the spell's description.",
-            "Examples: <i>Shield</i> triggers when you are hit by an attack, <i>Counterspell</i> triggers when you see a creature casting a spell, and <i>Feather Fall</i> triggers when you or a creature within 60 feet of you falls."
+            {
+                "type": "paragraph",
+                "content": "Reaction spells are powerful defensive and disruptive tools, allowing you to act outside of your turn to thwart an enemy's plans or save yourself from harm. Each spell of this type has a unique trigger that allows you to cast it."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "The spell's description specifies the <b>trigger</b> that allows you to cast it.",
+                    "<b>Examples:</b> <b>Shield</b> triggers when you are hit by an attack, <b>Counterspell</b> triggers when you see a creature casting a spell, and <b>Feather Fall</b> triggers when you or a nearby creature falls."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Since you only get one reaction per round, you must choose wisely when to use it. Using <b>Shield</b> to block a minor attack might mean you can't use <b>Counterspell</b> on a far more dangerous spell later in the round."
+            }
         ]
     },
     {
@@ -16,14 +29,25 @@
         "optional": "Standard rule",
         "icon": "crossedswords",
         "subtitle": "Enemy leaves your reach",
-        "description": "You can make an attack against a foe that drops its guard. This is the most common reaction in combat.",
+        "description": "Make one melee attack against a hostile creature that moves out of your reach.",
         "reference": "PHB, pg. 195.",
         "bullets": [
-            "<b>Trigger:</b> A hostile creature you can see moves out of your reach.",
-            "<b>Reaction:</b> You use your reaction to make one melee attack against the provoking creature.",
-            "The attack occurs right before the creature leaves your reach.",
-            "You don't provoke an opportunity attack when you teleport or when someone or something moves you without using your movement, action, or reaction.",
-            "The <b>Disengage</b> action prevents you from provoking opportunity attacks for the rest of your turn."
+            {
+                "type": "paragraph",
+                "content": "This is the most common reaction in combat and a fundamental rule of tactical positioning. It makes moving around a battlefield dangerous and forces characters to be mindful of enemy engagement."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> A hostile creature you can see moves out of your reach.",
+                    "<b>Reaction:</b> You use your reaction to make one melee attack against the provoking creature. The attack occurs right before the creature leaves your reach.",
+                    "Movement that doesn't use your action, reaction, or movement (like being pushed by a spell) does not provoke this attack. The <b>Disengage</b> action also prevents provoking opportunity attacks for a turn."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Creatures with a reach longer than 5 feet (using weapons like pikes or halberds) threaten a larger area and can make opportunity attacks when a foe leaves that extended reach."
+            }
         ]
     },
     {
@@ -31,12 +55,25 @@
         "optional": "Standard rule",
         "icon": "stopwatch",
         "subtitle": "Part of your Ready action",
-        "description": "Execute the reaction specified by your Ready action.",
+        "description": "Use your reaction to perform the action you prepared on your turn when its specified trigger occurs.",
         "reference": "PHB, pg. 193.",
         "bullets": [
-            "<b>Trigger:</b> The perceivable circumstance you defined when you took the Ready action on your turn.",
-            "<b>Reaction:</b> You perform the action or move you chose to ready. This occurs immediately after the trigger finishes.",
-            "If you ready a spell, you cast it on your turn but use your reaction to release it. This requires concentration, which can be broken."
+            {
+                "type": "paragraph",
+                "content": "This reaction is the second half of the Ready action. Having already spent your action on your turn to set up the plan, you use your reaction to execute it in response to a specific trigger."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> The perceivable circumstance you defined when you took the Ready action on your turn.",
+                    "<b>Reaction:</b> You perform the single action or move you chose to ready. This occurs immediately after the trigger finishes.",
+                    "If you ready a spell, you cast it on your turn but use your reaction to release its energy. This requires concentration, which can be broken before the trigger occurs, causing the spell and the spell slot to be lost."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Timing is everything. The reaction happens immediately after the trigger is complete. For example, if you ready an attack for 'when a creature opens a door,' the creature opens the door fully, and then your attack occurs."
+            }
         ]
     },
     {
@@ -44,15 +81,51 @@
         "optional": "Optional rule",
         "icon": "eyeball",
         "subtitle": "Identify a spell being cast",
-        "description": "Use your knowledge of the arcane to identify a spell as it is being cast.",
+        "description": "Use your reaction and an Intelligence (Arcana) check to identify a spell as it is being cast.",
         "reference": "XGE, pg. 85.",
         "bullets": [
-            "<b>(Optional Rule – XGE):</b>",
-            "<b>Trigger:</b> A creature you can see casts a spell.",
-            "<b>Reaction:</b> Make an Intelligence (Arcana) check. The DC equals 15 + the spell's level.",
-            "On a success, you identify the spell. This allows you to decide whether to use <i>Counterspell</i> effectively.",
-            "This check does not reveal the level of the spell slot used.",
-            "This can also be an action on your turn to identify an ongoing magical effect."
+            {
+                "type": "paragraph",
+                "content": "This optional rule from Xanathar's Guide to Everything provides a clear mechanic for identifying spells, which is crucial for deciding whether to use a valuable resource like <b>Counterspell</b>."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> A creature you can see casts a spell.",
+                    "<b>Reaction:</b> Make an Intelligence (Arcana) check. The DC equals 15 + the spell's level.",
+                    "On a success, you identify the spell. This check does not reveal the level of the spell slot used to cast it."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Note the critical action economy cost: using your reaction to identify the spell means you cannot also use that same reaction to cast <b>Counterspell</b>. Another spellcaster in the party would need to be the one to counter it."
+            }
+        ]
+    },
+    {
+        "title": "Intercept*",
+        "optional": "Optional rule",
+        "icon": "shieldbash",
+        "subtitle": "Reduce damage to an ally",
+        "description": "Use your reaction to reduce the damage an attacker deals to an adjacent ally.",
+        "reference": "Adapted from TCE, pg. 41.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "This reaction, adapted from the Interception Fighting Style, provides a way for martial characters to actively protect their nearby allies by deflecting part of an incoming blow."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> An attacker you can see hits a creature within 5 feet of you with an attack.",
+                    "<b>Reaction:</b> You reduce the damage the target takes by 1d10 + your proficiency bonus.",
+                    "You must be wielding a shield or a simple or martial weapon to use this reaction."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This is a reliable way to mitigate damage and can be the difference between an ally staying conscious or falling to 0 hit points."
+            }
         ]
     },
     {
@@ -60,53 +133,127 @@
         "optional": "Optional rule",
         "icon": "shield",
         "subtitle": "Defend against a melee attack",
-        "description": "Add a bonus to your AC against one melee attack that would hit you. This is a common homebrew rule adapted from NPC abilities for player use.",
-        "reference": "Based on abilities in MM, pgs. 346-348.",
+        "description": "As a reaction when hit by a melee attack, add a bonus to your AC which might cause the attack to miss.",
+        "reference": "Adapted from DMG/MM, pgs. 347, 349.",
         "bullets": [
-            "<b>(DM Adaptation / Homebrew):</b>",
-            "<b>Trigger:</b> Another creature hits you with a melee attack.",
-            "<b>Reaction:</b> You must be able to see the attacker and be wielding a melee weapon.",
-            "You add a bonus to your AC for that attack, potentially causing it to miss. (The bonus is often your proficiency bonus for PCs).",
-            "This rule is based on the Parry reaction available to NPCs like the Guard, Noble, and Gladiator."
+            {
+                "type": "paragraph",
+                "content": "This reaction is a common feature on monster stat blocks (like the Guard or Knight) that DMs can grant to players as a feat or house rule. It represents actively deflecting a blow with a weapon."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> Another creature hits you with a melee attack.",
+                    "<b>Reaction:</b> You add a bonus to your AC for that attack, potentially causing it to miss. (The bonus for a PC is often set to their proficiency bonus).",
+                    "You must be able to see the attacker and be wielding a melee weapon."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Unlike the <b>Shield</b> spell, Parry only works against one melee attack and the bonus is smaller, but it doesn't require spell slots, making it a valuable tool for martial characters."
+            }
         ]
     },
     {
-        "title": "Grapple **",
+        "title": "Clash**",
         "optional": "Homebrew rule",
-        "icon": "grab",
-        "subtitle": "Stop an enemy from fleeing",
-        "description": "A house rule allowing a creature to use a Grapple in place of the normal damage-dealing Opportunity Attack.",
+        "icon": "crossedswords",
+        "subtitle": "Contest an incoming melee attack",
+        "description": "A house rule allowing you to use your reaction to make a contested attack roll against an incoming melee attack.",
+        "reference": "Uncommon Homebrew",
         "bullets": [
-            "(Uncommon Homebrew Rule):",
-            "Trigger: A hostile creature you can see moves out of your reach.",
-            "By standard rules (RAW), an Opportunity Attack is 'one melee attack,' not the 'Attack action,' so you cannot replace it with a grapple or shove.",
-            "This house rule allows you to make a special grapple check instead of a damage roll, potentially stopping the creature in its tracks by grappling it (reducing its speed to 0)."
+            {
+                "type": "paragraph",
+                "content": "This homebrew rule adds a cinematic, dueling feel to combat. Instead of passively checking AC against an attack, it creates an active contest of skill between attacker and defender."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> A creature you can see targets you with a melee attack.",
+                    "<b>Reaction:</b> You make a melee weapon attack roll. If your roll is higher than the attacker's roll, their attack misses you.",
+                    "Some tables add a 'riposte' effect: If your roll also meets or exceeds the attacker's AC, they take your weapon's damage."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This can empower players but also slow down combat significantly, as it adds an extra roll to many attacks. It's best for small, dramatic fights."
+            }
         ]
     },
     {
-        "title": "Shove Opportunity Attack **",
-        "optional": "Homebrew rule",
-        "icon": "hand",
-        "subtitle": "Stop an enemy from fleeing",
-        "description": "A house rule allowing a creature to use a Shove in place of the normal damage-dealing Opportunity Attack.",
-        "bullets": [
-            "(Uncommon Homebrew Rule):",
-            "Trigger: A hostile creature you can see moves out of your reach.",
-            "By standard rules (RAW), an Opportunity Attack is 'one melee attack,' not the 'Attack action,' so you cannot replace it with a grapple or shove.",
-            "This house rule allows you to make a special shove check instead of a damage roll, potentially stopping the creature in its tracks by grappling it (reducing its speed to 0)."
-        ]
-    },
-    {
-        "title": "Dive for Cover **",
+        "title": "Dive for Cover**",
         "optional": "Homebrew rule",
         "icon": "falling",
         "subtitle": "Dodge an area effect",
-        "description": "A house rule that allows a creature to use their reaction to avoid area-of-effect damage.",
+        "description": "A house rule allowing a creature to use its reaction to drop prone and gain advantage on a Dexterity saving throw.",
+        "reference": "Common Homebrew",
         "bullets": [
-            "<b>(Rare Homebrew Rule):</b>",
-            "<b>Trigger:</b> You are subjected to an effect that requires you to make a Dexterity saving throw (like a <i>Fireball</i> or a dragon's breath).",
-            "<b>Reaction:</b> You can use your reaction to dive for cover.",
-            "<b>Effect:</b> You gain advantage on the Dexterity saving throw. If you succeed on the save, you may also move up to 5 feet to the nearest unoccupied space and fall prone."
+            {
+                "type": "paragraph",
+                "content": "This common house rule gives players more agency when faced with area-of-effect spells like <b>Fireball</b>. It provides a logical trade-off: gain a better chance to survive in exchange for ending up on the ground."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> You are subjected to an effect that requires you to make a Dexterity saving throw.",
+                    "<b>Reaction:</b> You can use your reaction to fall prone.",
+                    "<b>Effect:</b> You gain advantage on that Dexterity saving throw."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This makes Dexterity saves more interactive and gives characters a way to use their reaction defensively against threats other than direct attacks."
+            }
+        ]
+    },
+    {
+        "title": "Grapple Opportunity Attack**",
+        "optional": "Homebrew rule",
+        "icon": "grab",
+        "subtitle": "Stop an enemy from fleeing",
+        "description": "A house rule that allows you to attempt a grapple instead of a damaging attack as an opportunity attack.",
+        "reference": "Uncommon Homebrew",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "This house rule expands the options available for opportunity attacks, allowing a character built for grappling to better control the battlefield by stopping a foe in their tracks."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> A hostile creature you can see moves out of your reach.",
+                    "<b>Reaction:</b> Instead of making a normal opportunity attack, you can make a grapple check (a Strength (Athletics) check) against the creature."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "A success would halt the creature's movement completely as their speed becomes 0, making this an extremely powerful lockdown tool for Strength-based characters."
+            }
+        ]
+    },
+    {
+        "title": "Shove Opportunity Attack**",
+        "optional": "Homebrew rule",
+        "icon": "hand",
+        "subtitle": "Push an enemy as they flee",
+        "description": "A house rule allowing a creature to attempt a shove instead of a damaging attack as an opportunity attack.",
+        "reference": "Uncommon Homebrew",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Similar to the Grapple Opportunity Attack, this house rule adds tactical variety. It can be used to knock a fleeing enemy prone, making them an easier target for your allies, or to push them into a hazard."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> A hostile creature you can see moves out of your reach.",
+                    "<b>Reaction:</b> Instead of making a normal opportunity attack, you can make a shove check (a Strength (Athletics) check) against the creature to either push it 5 feet or knock it prone."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This can also be used to push a creature back into a hazardous area they were trying to leave, adding an element of environmental control to your reaction."
+            }
         ]
     }
 ]

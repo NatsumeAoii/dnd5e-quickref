@@ -9,16 +9,8 @@
         "displayName": "Sepia"
       },
       {
-        "id": "dracula",
-        "displayName": "Dracula"
-      },
-      {
         "id": "high-contrast",
         "displayName": "High Contrast"
-      },
-      {
-        "id": "solarized",
-        "displayName": "Solarized"
       },
       {
         "id": "nord",
@@ -31,10 +23,6 @@
       {
         "id": "steampunk",
         "displayName": "Steampunk"
-      },
-      {
-        "id": "baldurs-gate",
-        "displayName": "Baldur's Gate"
       }
     ]
   }

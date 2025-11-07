@@ -4,12 +4,25 @@
         "optional": "Standard rule",
         "icon": "oneeyed",
         "subtitle": "You can't see",
-        "description": "You have a total inability to see.",
+        "description": "A blinded creature has a total inability to see, making them a poor attacker and an easy target.",
         "reference": "PHB 2024, pg. 367-368.",
         "bullets": [
-            "You automatically fail any d20 Test that requires sight.",
-            "You have <b>disadvantage on attack rolls</b>.",
-            "Attack rolls against you have <b>advantage</b>."
+            {
+                "type": "paragraph",
+                "content": "The Blinded condition represents a total loss of sight. A creature that cannot see automatically fails checks requiring sight and is at a significant disadvantage in combat."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You automatically fail any d20 Test that requires sight.",
+                    "You have <b>disadvantage on attack rolls</b>.",
+                    "Attack rolls against you have <b>advantage</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Creatures with alternative senses like Blindsight can still pinpoint your location, but the penalties to attack rolls remain unless their senses bypass the need for sight entirely for attacking."
+            }
         ]
     },
     {
@@ -17,11 +30,24 @@
         "optional": "Standard rule",
         "icon": "smitten",
         "subtitle": "You are charmed",
-        "description": "You are charmed by another creature, the charmer.",
+        "description": "You are magically charmed by another creature, preventing you from harming them and making you more susceptible to their influence.",
         "reference": "PHB 2024, pg. 367-368.",
         "bullets": [
-            "You can't attack the charmer or target them with a harmful spell or ability.",
-            "The charmer has <b>advantage on Charisma checks</b> in social interaction with you."
+            {
+                "type": "paragraph",
+                "content": "The Charmed condition represents a magical influence over emotions. It doesn't grant mind control, but it does protect the charmer and makes social interaction easier for them."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You can't attack the charmer or target them with a harmful spell or ability.",
+                    "The charmer has <b>advantage on Charisma checks</b> in social interaction with you."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "A charmed creature might still refuse a harmful or out-of-character request, but they are inclined to be friendly and agreeable toward the charmer."
+            }
         ]
     },
     {
@@ -29,23 +55,48 @@
         "optional": "Standard rule",
         "icon": "internalinjury",
         "subtitle": "You have limited activity",
-        "description": "A new condition that limits what you can do on your turn.",
+        "description": "A new condition that severely limits your action economy and breaks your concentration on spells.",
         "reference": "PHB 2024, pg. 367-368.",
         "bullets": [
-            "You can take either an Action or a Bonus Action on your turn, but not both. You can still move and take a Reaction.",
-            "You cannot Concentrate on spells or other effects.",
-            "<b>Design Intent:</b> Dazed replaces 'Stun-locking' effects from many spells and monster abilities. It's less debilitating than Stunned but still highly disruptive, preventing a character from using their full action economy."
+            {
+                "type": "paragraph",
+                "content": "The Dazed condition is a less punishing alternative to being stunned. A dazed creature can still act, but their options are severely limited for a turn, disrupting their plans and spellcasting."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You can take either an Action or a Bonus Action on your turn, but not both. You can still move and take a Reaction.",
+                    "You cannot Concentrate on spells or other effects."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This condition is designed to reduce 'stun-lock' scenarios while still being a potent debuff, especially against spellcasters who rely on concentration."
+            }
         ]
     },
     {
         "title": "Deafened",
         "optional": "Standard rule",
-        "icon": "elfear",
+        "icon": "mute",
         "subtitle": "You can't hear",
-        "description": "You have a total inability to hear.",
+        "description": "A deafened creature has a total inability to hear and automatically fails any checks that require hearing.",
         "reference": "PHB 2024, pg. 367-368.",
         "bullets": [
-            "You automatically fail any d20 Test that requires hearing."
+            {
+                "type": "paragraph",
+                "content": "While less severe than Blinded in combat, this condition prevents a creature from hearing verbal commands, warnings, or the verbal components of spells being cast."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You automatically fail any d20 Test that requires hearing."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This condition also makes a creature immune to effects that rely on sound, such as a harpy's luring song or the Shatter spell."
+            }
         ]
     },
     {
@@ -53,15 +104,27 @@
         "optional": "Standard rule",
         "icon": "deadhead",
         "subtitle": "You are at 0 Hit Points",
-        "description": "You are at 0 Hit Points and at risk of death.",
+        "description": "When you are reduced to 0 Hit Points, you fall Unconscious and must make Death Saving Throws to avoid death.",
         "reference": "PHB 2024, pg. 341.",
         "bullets": [
-            "When you drop to 0 HP, you become Unconscious and are Dying.",
-            "<b>Death Saving Throws:</b> At the start of each of your turns, make a Death Save (a d20 roll with no modifiers). On a 10 or higher, you score a success. On a 9 or lower, a failure.",
-            "<b>3 Successes:</b> You become Stable.",
-            "<b>3 Failures:</b> You die.",
-            "A <b>Natural 1</b> counts as two failures. A <b>Natural 20</b> means you regain 1 Hit Point.",
-            "<b>Damage at 0 HP:</b> Taking damage while at 0 HP causes one Death Save failure (two if the damage is from a critical hit)."
+            {
+                "type": "paragraph",
+                "content": "This is the perilous state between consciousness and death. Your fate is determined by a series of d20 rolls at the start of each of your turns, with success bringing you closer to stability and failure bringing you closer to death."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Death Saving Throws:</b> At the start of each of your turns, make a Death Save (a d20 roll with no modifiers). On a 10 or higher, you score a success. On a 9 or lower, a failure.",
+                    "<b>3 Successes:</b> You become Stable.",
+                    "<b>3 Failures:</b> You die.",
+                    "A <b>Natural 1</b> counts as two failures. A <b>Natural 20</b> means you regain 1 Hit Point.",
+                    "<b>Damage at 0 HP:</b> Taking damage while at 0 HP causes one Death Save failure (two if the damage is from a critical hit)."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Any healing that restores even one hit point will end the dying condition and bring you back to consciousness immediately."
+            }
         ]
     },
     {
@@ -69,14 +132,27 @@
         "optional": "Standard rule",
         "icon": "crawl",
         "subtitle": "You are exhausted",
-        "description": "Exhaustion is measured in 10 levels. Each level gives a cumulative -1 penalty to all d20 Tests.",
+        "description": "A revised condition measured in 10 levels, each giving a cumulative -1 penalty to all d20 Tests.",
         "reference": "PHB 2024, pg. 368.",
         "bullets": [
-            "<b>Penalty per Level:</b> You suffer a cumulative -1 penalty to all d20 Tests (attack rolls, saving throws, ability checks) for each level of Exhaustion.",
-            "<b>Level 5:</b> Your Speed is halved.",
-            "<b>Level 7:</b> Your Speed becomes 0.",
-            "<b>Level 10:</b> You die.",
-            "Finishing a Long Rest removes 1 level of Exhaustion."
+            {
+                "type": "paragraph",
+                "content": "The Exhaustion system has been revised to be a more granular and less punishing mechanic at lower levels, acting as a simple, stacking penalty to all of your d20 rolls."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Penalty per Level:</b> You suffer a cumulative -1 penalty to all d20 Tests (attack rolls, saving throws, ability checks) for each level of Exhaustion.",
+                    "At <b>Level 5</b>, your Speed is also halved.",
+                    "At <b>Level 7</b>, your Speed also becomes 0.",
+                    "At <b>Level 10</b>, you die.",
+                    "Finishing a Long Rest removes 1 level of Exhaustion."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This new system makes the first few levels of exhaustion impactful but not debilitating, reserving the harshest penalties for higher levels."
+            }
         ]
     },
     {
@@ -84,11 +160,24 @@
         "optional": "Standard rule",
         "icon": "sharpsmile",
         "subtitle": "You are frightened",
-        "description": "You are frightened of a source of fear.",
+        "description": "Gripped by terror, you have disadvantage on d20 Tests while the source of fear is visible and you cannot move closer to it.",
         "reference": "PHB 2024, pg. 368.",
         "bullets": [
-            "You have <b>disadvantage on d20 Tests</b> while the source of your fear is within your line of sight.",
-            "You can't willingly move closer to the source of your fear."
+            {
+                "type": "paragraph",
+                "content": "This condition combines a combat penalty with a tactical restriction on movement, making it a powerful tool for battlefield control by forcing a creature to stay at a distance."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You have <b>disadvantage on d20 Tests</b> while the source of your fear is within your line of sight.",
+                    "You can't willingly move closer to the source of your fear."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "If you break line of sight with the source of your fear, the disadvantage is suppressed for that moment, but you are still unable to move closer to it."
+            }
         ]
     },
     {
@@ -96,13 +185,25 @@
         "optional": "Standard rule",
         "icon": "grab",
         "subtitle": "You are grappled",
-        "description": "You are held in a creature's grasp.",
+        "description": "Your Speed is 0, and you have disadvantage on attacks against any creature other than your grappler.",
         "reference": "PHB 2024, pg. 368.",
         "bullets": [
-            "Your Speed becomes 0, and you can't benefit from any bonus to your Speed.",
-            "You have <b>disadvantage on attack rolls</b> against any creature other than the one grappling you.",
-            "The condition ends if the grappler is Incapacitated or if you are moved outside the grappler's reach.",
-            "You can attempt to escape with the <b>Escape</b> action."
+            {
+                "type": "paragraph",
+                "content": "The Grappled condition has been updated to be more debilitating, making it a stronger control option for locking down a single target and forcing them to deal with you."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Your Speed becomes 0, and you can't benefit from any bonus to your Speed.",
+                    "You have <b>disadvantage on attack rolls</b> against any creature other than the one grappling you.",
+                    "The condition ends if the grappler is Incapacitated or if you are moved outside the grappler's reach."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This change encourages the grappled creature to focus on their immediate threat, rather than attacking other targets with impunity."
+            }
         ]
     },
     {
@@ -110,10 +211,13 @@
         "optional": "Standard rule",
         "icon": "internalinjury",
         "subtitle": "You can't take actions",
-        "description": "You can't take an Action, Bonus Action, or Reaction.",
+        "description": "An incapacitated creature is unable to take an Action, Bonus Action, or Reaction, effectively removing them from the action economy.",
         "reference": "PHB 2024, pg. 368.",
         "bullets": [
-            "This is a component of several other conditions. It is a more severe version of Dazed."
+            {
+                "type": "paragraph",
+                "content": "This is one of the most severe conditions, as it renders a creature completely passive. It is a component of several other conditions, such as Paralyzed, Stunned, and Unconscious. An incapacitated creature can still move unless another condition prevents it, but they cannot take actions that facilitate movement like Dash."
+            }
         ]
     },
     {
@@ -121,26 +225,52 @@
         "optional": "Standard rule",
         "icon": "invisible",
         "subtitle": "You can't be seen",
-        "description": "You are impossible to see without magic or a special sense.",
+        "description": "You are impossible to see without magic or a special sense, granting a powerful advantage in combat and stealth.",
         "reference": "PHB 2024, pg. 368.",
         "bullets": [
-            "For the purpose of hiding, you are Heavily Obscured.",
-            "You have <b>advantage on attack rolls</b>.",
-            "Attack rolls against you have <b>disadvantage</b>."
+            {
+                "type": "paragraph",
+                "content": "Invisibility makes you a superb ambusher and a difficult target, as enemies cannot see you to effectively attack you or defend against your attacks."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "For the purpose of hiding, you are Heavily Obscured.",
+                    "You have <b>advantage on attack rolls</b>.",
+                    "Attack rolls against you have <b>disadvantage</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Remember that spells which require you to see your target cannot target an invisible creature, but area-of-effect spells can still affect them."
+            }
         ]
     },
     {
         "title": "Paralyzed",
         "optional": "Standard rule",
-        "icon": "internalinjury",
+        "icon": "spiderweb",
         "subtitle": "You are paralyzed",
-        "description": "You are frozen, unable to move or act.",
+        "description": "You are frozen and Incapacitated. Any hit from a nearby attacker becomes a critical hit.",
         "reference": "PHB 2024, pg. 368.",
         "bullets": [
-            "You are <b>Incapacitated</b> and can't move or speak.",
-            "Attack rolls against you have <b>advantage</b>.",
-            "Any attack that hits you is a <b>critical hit</b> if the attacker is within 5 feet of you.",
-            "You automatically fail Strength and Dexterity saving throws."
+            {
+                "type": "paragraph",
+                "content": "This is an extremely dangerous condition that can lead to a character's swift demise. You are completely at the mercy of your foes, unable to act and vulnerable to devastating attacks."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You are <b>Incapacitated</b> and can't move or speak.",
+                    "Attack rolls against you have <b>advantage</b>.",
+                    "Any attack that hits you is a <b>critical hit</b> if the attacker is within 5 feet of you.",
+                    "You automatically fail Strength and Dexterity saving throws."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "The automatic critical hit from adjacent attackers makes this arguably the most dangerous non-lethal condition in the game."
+            }
         ]
     },
     {
@@ -148,26 +278,52 @@
         "optional": "Standard rule",
         "icon": "stonepile",
         "subtitle": "You are transformed into stone",
-        "description": "You are transformed into a solid, inanimate substance.",
+        "description": "You are transformed into an inanimate object, becoming Incapacitated and highly resistant to damage.",
         "reference": "PHB 2024, pg. 368.",
         "bullets": [
-            "You are <b>Incapacitated</b>, can't move or speak, and are unaware of your surroundings.",
-            "Attack rolls against you have <b>advantage</b>.",
-            "You automatically fail Strength and Dexterity saving throws.",
-            "You have <b>resistance to all damage</b>.",
-            "You are immune to poison and disease.",
-            "Your weight is multiplied by ten, and you stop aging."
+            {
+                "type": "paragraph",
+                "content": "A petrified creature is effectively a statue, removed from play and unaware of their surroundings. This condition is usually permanent until cured by powerful magic."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You are <b>Incapacitated</b>, can't move or speak, and are unaware of your surroundings.",
+                    "Attack rolls against you have <b>advantage</b>.",
+                    "You automatically fail Strength and Dexterity saving throws.",
+                    "You have <b>resistance to all damage</b>.",
+                    "You are immune to poison and disease.",
+                    "Your weight is multiplied by ten, and you stop aging."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "While you are resistant to damage, enough damage can still destroy your petrified form, resulting in death."
+            }
         ]
     },
     {
         "title": "Poisoned",
         "optional": "Standard rule",
-        "icon": "deathcab",
+        "icon": "poisonbottle",
         "subtitle": "You are poisoned",
-        "description": "A toxin is affecting you.",
+        "description": "The poison in your system gives you disadvantage on all of your attack rolls and ability checks.",
         "reference": "PHB 2024, pg. 368.",
         "bullets": [
-            "You have <b>disadvantage on attack rolls and ability checks</b>."
+            {
+                "type": "paragraph",
+                "content": "This condition represents a general debilitation from a toxin. It hampers your effectiveness in almost every task you might attempt that involves an attack or a skill."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You have <b>disadvantage on attack rolls and ability checks</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Notably, the poisoned condition does not affect saving throws, only attack rolls and ability checks, which is a key distinction from other debilitating effects."
+            }
         ]
     },
     {
@@ -175,13 +331,26 @@
         "optional": "Standard rule",
         "icon": "crawl",
         "subtitle": "You are prone",
-        "description": "You are lying on the ground.",
+        "description": "You are lying on the ground. This makes you harder to hit from range but easier to hit up close.",
         "reference": "PHB 2024, pg. 368.",
         "bullets": [
-            "Your only movement option is to Crawl (which costs double movement) until you stand up.",
-            "Standing up costs half your Speed.",
-            "You have <b>disadvantage on attack rolls</b>.",
-            "An attack roll against you has <b>advantage</b> if the attacker is within 5 feet. Otherwise, the attack roll has <b>disadvantage</b>."
+            {
+                "type": "paragraph",
+                "content": "The prone condition offers a tactical trade-off. It is a defensive boon against ranged attackers but a major liability against melee foes. It also significantly impacts your movement."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Your only movement option is to Crawl (which costs double movement) until you stand up.",
+                    "Standing up costs half your Speed.",
+                    "You have <b>disadvantage on attack rolls</b>.",
+                    "An attack roll against you has <b>advantage</b> if the attacker is within 5 feet. Otherwise, the attack roll has <b>disadvantage</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Standing up costs half of your movement for the turn, which can prevent you from reaching a desired location."
+            }
         ]
     },
     {
@@ -189,13 +358,26 @@
         "optional": "Standard rule",
         "icon": "imprisoned",
         "subtitle": "You are restrained",
-        "description": "You are held in place by a physical or magical effect.",
+        "description": "Your speed is 0, and attacks against you have advantage, while your attacks and Dexterity saves have disadvantage.",
         "reference": "PHB 2024, pg. 368.",
         "bullets": [
-            "Your Speed becomes 0, and you can't benefit from any bonus to your Speed.",
-            "You have <b>disadvantage on attack rolls</b>.",
-            "Attack rolls against you have <b>advantage</b>.",
-            "You have <b>disadvantage on Dexterity saving throws</b>."
+            {
+                "type": "paragraph",
+                "content": "This condition represents being entangled, held in manacles, or caught in a web. It affects your movement, your offense, and your defense simultaneously."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Your Speed becomes 0, and you can't benefit from any bonus to your Speed.",
+                    "You have <b>disadvantage on attack rolls</b>.",
+                    "Attack rolls against you have <b>advantage</b>.",
+                    "You have <b>disadvantage on Dexterity saving throws</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This condition is particularly dangerous as it makes you vulnerable to effects that require Dexterity saving throws, like many damaging spells."
+            }
         ]
     },
     {
@@ -203,27 +385,52 @@
         "optional": "Standard rule",
         "icon": "snail",
         "subtitle": "Your movement is hindered",
-        "description": "A new condition that impedes movement and reactions.",
+        "description": "A new condition that halves your speed, limits your actions, and imposes disadvantage on Dexterity saves.",
         "reference": "PHB 2024, pg. 368.",
         "bullets": [
-            "Your Speed is halved.",
-            "You have disadvantage on Dexterity saving throws.",
-            "You can take either an Action or a Bonus Action on your turn, but not both.",
-            "You can't take the Disengage action.",
-            "<b>Design Intent:</b> Slowed is a powerful control condition that replaces many disparate effects in the 2014 rules. It's less severe than Stunned but more impactful on mobile characters than simply reducing speed."
+            {
+                "type": "paragraph",
+                "content": "The Slowed condition is a new addition designed to provide a powerful control effect that is less of a complete shutdown than Stunned, affecting multiple aspects of a creature's turn."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Your Speed is halved.",
+                    "You have disadvantage on Dexterity saving throws.",
+                    "You can take either an Action or a Bonus Action on your turn, but not both.",
+                    "You can't take the Disengage action."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "It impacts a creature's mobility, action economy, and defense, making it a versatile tool for controlling the battlefield."
+            }
         ]
     },
     {
         "title": "Stunned",
         "optional": "Standard rule",
-        "icon": "internalinjury",
+        "icon": "knockedoutstars",
         "subtitle": "You are stunned",
-        "description": "You are overwhelmed and unable to act.",
+        "description": "You are Incapacitated, cannot move, and automatically fail Strength and Dexterity saving throws.",
         "reference": "PHB 2024, pg. 368.",
         "bullets": [
-            "You are <b>Incapacitated</b> and can't move.",
-            "Attack rolls against you have <b>advantage</b>.",
-            "You automatically fail Strength and Dexterity saving throws."
+            {
+                "type": "paragraph",
+                "content": "A stunned creature is almost entirely helpless, removed from the fight for the duration. This is a powerful condition that can swing the momentum of a battle by neutralizing a key threat."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You are <b>Incapacitated</b> and can't move.",
+                    "Attack rolls against you have <b>advantage</b>.",
+                    "You automatically fail Strength and Dexterity saving throws."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This condition is often imposed by Monk abilities or certain spells, capable of completely shutting down an enemy for a turn or more."
+            }
         ]
     },
     {
@@ -231,13 +438,26 @@
         "optional": "Standard rule",
         "icon": "drowning",
         "subtitle": "Holding your breath",
-        "description": "A creature can hold its breath for a number of minutes equal to 1 + its Constitution modifier (minimum 30 seconds). When it runs out of breath, it can survive for a number of rounds equal to its Constitution modifier (minimum 1 round). At the start of its next turn, it drops to 0 hit points and is dying.",
-        "reference": "PHB, pg. 184.",
+        "description": "Deprived of air, you can survive for a limited time before you drop to 0 hit points and begin dying.",
+        "reference": "PHB 2024, pg. 368.",
         "bullets": [
-            "You can hold your breath for <b>1 + CON modifier</b> minutes (min 30s).",
-            "When out of breath, you can survive for <b>CON modifier</b> rounds (min 1).",
-            "At the start of your next turn after that, you drop to 0 HP and are dying.",
-            "You cannot regain hit points or be stabilized until you can breathe again."
+            {
+                "type": "paragraph",
+                "content": "The rules for suffocation create a tense countdown when characters are underwater, in a vacuum, or in an area with unbreathable gas. Survival is measured in minutes, then rounds, before you fall."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You can hold your breath for <b>1 + CON modifier</b> minutes (min 30s).",
+                    "When out of breath, you can survive for <b>CON modifier</b> rounds (min 1).",
+                    "At the start of your next turn after that, you drop to 0 HP and are dying.",
+                    "You cannot regain hit points or be stabilized until you can breathe again."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "The inability to be stabilized or regain hit points makes this situation incredibly dire, as typical methods of saving a dying character will not work."
+            }
         ]
     },
     {
@@ -245,15 +465,28 @@
         "optional": "Standard rule",
         "icon": "coma",
         "subtitle": "You are unconscious",
-        "description": "You are senseless and unaware.",
+        "description": "You are Incapacitated, unaware, and helpless. Any hit from a nearby attacker becomes a critical hit.",
         "reference": "PHB 2024, pg. 368.",
         "bullets": [
-            "You are <b>Incapacitated</b>, can't move or speak, and are unaware of your surroundings.",
-            "You drop whatever you're holding and fall Prone.",
-            "Attack rolls against you have <b>advantage</b>.",
-            "Any attack that hits you is a <b>critical hit</b> if the attacker is within 5 feet of you.",
-            "You automatically fail Strength and Dexterity saving throws.",
-            "If you are at 0 Hit Points, you are subject to the Dying rules."
+            {
+                "type": "paragraph",
+                "content": "This condition represents being asleep, knocked out, or at 0 hit points. It is nearly identical to the Paralyzed condition in its effects, leaving you completely vulnerable."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You are <b>Incapacitated</b>, can't move or speak, and are unaware of your surroundings.",
+                    "You drop whatever you're holding and fall Prone.",
+                    "Attack rolls against you have <b>advantage</b>.",
+                    "Any attack that hits you is a <b>critical hit</b> if the attacker is within 5 feet of you.",
+                    "You automatically fail Strength and Dexterity saving throws.",
+                    "If you are at 0 Hit Points, you are subject to the Dying rules."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "A creature is unconscious when they are at 0 hit points. Any healing will restore consciousness. The Sleep spell also renders creatures unconscious without reducing their hit points."
+            }
         ]
     },
     {
@@ -261,14 +494,76 @@
         "optional": "Optional rule",
         "icon": "architectmask",
         "subtitle": "Your mind is damaged",
-        "description": "This optional rule system from the DMG introduces mental trauma with short-term, long-term, and indefinite effects.",
-        "reference": "DMG, pg. 236.",
+        "description": "An optional rule system for representing mental trauma with short-term, long-term, and indefinite psychological effects.",
+        "reference": "DMG 2024, pg. 236.",
         "bullets": [
-            "<b>(Optional Rule – DMG):</b>",
-            "A character might suffer madness from traumatic events, such as failing a Sanity saving throw, seeing an aberration from the Far Realm, or from spells like <i>Contact Other Plane</i>.",
-            "<b>Short-Term Madness (1d10 minutes):</b> Effects like being stunned, becoming paralyzed with fear, or babbling incoherently.",
-            "<b>Long-Term Madness (1d10 x 10 hours):</b> Effects like developing a phobia, having hallucinations, or suffering from extreme paranoia.",
-            "<b>Indefinite Madness:</b> A permanent change to the character's personality or beliefs, curable only by powerful magic like <i>Greater Restoration</i> or <i>Wish</i>."
+            {
+                "type": "paragraph",
+                "content": "For campaigns that delve into horror, the Madness rules provide a framework for representing the toll that traumatic events can take on a character's mind, with effects of varying duration and severity."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "A character might suffer madness from traumatic events, such as failing a Sanity saving throw, seeing an aberration from the Far Realm, or from spells like <i>Contact Other Plane</i>.",
+                    "<b>Short-Term Madness (1d10 minutes):</b> Effects like becoming Dazed, being paralyzed with fear, or babbling incoherently.",
+                    "<b>Long-Term Madness (1d10 x 10 hours):</b> Effects like developing a phobia, having hallucinations, or suffering from extreme paranoia.",
+                    "<b>Indefinite Madness:</b> A permanent change to the character's personality or beliefs, curable only by powerful magic like <i>Greater Restoration</i> or <i>Wish</i>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "These rules can create consequences beyond physical damage, adding a layer of psychological depth and danger to a campaign."
+            }
+        ]
+    },
+    {
+        "title": "Rattled**",
+        "optional": "Homebrew rule",
+        "icon": "headshot",
+        "subtitle": "Your focus is shaken",
+        "description": "A homebrew condition less severe than Dazed that specifically targets concentration and mental checks.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "This homebrew condition fills a niche for effects that disrupt a spellcaster's focus without completely limiting their actions. It can be inflicted by psychic damage, thunderous blows, or startling events."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You have <b>disadvantage on Constitution saving throws</b> made to maintain concentration on a spell or other effect.",
+                    "You have <b>disadvantage on Intelligence and Wisdom checks</b>.",
+                    "This condition often lasts for 1 minute, or until you succeed on a Wisdom saving throw at the end of your turn."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "It's a good intermediate step before the more debilitating Dazed condition, offering a milder form of mental disruption that is especially threatening to spellcasters."
+            }
+        ]
+    },
+    {
+        "title": "Sundered**",
+        "optional": "Homebrew rule",
+        "icon": "swordbreak",
+        "subtitle": "Your armor is damaged",
+        "description": "A homebrew condition for gritty campaigns where armor can be damaged, reducing its AC bonus until repaired.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "For games that want more equipment degradation, the Sundered condition provides a mechanic for breaking armor from powerful blows or corrosive effects, making maintenance important."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Your armor's base Armor Class is reduced by 2. This penalty can stack.",
+                    "If the penalty meets or exceeds the armor's magical bonus (if any), the magical properties of the armor are suppressed until it is repaired.",
+                    "Repairing the Sundered condition typically requires a Smith's Tools check during a Short or Long Rest, and may cost gold for materials."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This adds a resource-management element to adventuring, making armor maintenance a part of long-term survival."
+            }
         ]
     }
 ]

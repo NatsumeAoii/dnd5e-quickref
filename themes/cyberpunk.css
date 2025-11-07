@@ -1,48 +1,42 @@
-/* Cyberpunk Light Mode */
 html[data-theme='cyberpunk'][data-mode='light'] {
-    --color-bg: #e8e8e8; /* Concrete */
-    --color-text: #0d0221; /* Near Black */
+    --color-bg: #e8e8e8;
+    --color-text: #0d0221;
     --color-text-subtle: #4e4a59;
     --color-card-bg: #f5f5f5;
-    --color-header-text: #fff; /* WCAG: White on neons is best */
+    --color-header-text: #fff;
     --color-shadow: rgb(13 2 33 / 20%);
     --color-shadow-strong: rgb(13 2 33 / 30%);
     --color-hr: #c0c0c0;
-    --color-link: #f0f; /* Magenta */
+    --color-link: #f0f;
     --color-item-hover-bg: rgb(0 240 255 / 15%);
-
-    /* Cyberpunk Light Section Palette */
-    --color-movement: #d9006c; /* WCAG-safe Magenta */
-    --color-action: #0077b6; /* WCAG-safe Cyan */
-    --color-bonus-action: #8e2de2; /* Deep Purple */
-    --color-reaction: #009e73; /* Teal */
-    --color-condition: #f8961e; /* Orange */
-    --color-environment: #4d4d4d; /* Gray */
+    --color-movement: #d9006c;
+    --color-action: #0077b6;
+    --color-bonus-action: #8e2de2;
+    --color-reaction: #009e73;
+    --color-condition: #f8961e;
+    --color-environment: #4d4d4d;
     --color-settings: #0d0221;
     --color-accept: #009e73;
-    --color-favorite: #f8f162; /* Neon Yellow */
+    --color-favorite: #f8f162;
 }
 
-/* Cyberpunk Dark Mode */
 html[data-theme='cyberpunk'][data-mode='dark'] {
-    --color-bg: #0d0221; /* Deep Space Blue */
-    --color-text: #00f0ff; /* Neon Cyan Text */
+    --color-bg: #0d0221;
+    --color-text: #00f0ff;
     --color-text-subtle: #8a91ab;
     --color-card-bg: #15053a;
-    --color-header-text: #0d0221; /* Black on neons is best */
+    --color-header-text: #0d0221;
     --color-shadow: rgb(0 240 255 / 20%);
     --color-shadow-strong: rgb(0 240 255 / 30%);
     --color-hr: #4a3f6d;
-    --color-link: #f8f162; /* Neon Yellow */
+    --color-link: #f8f162;
     --color-item-hover-bg: rgb(255 0 255 / 10%);
-
-    /* Cyberpunk Dark Section Palette */
-    --color-movement: #f0f; /* Magenta */
-    --color-action: #00f0ff; /* Cyan */
-    --color-bonus-action: #9f72e3; /* Lavender */
-    --color-reaction: #50fa7b; /* Laser Green */
-    --color-condition: #f8f162; /* Neon Yellow */
-    --color-environment: #a0a0a0; /* Steel Gray */
+    --color-movement: #f0f;
+    --color-action: #00f0ff;
+    --color-bonus-action: #9f72e3;
+    --color-reaction: #50fa7b;
+    --color-condition: #f8f162;
+    --color-environment: #a0a0a0;
     --color-settings: #fff;
     --color-accept: #50fa7b;
     --color-favorite: #f0f;

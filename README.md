@@ -47,7 +47,7 @@ Rules are stored in the `js/` directory:
            "You can use <b>HTML</b> formatting."
        ],
    }
-    ````
+    ```
 
 Example (JSON-based data files):
 

@@ -1,0 +1,23 @@
+{
+  "name": "D&D 5e Quick Reference",
+  "short_name": "QuickRef",
+  "description": "A quick, searchable reference guide for Dungeons & Dragons 5th Edition (D&D 5e) rulesets.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#fdf6e4",
+  "theme_color": "#802b1c",
+  "icons": [
+    {
+      "src": "./web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

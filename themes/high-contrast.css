@@ -1,4 +1,3 @@
-/* High Contrast Light Mode */
 html[data-theme='high-contrast'][data-mode='light'] {
     --color-bg: #fff;
     --color-text: #000;
@@ -10,8 +9,6 @@ html[data-theme='high-contrast'][data-mode='light'] {
     --color-hr: #999;
     --color-link: #00f;
     --color-item-hover-bg: rgb(0 0 255 / 15%);
-
-    /* High Contrast Light Section Palette */
     --color-movement: #d00;
     --color-action: #b39b00;
     --color-bonus-action: #d0d;
@@ -23,7 +20,6 @@ html[data-theme='high-contrast'][data-mode='light'] {
     --color-favorite: #b39b00;
 }
 
-/* High Contrast Dark Mode */
 html[data-theme='high-contrast'][data-mode='dark'] {
     --color-bg: #000;
     --color-text: #fff;
@@ -35,8 +31,6 @@ html[data-theme='high-contrast'][data-mode='dark'] {
     --color-hr: #666;
     --color-link: #0ff;
     --color-item-hover-bg: rgb(0 255 255 / 15%);
-
-    /* High Contrast Dark Section Palette */
     --color-movement: #f00;
     --color-action: #ff0;
     --color-bonus-action: #f0f;
