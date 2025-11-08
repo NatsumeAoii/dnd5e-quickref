@@ -6,6 +6,7 @@
         "subtitle": "Cast time of 1 bonus action",
         "description": "Cast a swift spell with a casting time of 1 bonus action, but doing so restricts further spellcasting on your turn.",
         "reference": "PHB 2024, pg. 301.",
+        "summary": "Cast a spell with a 1-bonus-action casting time. If you do, the only other spell you can cast on the same turn is a cantrip with a 1-action casting time.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -32,6 +33,7 @@
         "subtitle": "Use with the Attack action",
         "description": "When taking the Attack action with a Light weapon, use your bonus action to make one attack with a second Light weapon.",
         "reference": "PHB 2024, pg. 291.",
+        "summary": "After taking the Attack action with a Light weapon, you can use your bonus action to make one attack with a different Light weapon. You don't add your ability modifier to the bonus attack's damage.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -59,6 +61,7 @@
         "subtitle": "Some features use bonus actions",
         "description": "Activate a class, species, or other feature that uses a bonus action, as specified in its description.",
         "reference": "See class descriptions in PHB 2024.",
+        "summary": "Activate a unique ability from your class, species, or other source that requires a bonus action to use, as specified in the feature's description.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -83,6 +86,7 @@
         "subtitle": "Gain advantage on an attack",
         "description": "As a bonus action, forgo all your movement for the turn to grant yourself advantage on your next attack roll.",
         "reference": "DMG 2024, pg. 248.",
+        "summary": "If you haven't moved this turn, you can use your bonus action to gain advantage on the next attack roll you make this turn. Your speed becomes 0 for the rest of the turn.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -109,6 +113,7 @@
         "subtitle": "Run through a hostile space",
         "description": "As an action or bonus action, attempt to force your way through a hostile creature's space via a contested Athletics check.",
         "reference": "DMG 2024, pg. 248.",
+        "summary": "As a bonus action, make a Strength (Athletics) check contested by an enemy's Athletics. If you win, you can move through their space once this turn. You have advantage if you are larger.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -135,6 +140,7 @@
         "subtitle": "Tumble through a hostile space",
         "description": "As an action or bonus action, attempt to deftly move through a hostile creature's space with a contested Acrobatics check.",
         "reference": "DMG 2024, pg. 248.",
+        "summary": "As a bonus action, make a Dexterity (Acrobatics) check contested by an enemy's Acrobatics. If you win, you can move through their space once this turn.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -160,6 +166,7 @@
         "subtitle": "Quaff a potion quickly",
         "description": "A very common house rule to make potions more viable in combat by allowing you to drink one as a bonus action.",
         "reference": "Based on 'Use an Object' action, PHB 2024, pg. 294.",
+        "summary": "A popular house rule that allows you to drink a potion as a bonus action. Administering a potion to another creature remains a full action.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -185,6 +192,7 @@
         "icon": "liar",
         "subtitle": "Gain advantage on your attack",
         "description": "A house rule allowing a creature to use its bonus action to try and outwit an opponent, granting advantage on its own attack.",
+        "summary": "A house rule (now standard for Rogues) where you use a bonus action to make a contested Deception vs. Insight check to gain advantage on your next attack against the target.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -211,6 +219,7 @@
         "subtitle": "Sheathe one, draw another",
         "description": "A house rule to streamline combat by allowing a character to sheathe one weapon and draw another as a bonus action.",
         "reference": "Based on 'Interact with an Object', PHB 2024, pg. 294.",
+        "summary": "A house rule that allows you to use your bonus action to sheathe a weapon you are holding and draw a different one, bypassing the normal action cost for a second object interaction.",
         "bullets": [
             {
                 "type": "paragraph",

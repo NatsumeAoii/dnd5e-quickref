@@ -500,15 +500,25 @@
       popup.querySelector('.popup-header').style.backgroundColor = borderColor;
       popup.querySelector('.popup-type').textContent = type;
       popup.querySelector('.popup-description').innerHTML = linkifyFn(ruleData.description || ruleData.subtitle || '');
-
+      popup.querySelector('.popup-summary').innerHTML = linkifyFn(ruleData.summary || '');
       popup.querySelector('.popup-bullets').replaceChildren(this.#renderBullets(ruleData.bullets, linkifyFn));
 
-      const referenceEl = popup.querySelector('.popup-reference');
+      const refContainer = popup.querySelector('.popup-reference-container');
+      const referenceEl = refContainer.querySelector('.popup-reference');
+      const toggleBtn = refContainer.querySelector('.popup-toggle-details-btn');
+
       if (ruleData.reference) {
         referenceEl.textContent = ruleData.reference;
         referenceEl.classList.remove(CONFIG.CSS.HIDDEN);
       } else {
         referenceEl.classList.add(CONFIG.CSS.HIDDEN);
+      }
+
+      if (!ruleData.bullets || ruleData.bullets.length === 0) {
+        toggleBtn.classList.add(CONFIG.CSS.HIDDEN);
+        if (!ruleData.summary) {
+          popup.querySelector('.popup-summary').classList.add(CONFIG.CSS.HIDDEN);
+        }
       }
 
       const textarea = popup.querySelector('.popup-notes-textarea');
@@ -850,7 +860,32 @@
 
     #handleResize = () => { this.#isMobileView = window.innerWidth < CONFIG.LAYOUT.DESKTOP_BREAKPOINT_MIN_PX; };
 
-    #handleContainerClick = (e) => { const { target } = e; if (target.closest(`.${CONFIG.CSS.POPUP_CLOSE_BTN}`)) { const popup = target.closest(`.${CONFIG.CSS.POPUP_WINDOW}`); const popupId = Array.from(this.#stateManager.getState().ui.openPopups.entries()).find(([, p]) => p === popup)?.[0]; if (popupId) this.#closePopup(popupId); } const link = target.closest('a.rule-link'); if (link && !link.classList.contains(CONFIG.CSS.LINK_DISABLED) && link.dataset.popupId) { e.preventDefault(); this.togglePopup(link.dataset.popupId); } };
+    #handleContainerClick = (e) => {
+      const { target } = e;
+      if (target.closest(`.${CONFIG.CSS.POPUP_CLOSE_BTN}`)) {
+        const popup = target.closest(`.${CONFIG.CSS.POPUP_WINDOW}`);
+        const popupId = Array.from(this.#stateManager.getState().ui.openPopups.entries()).find(([, p]) => p === popup)?.[0];
+        if (popupId) this.#closePopup(popupId);
+      }
+      const link = target.closest('a.rule-link');
+      if (link && !link.classList.contains(CONFIG.CSS.LINK_DISABLED) && link.dataset.popupId) {
+        e.preventDefault();
+        this.togglePopup(link.dataset.popupId);
+      }
+      const toggleBtn = target.closest('.popup-toggle-details-btn');
+      if (toggleBtn) {
+        const popup = toggleBtn.closest('.popup-window');
+        if (popup) {
+          const summary = popup.querySelector('.popup-summary');
+          const bullets = popup.querySelector('.popup-bullets');
+          const isCurrentlyHidden = bullets.classList.contains('hidden');
+          bullets.classList.toggle('hidden', !isCurrentlyHidden);
+          summary.classList.toggle('hidden', isCurrentlyHidden);
+          toggleBtn.textContent = isCurrentlyHidden ? 'Tell Me Less' : 'Tell Me More';
+          toggleBtn.setAttribute('aria-expanded', String(isCurrentlyHidden));
+        }
+      }
+    };
 
     #handleHashChange = () => { const state = this.#stateManager.getState(); const idsFromHash = new Set(window.location.hash.substring(1).split(',').filter(Boolean).map(this.#fromShortId)); const openIds = new Set(state.ui.openPopups.keys()); const toOpen = [...idsFromHash].filter((id) => !openIds.has(id)); const toClose = [...openIds].filter((id) => !idsFromHash.has(id)); toClose.forEach((id) => this.#closePopup(id)); toOpen.forEach((id) => this.togglePopup(id)); };
 

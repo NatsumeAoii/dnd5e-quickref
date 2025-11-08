@@ -6,6 +6,7 @@
         "subtitle": "Cost: +1ft per 1ft",
         "description": "Climbing is difficult terrain, costing 1 extra foot of movement for every foot climbed unless you have a climb speed.",
         "reference": "PHB 2024, pg. 292.",
+        "summary": "Each foot of movement spent climbing costs 1 extra foot, treating it as difficult terrain. A creature with a climbing speed ignores this extra cost.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -31,6 +32,7 @@
         "subtitle": "Cost: +1ft per 1ft",
         "description": "While prone, your only movement option is to crawl, which costs 1 extra foot of movement for every foot moved.",
         "reference": "PHB 2024, pg. 292.",
+        "summary": "While you are Prone, your only movement option is to crawl. Each foot of movement spent crawling costs 1 extra foot, treating it as difficult terrain.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -55,6 +57,7 @@
         "subtitle": "Cost: +1ft per 1ft",
         "reference": "PHB 2024, pg. 292.",
         "description": "Moving through areas like rubble, snow, or undergrowth costs double movement, effectively halving your speed.",
+        "summary": "Every foot of movement in difficult terrain costs 1 extra foot of your speed. This effect is not cumulative; a space is either difficult terrain or it isn't.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -80,6 +83,7 @@
         "subtitle": "Cost: 0ft",
         "description": "You can drop to the ground at any point on your turn without using any movement, an action, or a reaction.",
         "reference": "PHB 2024, pg. 292.",
+        "summary": "You can drop to the ground at any time on your turn without using any movement. This gives you the Prone condition.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -105,6 +109,7 @@
         "subtitle": "Cost: 1ft per 1ft",
         "description": "Flying allows you to move in three dimensions, but comes with the risk of falling if you are incapacitated or knocked prone.",
         "reference": "PHB 2024, pg. 293.",
+        "summary": "You can move in three dimensions up to your fly speed. You fall if you are Incapacitated, Prone, or your fly speed becomes 0, unless you can hover.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -131,6 +136,7 @@
         "subtitle": "Modifier: Difficult Terrain",
         "description": "When you move while grappling a creature, your movement is treated as difficult terrain unless the target is two+ sizes smaller.",
         "reference": "PHB 2024, pg. 317.",
+        "summary": "When you move while grappling another creature, your movement is treated as if you are moving through difficult terrain (double movement cost).",
         "bullets": [
             {
                 "type": "paragraph",
@@ -155,6 +161,7 @@
         "subtitle": "Any stunt not on this list",
         "description": "Perform any cinematic movement or stunt you can imagine, such as swinging on a chandelier or sliding down a bannister.",
         "reference": "PHB 2024, pg. 289.",
+        "summary": "You can attempt any creative movement not covered by the rules. The DM determines if it's possible and what d20 Test, if any, is required.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -179,6 +186,7 @@
         "subtitle": "Distance: up to STR score",
         "description": "The rules for jumping have been simplified: your Strength score determines your horizontal jump distance as part of your move.",
         "reference": "PHB 2024, pg. 292.",
+        "summary": "You can jump horizontally a number of feet up to your Strength score. To jump vertically, you make a Strength (Athletics) check to determine the height. Each foot jumped costs movement.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -205,6 +213,7 @@
         "subtitle": "Cost: 1ft per 1ft",
         "description": "On your turn, you can move a distance up to your speed, breaking this movement up before, after, or between your actions.",
         "reference": "PHB 2024, pg. 292.",
+        "summary": "You can move a distance up to your speed, breaking it up between your actions. You can move through a nonhostile creature's space, but not a hostile one (unless there is a large size difference).",
         "bullets": [
             {
                 "type": "paragraph",
@@ -232,6 +241,7 @@
         "subtitle": "Cost: half movement speed",
         "description": "Getting on or off a mount costs an amount of movement equal to half of your total speed for the turn.",
         "reference": "PHB 2024, pg. 296.",
+        "summary": "You can get on or off a mount by spending movement equal to half your speed. If your mount is moved against its will, you must make a DC 10 DEX save or fall off and land prone.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -258,6 +268,7 @@
         "subtitle": "Move through a smaller space",
         "description": "You can squeeze through a space one size category smaller than you, but you are slow and vulnerable while doing so.",
         "reference": "PHB 2024, pg. 292.",
+        "summary": "Moving through a space one size smaller costs double movement. While squeezing, you have disadvantage on attacks and DEX saves, and attacks against you have advantage.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -284,6 +295,7 @@
         "subtitle": "Cost: half movement speed",
         "description": "Getting up from the Prone condition costs an amount of movement equal to half of your total speed.",
         "reference": "PHB 2024, pg. 292.",
+        "summary": "You can get up from being Prone by spending an amount of movement equal to half your speed. You cannot stand up if your speed is 0 or you don't have enough movement.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -309,6 +321,7 @@
         "subtitle": "Cost: +1ft per 1ft",
         "description": "Swimming is difficult terrain, costing 1 extra foot of movement for every foot swam unless you have a swim speed.",
         "reference": "PHB 2024, pg. 292.",
+        "summary": "Each foot of movement spent swimming costs 1 extra foot, treating it as difficult terrain. A creature with a swimming speed ignores this extra cost.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -334,6 +347,7 @@
         "subtitle": "Traveling for an hour or more",
         "description": "When traveling overland, your group's pace determines how far you move and your awareness of your surroundings.",
         "reference": "PHB 2024, pg. 183.",
+        "summary": "Determines overland travel speed and awareness. A fast pace gives disadvantage on Perception, while a slow pace allows for Stealth. Traveling more than 8 hours a day risks Exhaustion.",
         "bullets": [
             {
                 "type": "paragraph",

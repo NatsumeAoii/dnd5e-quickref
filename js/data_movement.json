@@ -6,6 +6,7 @@
         "subtitle": "Cost: +1ft per 1ft",
         "description": "Climbing is difficult terrain, costing 1 extra foot of movement for every foot climbed unless you have a climb speed.",
         "reference": "PHB, pg. 182.",
+        "summary": "Each foot of movement spent climbing costs 1 extra foot, treating it as difficult terrain. A creature with a climbing speed ignores this extra cost.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -32,6 +33,7 @@
         "subtitle": "Cost: +1ft per 1ft",
         "description": "While prone, your only movement option is to crawl, which costs 1 extra foot of movement for every foot moved.",
         "reference": "PHB, pg. 182.",
+        "summary": "While you are Prone, your only movement option is to crawl. Each foot of movement spent crawling costs 1 extra foot, treating it as difficult terrain.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -57,6 +59,7 @@
         "subtitle": "Cost modifier: +1ft per 1ft",
         "reference": "PHB, pg. 182.",
         "description": "Moving through areas like rubble, snow, or undergrowth costs double movement, effectively halving your speed.",
+        "summary": "Every foot of movement in difficult terrain costs 1 extra foot of your speed. This effect applies to all movement types and includes other creatures' spaces.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -83,6 +86,7 @@
         "subtitle": "Cost: 0ft",
         "description": "You can drop to the ground at any point on your turn without using any of your speed.",
         "reference": "PHB, pgs. 190-191.",
+        "summary": "You can drop to the ground at any time on your turn without using any movement. This gives you the Prone condition.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -109,6 +113,7 @@
         "subtitle": "Modifier: speed halved",
         "description": "When you move while grappling another creature, your speed is halved unless the creature is two or more sizes smaller.",
         "reference": "PHB, pg. 195.",
+        "summary": "When you move, you can drag a grappled creature with you, but your speed is halved for the turn. This penalty stacks with difficult terrain.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -135,6 +140,7 @@
         "subtitle": "Height: 3 + STR MOD feet",
         "description": "After moving at least 10 feet, you can jump vertically a number of feet equal to 3 + your Strength modifier.",
         "reference": "PHB, pg. 182.",
+        "summary": "With a 10-foot running start, you can jump vertically a number of feet equal to 3 + your Strength modifier. A standing high jump is half this distance.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -162,6 +168,7 @@
         "subtitle": "Distance: STR score in feet",
         "description": "After moving at least 10 feet, you can jump horizontally a number of feet up to your Strength score.",
         "reference": "PHB, pg. 182.",
+        "summary": "With a 10-foot running start, you can jump horizontally a number of feet up to your Strength score. A standing long jump is half this distance.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -189,6 +196,7 @@
         "subtitle": "Cost: half movement speed",
         "description": "Once on your turn, you can mount or dismount a creature by spending movement equal to half your speed.",
         "reference": "PHB, pg. 198.",
+        "summary": "You can get on or off a mount by spending movement equal to half your speed. If your mount is moved against its will, you must make a DC 10 DEX save or fall off and land prone.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -215,6 +223,7 @@
         "subtitle": "Cost: 1ft per 1ft",
         "description": "On your turn, you can move a distance up to your speed, breaking up this movement however you wish.",
         "reference": "PHB, pgs. 182, 190.",
+        "summary": "You can move a distance up to your speed, breaking it up before and after your actions. You can move through a nonhostile creature's space, but not a hostile one (unless there is a large size difference).",
         "bullets": [
             {
                 "type": "paragraph",
@@ -242,6 +251,7 @@
         "subtitle": "Move through a smaller space",
         "description": "You can move through a space one size category smaller than you, but you suffer significant penalties while doing so.",
         "reference": "PHB, pg. 192.",
+        "summary": "Moving through a space one size smaller costs double movement. While squeezing, you have disadvantage on attacks and DEX saves, and attacks against you have advantage.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -268,6 +278,7 @@
         "subtitle": "Cost: half movement speed",
         "description": "While prone, you can stand up by using movement equal to half your speed.",
         "reference": "PHB, pgs. 190-191.",
+        "summary": "You can get up from being Prone by spending an amount of movement equal to half your speed. You cannot stand up if your speed is 0 or you don't have enough movement.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -294,6 +305,7 @@
         "subtitle": "Cost: +1ft per 1ft",
         "description": "Swimming is difficult terrain, costing 1 extra foot of movement for every foot swam unless you have a swim speed.",
         "reference": "PHB, pg. 182.",
+        "summary": "Each foot of movement spent swimming costs 1 extra foot, treating it as difficult terrain. A creature with a swimming speed ignores this extra cost.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -320,6 +332,7 @@
         "subtitle": "Traveling for an hour or more",
         "description": "When traveling overland, your group's pace determines how far you move and how aware you are of your surroundings.",
         "reference": "PHB, pgs. 181-182.",
+        "summary": "Determines overland travel speed and awareness. A fast pace penalizes passive Perception by 5, while a slow pace allows the group to use Stealth. Traveling more than 8 hours a day risks Exhaustion.",
         "bullets": [
             {
                 "type": "paragraph",

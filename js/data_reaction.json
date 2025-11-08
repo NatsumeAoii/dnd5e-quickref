@@ -6,6 +6,7 @@
         "subtitle": "Cast time of 1 reaction",
         "description": "Cast an instantaneous spell in response to a specific trigger as defined in the spell's description.",
         "reference": "PHB, pg. 202.",
+        "summary": "Use your reaction to cast a spell that has a casting time of 1 reaction. The spell's description specifies the trigger, such as being hit by an attack (for Shield) or seeing a spell being cast (for Counterspell).",
         "bullets": [
             {
                 "type": "paragraph",
@@ -31,6 +32,7 @@
         "subtitle": "Enemy leaves your reach",
         "description": "Make one melee attack against a hostile creature that moves out of your reach.",
         "reference": "PHB, pg. 195.",
+        "summary": "When a hostile creature you can see moves out of your reach, you can use your reaction to make one melee attack against it. This attack occurs just before the creature leaves your reach.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -57,6 +59,7 @@
         "subtitle": "Part of your Ready action",
         "description": "Use your reaction to perform the action you prepared on your turn when its specified trigger occurs.",
         "reference": "PHB, pg. 193.",
+        "summary": "After using the Ready action on your turn to set a trigger, you can use your reaction to perform your chosen activity when that trigger occurs. If the trigger never happens, you lose your reaction.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -83,6 +86,7 @@
         "subtitle": "Identify a spell being cast",
         "description": "Use your reaction and an Intelligence (Arcana) check to identify a spell as it is being cast.",
         "reference": "XGE, pg. 85.",
+        "summary": "As a reaction when a creature you can see casts a spell, you can make an Intelligence (Arcana) check (DC 15 + spell's level) to identify it. Using this reaction means you cannot also use it to Counterspell.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -109,6 +113,7 @@
         "subtitle": "Reduce damage to an ally",
         "description": "Use your reaction to reduce the damage an attacker deals to an adjacent ally.",
         "reference": "Adapted from TCE, pg. 41.",
+        "summary": "When an attacker hits a creature within 5 feet of you, you can use your reaction to reduce the damage the target takes by 1d10 + your proficiency bonus.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -135,6 +140,7 @@
         "subtitle": "Defend against a melee attack",
         "description": "As a reaction when hit by a melee attack, add a bonus to your AC which might cause the attack to miss.",
         "reference": "Adapted from DMG/MM, pgs. 347, 349.",
+        "summary": "When another creature hits you with a melee attack, you can use your reaction to add a bonus (e.g., your proficiency bonus) to your AC for that attack, potentially causing it to miss.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -161,6 +167,7 @@
         "subtitle": "Contest an incoming melee attack",
         "description": "A house rule allowing you to use your reaction to make a contested attack roll against an incoming melee attack.",
         "reference": "Uncommon Homebrew",
+        "summary": "A house rule where you can use your reaction to make a melee attack roll. If your roll is higher than the incoming attacker's roll, their attack misses.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -187,6 +194,7 @@
         "subtitle": "Dodge an area effect",
         "description": "A house rule allowing a creature to use its reaction to drop prone and gain advantage on a Dexterity saving throw.",
         "reference": "Common Homebrew",
+        "summary": "A house rule where you can use your reaction when subjected to an effect that requires a DEX save. You gain advantage on the roll but immediately fall Prone after the save.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -213,6 +221,7 @@
         "subtitle": "Stop an enemy from fleeing",
         "description": "A house rule that allows you to attempt a grapple instead of a damaging attack as an opportunity attack.",
         "reference": "Uncommon Homebrew",
+        "summary": "A house rule that allows you to use your reaction to make a grapple check instead of a damaging attack when a creature provokes an opportunity attack.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -238,6 +247,7 @@
         "subtitle": "Push an enemy as they flee",
         "description": "A house rule allowing a creature to attempt a shove instead of a damaging attack as an opportunity attack.",
         "reference": "Uncommon Homebrew",
+        "summary": "A house rule that allows you to use your reaction to make a shove check instead of a damaging attack when a creature provokes an opportunity attack.",
         "bullets": [
             {
                 "type": "paragraph",

@@ -6,6 +6,7 @@
         "subtitle": "Melee or ranged attack",
         "description": "Perform a melee or ranged attack, an Unarmed Strike, or a special combat maneuver like Grapple or Shove.",
         "reference": "PHB 2024, pgs. 290, 317.",
+        "summary": "Make one or more weapon attacks or Unarmed Strikes. You can replace an attack to attempt a Grapple or Shove. Some weapons with the Nick property allow an extra attack without using a bonus action.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -33,6 +34,7 @@
         "subtitle": "Cast time of 1 action",
         "description": "Cast a spell with a casting time of 1 action, the most common type used in combat.",
         "reference": "PHB 2024, pgs. 290, 301.",
+        "summary": "Cast a spell with a 1-action casting time. If you cast a spell as a Bonus Action on the same turn, you can only use this action to cast a cantrip.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -59,6 +61,7 @@
         "subtitle": "Double movement speed",
         "description": "Gain extra movement for the turn equal to your speed, effectively doubling your movement potential.",
         "reference": "PHB 2024, pg. 291.",
+        "summary": "Gain an amount of extra movement for the current turn equal to your speed. This effectively doubles your total movement distance for the turn.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -84,6 +87,7 @@
         "subtitle": "Knock item from enemy's grasp",
         "description": "As one of your attacks, attempt to knock an item from a creature's grasp using a Strength (Athletics) check.",
         "reference": "PHB 2024, pg. 291.",
+        "summary": "As part of the Attack action, you can make a Strength (Athletics) check contested by the target's Athletics or Acrobatics. On a success, the target drops one held item of your choice.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -111,6 +115,7 @@
         "subtitle": "Prevent opportunity attacks",
         "description": "For the rest of your turn, your movement doesn't provoke opportunity attacks, allowing for a safe retreat.",
         "reference": "PHB 2024, pg. 291.",
+        "summary": "Your movement for the rest of the current turn does not provoke any opportunity attacks, allowing you to safely move away from enemies.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -136,6 +141,7 @@
         "subtitle": "Increase defenses",
         "description": "Focus entirely on avoiding attacks, imposing disadvantage on attackers and granting advantage on Dexterity saves.",
         "reference": "PHB 2024, pg. 291.",
+        "summary": "Until the start of your next turn, any attack roll against you has disadvantage if you can see the attacker, and you make Dexterity saving throws with advantage.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -162,6 +168,7 @@
         "subtitle": "Equip or unequip a shield",
         "description": "Use your action to either equip a shield by strapping it on, or to unequip it.",
         "reference": "PHB 2024, pg. 153.",
+        "summary": "It takes one full action to either equip (don) or unequip (doff) a shield. This is more time-consuming than drawing a weapon.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -176,6 +183,7 @@
         "subtitle": "Escape a grapple or restraint",
         "description": "Use your action to attempt to free yourself from a grapple or similar effect by making a check against a fixed DC.",
         "reference": "PHB 2024, pg. 291.",
+        "summary": "Make a Strength (Athletics) or Dexterity (Acrobatics) check against the effect's escape DC. For a creature's grapple, the DC is their grapple DC (8 + STR mod + Prof Bonus).",
         "bullets": [
             {
                 "type": "paragraph",
@@ -202,6 +210,7 @@
         "subtitle": "Special unarmed strike",
         "description": "As one of your attacks, attempt to seize a creature, forcing them to make a Strength save or become Grappled.",
         "reference": "PHB 2024, pg. 317.",
+        "summary": "As part of the Attack action, you can force a creature to make a Strength saving throw against your grapple DC. On a failure, the target gains the Grappled condition.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -229,6 +238,7 @@
         "subtitle": "Grant an ally advantage",
         "description": "Use your action to aid an ally, giving them advantage on either an ability check or an attack roll.",
         "reference": "PHB 2024, pg. 291.",
+        "summary": "You can either grant an ally advantage on their next ability check, or grant an ally advantage on their next attack roll against a creature within 5 feet of you.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -254,6 +264,7 @@
         "subtitle": "Attempt to hide",
         "description": "Make a DC 15 Dexterity (Stealth) check to conceal yourself, gaining the benefits of the Invisible condition.",
         "reference": "PHB 2024, pg. 291.",
+        "summary": "If you are heavily obscured or behind 3/4 cover, you can make a DC 15 Dexterity (Stealth) check. On a success, you gain the benefits of the Invisible condition until you are found or reveal yourself.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -282,6 +293,7 @@
         "subtitle": "Any action not on this list",
         "description": "Perform any action you can imagine that isn't covered by the other standard actions, subject to DM approval.",
         "reference": "PHB 2024, pg. 291.",
+        "summary": "Perform any action not covered by the rules. The DM determines if it's possible and what, if any, d20 Test is required to succeed.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -306,6 +318,7 @@
         "subtitle": "Socially affect a creature",
         "description": "Use your action to persuade, deceive, or intimidate a creature, potentially altering their behavior mid-combat.",
         "reference": "PHB 2024, pg. 291.",
+        "summary": "Make a Charisma check (Persuasion, Deception, or Intimidation) to socially affect a creature. A success can temporarily alter their behavior but does not impose a condition.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -333,6 +346,7 @@
         "subtitle": "Your one free interaction",
         "description": "You can also interact with one object or feature of the environment for free as part of your move or action.",
         "reference": "PHB 2024, pg. 294.",
+        "summary": "As part of your move or action, you can interact with one object for free (e.g., draw a weapon, open a door). A second interaction requires the Use an Object action.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -358,6 +372,7 @@
         "subtitle": "Choose trigger and action",
         "description": "Use your action to prepare a reaction. You set a perceivable trigger and choose an action to perform when it occurs.",
         "reference": "PHB 2024, pg. 291.",
+        "summary": "Use your action to specify a perceivable trigger and choose an action, bonus action, or move. When the trigger occurs, you can use your reaction to perform your chosen activity.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -385,6 +400,7 @@
         "subtitle": "Attempt to find something",
         "description": "Devote your attention to finding something hidden or not obvious, making a Perception or Investigation check.",
         "reference": "PHB 2024, pg. 291.",
+        "summary": "Make a Wisdom (Perception) check to find a hidden creature or object, or an Intelligence (Investigation) check to deduce clues about a hidden object's presence.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -411,6 +427,7 @@
         "subtitle": "Special unarmed strike",
         "description": "As one of your attacks, attempt to either knock a creature prone or push it 5 feet away by forcing a Strength save.",
         "reference": "PHB 2024, pg. 317.",
+        "summary": "As part of the Attack action, you can force a creature to make a Strength saving throw against your grapple DC. On a failure, you can either knock the target Prone or push it 5 feet away.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -437,6 +454,7 @@
         "subtitle": "Aid a dying creature",
         "description": "Use your action and a DC 10 Medicine check to stop a dying creature from needing to make death saving throws.",
         "reference": "PHB 2024, pg. 341.",
+        "summary": "Make a DC 10 Wisdom (Medicine) check on a creature at 0 HP. On a success, they become stable and no longer need to make Death Saves. A Healer's Kit grants automatic success.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -463,6 +481,7 @@
         "subtitle": "Learn about a creature",
         "description": "Use your action and an Intelligence check to learn a piece of tactical information about a creature.",
         "reference": "PHB 2024, pg. 291.",
+        "summary": "Make an Intelligence check (DC 10 + CR) using a relevant skill (Arcana, Nature, etc.) to learn one tactical detail about a creature, such as its AC, a vulnerability, or its highest ability score.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -489,6 +508,7 @@
         "subtitle": "Use a second or complex object",
         "description": "Use your action to interact with a second object or to use an object that requires special attention, like a potion.",
         "reference": "PHB 2024, pg. 291.",
+        "summary": "Use your action to activate a special item (like a potion) or to interact with a second object on your turn after using your free interaction.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -514,6 +534,7 @@
         "subtitle": "Some features use actions",
         "description": "Activate a class, species, or other feature that explicitly requires an action as detailed in its description.",
         "reference": "See class page for more information.",
+        "summary": "Activate a unique ability from your class, species, or other source that requires a full action to use, as specified in the feature's description.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -538,6 +559,7 @@
         "subtitle": "Climb a larger foe",
         "description": "As an action, attempt to climb onto a creature at least two sizes larger than you, treating it like terrain.",
         "reference": "DMG 2024, pg. 247.",
+        "summary": "Make a Strength (Athletics) check against a creature's Fortitude DC to climb onto it if it's at least two sizes larger. On a success, you move with it and have advantage on attacks against it.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -565,6 +587,7 @@
         "icon": "healthpotion",
         "subtitle": "Use a potion on another",
         "description": "A homebrew that splits the action economy of potion use between self and others.",
+        "summary": "A popular house rule where drinking a potion yourself is a bonus action, but administering a potion to another creature remains a full action.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -589,6 +612,7 @@
         "icon": "archerytarget",
         "subtitle": "Target a specific body part",
         "description": "A house rule allowing an attacker to take a penalty on their roll for a chance to inflict a specific debilitating effect.",
+        "summary": "A house rule where you take a penalty on your attack roll (typically -5) to inflict a specific condition on a hit, such as Dazing a target with a headshot or Slowing them with a leg shot.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -617,6 +641,7 @@
         "icon": "shield",
         "subtitle": "Protect an adjacent ally",
         "description": "A homebrew action allowing a character to actively defend an ally, imposing disadvantage on attacks against them.",
+        "summary": "Use your action to protect an adjacent ally. Attacks against them have disadvantage, but any attack that misses them can be redirected to hit you instead. Your speed becomes 0.",
         "bullets": [
             {
                 "type": "paragraph",

@@ -6,6 +6,7 @@
         "subtitle": "Cast time of 1 reaction",
         "description": "Cast an instantaneous spell in response to a specific trigger as defined in the spell's description.",
         "reference": "PHB 2024, pg. 301.",
+        "summary": "Use your reaction to cast a spell that has a casting time of 1 reaction. The spell's description specifies the trigger, such as being hit by an attack (for Shield) or seeing a spell being cast (for Counterspell).",
         "bullets": [
             {
                 "type": "paragraph",
@@ -31,6 +32,7 @@
         "subtitle": "Identify a spell being cast",
         "description": "Use your reaction and an Arcana check to identify a spell as it is being cast, or an action to study a magical effect.",
         "reference": "PHB 2024, pg. 303.",
+        "summary": "As a reaction when a creature you can see casts a spell, you can make an Intelligence (Arcana) check (DC 10 + spell's level) to identify it. Using this reaction means you cannot also use it to Counterspell.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -57,6 +59,7 @@
         "subtitle": "Enemy leaves your reach",
         "description": "Make one free melee attack against a hostile creature that moves out of your reach without Disengaging.",
         "reference": "PHB 2024, pg. 295.",
+        "summary": "When a hostile creature you can see moves out of your reach, you can use your reaction to make one melee attack against it. This attack occurs just before the creature leaves your reach.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -85,6 +88,7 @@
         "subtitle": "Part of your Ready action",
         "description": "Use your reaction to perform the action you prepared on your turn when its specified trigger occurs.",
         "reference": "PHB 2024, pg. 291.",
+        "summary": "After using the Ready action on your turn to set a trigger, you can use your reaction to perform your chosen activity when that trigger occurs. If the trigger never happens, you lose your reaction.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -111,6 +115,7 @@
         "subtitle": "Defend against a melee attack",
         "description": "As a reaction when hit by a melee attack, add your proficiency bonus to your AC, potentially causing the attack to miss.",
         "reference": "DMG 2024, pg. 247.",
+        "summary": "When another creature hits you with a melee attack, you can use your reaction to add your proficiency bonus to your AC for that attack, potentially causing it to miss.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -136,6 +141,7 @@
         "icon": "falling",
         "subtitle": "Dodge an area effect",
         "description": "A house rule allowing a creature to use its reaction to gain advantage on a Dexterity save at the cost of falling prone.",
+        "summary": "A house rule where you can use your reaction when subjected to a DEX save to gain advantage on the roll. If you do, you immediately fall Prone after the save.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -162,6 +168,7 @@
         "subtitle": "Stop an enemy from fleeing",
         "description": "A house rule allowing a creature to attempt a Grapple in place of a normal damage-dealing Opportunity Attack.",
         "reference": "PHB (2024) pg. 295 & pg. 317.",
+        "summary": "A house rule (arguably RAW in 2024) that allows you to use your Opportunity Attack to make an Unarmed Strike to Grapple a creature, potentially stopping its movement by reducing its speed to 0.",
         "bullets": [
             {
                 "type": "paragraph",

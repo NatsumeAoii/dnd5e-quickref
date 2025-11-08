@@ -6,6 +6,7 @@
         "subtitle": "Cast time of 1 bonus action",
         "description": "Cast a swift spell with a casting time of 1 bonus action, which restricts further spellcasting on your turn.",
         "reference": "PHB, pg. 202.",
+        "summary": "Cast a spell with a 1-bonus-action casting time. If you do, the only other spell you can cast on the same turn is a cantrip with a 1-action casting time.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -31,6 +32,7 @@
         "subtitle": "Use with the Attack action",
         "description": "When taking the Attack action with a light weapon, use your bonus action to attack with a different light weapon in your other hand.",
         "reference": "PHB, pg. 195.",
+        "summary": "After taking the Attack action with a Light weapon, you can use your bonus action to make one attack with a different Light weapon. You don't add your ability modifier to the bonus attack's damage.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -57,6 +59,7 @@
         "subtitle": "Some features use bonus actions",
         "description": "Activate a racial or class feature that uses a bonus action, as specified in the feature's description.",
         "reference": "See class page for more information.",
+        "summary": "Activate a unique ability from your class, race, or other source that requires a bonus action to use, as specified in the feature's description.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -81,6 +84,7 @@
         "subtitle": "Gain advantage on an attack",
         "description": "As a bonus action, forgo your movement this turn to grant yourself advantage on your next attack roll.",
         "reference": "TCE, pg. 46.",
+        "summary": "If you haven't moved this turn, you can use your bonus action to gain advantage on the next attack roll you make this turn. Your speed becomes 0 for the rest of the turn.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -107,6 +111,7 @@
         "subtitle": "Run through a hostile space",
         "description": "As an action or bonus action, attempt to force your way through a hostile creature's space.",
         "reference": "DMG, pg. 272.",
+        "summary": "As a bonus action, make a Strength (Athletics) check contested by an enemy's Athletics. If you win, you can move through their space once this turn. You have advantage if you are larger.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -133,6 +138,7 @@
         "subtitle": "Tumble through a hostile space",
         "description": "As an action or bonus action, attempt to deftly move through a hostile creature's space.",
         "reference": "DMG, pg. 272.",
+        "summary": "As a bonus action, make a Dexterity (Acrobatics) check contested by an enemy's Acrobatics. If you win, you can move through their space once this turn.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -158,6 +164,7 @@
         "subtitle": "Quaff a potion quickly",
         "description": "A popular house rule that allows you to drink a potion as a bonus action, making them more useful in combat.",
         "reference": "Common Homebrew",
+        "summary": "A popular house rule that allows you to drink a potion as a bonus action. Administering a potion to another creature remains a full action.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -183,6 +190,7 @@
         "subtitle": "Gain advantage on your attack",
         "description": "A house rule that lets you use a bonus action and a contested skill check to gain advantage on your next attack.",
         "reference": "Uncommon Homebrew",
+        "summary": "Use your bonus action to make a Charisma (Deception) check contested by a target's Wisdom (Insight). On a success, you gain advantage on your next attack roll against that creature this turn.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -208,6 +216,7 @@
         "subtitle": "Gauge an enemy's condition",
         "description": "A house rule allowing a bonus action to make a skill check to learn tactical information about a foe.",
         "reference": "Common Homebrew",
+        "summary": "A house rule to use a bonus action for a skill check (e.g., Insight) to learn one piece of tactical information about an enemy, such as its vulnerabilities or current HP.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -233,6 +242,7 @@
         "subtitle": "Sheathe one, draw another",
         "description": "A house rule that allows sheathing one weapon and drawing another as a single bonus action.",
         "reference": "Uncommon Homebrew",
+        "summary": "A house rule that allows you to use your bonus action to sheathe a weapon you are holding and draw a different one, bypassing the normal action cost for a second object interaction.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -258,6 +268,7 @@
         "subtitle": "A mini-disengage",
         "description": "A house rule that grants a 5-foot step as a bonus action, avoiding an opportunity attack from one creature.",
         "reference": "Uncommon Homebrew",
+        "summary": "A house rule that allows you to use your bonus action to move 5 feet. This movement does not provoke an opportunity attack from one creature of your choice.",
         "bullets": [
             {
                 "type": "paragraph",

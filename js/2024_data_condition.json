@@ -6,6 +6,7 @@
         "subtitle": "You can't see",
         "description": "A blinded creature has a total inability to see, making them a poor attacker and an easy target.",
         "reference": "PHB 2024, pg. 367-368.",
+        "summary": "You automatically fail any d20 Test requiring sight. You have disadvantage on your attack rolls, and attack rolls against you have advantage.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -32,6 +33,7 @@
         "subtitle": "You are charmed",
         "description": "You are magically charmed by another creature, preventing you from harming them and making you more susceptible to their influence.",
         "reference": "PHB 2024, pg. 367-368.",
+        "summary": "You cannot attack the charmer or target them with harmful effects. The charmer also has advantage on Charisma checks made to interact socially with you.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -57,6 +59,7 @@
         "subtitle": "You have limited activity",
         "description": "A new condition that severely limits your action economy and breaks your concentration on spells.",
         "reference": "PHB 2024, pg. 367-368.",
+        "summary": "You can take either an Action or a Bonus Action on your turn (not both), and you cannot concentrate on spells or other effects. You can still move and take a Reaction.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -82,6 +85,7 @@
         "subtitle": "You can't hear",
         "description": "A deafened creature has a total inability to hear and automatically fails any checks that require hearing.",
         "reference": "PHB 2024, pg. 367-368.",
+        "summary": "You have a total inability to hear and automatically fail any d20 Test that requires hearing. You are immune to effects that rely on sound.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -106,6 +110,7 @@
         "subtitle": "You are at 0 Hit Points",
         "description": "When you are reduced to 0 Hit Points, you fall Unconscious and must make Death Saving Throws to avoid death.",
         "reference": "PHB 2024, pg. 341.",
+        "summary": "At 0 HP, you are Unconscious and must make a Death Save at the start of your turn. Three successes stabilize you; three failures mean you die. A nat 20 revives you with 1 HP.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -134,6 +139,7 @@
         "subtitle": "You are exhausted",
         "description": "A revised condition measured in 10 levels, each giving a cumulative -1 penalty to all d20 Tests.",
         "reference": "PHB 2024, pg. 368.",
+        "summary": "You suffer a cumulative -1 penalty to all d20 Tests for each level of Exhaustion. At level 5 your speed is halved, at level 7 it becomes 0, and at level 10 you die.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -162,6 +168,7 @@
         "subtitle": "You are frightened",
         "description": "Gripped by terror, you have disadvantage on d20 Tests while the source of fear is visible and you cannot move closer to it.",
         "reference": "PHB 2024, pg. 368.",
+        "summary": "You have disadvantage on all d20 Tests as long as you can see the source of your fear. You also cannot willingly move closer to the source of your fear.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -187,6 +194,7 @@
         "subtitle": "You are grappled",
         "description": "Your Speed is 0, and you have disadvantage on attacks against any creature other than your grappler.",
         "reference": "PHB 2024, pg. 368.",
+        "summary": "Your Speed is 0, and you have disadvantage on attack rolls against any target except the creature grappling you. The condition ends if the grappler is Incapacitated.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -213,6 +221,7 @@
         "subtitle": "You can't take actions",
         "description": "An incapacitated creature is unable to take an Action, Bonus Action, or Reaction, effectively removing them from the action economy.",
         "reference": "PHB 2024, pg. 368.",
+        "summary": "You cannot take an Action, Bonus Action, or Reaction. You can still use your movement unless another condition prevents it.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -227,6 +236,7 @@
         "subtitle": "You can't be seen",
         "description": "You are impossible to see without magic or a special sense, granting a powerful advantage in combat and stealth.",
         "reference": "PHB 2024, pg. 368.",
+        "summary": "You cannot be seen without magic or special senses. You have advantage on your attack rolls, and attack rolls against you have disadvantage.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -253,6 +263,7 @@
         "subtitle": "You are paralyzed",
         "description": "You are frozen and Incapacitated. Any hit from a nearby attacker becomes a critical hit.",
         "reference": "PHB 2024, pg. 368.",
+        "summary": "You are Incapacitated, can't move or speak, and automatically fail Strength and Dexterity saves. Attacks against you have advantage, and any hit from an attacker within 5 feet is a critical hit.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -280,6 +291,7 @@
         "subtitle": "You are transformed into stone",
         "description": "You are transformed into an inanimate object, becoming Incapacitated and highly resistant to damage.",
         "reference": "PHB 2024, pg. 368.",
+        "summary": "You are transformed into stone, are Incapacitated, and have resistance to all damage. You automatically fail STR and DEX saves, and attacks against you have advantage.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -309,6 +321,7 @@
         "subtitle": "You are poisoned",
         "description": "The poison in your system gives you disadvantage on all of your attack rolls and ability checks.",
         "reference": "PHB 2024, pg. 368.",
+        "summary": "You have disadvantage on all of your attack rolls and ability checks. This does not affect your saving throws.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -333,6 +346,7 @@
         "subtitle": "You are prone",
         "description": "You are lying on the ground. This makes you harder to hit from range but easier to hit up close.",
         "reference": "PHB 2024, pg. 368.",
+        "summary": "You have disadvantage on attack rolls. Attack rolls against you have advantage if the attacker is within 5 feet, and disadvantage otherwise. Standing up costs half your speed.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -360,6 +374,7 @@
         "subtitle": "You are restrained",
         "description": "Your speed is 0, and attacks against you have advantage, while your attacks and Dexterity saves have disadvantage.",
         "reference": "PHB 2024, pg. 368.",
+        "summary": "Your Speed is 0. You have disadvantage on attack rolls and Dexterity saving throws. Attack rolls against you have advantage.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -387,6 +402,7 @@
         "subtitle": "Your movement is hindered",
         "description": "A new condition that halves your speed, limits your actions, and imposes disadvantage on Dexterity saves.",
         "reference": "PHB 2024, pg. 368.",
+        "summary": "Your Speed is halved, you have disadvantage on DEX saves, and you can take either an Action or a Bonus Action (not both). You cannot take the Disengage action.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -414,6 +430,7 @@
         "subtitle": "You are stunned",
         "description": "You are Incapacitated, cannot move, and automatically fail Strength and Dexterity saving throws.",
         "reference": "PHB 2024, pg. 368.",
+        "summary": "You are Incapacitated, can't move, and automatically fail Strength and Dexterity saves. Attack rolls against you have advantage.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -440,6 +457,7 @@
         "subtitle": "Holding your breath",
         "description": "Deprived of air, you can survive for a limited time before you drop to 0 hit points and begin dying.",
         "reference": "PHB 2024, pg. 368.",
+        "summary": "You can hold your breath for 1+CON mod minutes. After that, you survive for CON mod rounds, then drop to 0 HP and are Dying. You cannot be stabilized or healed until you can breathe.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -467,6 +485,7 @@
         "subtitle": "You are unconscious",
         "description": "You are Incapacitated, unaware, and helpless. Any hit from a nearby attacker becomes a critical hit.",
         "reference": "PHB 2024, pg. 368.",
+        "summary": "You are Incapacitated, Prone, can't move or speak, and fail STR/DEX saves. Attacks against you have advantage, and hits from within 5 feet are critical hits.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -496,6 +515,7 @@
         "subtitle": "Your mind is damaged",
         "description": "An optional rule system for representing mental trauma with short-term, long-term, and indefinite psychological effects.",
         "reference": "DMG 2024, pg. 236.",
+        "summary": "An optional rule for mental trauma from horrific events, inflicting short-term (e.g., Dazed), long-term (e.g., paranoia), or indefinite psychological flaws.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -522,6 +542,7 @@
         "icon": "headshot",
         "subtitle": "Your focus is shaken",
         "description": "A homebrew condition less severe than Dazed that specifically targets concentration and mental checks.",
+        "summary": "A homebrew condition that gives you disadvantage on Constitution saves to maintain concentration, as well as on Intelligence and Wisdom checks.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -547,6 +568,7 @@
         "icon": "swordbreak",
         "subtitle": "Your armor is damaged",
         "description": "A homebrew condition for gritty campaigns where armor can be damaged, reducing its AC bonus until repaired.",
+        "summary": "A homebrew condition where your armor's base AC is reduced by 2. This penalty can stack and may suppress magical properties until the armor is repaired with Smith's Tools.",
         "bullets": [
             {
                 "type": "paragraph",

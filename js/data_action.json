@@ -6,6 +6,7 @@
         "subtitle": "Melee or ranged attack",
         "description": "Make one melee or ranged attack. This action can be modified to perform special maneuvers like Grapple or Shove.",
         "reference": "PHB, pgs. 192, 194-195.",
+        "summary": "Make a single melee or ranged attack. As part of this action, you can replace any attack with a special Grapple or Shove maneuver.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -32,6 +33,7 @@
         "subtitle": "Cast time of 1 action",
         "description": "Cast a spell with a casting time of 1 action, the most common type for combat magic.",
         "reference": "PHB, pgs. 192, 202.",
+        "summary": "Cast a spell with a 1-action casting time. If you also cast a bonus action spell this turn, this action can only be used for a cantrip. Many spells require concentration to maintain.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -58,6 +60,7 @@
         "subtitle": "Double movement speed",
         "description": "Gain extra movement for the current turn equal to your speed.",
         "reference": "PHB, pg. 192.",
+        "summary": "Gain an amount of extra movement for the current turn equal to your speed. This effectively doubles your total movement distance but still provokes opportunity attacks.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -84,6 +87,7 @@
         "subtitle": "Prevent opportunity attacks",
         "description": "For the rest of your turn, your movement does not provoke opportunity attacks.",
         "reference": "PHB, pg. 192.",
+        "summary": "Your movement for the rest of the current turn does not provoke any opportunity attacks, allowing you to safely move away from enemies without being attacked.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -98,6 +102,7 @@
         "subtitle": "Focus on defense",
         "description": "Focus entirely on avoiding attacks, granting attackers disadvantage against you and giving you advantage on Dexterity saves.",
         "reference": "PHB, pg. 192.",
+        "summary": "Until the start of your next turn, any attack roll against you has disadvantage if you can see the attacker, and you make Dexterity saving throws with advantage.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -124,6 +129,7 @@
         "subtitle": "Equip or unequip a shield",
         "description": "Use your action to equip a shield by strapping it to your arm, or to take it off.",
         "reference": "PHB, pg. 146.",
+        "summary": "It takes one full action to either equip (don) or unequip (doff) a shield. This is more time-consuming than drawing a weapon.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -150,6 +156,7 @@
         "subtitle": "Break free from a grapple",
         "description": "Attempt to free yourself from a grapple or non-magical restraints with a contested ability check.",
         "reference": "PHB, pg. 290.",
+        "summary": "To escape a grapple, make a Strength (Athletics) or Dexterity (Acrobatics) check contested by the grappler's Strength (Athletics) check.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -175,6 +182,7 @@
         "subtitle": "Special melee attack",
         "description": "In place of an attack, attempt to seize a creature and give it the grappled condition, reducing its speed to 0.",
         "reference": "PHB, pg. 195.",
+        "summary": "Replace one of your attacks to make a Strength (Athletics) check contested by the target's Athletics or Acrobatics. On a success, the target is Grappled and its speed becomes 0.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -201,6 +209,7 @@
         "subtitle": "Grant an ally advantage",
         "description": "Aid an ally, giving them advantage on the next ability check they make or on their first attack roll against a nearby enemy.",
         "reference": "PHB, pg. 192.",
+        "summary": "You can either grant an ally advantage on their next ability check, or grant an ally advantage on their next attack roll against a creature within 5 feet of you.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -226,6 +235,7 @@
         "subtitle": "Attempt to become unseen",
         "description": "Make a Dexterity (Stealth) check to become hidden. You cannot hide from a creature that can see you clearly.",
         "reference": "PHB, pgs. 177, 192.",
+        "summary": "If you are heavily obscured or behind total cover, you can make a Dexterity (Stealth) check to become hidden. Your check is contested by the passive Perception of nearby creatures.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -252,6 +262,7 @@
         "subtitle": "Any action not on this list",
         "description": "Perform any action you can imagine that isn't covered by other rules. The DM determines the outcome and any required checks.",
         "reference": "PHB, pg. 193.",
+        "summary": "Perform any action not covered by the rules. The DM determines if it's possible and what, if any, ability check is required to succeed.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -266,6 +277,7 @@
         "subtitle": "Use a second object",
         "description": "Use your action to interact with a second object on your turn, or for a more complex interaction.",
         "reference": "PHB, pg. 193.",
+        "summary": "Use your action for a complex object interaction (like administering a potion) or to interact with a second object after using your one free interaction for the turn.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -292,6 +304,7 @@
         "subtitle": "Set a trigger and action",
         "description": "Prepare to act later in the round by setting a perceivable trigger and choosing an action or move to perform with your reaction.",
         "reference": "PHB, pg. 193.",
+        "summary": "Use your action to specify a perceivable trigger and choose an action or move. When the trigger occurs, you can use your reaction to perform your chosen activity.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -318,6 +331,7 @@
         "subtitle": "Actively look for something",
         "description": "Use your action to focus your attention on finding something hidden, such as a trap, secret door, or stealthed creature.",
         "reference": "PHB, pg. 193.",
+        "summary": "Make a Wisdom (Perception) check to find hidden creatures or objects, or an Intelligence (Investigation) check to deduce clues from physical evidence.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -332,6 +346,7 @@
         "subtitle": "Special melee attack",
         "description": "In place of an attack, attempt to either knock a creature prone or push it 5 feet away from you.",
         "reference": "PHB, pg. 195.",
+        "summary": "Replace one of your attacks to make a Strength (Athletics) check contested by the target's Athletics or Acrobatics. On a success, you can either knock the target Prone or push it 5 feet away.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -358,6 +373,7 @@
         "subtitle": "Aid a dying creature",
         "description": "Administer first aid to a creature at 0 hit points, making them stable so they no longer need to make death saving throws.",
         "reference": "PHB, pg. 197.",
+        "summary": "Make a DC 10 Wisdom (Medicine) check on a creature at 0 HP. On a success, they become stable and no longer need to make Death Saves. A Healer's Kit grants automatic success.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -384,6 +400,7 @@
         "subtitle": "Some features use actions",
         "description": "Activate a class or racial feature that explicitly requires an action, as detailed in its description.",
         "reference": "See class page for more information.",
+        "summary": "Activate a unique ability from your class, race, or other source that requires a full action to use, as specified in the feature's description.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -398,6 +415,7 @@
         "subtitle": "Use a potion on another",
         "description": "Use your action to administer a potion to an adjacent creature that is willing or unconscious.",
         "reference": "DMG, pg. 141.",
+        "summary": "As a specific 'Interact with an Object' action, you can use your action to administer a potion to an adjacent willing or unconscious creature.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -424,6 +442,7 @@
         "subtitle": "Climb a larger foe",
         "description": "Attempt to scale a creature at least two sizes larger, treating its body as terrain to gain an advantageous position.",
         "reference": "DMG, pg. 271.",
+        "summary": "Make a contested Athletics or Acrobatics check to climb onto a creature at least two sizes larger. On a success, you move with it and gain advantage on attacks against it.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -450,6 +469,7 @@
         "subtitle": "Knock item from enemy's grasp",
         "description": "Use a weapon attack to knock an item, such as a weapon or focus, from an enemy's hand.",
         "reference": "DMG, pg. 271.",
+        "summary": "Make an attack roll contested by the target's Athletics or Acrobatics check. If you win, the attack deals no damage but forces the target to drop one held item.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -476,6 +496,7 @@
         "subtitle": "Focus on one foe",
         "description": "An optional rule that lets you single out an enemy you hit, making your opportunity attacks against them more effective.",
         "reference": "DMG, pg. 271.",
+        "summary": "When you hit a creature with a melee attack, you can mark it. Any opportunity attack you make against the marked target has advantage and doesn't expend your reaction.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -502,6 +523,7 @@
         "subtitle": "Run through a hostile space",
         "description": "As an action or bonus action, force your way through an enemy's space with a contested Strength check.",
         "reference": "DMG, pg. 272.",
+        "summary": "As an action or bonus action, make a Strength (Athletics) check contested by an enemy's Athletics. If you win, you can move through their space once this turn. You have advantage if you are larger.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -528,6 +550,7 @@
         "subtitle": "Negotiate mid-combat",
         "description": "Use your action to de-escalate a fight and begin a one-minute conversation with a hostile creature.",
         "reference": "TCE, pg. 148.",
+        "summary": "Make a contested Charisma check (Deception, Intimidation, or Persuasion vs. Insight) to make a hostile creature cease hostilities for 1 minute, allowing for negotiation.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -554,6 +577,7 @@
         "subtitle": "Special melee attack variant",
         "description": "A variant of the Shove attack that pushes a creature 5 feet to an adjacent space instead of away from you.",
         "reference": "DMG, pg. 272.",
+        "summary": "As a variant of the Shove action, you can make your Strength (Athletics) check at disadvantage. If you succeed, you move the target 5 feet to a different unoccupied space within your reach.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -580,6 +604,7 @@
         "subtitle": "Tumble through a hostile space",
         "description": "As an action or bonus action, deftly move through an enemy's space with a contested Dexterity check.",
         "reference": "DMG, pg. 272.",
+        "summary": "As an action or bonus action, make a Dexterity (Acrobatics) check contested by an enemy's Acrobatics. If you win, you can move through their space once this turn.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -605,6 +630,7 @@
         "subtitle": "Prepare for an incoming charge",
         "description": "A homebrew action to set your weapon against a charging foe, allowing a powerful counter-attack as a reaction.",
         "reference": "Common Homebrew",
+        "summary": "Use your action to prepare an attack. As a reaction, you can attack a creature that moves at least 10 feet towards you, dealing one extra weapon damage die on a hit.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -631,6 +657,7 @@
         "subtitle": "Target a specific body part",
         "description": "A house rule allowing an attacker to take a penalty on their attack roll for a chance to inflict a specific debilitating effect.",
         "reference": "Common Homebrew",
+        "summary": "A house rule where you take a penalty on your attack roll (typically -5) to target a specific body part and apply a debilitating effect on a hit, such as disarming an arm shot.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -656,6 +683,7 @@
         "subtitle": "Carry over damage to another foe",
         "description": "A house rule allowing excess melee damage from a killing blow to carry over to an adjacent enemy.",
         "reference": "Common Homebrew (adapted from DMG, pg. 272)",
+        "summary": "A house rule where, if your melee attack reduces a creature to 0 HP, you can apply any excess damage to another creature within 5 feet (usually requiring a new attack roll).",
         "bullets": [
             {
                 "type": "paragraph",
@@ -682,6 +710,7 @@
         "subtitle": "Frighten a foe without a weapon",
         "description": "A house rule allowing a character to use their action to frighten a creature with a contested Charisma check.",
         "reference": "Common Homebrew",
+        "summary": "Use your action to make a Charisma (Intimidation) check contested by a target's Wisdom (Insight). On a success, the target is Frightened of you until the end of your next turn.",
         "bullets": [
             {
                 "type": "paragraph",

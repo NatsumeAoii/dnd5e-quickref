@@ -6,6 +6,7 @@
         "subtitle": "Perceive without sight",
         "description": "A creature with blindsight perceives its surroundings within a specific radius without relying on sight, negating invisibility and darkness.",
         "reference": "PHB, pg. 183, MM pg. 8.",
+        "summary": "Allows a creature to perceive its surroundings within a specific radius without sight. This sense penetrates normal and magical darkness, and reveals invisible creatures.",
         "tags": ["environment_vision"],
         "bullets": [
             {
@@ -33,6 +34,7 @@
         "subtitle": "Normal vision",
         "description": "In bright light, such as direct sunlight or the area of a torch, most creatures can see normally.",
         "reference": "PHB, pg. 183.",
+        "summary": "Normal lighting conditions where most creatures can see without penalty. Some creatures, like Drow, may suffer from Sunlight Sensitivity in these conditions.",
         "tags": ["environment_light"],
         "bullets": [
             {
@@ -59,6 +61,7 @@
         "subtitle": "Heavily obscured",
         "description": "Darkness creates a heavily obscured area, effectively blinding any creature trying to see within or through it without special senses.",
         "reference": "PHB, pg. 183.",
+        "summary": "Creates a heavily obscured area, effectively blinding creatures within it. Darkvision allows a creature to see in non-magical darkness as if it were dim light.",
         "tags": ["environment_light"],
         "bullets": [
             {
@@ -86,6 +89,7 @@
         "subtitle": "Limited vision in darkness",
         "description": "This common trait allows a creature to see in darkness as if it were dim light, and in dim light as if it were bright light.",
         "reference": "PHB, pg. 183.",
+        "summary": "Within a specified range, you can see in dim light as if it were bright light, and in darkness as if it were dim light. Seeing in darkness this way is in shades of gray and imposes disadvantage on Perception checks.",
         "tags": ["environment_vision"],
         "bullets": [
             {
@@ -113,6 +117,7 @@
         "subtitle": "Lightly obscured",
         "description": "Dim light, also called shadows, creates a lightly obscured area where creatures have disadvantage on sight-based Perception checks.",
         "reference": "PHB, pg. 183.",
+        "summary": "Creates a lightly obscured area, such as at twilight or in moonlight. Creatures in dim light have disadvantage on Wisdom (Perception) checks that rely on sight.",
         "tags": ["environment_light"],
         "bullets": [
             {
@@ -140,6 +145,7 @@
         "subtitle": "1d6 per 10 feet (max 20d6)",
         "description": "A creature takes 1d6 bludgeoning damage for every 10 feet it falls, to a maximum of 20d6, and lands prone.",
         "reference": "PHB, pg. 183; XGE, pg. 77.",
+        "summary": "You take 1d6 bludgeoning damage for every 10 feet fallen, up to a maximum of 20d6. You land Prone unless you avoid taking damage from the fall.",
         "tags": ["environment_other"],
         "bullets": [
             {
@@ -166,6 +172,7 @@
         "subtitle": "+2 AC & Dex saves",
         "description": "An obstacle covering at least half of your body grants a +2 bonus to AC and Dexterity saving throws.",
         "reference": "PHB, pg. 196.",
+        "summary": "An obstacle that covers at least half of your body (like a low wall or another creature) grants you a +2 bonus to your Armor Class and all Dexterity saving throws.",
         "tags": ["environment_cover"],
         "bullets": [
             {
@@ -192,6 +199,7 @@
         "subtitle": "Effectively blinded",
         "description": "An area is heavily obscured if it blocks vision entirely, such as in darkness, opaque fog, or dense foliage.",
         "reference": "PHB, pg. 183.",
+        "summary": "An area that blocks vision entirely, such as darkness or thick fog. A creature trying to see through a heavily obscured area is effectively Blinded.",
         "tags": ["environment_obscurance"],
         "bullets": [
             {
@@ -219,6 +227,7 @@
         "subtitle": "Disadvantage on Perception",
         "description": "An area is lightly obscured if something hinders sight, such as dim light, light fog, or moderate foliage.",
         "reference": "PHB, pg. 183.",
+        "summary": "An area that hinders sight, such as dim light or light fog. Creatures in the area have disadvantage on Wisdom (Perception) checks that rely on sight.",
         "tags": ["environment_obscurance"],
         "bullets": [
             {
@@ -245,6 +254,7 @@
         "subtitle": "Holding your breath",
         "description": "Deprived of air, you can survive for a limited time before you drop to 0 hit points and begin dying.",
         "reference": "PHB, pg. 183.",
+        "summary": "You can hold your breath for 1+CON mod minutes. After that, you survive for CON mod rounds, then drop to 0 HP and are Dying. You cannot be stabilized or healed until you can breathe.",
         "tags": ["environment_other"],
         "bullets": [
             {
@@ -272,6 +282,7 @@
         "subtitle": "+5 AC & Dex saves",
         "description": "An obstacle covering about three-quarters of your body grants a significant +5 bonus to AC and Dexterity saving throws.",
         "reference": "PHB, pg. 196.",
+        "summary": "An obstacle that covers about three-quarters of your body (like an arrow slit) grants a +5 bonus to your Armor Class and all Dexterity saving throws.",
         "tags": ["environment_cover"],
         "bullets": [
             {
@@ -298,6 +309,7 @@
         "subtitle": "Cannot be targeted directly",
         "description": "You are completely concealed by an obstacle, making you immune to being directly targeted by attacks or spells.",
         "reference": "PHB, pg. 196.",
+        "summary": "An obstacle completely conceals you, meaning you cannot be targeted directly by any attack or spell. You can still be affected by area effects that spread around the cover.",
         "tags": ["environment_cover"],
         "bullets": [
             {
@@ -324,6 +336,7 @@
         "subtitle": "See true forms",
         "description": "This powerful sense allows a creature to see through darkness, invisibility, illusions, and transformations to perceive reality as it is.",
         "reference": "PHB, pg. 184, MM pg. 9.",
+        "summary": "Allows a creature to see in all forms of darkness, see invisible creatures, automatically detect illusions, and perceive the true form of shapechangers or transformed creatures.",
         "tags": ["environment_vision"],
         "bullets": [
             {
@@ -353,6 +366,7 @@
         "subtitle": "Fighting in water",
         "description": "Combat while fully submerged is difficult for creatures without a swim speed, imposing penalties on most weapon attacks.",
         "reference": "PHB, pg. 198.",
+        "summary": "Without a swim speed, melee attacks have disadvantage unless using specific weapons (daggers, spears, etc.). Ranged attacks automatically miss beyond normal range and have disadvantage within it.",
         "tags": ["environment_other"],
         "bullets": [
             {
@@ -380,6 +394,7 @@
         "subtitle": "Risk of Exhaustion",
         "description": "Prolonged exposure to temperatures at or below 0° F (-18° C) forces Constitution saves to resist gaining levels of exhaustion.",
         "reference": "DMG, pg. 110.",
+        "summary": "When exposed to temperatures at or below 0° F, a creature must make a DC 10 Constitution save at the end of each hour or gain one level of Exhaustion.",
         "tags": ["environment_other"],
         "bullets": [
             {
@@ -395,6 +410,7 @@
         "subtitle": "Risk of Exhaustion",
         "description": "Prolonged exposure to temperatures at or above 100° F (38° C) forces Constitution saves to resist gaining levels of exhaustion.",
         "reference": "DMG, pg. 110.",
+        "summary": "In temperatures at or above 100° F, a creature must make an hourly Constitution save or gain a level of Exhaustion. The DC starts at 5 and increases by 1 each hour.",
         "tags": ["environment_other"],
         "bullets": [
             {
@@ -422,6 +438,7 @@
         "subtitle": "Gain advantage for positioning",
         "description": "A popular optional rule where two allies on opposite sides of an enemy gain advantage on their melee attacks against it.",
         "reference": "DMG, pg. 251.",
+        "summary": "An optional rule where, if you and an ally are on opposite sides of an enemy, you both gain advantage on melee attack rolls against that enemy.",
         "tags": ["environment_other"],
         "bullets": [
             {
@@ -449,6 +466,7 @@
         "subtitle": "Affects perception and fire",
         "description": "Heavy rain or snowfall lightly obscures the area, imposes disadvantage on hearing checks, and extinguishes open flames.",
         "reference": "DMG, pg. 110.",
+        "summary": "Heavy rain or snow creates a lightly obscured area, imposes disadvantage on hearing-based Perception checks, and extinguishes unprotected flames like torches.",
         "tags": ["environment_other"],
         "bullets": [
             {
@@ -476,6 +494,7 @@
         "subtitle": "Risk of Exhaustion",
         "description": "At altitudes of 10,000 feet or higher, creatures not acclimated must make Constitution saves to resist exhaustion.",
         "reference": "DMG, pg. 110.",
+        "summary": "When traveling above 10,000 feet for more than 8 hours in a day, a non-acclimated creature must make Constitution saves for each extra hour or gain a level of Exhaustion.",
         "tags": ["environment_other"],
         "bullets": [
             {
@@ -491,6 +510,7 @@
         "subtitle": "Lasting wounds from combat",
         "description": "An optional rule to add lasting mechanical consequences when a creature suffers a critical hit or drops to 0 HP.",
         "reference": "DMG, pg. 272.",
+        "summary": "An optional rule for gritty campaigns where taking a critical hit or dropping to 0 HP can inflict a lasting mechanical penalty, such as a limp or a lost eye, determined by a table roll.",
         "tags": ["environment_other"],
         "bullets": [
             {
@@ -516,6 +536,7 @@
         "subtitle": "Risk of System Shock",
         "description": "This optional rule forces a DC 15 Constitution save when a creature takes damage equal to or greater than half its HP maximum from a single source.",
         "reference": "DMG, pg. 273.",
+        "summary": "An optional rule where taking damage equal to or greater than half your maximum HP from a single source forces a DC 15 Constitution save. On a failure, you suffer a random shock effect.",
         "tags": ["environment_other"],
         "bullets": [
             {
@@ -542,6 +563,7 @@
         "subtitle": "Will enemies flee or surrender?",
         "description": "An optional rule providing a mechanic for determining if NPCs flee or surrender when a fight turns against them.",
         "reference": "DMG, pg. 273.",
+        "summary": "An optional rule for the DM to make a DC 10 Wisdom save for a group of NPCs when the fight turns against them (e.g., their leader falls). On a failure, the group breaks and flees.",
         "tags": ["environment_other"],
         "bullets": [
             {
@@ -569,6 +591,7 @@
         "subtitle": "Change game pacing",
         "description": "These optional rules change the duration of short and long rests to fundamentally alter the pacing of a campaign.",
         "reference": "DMG, pg. 267.",
+        "summary": "Optional rules to change campaign pacing. 'Epic Heroism' makes a short rest 5 minutes and a long rest 1 hour. 'Gritty Realism' makes a short rest 8 hours and a long rest 7 days.",
         "tags": ["environment_other"],
         "bullets": [
             {
@@ -595,6 +618,7 @@
         "subtitle": "Difficult Terrain, risk of falling",
         "description": "Slippery ice is difficult terrain and requires a DC 10 Dexterity (Acrobatics) check to cross without falling prone.",
         "reference": "DMG, pg. 110.",
+        "summary": "Slippery ice is difficult terrain. When a creature moves onto it for the first time on a turn, they must succeed on a DC 10 Dexterity (Acrobatics) check or fall Prone.",
         "tags": ["environment_other"],
         "bullets": [
             {
@@ -621,6 +645,7 @@
         "subtitle": "Affects attacks and perception",
         "description": "Strong wind imposes disadvantage on ranged weapon attacks and hearing-based Perception checks, and can hinder flight.",
         "reference": "DMG, pg. 110.",
+        "summary": "A strong wind (21+ mph) imposes disadvantage on ranged attacks and hearing checks, and forces flying creatures to land. A gale (31+ mph) makes nonmagical flight and ranged attacks impossible.",
         "tags": ["environment_other"],
         "bullets": [
             {
@@ -648,6 +673,7 @@
         "subtitle": "Hidden dangers",
         "description": "Traps are hidden hazards, either mechanical or magical, that require Perception to spot and specific skills to disable.",
         "reference": "DMG, pgs. 120-121; XGE, pgs. 113-123.",
+        "summary": "Hidden hazards that require a Wisdom (Perception) check to spot and a relevant skill check (e.g., Thieves' Tools, Dispel Magic) to disable. Complex traps act on initiative.",
         "tags": ["environment_other"],
         "bullets": [
             {
@@ -675,6 +701,7 @@
         "subtitle": "Natural 1 has consequences",
         "description": "A popular house rule where rolling a natural 1 on an attack roll results in a negative consequence beyond merely missing.",
         "reference": "Common Homebrew",
+        "summary": "A house rule where a natural 1 on an attack roll has a negative consequence beyond just missing, such as dropping your weapon or falling prone.",
         "tags": ["environment_other"],
         "bullets": [
             {
