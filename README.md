@@ -1,5 +1,7 @@
 # D&D 5e / 2024 Interactive Quick Reference
 
+> **⚠️ IMPORTANT:** Please use **Ctrl + Shift + F5** or **Ctrl + R** to force refresh the page and ensure you are seeing the latest updates!
+
 A modern, interactive, and highly customizable quick reference sheet for **Dungeons & Dragons 5th Edition**, supporting both the 2014 and 2024 rulesets.  
 
 This project builds on the excellent foundation of [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref), introducing major enhancements, new features, a revamped UI, and updated rules content.
@@ -22,50 +24,36 @@ The goal is to provide a **fast, accessible, and table-ready tool** for both Pla
 Customizing rules for your campaign is straightforward.  
 
 ### File Structure
-Rules are stored in the `js/` directory:
-- 2014 rules: `data_action.js`, `data_condition.js`, etc.
-- 2024 rules: `2024_data_action.js`, `2024_data_condition.js`, etc.
+Rules are stored in the `js/` directory as JSON files:
+- 2014 rules: `data_action.json`, `data_condition.json`, `data_reaction.json`, etc.
+- 2024 rules: `2024_data_action.json`, `2024_data_condition.json`, `2024_data_reaction.json`, etc.
 
 ### How to Add or Modify Rules
 1. **Select the Correct File**  
    Edit the appropriate file depending on the ruleset (2014 or 2024).
 
 2. **Add a New Rule**  
-   Copy an existing entry and modify its properties.  
+   Copy an existing entry and modify its properties. Ensure you use valid JSON syntax.
 
-   Example (JavaScript-based data files):
-   ```javascript
+   Example:
+   ```json
    {
        "title": "My Custom Action",
-       "optional": "Homebrew rule", // Standard, Optional, or Homebrew
-       "icon": "mycustomicon",    // Icon name from icons.css
+       "optional": "Homebrew rule",
+       "icon": "mycustomicon",
        "subtitle": "A brief one-line description.",
        "reference": "My Campaign Guide p. 42",
        "description": "A more detailed description that appears in the popup.",
+       "summary": "A short description that appears first in the popup.",
        "bullets": [
-           "Use bullet points for mechanics.",
-           "You can use <b>HTML</b> formatting."
-       ],
+           { "type": "paragraph", "content": "Explain mechanics here." },
+           { "type": "list", "items": ["Option A", "Option B"] }
+       ]
    }
-    ```
+   ```
 
-Example (JSON-based data files):
-
-```json
-{
-    "title": "My Custom Action",
-    "subtitle": "Quick description",
-    "icon": "my-custom-icon",
-    "description": "Longer text appears in the popup.",
-    "bullets": [
-        { "type": "paragraph", "content": "Explain mechanics here." },
-        { "type": "list", "items": ["Option A", "Option B"] }
-    ]
-}
-```
-
-3. **Save & Refresh**
-   Reload `index.html` to apply changes.
+3. **Refresh**
+   Reload the page to see your changes. If using the Node.js build process, run the build command first.
 
 </details>
 
@@ -74,65 +62,65 @@ Example (JSON-based data files):
 <details>
 <summary><strong>How to Run Locally</strong></summary>
 
-1. **Download and Install XAMPP (with PHP 8)**
-   Get XAMPP from the [official site](https://www.apachefriends.org/).
-   Follow their installation instructions. If you feel lost, check YouTube tutorials.
+You can run this project using either **Node.js** (recommended for development/optimization) or **XAMPP** (simple static hosting).
 
-2. **Copy the Project Files**
-   Place this project folder inside your XAMPP installation directory, e.g.:
+### Option A: Node.js (Build & Optimize)
+This method allows you to lint the code and generate an optimized, minified version of the site.
 
-   ```
-   C:/xampp/htdocs/dnd-quickref
-   ```
+1.  **Install Dependencies**
+    ```bash
+    npm install
+    ```
 
-3. **Start Apache**
-   Open the XAMPP Control Panel and start the **Apache** service.
+2.  **Build Project**
+    Generates the optimized site in the `dist/` folder.
+    ```bash
+    npm run build
+    ```
 
-4. **Run in Browser**
-   Open a web browser and navigate to:
+3.  **Run Locally**
+    Serve the `dist` folder.
+    ```bash
+    npx serve dist
+    ```
 
-   ```
-   http://localhost/dnd-quickref
-   ```
+### Option B: XAMPP / Apache
+This method runs the raw source code directly.
 
-   (Replace `dnd-quickref` with the actual folder name you used.)
+1.  **Install XAMPP**
+    Download and install XAMPP from the official website.
 
-That’s it — the quick reference should now be running locally!
+2.  **Copy Files**
+    Copy the entire project folder into your `htdocs` directory (usually `C:/xampp/htdocs/dnd5e-quickref`).
+
+3.  **Start Apache**
+    Open the XAMPP Control Panel and start the **Apache** module.
+
+4.  **Access in Browser**
+    Navigate to `http://localhost/dnd5e-quickref`.
 
 </details>
 
 ---
 
 <details>
-<summary><strong>Contributing</strong></summary>
+<summary><strong>Contributing & Code Quality</strong></summary>
 
 Contributions are welcome!
 
 * **Report bugs** or request features by opening an issue on GitHub.
 * **Submit pull requests** with fixes or enhancements.
 
-</details>
+### Linting
+We enforce strict code style using ESLint (Airbnb config) and Stylelint. Before submitting a PR, please ensure your code passes the linters:
 
----
-
-<details>
-<summary><strong>FAQ</strong></summary>
-
-**Q: How do I switch between the 2014 and 2024 rules?**
-
-A: Toggle the setting in the app. Files prefixed with `2024_` contain the updated rules.
-
-**Q: How do I add custom homebrew content?**
-
-A: Add or edit entries in the appropriate data file (`js/` directory). Follow the format outlined above.
-
-**Q: What happens if a data file is missing or broken?**
-
-A: The app includes custom error handling to prevent crashes and notify you of the issue.
+*   **Check for errors:** `npm run lint`
+*   **Auto-fix errors:** `npm run lint:fix`
 
 </details>
 
 ---
+
 
 <details>
 <summary><strong>Credits & Acknowledgements</strong></summary>
@@ -149,3 +137,28 @@ A: The app includes custom error handling to prevent crashes and notify you of t
   * Tasha’s Cauldron of Everything (2020) - TCE
 
 </details>
+
+---
+
+<details>
+<summary><strong>FAQ</strong></summary>
+
+**Q: How do I switch between the 2014 and 2024 rules?**
+
+A: Toggle the setting in the app. Files prefixed with `2024_` contain the updated rules.
+
+**Q: How do I add custom homebrew content?**
+
+A: Add or edit entries in the appropriate data file (`js/` directory). Follow the format outlined above.
+
+**Q: I updated the code, but the browser still shows the old version.**
+
+A: This is due to the Service Worker cache. The app is designed to work offline. To see changes immediately, use the force refresh key combo (`Ctrl + Shift + F5`) or unregister the Service Worker in your browser's DevTools.
+
+**Q: What happens if a data file is missing or broken?**
+
+A: The app includes custom error handling to prevent crashes and notify you of the issue.
+
+</details>
+
+---
