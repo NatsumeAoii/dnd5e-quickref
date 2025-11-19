@@ -106,11 +106,17 @@ body.motion-reduced *, body.motion-reduced *::before, body.motion-reduced *::aft
 
 /* Keyframe Animations */
 @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
 @keyframes pop-in { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
 @keyframes pop-out { from { opacity: 1; transform: scale(1) translateY(0); } to { opacity: 0; transform: scale(0.95) translateY(10px); } }
+
 @keyframes slide-in-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
 @keyframes slide-out-down { from { transform: translateY(0); } to { transform: translateY(100%); } }
+
 @keyframes slide-in-up-fade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
 @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
 
 /* Notification System */
@@ -118,6 +124,7 @@ body.motion-reduced *, body.motion-reduced *::before, body.motion-reduced *::aft
     position: fixed; top: var(--spacing-md); right: var(--spacing-md); z-index: var(--z-index-notification);
     display: flex; flex-direction: column; gap: var(--spacing-sm); pointer-events: none;
 }
+
 .notification {
     background-color: var(--color-card-bg); color: var(--color-text); padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--border-radius-md); box-shadow: 0 4px 12px var(--color-shadow-strong);
@@ -213,6 +220,7 @@ body.motion-reduced *, body.motion-reduced *::before, body.motion-reduced *::aft
 
 /* --- Popup/Modal Window --- */
 #popup-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: var(--z-index-popup); }
+
 #popup-container.modal-open::before {
     content: ''; position: fixed; inset: 0; background-color: var(--color-modal-backdrop);
     z-index: calc(var(--z-index-popup) - 1); pointer-events: all; backdrop-filter: blur(2px);
@@ -221,7 +229,8 @@ body.motion-reduced *, body.motion-reduced *::before, body.motion-reduced *::aft
 /* Dialog Reset & Styles */
 dialog.popup-window {
     /* Reset native dialog styles */
-    margin: 0; padding: 0; border: none; background: transparent; color: inherit;
+    margin: 0; padding: 0; background: transparent; color: inherit;
+
     /* Custom styles */
     position: absolute; width: 550px; max-width: 90vw; max-height: 80vh;
     background-color: var(--color-card-bg); border: var(--border-width) solid var(--section-color, var(--color-border));
@@ -245,6 +254,7 @@ dialog.popup-window[open] { display: flex; }
 .popup-header-right { display: flex; align-items: baseline; gap: var(--spacing-md); }
 .popup-title { font-size: var(--font-size-lg); line-height: 1; }
 .popup-type { font-size: var(--font-size-sm); text-transform: uppercase; font-weight: 400; opacity: 0.8; }
+
 .popup-close-btn {
     width: 28px; height: 28px; border: none; background: transparent; color: inherit; font-size: 24px; line-height: 1;
     cursor: pointer; opacity: 0.7; transition: opacity var(--transition-speed-fast); flex-shrink: 0;
@@ -255,12 +265,14 @@ dialog.popup-window[open] { display: flex; }
 .popup-content p, .popup-content ul { margin-bottom: var(--spacing-md); }
 .popup-content p:last-child, .popup-content ul:last-child { margin-bottom: 0; }
 .popup-description { color: var(--color-text-subtle); margin-bottom: var(--spacing-lg); }
+
 .popup-summary {
     margin-bottom: var(--spacing-md); padding: var(--spacing-sm) var(--spacing-md);
     background-color: var(--color-item-hover-bg); border-inline-start: 3px solid var(--section-color); border-radius: var(--border-radius-sm);
 }
 .popup-reference-container { display: flex; justify-content: space-between; align-items: baseline; gap: var(--spacing-md); margin-top: var(--spacing-lg); font-style: italic; color: var(--color-text-subtle); }
 .popup-reference { margin-top: 0; margin-bottom: 0; flex-grow: 1; }
+
 .popup-toggle-details-btn {
     background: transparent; border: none; color: var(--color-link); cursor: pointer; text-decoration: underline;
     font-size: var(--font-size-sm); font-weight: 600; padding: 0; flex-shrink: 0;
@@ -275,6 +287,7 @@ dialog.popup-window[open] { display: flex; }
 /* User Notes in Popup */
 .popup-notes-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--spacing-sm); }
 .popup-notes-label { display: block; font-family: var(--font-secondary); font-weight: 600; font-size: var(--font-size-md); }
+
 .popup-notes-textarea {
     width: 100%; min-height: 100px; padding: var(--spacing-sm); border: var(--border-width) solid var(--color-border);
     border-radius: var(--border-radius-sm); background-color: var(--color-bg); color: var(--color-text);
@@ -319,6 +332,7 @@ input:checked + .slider::before { transform: translateX(20px); }
 .cookie-notice-title { font-family: var(--font-secondary); font-weight: 600; font-size: var(--font-size-lg); }
 .cookie-notice-text { line-height: 1.6; font-size: var(--font-size-sm); }
 .cookie-notice-actions { display: flex; justify-content: flex-end; gap: var(--spacing-sm); margin-top: var(--spacing-sm); }
+
 .cookie-notice button {
     background: var(--color-accept); border: none; color: white; padding: var(--spacing-xs) var(--spacing-md);
     cursor: pointer; border-radius: var(--border-radius-md); font-size: var(--font-size-md); font-weight: 600;
@@ -351,12 +365,19 @@ input:checked + .slider::before { transform: translateX(20px); }
     .footer-column-right { margin-top: var(--spacing-lg); padding-top: var(--spacing-lg); border-top: var(--border-width) solid var(--color-border); }
     .footer-links-container { justify-content: center; flex-wrap: wrap; }
 }
+
 @media (width <= 480px) { .cookie-notice { left: var(--spacing-md); right: var(--spacing-md); bottom: var(--spacing-md); max-width: none; } }
+
 @media (width >= 480px) and (width <= 767px) { .itemsize { flex: 0 0 calc(50% - var(--spacing-sm)); } }
+
 @media (width >= 768px) and (width <= 991px) { .itemsize { flex: 0 0 calc(33.333% - var(--spacing-sm)); } }
+
 @media (width >= 992px) and (width <= 1199px) { .itemsize { flex: 0 0 calc(33.333% - var(--spacing-sm)); } }
+
 @media (width >= 1200px) and (width <= 1599px) { .itemsize { flex: 0 0 calc(25% - var(--spacing-sm)); } }
+
 @media (width >= 1600px) { .itemsize { flex: 0 0 calc(20% - var(--spacing-sm)); } }
+
 @media (width <= 1023px) {
     dialog.popup-window.is-modal {
         position: fixed; inset: auto 0 0; width: 100%; max-width: 100%; max-height: 85vh;
@@ -371,6 +392,7 @@ input:checked + .slider::before { transform: translateX(20px); }
 @media print {
     body { background-color: white !important; color: black !important; }
     .app-container { display: block !important; }
+
     .section-container {
         break-inside: avoid; page-break-inside: avoid;
         border: 1px solid #ccc; box-shadow: none;
