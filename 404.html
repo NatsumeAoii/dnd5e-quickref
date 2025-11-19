@@ -66,6 +66,7 @@
       if (window.location.hash) {
         const notice = document.getElementById('redirect-notice');
         if (notice) notice.classList.remove('hidden');
+        // Safe regex to validate hash content before redirecting
         const safe = /^#[\w\-.,~%!*'();:@&=+$/?]*$/;
         if (safe.test(window.location.hash)) {
           window.location.replace('./' + window.location.hash);

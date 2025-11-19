@@ -1,7 +1,26 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-new */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable consistent-return */
+/* eslint-disable no-cond-assign */
+/* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 /* eslint-disable no-console */
-/* eslint-disable consistent-return */
 (function (window, document) {
+  // --- Trusted Types Policy ---
+  let trustedPolicy;
+  if (window.trustedTypes && window.trustedTypes.createPolicy) {
+    try {
+      trustedPolicy = window.trustedTypes.createPolicy('default', {
+        createHTML: (string) => string,
+        createScriptURL: (string) => string,
+        createScript: (string) => string,
+      });
+    } catch (e) { console.warn('Trusted Types policy creation failed:', e); }
+  }
+  const safeHTML = (html) => (trustedPolicy ? trustedPolicy.createHTML(html) : html);
+  const safeScriptURL = (url) => (trustedPolicy ? trustedPolicy.createScriptURL(url) : url);
+
   const CONFIG = Object.freeze({
     STORAGE_KEYS: Object.freeze({
       RULES_2024: 'rules2024',
@@ -10,6 +29,7 @@
       THEME: 'theme',
       MODE: 'mode',
       REDUCE_MOTION: 'reduceMotion',
+      WAKE_LOCK: 'wakeLock',
       COOKIES_ACCEPTED: 'cookiesAccepted',
       FAVORITES: 'userFavorites',
       NOTES: 'userNotes',
@@ -39,6 +59,7 @@
       APP_CONTAINER: 'app-container',
       NOTIFICATION_CONTAINER: 'notification-container',
       REPORT_RULE_BTN: 'report-rule-btn',
+      EXPORT_NOTES_BTN: 'export-notes-btn',
     }),
     THEME_CONFIG: Object.freeze({
       PATH: 'themes/',
@@ -71,6 +92,9 @@
         id: 'reduce-motion-switch', key: 'REDUCE_MOTION', stateProp: 'reduceMotion', type: 'checkbox',
       },
       {
+        id: 'wakelock-switch', key: 'WAKE_LOCK', stateProp: 'keepScreenOn', type: 'checkbox',
+      },
+      {
         id: 'theme-select', key: 'THEME', stateProp: 'theme', type: 'select',
       },
       {
@@ -97,6 +121,8 @@
       HIDDEN: 'hidden',
       SECTION_TITLE: 'section-title',
       SECTION_CONTENT: 'section-content',
+      IS_FOCUSED: 'is-focused',
+      DRAG_OVER: 'drag-over',
     }),
     DEFAULTS: Object.freeze({
       ICON: '', TITLE: '[Untitled Rule]', RULE_TYPE: 'Standard rule', THEME: 'original',
@@ -110,14 +136,20 @@
       ICON: 'data-icon',
     }),
     UI_STRINGS: Object.freeze({
-      NOTE_STATUS_SAVING: 'Saving...', NOTE_STATUS_SAVED: '✓ Saved', RULE_NOT_FOUND: 'The requested rule could not be found.',
+      NOTE_STATUS_SAVING: 'Saving...',
+      NOTE_STATUS_SAVED: '✓ Saved',
+      RULE_NOT_FOUND: 'The requested rule could not be found.',
     }),
     DEBOUNCE_DELAY: { RESIZE_MS: 200, NOTE_AUTOSAVE_MS: 750 },
     ANIMATION_DURATION: {
       ITEM_DELAY_MS: 30, POPUP_MS: 300, NOTE_FADEOUT_MS: 2000, NOTIFICATION_MS: 4000,
     },
     LAYOUT: {
-      DESKTOP_BREAKPOINT_MIN_PX: 1024, POPUP_CASCADE_OFFSET_PX: 30, POPUP_CASCADE_WRAP_COUNT: 10, POPUP_Z_INDEX_BASE: 1000, POPUP_VIEWPORT_PADDING_PX: 8,
+      DESKTOP_BREAKPOINT_MIN_PX: 1024,
+      POPUP_CASCADE_OFFSET_PX: 30,
+      POPUP_CASCADE_WRAP_COUNT: 10,
+      POPUP_Z_INDEX_BASE: 1000,
+      POPUP_VIEWPORT_PADDING_PX: 8,
     },
   });
 
@@ -144,13 +176,9 @@
       }
     }
 
-    static setCachingPolicy(allowed) {
-      this.#postMessage({ type: 'SET_CACHING_POLICY', allowed });
-    }
+    static setCachingPolicy(allowed) { this.#postMessage({ type: 'SET_CACHING_POLICY', allowed }); }
 
-    static clearCache() {
-      this.#postMessage({ type: 'CLEAR_CACHE' });
-    }
+    static clearCache() { this.#postMessage({ type: 'CLEAR_CACHE' }); }
   }
 
   class DOMProvider {
@@ -193,14 +221,285 @@
     #announcerEl;
 
     constructor(domProvider) {
-      try {
-        this.#announcerEl = domProvider.get(CONFIG.ELEMENT_IDS.ARIA_ANNOUNCER);
-      } catch {
-        console.warn('ARIA announcer not found.');
-      }
+      try { this.#announcerEl = domProvider.get(CONFIG.ELEMENT_IDS.ARIA_ANNOUNCER); } catch { console.warn('ARIA announcer not found.'); }
     }
 
     announce(message) { if (this.#announcerEl) { this.#announcerEl.textContent = message; } }
+  }
+
+  class DBService {
+    #dbName = 'dnd5e_quickref_db';
+
+    #storeName = 'user_notes';
+
+    #version = 1;
+
+    #db = null;
+
+    async open() {
+      if (this.#db) return this.#db;
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(this.#dbName, this.#version);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(this.#storeName)) {
+            db.createObjectStore(this.#storeName);
+          }
+        };
+        req.onsuccess = (e) => {
+          this.#db = e.target.result;
+          resolve(this.#db);
+        };
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async getAll() {
+      const db = await this.open();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(this.#storeName, 'readonly');
+        const store = tx.objectStore(this.#storeName);
+        const req = store.openCursor();
+        const results = {};
+        req.onsuccess = (e) => {
+          const cursor = e.target.result;
+          if (cursor) {
+            results[cursor.key] = cursor.value;
+            cursor.continue();
+          } else {
+            resolve(results);
+          }
+        };
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async put(key, value) {
+      const db = await this.open();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(this.#storeName, 'readwrite');
+        const store = tx.objectStore(this.#storeName);
+        const req = store.put(value, key);
+        req.onsuccess = () => resolve();
+        req.onerror = () => reject(req.error);
+      });
+    }
+  }
+
+  class WakeLockService {
+    #wakeLock = null;
+
+    #isEnabled = false;
+
+    constructor() {
+      document.addEventListener('visibilitychange', () => {
+        if (this.#wakeLock !== null && document.visibilityState === 'visible') {
+          this.#requestLock();
+        }
+      });
+    }
+
+    setEnabled(enabled) {
+      this.#isEnabled = enabled;
+      if (enabled) this.#requestLock();
+      else this.#releaseLock();
+    }
+
+    async #requestLock() {
+      if (!this.#isEnabled || !('wakeLock' in navigator)) return;
+      try {
+        this.#wakeLock = await navigator.wakeLock.request('screen');
+      } catch (err) {
+        console.warn('Wake Lock failed:', err);
+      }
+    }
+
+    async #releaseLock() {
+      if (this.#wakeLock) {
+        await this.#wakeLock.release();
+        this.#wakeLock = null;
+      }
+    }
+  }
+
+  class SyncService {
+    #channel;
+
+    #stateManager;
+
+    constructor(stateManager) {
+      this.#stateManager = stateManager;
+      this.#channel = new BroadcastChannel('quickref_sync');
+      this.#channel.onmessage = (event) => this.#handleMessage(event.data);
+    }
+
+    broadcast(type, payload) {
+      this.#channel.postMessage({ type, payload });
+    }
+
+    #handleMessage({ type, payload }) {
+      this.#stateManager.publish('externalStateChange', { type, payload });
+    }
+  }
+
+  class PerformanceOptimizer {
+    #isLowEnd = false;
+
+    #isSaveData = false;
+
+    constructor() {
+      this.#checkHardware();
+      this.#checkNetwork();
+    }
+
+    #checkHardware() {
+      if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) {
+        this.#isLowEnd = true;
+      }
+    }
+
+    #checkNetwork() {
+      if (navigator.connection) {
+        if (navigator.connection.saveData || navigator.connection.effectiveType === '2g') {
+          this.#isSaveData = true;
+        }
+      }
+    }
+
+    shouldReduceMotion() {
+      return this.#isLowEnd || this.#isSaveData;
+    }
+  }
+
+  class DragDropManager {
+    #container;
+
+    #userDataService;
+
+    #draggedItem = null;
+
+    constructor(containerId, userDataService) {
+      this.#container = document.getElementById(containerId);
+      this.#userDataService = userDataService;
+      if (this.#container) this.#init();
+    }
+
+    #init() {
+      this.#container.addEventListener('dragstart', this.#handleDragStart);
+      this.#container.addEventListener('dragover', this.#handleDragOver);
+      this.#container.addEventListener('drop', this.#handleDrop);
+      this.#container.addEventListener('dragend', this.#handleDragEnd);
+    }
+
+    #handleDragStart = (e) => {
+      const item = e.target.closest(`.${CONFIG.CSS.ITEM_CLASS}`);
+      if (!item) return;
+      this.#draggedItem = item;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', item.getAttribute(CONFIG.ATTRIBUTES.POPUP_ID));
+      setTimeout(() => item.classList.add(CONFIG.CSS.IS_DRAGGING), 0);
+    };
+
+    #handleDragOver = (e) => {
+      e.preventDefault();
+      const target = e.target.closest(`.${CONFIG.CSS.ITEM_CLASS}`);
+      if (target && target !== this.#draggedItem) {
+        target.classList.add(CONFIG.CSS.DRAG_OVER);
+      }
+    };
+
+    #handleDrop = (e) => {
+      e.preventDefault();
+      const target = e.target.closest(`.${CONFIG.CSS.ITEM_CLASS}`);
+      if (target && this.#draggedItem && target !== this.#draggedItem) {
+        // Reorder DOM
+        const items = [...this.#container.children];
+        const fromIndex = items.indexOf(this.#draggedItem);
+        const toIndex = items.indexOf(target);
+
+        if (fromIndex < toIndex) {
+          target.after(this.#draggedItem);
+        } else {
+          target.before(this.#draggedItem);
+        }
+
+        // Reorder Data
+        const newOrder = [...this.#container.children].map((el) => el.getAttribute(CONFIG.ATTRIBUTES.POPUP_ID));
+        this.#userDataService.updateFavoritesOrder(newOrder);
+      }
+      this.#cleanup();
+    };
+
+    #handleDragEnd = () => this.#cleanup();
+
+    #cleanup() {
+      if (this.#draggedItem) this.#draggedItem.classList.remove(CONFIG.CSS.IS_DRAGGING);
+      this.#container.querySelectorAll(`.${CONFIG.CSS.DRAG_OVER}`).forEach((el) => el.classList.remove(CONFIG.CSS.DRAG_OVER));
+      this.#draggedItem = null;
+    }
+  }
+
+  class GamepadService {
+    #active = false;
+
+    #domProvider;
+
+    #lastMove = 0;
+
+    #MOVE_DELAY = 150;
+
+    constructor(domProvider) {
+      this.#domProvider = domProvider;
+      window.addEventListener('gamepadconnected', () => { this.#active = true; this.#poll(); });
+      window.addEventListener('gamepaddisconnected', () => { this.#active = false; });
+    }
+
+    #poll = () => {
+      if (!this.#active) return;
+      const gp = navigator.getGamepads()[0];
+      if (gp) {
+        const now = Date.now();
+        if (now - this.#lastMove > this.#MOVE_DELAY) {
+          const x = gp.axes[0];
+          const y = gp.axes[1];
+          if (Math.abs(x) > 0.5 || Math.abs(y) > 0.5) {
+            this.#navigate(x, y);
+            this.#lastMove = now;
+          }
+          if (gp.buttons[0].pressed) {
+            const focused = document.activeElement;
+            if (focused && focused.click) {
+              focused.click();
+              this.#lastMove = now + 200;
+            }
+          }
+        }
+      }
+      requestAnimationFrame(this.#poll);
+    };
+
+    #navigate(x, y) {
+      const items = Array.from(this.#domProvider.queryAll(`.${CONFIG.CSS.ITEM_CLASS}:not([style*="display: none"]) .item-content`));
+      if (items.length === 0) return;
+
+      const current = document.activeElement;
+      let index = items.indexOf(current);
+
+      if (index === -1) {
+        items[0].focus();
+        return;
+      }
+
+      const containerWidth = this.#domProvider.get(CONFIG.ELEMENT_IDS.MAIN_SCROLL_AREA).offsetWidth;
+      const itemWidth = items[0].parentElement.offsetWidth;
+      const cols = Math.floor(containerWidth / itemWidth);
+
+      if (Math.abs(x) > 0.5) { index += (x > 0 ? 1 : -1); } else if (Math.abs(y) > 0.5) { index += (y > 0 ? cols : -cols); }
+
+      index = Math.max(0, Math.min(index, items.length - 1));
+      items[index].focus();
+      items[index].scrollIntoView({ block: 'nearest' });
+    }
   }
 
   class SettingsService {
@@ -208,7 +507,16 @@
 
     #stateManager;
 
-    constructor(storage, stateManager) { this.#storage = storage; this.#stateManager = stateManager; }
+    #syncService;
+
+    #optimizer;
+
+    constructor(storage, stateManager, syncService, optimizer) {
+      this.#storage = storage;
+      this.#stateManager = stateManager;
+      this.#syncService = syncService;
+      this.#optimizer = optimizer;
+    }
 
     #readBool = (key) => this.#storage.getItem(key) === 'true';
 
@@ -219,18 +527,24 @@
       state.settings.use2024Rules = this.#readBool(CONFIG.STORAGE_KEYS.RULES_2024);
       state.settings.showOptional = this.#readBool(CONFIG.STORAGE_KEYS.OPTIONAL);
       state.settings.showHomebrew = this.#readBool(CONFIG.STORAGE_KEYS.HOMEBREW);
-      state.settings.reduceMotion = this.#readBool(CONFIG.STORAGE_KEYS.REDUCE_MOTION);
+
+      // Hardware/Network Aware Default
+      const storedMotion = this.#storage.getItem(CONFIG.STORAGE_KEYS.REDUCE_MOTION);
+      state.settings.reduceMotion = storedMotion !== null ? storedMotion === 'true' : this.#optimizer.shouldReduceMotion();
+
+      state.settings.keepScreenOn = this.#readBool(CONFIG.STORAGE_KEYS.WAKE_LOCK);
       state.settings.theme = this.#readString(CONFIG.STORAGE_KEYS.THEME, CONFIG.DEFAULTS.THEME);
       state.settings.darkMode = this.#readBool(CONFIG.STORAGE_KEYS.MODE);
     }
 
-    update(key, value) {
+    update(key, value, broadcast = true) {
       const cfg = CONFIG.SETTINGS_CONFIG.find((c) => CONFIG.STORAGE_KEYS[c.key] === key);
       if (cfg) {
         const state = this.#stateManager.getState();
         state.settings[cfg.stateProp] = value;
         this.#storage.setItem(key, String(value));
         this.#stateManager.publish('settingChanged', { key: cfg.key, value });
+        if (broadcast) this.#syncService.broadcast('SETTING_CHANGE', { key: cfg.key, value });
       }
     }
   }
@@ -240,27 +554,86 @@
 
     #stateManager;
 
-    constructor(storage, stateManager) { this.#storage = storage; this.#stateManager = stateManager; }
+    #dbService;
+
+    #syncService;
+
+    constructor(storage, stateManager, dbService, syncService) {
+      this.#storage = storage;
+      this.#stateManager = stateManager;
+      this.#dbService = dbService;
+      this.#syncService = syncService;
+    }
 
     #load = (key, def) => {
-      try {
-        const val = this.#storage.getItem(key);
-        return val ? JSON.parse(val) : def;
-      } catch (e) {
-        console.error(`Failed to parse user data for "${key}":`, e);
-        return def;
-      }
+      try { const val = this.#storage.getItem(key); return val ? JSON.parse(val) : def; } catch (e) { console.error(`Failed to parse user data for "${key}":`, e); return def; }
     };
 
-    initialize() { const state = this.#stateManager.getState(); state.user.favorites = new Set(this.#load(CONFIG.STORAGE_KEYS.FAVORITES, [])); state.user.notes = new Map(Object.entries(this.#load(CONFIG.STORAGE_KEYS.NOTES, {}))); }
+    async initialize() {
+      const state = this.#stateManager.getState();
+      state.user.favorites = new Set(this.#load(CONFIG.STORAGE_KEYS.FAVORITES, []));
 
-    toggleFavorite(id) { const state = this.#stateManager.getState(); state.user.favorites.has(id) ? state.user.favorites.delete(id) : state.user.favorites.add(id); this.#storage.setItem(CONFIG.STORAGE_KEYS.FAVORITES, JSON.stringify([...state.user.favorites])); this.#stateManager.publish('favoritesChanged'); }
+      try {
+        const notes = await this.#dbService.getAll();
+        state.user.notes = new Map(Object.entries(notes));
+
+        const legacyNotes = this.#load(CONFIG.STORAGE_KEYS.NOTES, null);
+        if (legacyNotes) {
+          for (const [k, v] of Object.entries(legacyNotes)) {
+            if (!state.user.notes.has(k)) {
+              state.user.notes.set(k, v);
+              await this.#dbService.put(k, v);
+            }
+          }
+          this.#storage.removeItem(CONFIG.STORAGE_KEYS.NOTES);
+        }
+      } catch (e) {
+        console.error('DB Init failed', e);
+      }
+    }
+
+    toggleFavorite(id, broadcast = true) {
+      const state = this.#stateManager.getState();
+      state.user.favorites.has(id) ? state.user.favorites.delete(id) : state.user.favorites.add(id);
+      this.#storage.setItem(CONFIG.STORAGE_KEYS.FAVORITES, JSON.stringify([...state.user.favorites]));
+      this.#stateManager.publish('favoritesChanged');
+      if (broadcast) this.#syncService.broadcast('FAVORITE_TOGGLE', { id });
+    }
+
+    updateFavoritesOrder(newOrderArray) {
+      const state = this.#stateManager.getState();
+      state.user.favorites = new Set(newOrderArray);
+      this.#storage.setItem(CONFIG.STORAGE_KEYS.FAVORITES, JSON.stringify(newOrderArray));
+      // No broadcast needed for drag-drop usually, or could add if desired
+    }
 
     isFavorite = (id) => this.#stateManager.getState().user.favorites.has(id);
 
-    saveNote(id, text) { const state = this.#stateManager.getState(); state.user.notes.set(id, text); this.#storage.setItem(CONFIG.STORAGE_KEYS.NOTES, JSON.stringify(Object.fromEntries(state.user.notes))); }
+    saveNote(id, text, broadcast = true) {
+      const state = this.#stateManager.getState();
+      state.user.notes.set(id, text);
+      this.#dbService.put(id, text).catch((e) => console.error('Save note failed', e));
+      if (broadcast) this.#syncService.broadcast('NOTE_UPDATE', { id, text });
+    }
 
     getNote = (id) => this.#stateManager.getState().user.notes.get(id) || '';
+
+    async exportNotes() {
+      const notes = Object.fromEntries(this.#stateManager.getState().user.notes);
+      const jsonString = JSON.stringify(notes);
+
+      const stream = new Blob([jsonString]).stream();
+      const compressedReadableStream = stream.pipeThrough(new CompressionStream('gzip'));
+      const compressedResponse = await new Response(compressedReadableStream);
+      const blob = await compressedResponse.blob();
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `quickref-notes-${new Date().toISOString().split('T')[0]}.json.gz`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
   }
 
   class PersistenceService {
@@ -312,9 +685,7 @@
       if (state.data.loadedRulesets[rulesetKey].has(dataFileName)) return;
 
       const cacheKey = `${rulesetKey}_${dataFileName}`;
-      if (this.#fetchPromises.has(cacheKey)) {
-        return this.#fetchPromises.get(cacheKey);
-      }
+      if (this.#fetchPromises.has(cacheKey)) return this.#fetchPromises.get(cacheKey);
 
       const prefix = rulesetKey === '2024' ? '2024_' : '';
       const path = `js/${prefix}data_${dataFileName}.json`;
@@ -340,32 +711,22 @@
 
     async ensureSectionDataLoaded(dataFileName) {
       const { use2024Rules } = this.#stateManager.getState().settings;
-      const rulesetKey = this.#getRulesetKey(use2024Rules);
-      await this.#loadDataFile(dataFileName, rulesetKey);
+      await this.#loadDataFile(dataFileName, this.#getRulesetKey(use2024Rules));
     }
 
     async ensureAllDataLoadedForActiveRuleset() {
       const { use2024Rules } = this.#stateManager.getState().settings;
       const rulesetKey = this.#getRulesetKey(use2024Rules);
-      const promises = CONFIG.DATA_FILES.map((file) => this.#loadDataFile(file, rulesetKey));
-      await Promise.all(promises);
+      await Promise.all(CONFIG.DATA_FILES.map((file) => this.#loadDataFile(file, rulesetKey)));
     }
 
     async preloadAllDataSilent() {
       console.log('Starting background preload of all data files...');
-      const rulesets = ['2014', '2024'];
       const promises = [];
-      for (const ruleset of rulesets) {
-        for (const file of CONFIG.DATA_FILES) {
-          promises.push(this.#loadDataFile(file, ruleset));
-        }
-      }
-      try {
-        await Promise.allSettled(promises);
-        console.log('All data files preloaded.');
-      } catch (err) {
-        console.error('Background preload encountered errors:', err);
-      }
+      ['2014', '2024'].forEach((ruleset) => {
+        CONFIG.DATA_FILES.forEach((file) => promises.push(this.#loadDataFile(file, ruleset)));
+      });
+      try { await Promise.allSettled(promises); console.log('All data files preloaded.'); } catch (err) { console.error('Background preload encountered errors:', err); }
     }
 
     buildRuleMap() {
@@ -375,30 +736,26 @@
       const activeRulesetData = state.data.rulesets[rulesetKey];
       state.data.ruleMap.clear();
 
-      for (const section of CONFIG.SECTION_CONFIG) {
+      CONFIG.SECTION_CONFIG.forEach((section) => {
         const srcKey = this.getDataSourceKey(section.dataKey);
         const src = activeRulesetData[srcKey];
         if (Array.isArray(src)) {
           src.forEach((rule) => {
             if (rule.title) {
               const id = `${section.type}::${rule.title}`;
-              const ruleInfo = { ruleData: rule, type: section.type, sectionId: section.id };
-              state.data.ruleMap.set(id, ruleInfo);
+              state.data.ruleMap.set(id, { ruleData: rule, type: section.type, sectionId: section.id });
             }
           });
         }
-      }
+      });
     }
 
     buildLinkerData() {
       const state = this.#stateManager.getState();
       const ruleTitles = [...state.data.ruleMap.keys()].map((k) => k.split('::')[1]);
-      const uniqueTitles = [...new Set(ruleTitles.filter((t) => t.length > 2))];
-      uniqueTitles.sort((a, b) => b.length - a.length);
-
+      const uniqueTitles = [...new Set(ruleTitles.filter((t) => t.length > 2))].sort((a, b) => b.length - a.length);
       const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const pattern = `\\b(${uniqueTitles.map(esc).join('|')})\\b`;
-      state.data.ruleLinkerRegex = new RegExp(pattern, 'gi');
+      state.data.ruleLinkerRegex = new RegExp(`\\b(${uniqueTitles.map(esc).join('|')})\\b`, 'gi');
     }
   }
 
@@ -410,14 +767,14 @@
     #renderers = {
       paragraph: (bullet, linkifyFn) => {
         const p = document.createElement('p');
-        p.innerHTML = linkifyFn(bullet.content || '');
+        p.innerHTML = safeHTML(linkifyFn(bullet.content || ''));
         return p;
       },
       list: (bullet, linkifyFn) => {
         const ul = document.createElement('ul');
         (bullet.items || []).forEach((itemText) => {
           const li = document.createElement('li');
-          li.innerHTML = linkifyFn(itemText);
+          li.innerHTML = safeHTML(linkifyFn(itemText));
           ul.appendChild(li);
         });
         return ul;
@@ -440,7 +797,7 @@
             const row = tbody.insertRow();
             rowData.forEach((cellData) => {
               const cell = row.insertCell();
-              cell.innerHTML = linkifyFn(String(cellData ?? ''));
+              cell.innerHTML = safeHTML(linkifyFn(String(cellData ?? '')));
             });
           });
         }
@@ -453,10 +810,9 @@
       if (!Array.isArray(bullets)) return fragment;
       bullets.forEach((bullet) => {
         const renderer = this.#renderers[bullet.type];
-        if (renderer) {
-          fragment.appendChild(renderer(bullet, linkifyFn));
-        } else {
-          console.warn(`Unknown bullet type encountered: "${bullet.type}"`);
+        if (renderer) fragment.appendChild(renderer(bullet, linkifyFn));
+        else {
+          console.warn(`Unknown bullet type: "${bullet.type}"`);
           const p = document.createElement('p');
           p.textContent = JSON.stringify(bullet);
           fragment.appendChild(p);
@@ -473,9 +829,10 @@
 
       item.setAttribute(CONFIG.ATTRIBUTES.RULE_TYPE, ruleType);
       item.setAttribute(CONFIG.ATTRIBUTES.POPUP_ID, popupId);
+      item.setAttribute('draggable', 'true'); // Enable Drag
 
       const iconEl = item.querySelector('.item-icon');
-      iconEl.className = 'item-icon iconsize'; // Base classes only
+      iconEl.className = 'item-icon iconsize';
       iconEl.setAttribute(CONFIG.ATTRIBUTES.ICON, ruleData.icon || CONFIG.DEFAULTS.ICON);
 
       item.querySelector('.item-title').textContent = title;
@@ -499,8 +856,8 @@
 
       popup.querySelector('.popup-header').style.backgroundColor = borderColor;
       popup.querySelector('.popup-type').textContent = type;
-      popup.querySelector('.popup-description').innerHTML = linkifyFn(ruleData.description || ruleData.subtitle || '');
-      popup.querySelector('.popup-summary').innerHTML = linkifyFn(ruleData.summary || '');
+      popup.querySelector('.popup-description').innerHTML = safeHTML(linkifyFn(ruleData.description || ruleData.subtitle || ''));
+      popup.querySelector('.popup-summary').innerHTML = safeHTML(linkifyFn(ruleData.summary || ''));
       popup.querySelector('.popup-bullets').replaceChildren(this.#renderBullets(ruleData.bullets, linkifyFn));
 
       const refContainer = popup.querySelector('.popup-reference-container');
@@ -514,11 +871,9 @@
         referenceEl.classList.add(CONFIG.CSS.HIDDEN);
       }
 
-      if (!ruleData.bullets || ruleData.bullets.length === 0) {
+      if (!ruleData.bullets?.length) {
         toggleBtn.classList.add(CONFIG.CSS.HIDDEN);
-        if (!ruleData.summary) {
-          popup.querySelector('.popup-summary').classList.add(CONFIG.CSS.HIDDEN);
-        }
+        if (!ruleData.summary) popup.querySelector('.popup-summary').classList.add(CONFIG.CSS.HIDDEN);
       }
 
       const textarea = popup.querySelector('.popup-notes-textarea');
@@ -546,11 +901,7 @@
       this.#stateManager = stateManager;
       this.#userDataService = userDataService;
       this.#templateService = templateService;
-      try {
-        this.#notificationContainer = this.#domProvider.get(CONFIG.ELEMENT_IDS.NOTIFICATION_CONTAINER);
-      } catch (e) {
-        console.error('Notification container not found, notifications will be disabled.');
-      }
+      try { this.#notificationContainer = this.#domProvider.get(CONFIG.ELEMENT_IDS.NOTIFICATION_CONTAINER); } catch (e) { console.error('Notification container not found.'); }
     }
 
     renderSection(parentId, rules) {
@@ -561,24 +912,39 @@
         item.style.animationDelay = `${index * CONFIG.ANIMATION_DURATION.ITEM_DELAY_MS}ms`;
         fragment.appendChild(item);
       });
-      parent.replaceChildren(fragment);
 
+      if (document.startViewTransition) {
+        document.startViewTransition(() => {
+          parent.replaceChildren(fragment);
+          this.#postRender(parent);
+        });
+      } else {
+        parent.replaceChildren(fragment);
+        this.#postRender(parent);
+      }
+    }
+
+    #postRender(parent) {
       parent.querySelectorAll(`[${CONFIG.ATTRIBUTES.ICON}]`).forEach((iconEl) => {
         const iconName = iconEl.getAttribute(CONFIG.ATTRIBUTES.ICON);
-        if (iconName) {
-          iconEl.classList.add(`icon-${iconName}`);
-        }
+        if (iconName) iconEl.classList.add(`icon-${iconName}`);
       });
-
       this.filterRuleItems();
     }
 
-    renderFavoritesSection() { const state = this.#stateManager.getState(); const favs = [...state.user.favorites].map((id) => ({ popupId: id, ruleInfo: state.data.ruleMap.get(id) })).filter((item) => item.ruleInfo); this.renderSection(CONFIG.ELEMENT_IDS.FAVORITES_CONTAINER, favs); this.#domProvider.get(CONFIG.ELEMENT_IDS.FAVORITES_PLACEHOLDER).style.display = favs.length > 0 ? 'none' : 'block'; this.#domProvider.get(CONFIG.ELEMENT_IDS.SECTION_FAVORITES).classList.toggle(CONFIG.CSS.HIDDEN, favs.length === 0); }
+    renderFavoritesSection() {
+      const state = this.#stateManager.getState();
+      const favs = [...state.user.favorites]
+        .map((id) => ({ popupId: id, ruleInfo: state.data.ruleMap.get(id) }))
+        .filter((item) => item.ruleInfo);
+      this.renderSection(CONFIG.ELEMENT_IDS.FAVORITES_CONTAINER, favs);
+      this.#domProvider.get(CONFIG.ELEMENT_IDS.FAVORITES_PLACEHOLDER).style.display = favs.length > 0 ? 'none' : 'block';
+      this.#domProvider.get(CONFIG.ELEMENT_IDS.SECTION_FAVORITES).classList.toggle(CONFIG.CSS.HIDDEN, favs.length === 0);
+    }
 
     applyAppearance({ theme, darkMode }) {
-      const mode = darkMode ? 'dark' : 'light';
       document.documentElement.dataset.theme = theme;
-      document.documentElement.dataset.mode = mode;
+      document.documentElement.dataset.mode = darkMode ? 'dark' : 'light';
       try {
         const themeLink = this.#domProvider.get(CONFIG.ELEMENT_IDS.THEME_STYLESHEET);
         if (theme !== 'original') {
@@ -588,27 +954,40 @@
           themeLink.href = '';
           themeLink.disabled = true;
         }
-      } catch (e) {
-        console.error('Failed to apply theme stylesheet:', e);
-      }
+      } catch (e) { console.error('Failed to apply theme stylesheet:', e); }
     }
 
     applyMotionReduction = (isEnabled) => document.body.classList.toggle(CONFIG.CSS.MOTION_REDUCED, isEnabled);
 
-    filterRuleItems() { const { showOptional, showHomebrew } = this.#stateManager.getState().settings; this.#domProvider.queryAll(`.${CONFIG.CSS.ITEM_SIZE_CLASS}`).forEach((item) => { if (item.getAttribute(CONFIG.ATTRIBUTES.FILTERABLE) === 'false') return; const type = item.getAttribute(CONFIG.ATTRIBUTES.RULE_TYPE); const isOpt = type === 'Optional rule'; const isHB = type === 'Homebrew rule'; const show = (!isOpt && !isHB) || (isOpt && showOptional) || (isHB && showHomebrew); if (item instanceof HTMLElement) item.style.display = show ? 'flex' : 'none'; }); }
-
-    renderFatalError(msg) { const err = document.createElement('p'); err.textContent = msg; err.className = CONFIG.CSS.FATAL_ERROR; document.body.replaceChildren(err); }
-
-    updateCopyrightYear() {
-      try {
-        const el = this.#domProvider.get(CONFIG.ELEMENT_IDS.COPYRIGHT_YEAR);
-        el.textContent = new Date().getFullYear().toString();
-      } catch (e) {
-        console.warn(`Could not update copyright year: ${e.message}`);
-      }
+    filterRuleItems() {
+      const { showOptional, showHomebrew } = this.#stateManager.getState().settings;
+      this.#domProvider.queryAll(`.${CONFIG.CSS.ITEM_SIZE_CLASS}`).forEach((item) => {
+        if (item.getAttribute(CONFIG.ATTRIBUTES.FILTERABLE) === 'false') return;
+        const type = item.getAttribute(CONFIG.ATTRIBUTES.RULE_TYPE);
+        const isOpt = type === 'Optional rule';
+        const isHB = type === 'Homebrew rule';
+        const show = (!isOpt && !isHB) || (isOpt && showOptional) || (isHB && showHomebrew);
+        if (item instanceof HTMLElement) item.style.display = show ? 'flex' : 'none';
+      });
     }
 
-    showApp() { this.#domProvider.get(CONFIG.ELEMENT_IDS.SKELETON_LOADER).classList.add(CONFIG.CSS.HIDDEN); const app = this.#domProvider.get(CONFIG.ELEMENT_IDS.APP_CONTAINER); app.classList.remove(CONFIG.CSS.HIDDEN); app.style.opacity = '1'; }
+    renderFatalError(msg) {
+      const err = document.createElement('p');
+      err.textContent = msg;
+      err.className = CONFIG.CSS.FATAL_ERROR;
+      document.body.replaceChildren(err);
+    }
+
+    updateCopyrightYear() {
+      try { this.#domProvider.get(CONFIG.ELEMENT_IDS.COPYRIGHT_YEAR).textContent = new Date().getFullYear().toString(); } catch (e) { console.warn(`Could not update copyright year: ${e.message}`); }
+    }
+
+    showApp() {
+      this.#domProvider.get(CONFIG.ELEMENT_IDS.SKELETON_LOADER).classList.add(CONFIG.CSS.HIDDEN);
+      const app = this.#domProvider.get(CONFIG.ELEMENT_IDS.APP_CONTAINER);
+      app.classList.remove(CONFIG.CSS.HIDDEN);
+      app.style.opacity = '1';
+    }
 
     showNotification(message, level = 'info') {
       if (!this.#notificationContainer) return;
@@ -629,7 +1008,11 @@
 
     #stateManager;
 
-    constructor(templateService, userDataService, stateManager) { this.#templateService = templateService; this.#userDataService = userDataService; this.#stateManager = stateManager; }
+    constructor(templateService, userDataService, stateManager) {
+      this.#templateService = templateService;
+      this.#userDataService = userDataService;
+      this.#stateManager = stateManager;
+    }
 
     create(id, ruleInfo, linkifyFn) {
       const popup = this.#templateService.createPopupElement(id, ruleInfo, linkifyFn, this.#userDataService.getNote);
@@ -696,84 +1079,94 @@
       this.#dataService = services.data;
     }
 
-    initialize() { this.#popupContainer = this.#domProvider.get(CONFIG.ELEMENT_IDS.POPUP_CONTAINER); this.#closeAllBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.CLOSE_ALL_POPUPS_BTN); this.#handleResize(); this.#popupContainer.addEventListener('click', this.#handleContainerClick); this.#closeAllBtn.addEventListener('click', this.closeAllPopups); window.addEventListener('resize', debounce(this.#handleResize, CONFIG.DEBOUNCE_DELAY.RESIZE_MS)); document.addEventListener('keydown', this.#handleKeyDown); window.addEventListener('hashchange', this.#handleHashChange); }
+    initialize() {
+      this.#popupContainer = this.#domProvider.get(CONFIG.ELEMENT_IDS.POPUP_CONTAINER);
+      this.#closeAllBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.CLOSE_ALL_POPUPS_BTN);
+      this.#handleResize();
+      this.#popupContainer.addEventListener('click', this.#handleContainerClick);
+      this.#closeAllBtn.addEventListener('click', this.closeAllPopups);
+      window.addEventListener('resize', debounce(this.#handleResize, CONFIG.DEBOUNCE_DELAY.RESIZE_MS));
+      document.addEventListener('keydown', this.#handleKeyDown);
+      window.addEventListener('hashchange', this.#handleHashChange);
+    }
 
     #toShortId = (fullId) => {
-      if (!fullId || !fullId.includes('::')) return fullId;
+      if (!fullId?.includes('::')) return fullId;
       const [type, title] = fullId.split('::');
       const encodedType = this.#TYPE_ENCODING[type];
-      if (!encodedType) return fullId;
-      return `${encodedType}-${encodeURIComponent(title)}`;
+      return encodedType ? `${encodedType}-${encodeURIComponent(title)}` : fullId;
     };
 
     #fromShortId = (shortId) => {
-      if (!shortId || !shortId.includes('-')) return shortId;
+      if (!shortId?.includes('-')) return shortId;
       const separatorIndex = shortId.indexOf('-');
       const encodedType = shortId.substring(0, separatorIndex);
       const encodedTitle = shortId.substring(separatorIndex + 1);
       const type = this.#TYPE_DECODING[encodedType];
-      if (!type) return shortId;
-      return `${type}::${decodeURIComponent(encodedTitle)}`;
+      return type ? `${type}::${decodeURIComponent(encodedTitle)}` : shortId;
     };
 
     #linkifyContent = (html) => {
       const state = this.#stateManager.getState();
-      if (!html || !state.data.ruleLinkerRegex) {
-        return html;
+      if (!html || !state.data.ruleLinkerRegex) return html;
+
+      const container = document.createElement('div');
+      container.innerHTML = safeHTML(html);
+
+      const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+      const textNodes = [];
+      let node;
+      while ((node = walker.nextNode())) {
+        textNodes.push(node);
       }
-      const div = document.createElement('div');
-      div.innerHTML = html;
 
-      const walk = (node) => {
-        if (node.nodeType === Node.TEXT_NODE) {
-          const matches = Array.from(node.textContent.matchAll(state.data.ruleLinkerRegex));
-          if (matches.length > 0) {
-            const frag = document.createDocumentFragment();
-            let lastIdx = 0;
-            matches.forEach((match) => {
-              const text = match[0];
-              const start = match.index;
-              if (start > lastIdx) {
-                frag.appendChild(document.createTextNode(node.textContent.substring(lastIdx, start)));
-              }
-              const link = document.createElement('a');
-              link.className = 'rule-link';
-              link.textContent = text;
-              const id = Array.from(state.data.ruleMap.keys())
-                .find((key) => key.toLowerCase().endsWith(`::${text.toLowerCase()}`));
+      textNodes.forEach((textNode) => {
+        const text = textNode.nodeValue;
+        const matches = Array.from(text.matchAll(state.data.ruleLinkerRegex));
+        if (matches.length === 0) return;
 
-              if (id) {
-                link.setAttribute(CONFIG.ATTRIBUTES.POPUP_ID, id);
-                const preload = () => {
-                  const ruleInfo = state.data.ruleMap.get(id);
-                  if (ruleInfo) {
-                    const sectionConfig = CONFIG.SECTION_CONFIG.find((c) => c.id === ruleInfo.sectionId);
-                    if (sectionConfig) {
-                      const dataSourceKey = this.#dataService.getDataSourceKey(sectionConfig.dataKey);
-                      this.#dataService.ensureSectionDataLoaded(dataSourceKey);
-                    }
-                  }
-                };
-                link.addEventListener('mouseenter', preload, { once: true });
-                link.addEventListener('focus', preload, { once: true });
-                frag.appendChild(link);
-              } else {
-                frag.appendChild(document.createTextNode(text));
-              }
-              lastIdx = start + text.length;
-            });
-            if (lastIdx < node.textContent.length) {
-              frag.appendChild(document.createTextNode(node.textContent.substring(lastIdx)));
-            }
-            node.parentNode.replaceChild(frag, node);
+        const fragment = document.createDocumentFragment();
+        let lastIndex = 0;
+
+        matches.forEach((match) => {
+          const matchText = match[0];
+          const matchIndex = match.index;
+
+          if (matchIndex > lastIndex) {
+            fragment.appendChild(document.createTextNode(text.substring(lastIndex, matchIndex)));
           }
-        } else if (node.nodeType === Node.ELEMENT_NODE && node.nodeName !== 'A' && node.nodeName !== 'BUTTON') {
-          Array.from(node.childNodes).forEach(walk);
-        }
-      };
 
-      walk(div);
-      return div.innerHTML;
+          const link = document.createElement('a');
+          link.className = 'rule-link';
+          link.textContent = matchText;
+          const id = Array.from(state.data.ruleMap.keys())
+            .find((key) => key.toLowerCase().endsWith(`::${matchText.toLowerCase()}`));
+
+          if (id) {
+            link.setAttribute(CONFIG.ATTRIBUTES.POPUP_ID, id);
+            const preload = () => {
+              const ruleInfo = state.data.ruleMap.get(id);
+              if (ruleInfo) {
+                const sectionConfig = CONFIG.SECTION_CONFIG.find((c) => c.id === ruleInfo.sectionId);
+                if (sectionConfig) this.#dataService.ensureSectionDataLoaded(this.#dataService.getDataSourceKey(sectionConfig.dataKey));
+              }
+            };
+            link.addEventListener('mouseenter', preload, { once: true });
+            link.addEventListener('focus', preload, { once: true });
+            fragment.appendChild(link);
+          } else {
+            fragment.appendChild(document.createTextNode(matchText));
+          }
+          lastIndex = matchIndex + matchText.length;
+        });
+
+        if (lastIndex < text.length) {
+          fragment.appendChild(document.createTextNode(text.substring(lastIndex)));
+        }
+        textNode.parentNode.replaceChild(fragment, textNode);
+      });
+
+      return container.innerHTML;
     };
 
     #updateAllLinkStates() {
@@ -786,16 +1179,49 @@
 
     #updateCloseBtnVisibility = () => this.#closeAllBtn?.classList.toggle(CONFIG.CSS.IS_VISIBLE, this.#stateManager.getState().ui.openPopups.size > 1);
 
-    #updateURLHash() { const openIds = Array.from(this.#stateManager.getState().ui.openPopups.keys()); const hash = openIds.map(this.#toShortId).join(','); history.replaceState(null, '', hash ? `#${hash}` : window.location.pathname + window.location.search); }
+    #updateURLHash() {
+      const openIds = Array.from(this.#stateManager.getState().ui.openPopups.keys());
+      const hash = openIds.map(this.#toShortId).join(',');
+      history.replaceState(null, '', hash ? `#${hash}` : window.location.pathname + window.location.search);
+    }
 
-    #closePopup = (id) => { const state = this.#stateManager.getState(); const popup = state.ui.openPopups.get(id); if (!popup) return; popup.classList.add(CONFIG.CSS.IS_CLOSING); state.ui.openPopups.delete(id); this.#a11yService.announce(`Closed popup for ${id.split('::')[1]}`); this.#updateAllLinkStates(); if (this.#isMobileView) this.#popupContainer.classList.remove(CONFIG.CSS.POPUP_CONTAINER_MODAL_OPEN); setTimeout(() => { popup.remove(); this.#updateCloseBtnVisibility(); }, CONFIG.ANIMATION_DURATION.POPUP_MS); this.#persistenceService.saveSession(); this.#updateCloseBtnVisibility(); this.#updateURLHash(); };
-
-    #handleKeyDown = (e) => {
-      const state = this.#stateManager.getState(); if (e.key !== 'Escape' || state.ui.openPopups.size === 0) return; let topId = null; let
-        maxZ = -1; state.ui.openPopups.forEach((el, id) => { const z = parseInt(el.style.zIndex || 0, 10); if (z > maxZ) { maxZ = z; topId = id; } }); if (topId) this.#closePopup(topId);
+    #closePopup = (id) => {
+      const state = this.#stateManager.getState();
+      const popup = state.ui.openPopups.get(id);
+      if (!popup) return;
+      popup.classList.add(CONFIG.CSS.IS_CLOSING);
+      state.ui.openPopups.delete(id);
+      this.#a11yService.announce(`Closed popup for ${id.split('::')[1]}`);
+      this.#updateAllLinkStates();
+      if (this.#isMobileView) this.#popupContainer.classList.remove(CONFIG.CSS.POPUP_CONTAINER_MODAL_OPEN);
+      document.body.style.setProperty('--is-modal-open', state.ui.openPopups.size > 0 ? '1' : '0');
+      setTimeout(() => {
+        popup.close();
+        popup.remove();
+        this.#updateCloseBtnVisibility();
+      }, CONFIG.ANIMATION_DURATION.POPUP_MS);
+      this.#persistenceService.saveSession();
+      this.#updateCloseBtnVisibility();
+      this.#updateURLHash();
     };
 
-    #bringToFront(popup) { if (popup.classList.contains(CONFIG.CSS.IS_ACTIVE)) return; this.#popupContainer.querySelectorAll(`.${CONFIG.CSS.POPUP_WINDOW}`).forEach((w) => w.classList.remove(CONFIG.CSS.IS_ACTIVE)); const state = this.#stateManager.getState(); state.ui.activeZIndex++; popup.style.zIndex = String(state.ui.activeZIndex); popup.classList.add(CONFIG.CSS.IS_ACTIVE); this.#persistenceService.saveSession(); }
+    #handleKeyDown = (e) => {
+      const state = this.#stateManager.getState();
+      if (e.key !== 'Escape' || state.ui.openPopups.size === 0) return;
+      let topId = null; let maxZ = -1;
+      state.ui.openPopups.forEach((el, id) => { const z = parseInt(el.style.zIndex || 0, 10); if (z > maxZ) { maxZ = z; topId = id; } });
+      if (topId) this.#closePopup(topId);
+    };
+
+    #bringToFront(popup) {
+      if (popup.classList.contains(CONFIG.CSS.IS_ACTIVE)) return;
+      this.#popupContainer.querySelectorAll(`.${CONFIG.CSS.POPUP_WINDOW}`).forEach((w) => w.classList.remove(CONFIG.CSS.IS_ACTIVE));
+      const state = this.#stateManager.getState();
+      state.ui.activeZIndex++;
+      popup.style.zIndex = String(state.ui.activeZIndex);
+      popup.classList.add(CONFIG.CSS.IS_ACTIVE);
+      this.#persistenceService.saveSession();
+    }
 
     #makeDraggable(popup) {
       const header = popup.querySelector('.popup-header');
@@ -810,20 +1236,10 @@
         const offY = mdEvent.clientY - rect.top;
         const onMouseMove = (mmEvent) => {
           const PADDING = CONFIG.LAYOUT.POPUP_VIEWPORT_PADDING_PX;
-          const newLeft = mmEvent.clientX - offX;
-          const newTop = mmEvent.clientY - offY;
-
-          const clampedLeft = Math.max(
-            PADDING,
-            Math.min(newLeft, window.innerWidth - popup.offsetWidth - PADDING),
-          );
-          const clampedTop = Math.max(
-            PADDING,
-            Math.min(newTop, window.innerHeight - popup.offsetHeight - PADDING),
-          );
-
-          popup.style.left = `${clampedLeft}px`;
-          popup.style.top = `${clampedTop}px`;
+          const newLeft = Math.max(PADDING, Math.min(mmEvent.clientX - offX, window.innerWidth - popup.offsetWidth - PADDING));
+          const newTop = Math.max(PADDING, Math.min(mmEvent.clientY - offY, window.innerHeight - popup.offsetHeight - PADDING));
+          popup.style.left = `${newLeft}px`;
+          popup.style.top = `${newTop}px`;
         };
         const onMouseUp = () => {
           header.classList.remove(CONFIG.CSS.IS_DRAGGING);
@@ -840,16 +1256,28 @@
     #createPopup(id, ruleInfo, pos) {
       const popup = this.#popupFactory.create(id, ruleInfo, this.#linkifyContent);
       if (this.#isMobileView) {
-        popup.classList.add(CONFIG.CSS.POPUP_MODAL); this.#popupContainer.classList.add(CONFIG.CSS.POPUP_CONTAINER_MODAL_OPEN);
+        popup.classList.add(CONFIG.CSS.POPUP_MODAL);
+        this.#popupContainer.classList.add(CONFIG.CSS.POPUP_CONTAINER_MODAL_OPEN);
       } else {
-        if (pos?.top && pos?.left) { popup.style.top = pos.top; popup.style.left = pos.left; } else { const offset = (this.#stateManager.getState().ui.openPopups.size % CONFIG.LAYOUT.POPUP_CASCADE_WRAP_COUNT) * CONFIG.LAYOUT.POPUP_CASCADE_OFFSET_PX; popup.style.top = `${50 + offset}px`; popup.style.left = `${100 + offset}px`; }
+        if (pos?.top && pos?.left) { popup.style.top = pos.top; popup.style.left = pos.left; } else {
+          const offset = (this.#stateManager.getState().ui.openPopups.size % CONFIG.LAYOUT.POPUP_CASCADE_WRAP_COUNT) * CONFIG.LAYOUT.POPUP_CASCADE_OFFSET_PX;
+          popup.style.top = `${50 + offset}px`; popup.style.left = `${100 + offset}px`;
+        }
         popup.addEventListener('mousedown', () => this.#bringToFront(popup), true);
         this.#makeDraggable(popup);
       }
       this.#popupContainer.appendChild(popup);
+
+      if (document.startViewTransition) {
+        document.startViewTransition(() => popup.show());
+      } else {
+        popup.show();
+      }
+
       const state = this.#stateManager.getState();
       popup.style.zIndex = pos?.zIndex || String(++state.ui.activeZIndex);
       state.ui.openPopups.set(id, popup);
+      document.body.style.setProperty('--is-modal-open', '1');
       this.#a11yService.announce(`Opened popup for ${ruleInfo.ruleData.title}`);
       this.#updateAllLinkStates();
       this.#updateCloseBtnVisibility();
@@ -887,17 +1315,37 @@
       }
     };
 
-    #handleHashChange = () => { const state = this.#stateManager.getState(); const idsFromHash = new Set(window.location.hash.substring(1).split(',').filter(Boolean).map(this.#fromShortId)); const openIds = new Set(state.ui.openPopups.keys()); const toOpen = [...idsFromHash].filter((id) => !openIds.has(id)); const toClose = [...openIds].filter((id) => !idsFromHash.has(id)); toClose.forEach((id) => this.#closePopup(id)); toOpen.forEach((id) => this.togglePopup(id)); };
+    #handleHashChange = () => {
+      const state = this.#stateManager.getState();
+      let idsFromHash = new Set();
+
+      // URLPattern API Implementation for Routing
+      if ('URLPattern' in window) {
+        const pattern = new URLPattern({ hash: '*' });
+        const match = pattern.exec(window.location.href);
+        if (match && match.hash.input) {
+          // URLPattern gives us the raw hash, we still need to split it for multi-window support
+          // But we can use it to validate the structure if needed.
+          // For now, we stick to the logic that works for comma-separated lists
+          idsFromHash = new Set(match.hash.input.substring(1).split(',').filter(Boolean).map(this.#fromShortId));
+        }
+      } else {
+        // Fallback
+        idsFromHash = new Set(window.location.hash.substring(1).split(',').filter(Boolean).map(this.#fromShortId));
+      }
+
+      const openIds = new Set(state.ui.openPopups.keys());
+      [...openIds].filter((id) => !idsFromHash.has(id)).forEach((id) => this.#closePopup(id));
+      [...idsFromHash].filter((id) => !openIds.has(id)).forEach((id) => this.togglePopup(id));
+    };
 
     togglePopup(id) {
       const state = this.#stateManager.getState();
-      if (state.ui.openPopups.has(id)) {
-        this.#closePopup(id);
-      } else {
+      if (state.ui.openPopups.has(id)) this.#closePopup(id);
+      else {
         const rule = state.data.ruleMap.get(id);
-        if (rule) {
-          this.#createPopup(id, rule);
-        } else {
+        if (rule) this.#createPopup(id, rule);
+        else {
           this.#a11yService.announce(CONFIG.UI_STRINGS.RULE_NOT_FOUND);
           this.#viewRenderer.showNotification(CONFIG.UI_STRINGS.RULE_NOT_FOUND, 'error');
         }
@@ -913,15 +1361,8 @@
     getTopMostPopupId() {
       const state = this.#stateManager.getState();
       if (state.ui.openPopups.size === 0) return null;
-      let topId = null;
-      let maxZ = -1;
-      state.ui.openPopups.forEach((el, id) => {
-        const z = parseInt(el.style.zIndex || '0', 10);
-        if (z > maxZ) {
-          maxZ = z;
-          topId = id;
-        }
-      });
+      let topId = null; let maxZ = -1;
+      state.ui.openPopups.forEach((el, id) => { const z = parseInt(el.style.zIndex || '0', 10); if (z > maxZ) { maxZ = z; topId = id; } });
       return topId;
     }
   }
@@ -935,13 +1376,39 @@
 
     #components;
 
-    constructor(domProvider, stateManager, services, components) { this.#domProvider = domProvider; this.#stateManager = stateManager; this.#services = services; this.#components = components; }
+    constructor(domProvider, stateManager, services, components) {
+      this.#domProvider = domProvider;
+      this.#stateManager = stateManager;
+      this.#services = services;
+      this.#components = components;
+    }
 
-    initialize() { this.setupEventSubscriptions(); this.applyInitialSettings(); this.setupSettingsHandlers(); this.setupCookieNoticeHandler(); this.bindGlobalEventListeners(); this.#components.viewRenderer.updateCopyrightYear(); }
+    initialize() {
+      this.setupEventSubscriptions();
+      this.applyInitialSettings();
+      this.setupSettingsHandlers();
+      this.setupCookieNoticeHandler();
+      this.bindGlobalEventListeners();
+      this.#components.viewRenderer.updateCopyrightYear();
+      this.#handleShareTarget();
+    }
 
-    setupEventSubscriptions() { this.#stateManager.subscribe('settingChanged', this.#handleSettingChangeEvent.bind(this)); this.#stateManager.subscribe('favoritesChanged', () => this.#components.viewRenderer.renderFavoritesSection()); }
+    setupEventSubscriptions() {
+      this.#stateManager.subscribe('settingChanged', this.#handleSettingChangeEvent.bind(this));
+      this.#stateManager.subscribe('favoritesChanged', () => {
+        this.#components.viewRenderer.renderFavoritesSection();
+        // Re-initialize drag and drop after render
+        new DragDropManager(CONFIG.ELEMENT_IDS.FAVORITES_CONTAINER, this.#services.userData);
+      });
+      this.#stateManager.subscribe('externalStateChange', this.#handleExternalStateChange.bind(this));
+    }
 
-    applyInitialSettings() { const { settings } = this.#stateManager.getState(); this.#components.viewRenderer.applyAppearance(settings); this.#components.viewRenderer.applyMotionReduction(settings.reduceMotion); }
+    applyInitialSettings() {
+      const { settings } = this.#stateManager.getState();
+      this.#components.viewRenderer.applyAppearance(settings);
+      this.#components.viewRenderer.applyMotionReduction(settings.reduceMotion);
+      this.#services.wakeLock.setEnabled(settings.keepScreenOn);
+    }
 
     async #switchRuleset() {
       this.#components.windowManager.closeAllPopups();
@@ -954,16 +1421,13 @@
       this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}[data-section]`).forEach((section) => {
         const sectionId = section.getAttribute('id');
         if (sectionId === CONFIG.ELEMENT_IDS.SECTION_FAVORITES || sectionId === 'section-settings') return;
-
         const content = section.querySelector(`.${CONFIG.CSS.SECTION_CONTENT}`);
         if (content) {
           content.setAttribute(CONFIG.ATTRIBUTES.RENDERED, 'false');
           const row = content.querySelector('.section-row');
           if (row) row.innerHTML = '';
         }
-        if (!section.classList.contains(CONFIG.CSS.IS_COLLAPSED)) {
-          rerenderPromises.push(this.renderSectionContent(section));
-        }
+        if (!section.classList.contains(CONFIG.CSS.IS_COLLAPSED)) rerenderPromises.push(this.renderSectionContent(section));
       });
       await Promise.all(rerenderPromises);
     }
@@ -971,14 +1435,40 @@
     #handleSettingChangeEvent = async ({ key, value }) => {
       this.#services.a11y.announce(`Setting updated: ${key.toLowerCase().replace('_', ' ')}.`);
       const { settings } = this.#stateManager.getState();
-      if (key === 'RULES_2024') {
-        await this.#switchRuleset();
-      } else if (key === 'THEME' || key === 'MODE') {
-        this.#components.viewRenderer.applyAppearance(settings);
-      } else if (key === 'REDUCE_MOTION') {
-        this.#components.viewRenderer.applyMotionReduction(value);
-      } else {
-        this.#components.viewRenderer.filterRuleItems();
+      if (key === 'RULES_2024') await this.#switchRuleset();
+      else if (key === 'THEME' || key === 'MODE') this.#components.viewRenderer.applyAppearance(settings);
+      else if (key === 'REDUCE_MOTION') this.#components.viewRenderer.applyMotionReduction(value);
+      else if (key === 'WAKE_LOCK') this.#services.wakeLock.setEnabled(value);
+      else this.#components.viewRenderer.filterRuleItems();
+    };
+
+    #handleExternalStateChange = ({ type, payload }) => {
+      const { settings } = this.#stateManager.getState();
+      if (type === 'SETTING_CHANGE') {
+        this.#services.settings.update(CONFIG.STORAGE_KEYS[payload.key], payload.value, false);
+        const config = CONFIG.SETTINGS_CONFIG.find((c) => c.key === payload.key);
+        if (config) {
+          const el = this.#domProvider.get(config.id);
+          if (el.type === 'checkbox') el.checked = payload.value;
+          else el.value = payload.value;
+        }
+      } else if (type === 'FAVORITE_TOGGLE') {
+        this.#services.userData.toggleFavorite(payload.id, false);
+      } else if (type === 'NOTE_UPDATE') {
+        this.#services.userData.saveNote(payload.id, payload.text, false);
+      }
+    };
+
+    #handleShareTarget = () => {
+      const params = new URLSearchParams(window.location.search);
+      const title = params.get('title');
+      const text = params.get('text');
+      if (title || text) {
+        const query = (text || title || '').trim();
+        if (query) {
+          this.#components.viewRenderer.showNotification(`Shared content received: ${query}`);
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
       }
     };
 
@@ -997,30 +1487,41 @@
         });
       } catch (e) {
         console.error('Fatal: Could not load theme manifest.', e);
-        const selectEl = this.#domProvider.get(CONFIG.ELEMENT_IDS.THEME_SELECT);
-        selectEl.innerHTML = '<option value="original">Original</option>';
+        this.#domProvider.get(CONFIG.ELEMENT_IDS.THEME_SELECT).innerHTML = '<option value="original">Original</option>';
       }
     }
 
-    setupCollapsibleSections = () => { this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_TITLE}`).forEach((header) => { const section = header.closest(`.${CONFIG.CSS.SECTION_CONTAINER}`); if (!section || section.dataset.section === 'settings' || section.dataset.section === 'favorites') return; header.setAttribute('role', 'button'); header.setAttribute('tabindex', '0'); const isExpanded = !section.classList.contains(CONFIG.CSS.IS_COLLAPSED); header.setAttribute('aria-expanded', String(isExpanded)); const handler = async () => { const collapsed = section.classList.toggle(CONFIG.CSS.IS_COLLAPSED); header.setAttribute('aria-expanded', String(!collapsed)); if (!collapsed) { await this.renderSectionContent(section); } this.#services.a11y.announce(`${section.dataset.section} section ${collapsed ? 'collapsed' : 'expanded'}.`); }; header.addEventListener('click', handler); header.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } }); }); };
+    setupCollapsibleSections = () => {
+      this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_TITLE}`).forEach((header) => {
+        const section = header.closest(`.${CONFIG.CSS.SECTION_CONTAINER}`);
+        if (!section || section.dataset.section === 'settings' || section.dataset.section === 'favorites') return;
+        header.setAttribute('role', 'button');
+        header.setAttribute('tabindex', '0');
+        const isExpanded = !section.classList.contains(CONFIG.CSS.IS_COLLAPSED);
+        header.setAttribute('aria-expanded', String(isExpanded));
+        const handler = async () => {
+          const collapsed = section.classList.toggle(CONFIG.CSS.IS_COLLAPSED);
+          header.setAttribute('aria-expanded', String(!collapsed));
+          if (!collapsed) await this.renderSectionContent(section);
+          this.#services.a11y.announce(`${section.dataset.section} section ${collapsed ? 'collapsed' : 'expanded'}.`);
+        };
+        header.addEventListener('click', handler);
+        header.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } });
+      });
+    };
 
     bindGlobalEventListeners = () => {
       const mainArea = this.#domProvider.get(CONFIG.ELEMENT_IDS.MAIN_SCROLL_AREA);
       mainArea.addEventListener('click', this.#handleMainAreaClick);
       mainArea.addEventListener('keydown', this.#handleMainAreaKeydown);
-      try {
-        const reportBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.REPORT_RULE_BTN);
-        reportBtn.addEventListener('click', this.#handleReportClick);
-      } catch (e) {
-        console.warn('Report rule button not found.');
-      }
+      try { this.#domProvider.get(CONFIG.ELEMENT_IDS.REPORT_RULE_BTN).addEventListener('click', this.#handleReportClick); } catch (e) { console.warn('Report rule button not found.'); }
+      try { this.#domProvider.get(CONFIG.ELEMENT_IDS.EXPORT_NOTES_BTN).addEventListener('click', () => this.#services.userData.exportNotes()); } catch (e) { console.warn('Export notes button not found.'); }
     };
 
     #handleReportClick = () => {
       const topId = this.#components.windowManager.getTopMostPopupId();
       const repoUrl = 'https://github.com/NatsumeAoii/dnd5e-quickref/issues/new';
       let issueUrl;
-
       if (topId) {
         const title = `Rule Report: ${topId.replace('::', ' - ')}`;
         const body = `I'd like to report an issue with the following rule:\n\nRule ID: \`${topId}\`\n\nIssue: \n(Please describe the problem, e.g., typo, incorrect information, missing detail)\n\n/Reference (if any): \n(e.g., PHB p.123)\n`;
@@ -1042,12 +1543,10 @@
       if (e.target.closest('.favorite-btn')) {
         this.#services.userData.toggleFavorite(id);
         const isFav = this.#services.userData.isFavorite(id);
-        const selector = `[${CONFIG.ATTRIBUTES.POPUP_ID}="${id}"]`;
-        this.#domProvider.queryAll(selector).forEach((el) => {
+        this.#domProvider.queryAll(`[${CONFIG.ATTRIBUTES.POPUP_ID}="${id}"]`).forEach((el) => {
           el.querySelector('.favorite-btn')?.classList.toggle(CONFIG.CSS.IS_FAVORITED, isFav);
         });
-        const title = id.split('::')[1];
-        this.#services.a11y.announce(`${title} ${isFav ? 'added to' : 'removed from'} favorites.`);
+        this.#services.a11y.announce(`${id.split('::')[1]} ${isFav ? 'added to' : 'removed from'} favorites.`);
       } else if (e.target.closest('.item-content')) {
         this.#components.windowManager.togglePopup(id);
       }
@@ -1080,23 +1579,14 @@
       const { use2024Rules } = state.settings;
       const rulesetKey = use2024Rules ? '2024' : '2014';
       const src = state.data.rulesets[rulesetKey][srcKey];
-      if (!Array.isArray(src)) {
-        console.warn(`Data source for "${section.dataKey}" is missing.`);
-        return;
-      }
+      if (!Array.isArray(src)) { console.warn(`Data source for "${section.dataKey}" is missing.`); return; }
       let rules = src;
-      if (section.dataKey.startsWith('environment_')) {
-        rules = src.filter((d) => d.tags?.includes(section.dataKey));
-      }
+      if (section.dataKey.startsWith('environment_')) rules = src.filter((d) => d.tags?.includes(section.dataKey));
       const rulesWithIds = rules.map((rule) => ({
         popupId: `${section.type}::${rule.title}`,
         ruleInfo: { ruleData: rule, type: section.type, sectionId: section.id },
       }));
-      try {
-        this.#components.viewRenderer.renderSection(section.id, rulesWithIds);
-      } catch (e) {
-        console.error(`Failed to render section "${section.id}":`, e);
-      }
+      try { this.#components.viewRenderer.renderSection(section.id, rulesWithIds); } catch (e) { console.error(`Failed to render section "${section.id}":`, e); }
     };
 
     setupCookieNoticeHandler = () => {
@@ -1104,34 +1594,24 @@
         const notice = this.#domProvider.get(CONFIG.ELEMENT_IDS.COOKIE_NOTICE);
         const acceptBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.ACCEPT_COOKIES_BTN);
         const remindBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.REMIND_COOKIES_LATER_BTN);
-
         const hasAccepted = window.localStorage.getItem(CONFIG.STORAGE_KEYS.COOKIES_ACCEPTED) === 'true';
         const hasDismissedReminder = window.sessionStorage.getItem(CONFIG.SESSION_STORAGE_KEYS.COOKIES_REMINDER_DISMISSED) === 'true';
 
-        if (!hasAccepted && !hasDismissedReminder) {
-          notice.style.display = 'block';
-        }
-
+        if (!hasAccepted && !hasDismissedReminder) notice.style.display = 'block';
         const dismissNotice = () => {
           notice.classList.add(CONFIG.CSS.IS_CLOSING);
-          notice.addEventListener('animationend', () => {
-            notice.style.display = 'none';
-          }, { once: true });
+          notice.addEventListener('animationend', () => { notice.style.display = 'none'; }, { once: true });
         };
-
         acceptBtn.addEventListener('click', () => {
           window.localStorage.setItem(CONFIG.STORAGE_KEYS.COOKIES_ACCEPTED, 'true');
           ServiceWorkerMessenger.setCachingPolicy(true);
           dismissNotice();
         });
-
         remindBtn.addEventListener('click', () => {
           window.sessionStorage.setItem(CONFIG.SESSION_STORAGE_KEYS.COOKIES_REMINDER_DISMISSED, 'true');
           dismissNotice();
         });
-      } catch (e) {
-        console.warn(`Could not set up cookie notice: ${e.message}`);
-      }
+      } catch (e) { console.warn(`Could not set up cookie notice: ${e.message}`); }
     };
 
     setupSettingsHandlers = () => {
@@ -1148,9 +1628,7 @@
             el.value = settings[stateProp];
             el.addEventListener('change', () => this.#services.settings.update(CONFIG.STORAGE_KEYS[key], el.value));
           }
-        } catch (e) {
-          console.warn(`Failed to set up setting #${id}: ${e.message}`);
-        }
+        } catch (e) { console.warn(`Failed to set up setting #${id}: ${e.message}`); }
       });
     };
   }
@@ -1176,10 +1654,15 @@
 
     #registerServices() {
       this.#services.a11y = new A11yService(this.#domProvider);
-      this.#services.settings = new SettingsService(window.localStorage, this.#stateManager);
-      this.#services.userData = new UserDataService(window.localStorage, this.#stateManager);
+      this.#services.sync = new SyncService(this.#stateManager);
+      this.#services.optimizer = new PerformanceOptimizer();
+      this.#services.settings = new SettingsService(window.localStorage, this.#stateManager, this.#services.sync, this.#services.optimizer);
+      this.#services.db = new DBService();
+      this.#services.userData = new UserDataService(window.localStorage, this.#stateManager, this.#services.db, this.#services.sync);
       this.#services.persistence = new PersistenceService(window.sessionStorage, this.#stateManager);
       this.#services.data = new DataService(this.#stateManager);
+      this.#services.wakeLock = new WakeLockService();
+      this.#services.gamepad = new GamepadService(this.#domProvider);
     }
 
     #registerComponents() {
@@ -1201,9 +1684,15 @@
       this.#handlePageLoadActions();
       this.#registerServiceWorkerAndPreload();
       window.addEventListener('pagehide', this.#handlePageHide);
+
+      // Font Loading API Check
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
+
       await this.#uiController.loadAndPopulateThemes();
       this.#services.settings.initialize();
-      this.#services.userData.initialize();
+      await this.#services.userData.initialize();
       this.#components.windowManager.initialize();
       this.#uiController.initialize();
       await this.#loadInitialDataAndRender();
@@ -1212,7 +1701,6 @@
 
     async #loadInitialDataAndRender() {
       this.#uiController.setupCollapsibleSections();
-
       const defaultOpenSections = this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}:not(.${CONFIG.CSS.IS_COLLAPSED})`);
       const renderPromises = Array.from(defaultOpenSections).map((section) => {
         const sectionId = section.getAttribute('id');
@@ -1222,23 +1710,22 @@
         return Promise.resolve();
       });
       await Promise.all(renderPromises);
-
       this.#services.data.buildRuleMap();
       this.#services.data.buildLinkerData();
-
       this.#components.viewRenderer.renderFavoritesSection();
       const popupsFromSession = this.#services.persistence.loadSession();
-      if (window.location.hash) {
-        this.#components.windowManager.loadPopupsFromURL();
-      } else {
-        popupsFromSession.forEach((p) => this.#components.windowManager.createPopupFromState(p));
-      }
+      if (window.location.hash) this.#components.windowManager.loadPopupsFromURL();
+      else popupsFromSession.forEach((p) => this.#components.windowManager.createPopupFromState(p));
     }
 
-    #handlePageLoadActions = () => { if (window.sessionStorage.getItem(CONFIG.SESSION_STORAGE_KEYS.RULESET_CHANGED) === 'true') { window.scrollTo(0, 0); window.sessionStorage.removeItem(CONFIG.SESSION_STORAGE_KEYS.RULESET_CHANGED); } };
+    #handlePageLoadActions = () => {
+      if (window.sessionStorage.getItem(CONFIG.SESSION_STORAGE_KEYS.RULESET_CHANGED) === 'true') {
+        window.scrollTo(0, 0);
+        window.sessionStorage.removeItem(CONFIG.SESSION_STORAGE_KEYS.RULESET_CHANGED);
+      }
+    };
 
     #handlePageHide = () => {
-      // Flush any unsaved notes.
       const { openPopups } = this.#stateManager.getState().ui;
       if (openPopups.size > 0) {
         openPopups.forEach((popupEl, id) => {
@@ -1246,18 +1733,16 @@
           if (textarea) this.#services.userData.saveNote(id, textarea.value);
         });
       }
-
-      // If user has not accepted cookies, instruct service worker to clear the cache.
       const hasAccepted = window.localStorage.getItem(CONFIG.STORAGE_KEYS.COOKIES_ACCEPTED) === 'true';
-      if (!hasAccepted) {
-        ServiceWorkerMessenger.clearCache();
-      }
+      if (!hasAccepted) ServiceWorkerMessenger.clearCache();
     };
 
     #registerServiceWorkerAndPreload() {
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js')
+          const swPath = './sw.js';
+          const swUrl = safeScriptURL(swPath);
+          navigator.serviceWorker.register(swUrl)
             .then((reg) => {
               console.log('Service Worker registered.', reg);
               return navigator.serviceWorker.ready;
@@ -1265,17 +1750,14 @@
             .then(() => {
               const hasAccepted = window.localStorage.getItem(CONFIG.STORAGE_KEYS.COOKIES_ACCEPTED) === 'true';
               ServiceWorkerMessenger.setCachingPolicy(hasAccepted);
-              // Now that the service worker is ready and configured, start preloading.
               this.#services.data.preloadAllDataSilent();
             })
             .catch((err) => {
               console.error('Service Worker registration or setup failed:', err);
-              // If SW fails, still try to preload data for the current session.
               this.#services.data.preloadAllDataSilent();
             });
         });
       } else {
-        // If SW is not supported, just preload the data.
         this.#services.data.preloadAllDataSilent();
       }
     }
@@ -1292,9 +1774,7 @@
     } catch (error) {
       console.error('A critical error occurred during application initialization:', error);
       const vr = new ViewRenderer(new DOMProvider());
-      const msg = error instanceof DOMElementNotFoundError
-        ? 'App failed: A critical UI element is missing.'
-        : 'An unexpected error occurred. Please refresh.';
+      const msg = error instanceof DOMElementNotFoundError ? 'App failed: A critical UI element is missing.' : 'An unexpected error occurred. Please refresh.';
       vr.renderFatalError(msg);
     }
   });

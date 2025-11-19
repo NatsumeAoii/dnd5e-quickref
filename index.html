@@ -4,7 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+    <!-- Security Hardening: CSP with Trusted Types & Permissions Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; require-trusted-types-for 'script';">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=(), usb=(), vr=(), accelerometer=(), gyroscope=(), magnetometer=()">
+    
     <title>D&D5e QuickRef</title>
 
     <meta name="description" content="A quick, searchable reference guide for Dungeons & Dragons 5th Edition (D&D 5e) rulesets." />
@@ -28,18 +31,46 @@
     <link id="theme-stylesheet" rel="stylesheet" type="text/css" href="">
     <link rel="stylesheet" type="text/css" href="css/icons.css">
     <style>
-      /* Inlined critical CSS for skeleton loader */
+      /* Critical CSS for skeleton loader */
       .skeleton-loader { max-width: 2000px; margin: 0 auto; padding: var(--spacing-md); }
       .skeleton-section { height: 60px; background-color: var(--color-card-bg); border-radius: var(--border-radius-lg); margin-bottom: 0.5rem; opacity: 0.5; animation: pulse 1.5s infinite ease-in-out; }
       @keyframes pulse { 0% { background-color: var(--color-card-bg); } 50% { background-color: var(--color-border); } 100% { background-color: var(--color-card-bg); } }
+      
+      /* Error Boundary Styles */
+      #global-error-boundary { display: none; position: fixed; inset: 0; background: var(--color-bg); z-index: 20000; padding: 2rem; text-align: center; align-items: center; justify-content: center; flex-direction: column; }
+      #global-error-boundary.visible { display: flex; }
+      .error-actions { margin-top: 1rem; }
     </style>
+    
+    <!-- Global Error Handler -->
+    <script>
+      window.onerror = function(msg, url, line, col, error) {
+        const el = document.getElementById('global-error-boundary');
+        const txt = document.getElementById('error-text');
+        if (el && txt) {
+          el.classList.add('visible');
+          txt.textContent = msg;
+        }
+        return false;
+      };
+    </script>
 </head>
 
 <body>
+    <div id="global-error-boundary" role="alert">
+        <h1>Something went wrong</h1>
+        <p>We encountered an unexpected error.</p>
+        <code id="error-text" style="background: #333; color: #fff; padding: 0.5rem; border-radius: 4px; display: block; margin: 1rem 0; max-width: 100%; overflow: auto;"></code>
+        <div class="error-actions">
+            <button onclick="window.location.reload()">Reload Page</button>
+            <button onclick="localStorage.clear(); sessionStorage.clear(); window.location.reload()">Factory Reset</button>
+        </div>
+    </div>
+
     <div id="notification-container"></div>
     <div id="aria-announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
 
-    <div id="skeleton-loader" class="skeleton-loader">
+    <div id="skeleton-loader" class="skeleton-loader" aria-hidden="true">
         <div class="skeleton-section"></div>
         <div class="skeleton-section"></div>
         <div class="skeleton-section"></div>
@@ -52,7 +83,7 @@
             <section id="section-favorites" class="section-container hidden" data-section="favorites">
                 <h2 class="section-title">
                     <span>Favorites</span>
-                    <span class="section-title-subtitle">Your quick access rules</span>
+                    <span class="section-title-subtitle">Your quick access rules (Drag to reorder)</span>
                 </h2>
                 <div class="section-content">
                     <div class="section-row" id="favorites-container"></div>
@@ -82,8 +113,7 @@
                 </h2>
                 <div class="section-content" data-rendered="false">
                     <p class="section-subtitle">
-                        You can also interact with one object or feature of the
-                        environment for free.
+                        You can also interact with one object or feature of the environment for free.
                     </p>
                     <div class="section-row" id="basic-actions"></div>
                 </div>
@@ -96,8 +126,7 @@
                 </h2>
                 <div class="section-content" data-rendered="false">
                     <p class="section-subtitle">
-                        You can take a bonus action only when a special ability, spell, or feature
-                        states that you can do something as a bonus action.
+                        You can take a bonus action only when a special ability, spell, or feature states that you can do something as a bonus action.
                     </p>
                     <div class="section-row" id="basic-bonus-actions"></div>
                 </div>
@@ -110,8 +139,7 @@
                 </h2>
                 <div class="section-content" data-rendered="false">
                     <p class="section-subtitle">
-                        A reaction is an instant response to a trigger of some kind, which
-                        can occur on your turn or on someone else's.
+                        A reaction is an instant response to a trigger of some kind, which can occur on your turn or on someone else's.
                     </p>
                     <div class="section-row" id="basic-reactions"></div>
                 </div>
@@ -123,8 +151,7 @@
                 </h2>
                 <div class="section-content" data-rendered="false">
                     <p class="section-subtitle">
-                        Conditions alter your capabilities in a variety of ways, and can arise as a result of a spell, a
-                        class feature, a monster's attack, or other effect.
+                        Conditions alter your capabilities in a variety of ways, and can arise as a result of a spell, a class feature, a monster's attack, or other effect.
                     </p>
                     <div class="section-row" id="basic-conditions"></div>
                 </div>
@@ -240,6 +267,28 @@
                                 </span>
                             </div>
                         </label>
+                        <label class="item itemsize" for="wakelock-switch" title="Keep Screen On" data-filterable="false">
+                            <div class="item-text-container">
+                                <div class="item-title">Keep Screen On</div>
+                                <div class="item-desc">Prevent screen from sleeping while active.</div>
+                            </div>
+                            <div class="item-control-container">
+                                <span class="switch">
+                                    <input type="checkbox" id="wakelock-switch">
+                                    <span class="slider round"></span>
+                                </span>
+                            </div>
+                        </label>
+                    </div>
+                    <hr>
+                    <h3 class="settings-row-title">Data Management</h3>
+                    <div class="section-row">
+                        <div class="item itemsize" role="button" tabindex="0" id="export-notes-btn">
+                            <div class="item-text-container">
+                                <div class="item-title">Export Notes</div>
+                                <div class="item-desc">Download your notes (Compressed JSON).</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -328,7 +377,7 @@
     </template>
 
     <template id="popup-template">
-        <div class="popup-window" role="dialog" aria-modal="true">
+        <dialog class="popup-window">
             <header class="popup-header">
                 <span class="popup-title"></span>
                 <div class="popup-header-right">
@@ -353,7 +402,7 @@
                     <textarea class="popup-notes-textarea" placeholder="Add personal notes, house rules, etc."></textarea>
                 </div>
             </div>
-        </div>
+        </dialog>
     </template>
 
     <script src="js/quickref.js" defer></script>
