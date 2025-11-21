@@ -24,9 +24,9 @@ The goal is to provide a **fast, accessible, and table-ready tool** for both Pla
 Customizing rules for your campaign is straightforward.  
 
 ### File Structure
-Rules are stored in the `js/` directory:
-- 2014 rules: `data_action.js`, `data_condition.js`, etc.
-- 2024 rules: `2024_data_action.js`, `2024_data_condition.js`, etc.
+Rules are stored in the `js/data/` directory:
+- 2014 rules: `data_action.json`, `data_condition.json`, etc.
+- 2024 rules: `2024_data_action.json`, `2024_data_condition.json`, etc.
 
 ### How to Add or Modify Rules
 1. **Select the Correct File**  
@@ -35,12 +35,12 @@ Rules are stored in the `js/` directory:
 2. **Add a New Rule**  
    Copy an existing entry and modify its properties. Ensure you use valid JSON syntax.
 
-   Example (JavaScript-based data files):
-   ```javascript
+   Example (JSON data files):
+   ```json
    {
        "title": "My Custom Action",
-       "optional": "Homebrew rule",
-       "icon": "mycustomicon",
+       "optional": "Homebrew rule", // Standard, Optional, or Homebrew
+       "icon": "mycustomicon",    // Icon name from icons.css
        "subtitle": "A brief one-line description.",
        "reference": "My Campaign Guide p. 42",
        "description": "A more detailed description that appears in the popup.",

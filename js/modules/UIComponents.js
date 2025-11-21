@@ -298,13 +298,39 @@ export class ViewRenderer {
     help.style.marginTop = '20px';
     help.style.fontSize = '1.1em';
 
+    const resetBtn = document.createElement('button');
+    resetBtn.textContent = 'Reset Application (Clear Cache)';
+    resetBtn.style.marginTop = '20px';
+    resetBtn.style.padding = '10px 20px';
+    resetBtn.style.fontSize = '1em';
+    resetBtn.style.cursor = 'pointer';
+    resetBtn.style.background = '#d32f2f';
+    resetBtn.style.color = 'white';
+    resetBtn.style.border = 'none';
+    resetBtn.style.borderRadius = '4px';
+    resetBtn.onclick = async () => {
+      try {
+        if ('serviceWorker' in navigator) {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(registrations.map((r) => r.unregister()));
+        }
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.reload();
+      } catch (e) {
+        console.error('Reset failed:', e);
+        alert('Failed to reset automatically. Please clear your browser cache manually.');
+      }
+    };
+
     const contact = document.createElement('p');
     contact.textContent = 'If still not working, you can report this issue or message me on Discord.';
-    contact.style.marginTop = '10px';
+    contact.style.marginTop = '20px';
     contact.style.opacity = '0.8';
 
     container.appendChild(err);
     container.appendChild(help);
+    container.appendChild(resetBtn);
     container.appendChild(contact);
     document.body.replaceChildren(container);
   }
