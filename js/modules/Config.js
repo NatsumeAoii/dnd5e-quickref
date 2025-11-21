@@ -43,11 +43,11 @@ export const CONFIG = Object.freeze({
     PATH: 'themes/',
     MANIFEST: 'themes/themes.json',
   }),
-  DATA_FILES: Object.freeze(['movement', 'action', 'bonusaction', 'reaction', 'condition', 'environment']),
+  DATA_FILES: Object.freeze(['movement', 'action', 'bonus_action', 'reaction', 'condition', 'environment']),
   SECTION_CONFIG: Object.freeze([
     { id: 'basic-movement', dataKey: 'movement', type: 'Move' },
     { id: 'basic-actions', dataKey: 'action', type: 'Action' },
-    { id: 'basic-bonus-actions', dataKey: 'bonusaction', type: 'Bonus action' },
+    { id: 'basic-bonus-actions', dataKey: 'bonus_action', type: 'Bonus action' },
     { id: 'basic-reactions', dataKey: 'reaction', type: 'Reaction' },
     { id: 'basic-conditions', dataKey: 'condition', type: 'Condition' },
     { id: 'environment-obscurance', dataKey: 'environment_obscurance', type: 'Environment' },
