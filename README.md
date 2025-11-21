@@ -24,37 +24,50 @@ The goal is to provide a **fast, accessible, and table-ready tool** for both Pla
 Customizing rules for your campaign is straightforward.  
 
 ### File Structure
-Rules are stored in the `js/data/` directory:
-- 2014 rules: `data_action.json`, `data_condition.json`, etc.
-- 2024 rules: `2024_data_action.json`, `2024_data_condition.json`, etc.
-
-Source code is modularized in `js/modules/`.
+Rules are stored in the `js/` directory:
+- 2014 rules: `data_action.js`, `data_condition.js`, etc.
+- 2024 rules: `2024_data_action.js`, `2024_data_condition.js`, etc.
 
 ### How to Add or Modify Rules
 1. **Select the Correct File**  
    Edit the appropriate JSON file in `js/data/` depending on the ruleset (2014 or 2024).
 
 2. **Add a New Rule**  
-   Copy an existing entry and modify its properties.  
+   Copy an existing entry and modify its properties. Ensure you use valid JSON syntax.
 
-   Example (JSON data files):
-   ```json
+   Example (JavaScript-based data files):
+   ```javascript
    {
        "title": "My Custom Action",
-       "optional": "Homebrew rule", // Standard, Optional, or Homebrew
-       "icon": "mycustomicon",    // Icon name from icons.css
+       "optional": "Homebrew rule",
+       "icon": "mycustomicon",
        "subtitle": "A brief one-line description.",
        "reference": "My Campaign Guide p. 42",
        "description": "A more detailed description that appears in the popup.",
        "bullets": [
            "Use bullet points for mechanics.",
            "You can use <b>HTML</b> formatting."
-       ]
+       ],
    }
     ```
 
-3. **Save & Refresh**
-   Reload `index.html` to apply changes.
+Example (JSON-based data files):
+
+```json
+{
+    "title": "My Custom Action",
+    "subtitle": "Quick description",
+    "icon": "my-custom-icon",
+    "description": "Longer text appears in the popup.",
+    "bullets": [
+        { "type": "paragraph", "content": "Explain mechanics here." },
+        { "type": "list", "items": ["Option A", "Option B"] }
+    ]
+}
+```
+
+3. **Refresh**
+   Reload the page to see your changes. If using the Node.js build process, run the build command first.
 
 </details>
 
@@ -65,19 +78,39 @@ Source code is modularized in `js/modules/`.
 
 ### Option 1: XAMPP (Recommended for User)
 
-1. **Download and Install XAMPP (with PHP 8)**
-   Get XAMPP from the [official site](https://www.apachefriends.org/).
-   Follow their installation instructions. If you feel lost, check YouTube tutorials.
+You can run this project using either **Node.js** (recommended for development/optimization) or **XAMPP** (simple static hosting).
 
-2. **Copy the Project Files**
-   Place this project folder inside your XAMPP installation directory, e.g.:
+### Option A: Node.js (Build & Optimize)
+This method allows you to lint the code and generate an optimized, minified version of the site.
 
-   ```
-   C:/xampp/htdocs/dnd-quickref
-   ```
+1.  **Install Dependencies**
+    ```bash
+    npm install
+    ```
 
-3. **Start Apache**
-   Open the XAMPP Control Panel and start the **Apache** service.
+2.  **Build Project**
+    Generates the optimized site in the `dist/` folder.
+    ```bash
+    npm run build
+    ```
+
+3.  **Run Locally**
+    Serve the `dist` folder.
+    ```bash
+    npx serve dist
+    ```
+
+### Option B: XAMPP / Apache
+This method runs the raw source code directly.
+
+1.  **Install XAMPP**
+    Download and install XAMPP from the official website.
+
+2.  **Copy Files**
+    Copy the entire project folder into your `htdocs` directory (usually `C:/xampp/htdocs/dnd5e-quickref`).
+
+3.  **Start Apache**
+    Open the XAMPP Control Panel and start the **Apache** module.
 
 4. **Run in Browser**
    Open a web browser and navigate to:
@@ -88,38 +121,14 @@ Source code is modularized in `js/modules/`.
 
    (Replace `dnd-quickref` with the actual folder name you used.)
 
-### Option 2: Node.js (For Development)
-
-1.  **Install Dependencies**:
-    ```bash
-    npm install
-    ```
-2.  **Run Locally**:
-    You can use any local server. If you have VS Code, the "Live Server" extension is recommended.
-    Alternatively, serve the root directory:
-    ```bash
-    npx serve .
-    ```
-
-### Building for Production
-To create an optimized build in the `dist/` folder:
-```bash
-npm run build
-```
-
-### Testing Production Build
-Serve the `dist/` folder:
-```bash
-npx serve dist
-```
-Or copy the contents of `dist/` to your XAMPP `htdocs` folder.
+That’s it — the quick reference should now be running locally!
 
 </details>
 
 ---
 
 <details>
-<summary><strong>Contributing</strong></summary>
+<summary><strong>Contributing & Code Quality</strong></summary>
 
 Contributions are welcome!
 
@@ -139,7 +148,7 @@ A: Toggle the setting in the app. Files prefixed with `2024_` contain the update
 
 **Q: How do I add custom homebrew content?**
 
-A: Add or edit entries in the appropriate data file (`js/data/` directory). Follow the format outlined above.
+A: Add or edit entries in the appropriate data file (`js/` directory). Follow the format outlined above.
 
 **Q: What happens if a data file is missing or broken?**
 
@@ -148,6 +157,7 @@ A: The app includes custom error handling to prevent crashes and notify you of t
 </details>
 
 ---
+
 
 <details>
 <summary><strong>Credits & Acknowledgements</strong></summary>
@@ -164,3 +174,28 @@ A: The app includes custom error handling to prevent crashes and notify you of t
   * Tasha’s Cauldron of Everything (2020) - TCE
 
 </details>
+
+---
+
+<details>
+<summary><strong>FAQ</strong></summary>
+
+**Q: How do I switch between the 2014 and 2024 rules?**
+
+A: Toggle the setting in the app. Files prefixed with `2024_` contain the updated rules.
+
+**Q: How do I add custom homebrew content?**
+
+A: Add or edit entries in the appropriate data file (`js/` directory). Follow the format outlined above.
+
+**Q: I updated the code, but the browser still shows the old version.**
+
+A: This is due to the Service Worker cache. The app is designed to work offline. To see changes immediately, use the force refresh key combo (`Ctrl + Shift + F5`) or unregister the Service Worker in your browser's DevTools.
+
+**Q: What happens if a data file is missing or broken?**
+
+A: The app includes custom error handling to prevent crashes and notify you of the issue.
+
+</details>
+
+---
