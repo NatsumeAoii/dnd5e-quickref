@@ -1,5 +1,7 @@
 # D&D 5e / 2024 Interactive Quick Reference
 
+> **⚠️ IMPORTANT:** Please use **Ctrl + Shift + F5** or **Ctrl + R** to force refresh the page and ensure you are seeing the latest updates!
+
 A modern, interactive, and highly customizable quick reference sheet for **Dungeons & Dragons 5th Edition**, supporting both the 2014 and 2024 rulesets.  
 
 This project builds on the excellent foundation of [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref), introducing major enhancements, new features, a revamped UI, and updated rules content.
@@ -22,19 +24,21 @@ The goal is to provide a **fast, accessible, and table-ready tool** for both Pla
 Customizing rules for your campaign is straightforward.  
 
 ### File Structure
-Rules are stored in the `js/` directory:
-- 2014 rules: `data_action.js`, `data_condition.js`, etc.
-- 2024 rules: `2024_data_action.js`, `2024_data_condition.js`, etc.
+Rules are stored in the `js/data/` directory:
+- 2014 rules: `data_action.json`, `data_condition.json`, etc.
+- 2024 rules: `2024_data_action.json`, `2024_data_condition.json`, etc.
+
+Source code is modularized in `js/modules/`.
 
 ### How to Add or Modify Rules
 1. **Select the Correct File**  
-   Edit the appropriate file depending on the ruleset (2014 or 2024).
+   Edit the appropriate JSON file in `js/data/` depending on the ruleset (2014 or 2024).
 
 2. **Add a New Rule**  
    Copy an existing entry and modify its properties.  
 
-   Example (JavaScript-based data files):
-   ```javascript
+   Example (JSON data files):
+   ```json
    {
        "title": "My Custom Action",
        "optional": "Homebrew rule", // Standard, Optional, or Homebrew
@@ -45,24 +49,9 @@ Rules are stored in the `js/` directory:
        "bullets": [
            "Use bullet points for mechanics.",
            "You can use <b>HTML</b> formatting."
-       ],
+       ]
    }
     ```
-
-Example (JSON-based data files):
-
-```json
-{
-    "title": "My Custom Action",
-    "subtitle": "Quick description",
-    "icon": "my-custom-icon",
-    "description": "Longer text appears in the popup.",
-    "bullets": [
-        { "type": "paragraph", "content": "Explain mechanics here." },
-        { "type": "list", "items": ["Option A", "Option B"] }
-    ]
-}
-```
 
 3. **Save & Refresh**
    Reload `index.html` to apply changes.
@@ -73,6 +62,8 @@ Example (JSON-based data files):
 
 <details>
 <summary><strong>How to Run Locally</strong></summary>
+
+### Option 1: XAMPP (Recommended for User)
 
 1. **Download and Install XAMPP (with PHP 8)**
    Get XAMPP from the [official site](https://www.apachefriends.org/).
@@ -97,7 +88,31 @@ Example (JSON-based data files):
 
    (Replace `dnd-quickref` with the actual folder name you used.)
 
-That’s it — the quick reference should now be running locally!
+### Option 2: Node.js (For Development)
+
+1.  **Install Dependencies**:
+    ```bash
+    npm install
+    ```
+2.  **Run Locally**:
+    You can use any local server. If you have VS Code, the "Live Server" extension is recommended.
+    Alternatively, serve the root directory:
+    ```bash
+    npx serve .
+    ```
+
+### Building for Production
+To create an optimized build in the `dist/` folder:
+```bash
+npm run build
+```
+
+### Testing Production Build
+Serve the `dist/` folder:
+```bash
+npx serve dist
+```
+Or copy the contents of `dist/` to your XAMPP `htdocs` folder.
 
 </details>
 
@@ -124,7 +139,7 @@ A: Toggle the setting in the app. Files prefixed with `2024_` contain the update
 
 **Q: How do I add custom homebrew content?**
 
-A: Add or edit entries in the appropriate data file (`js/` directory). Follow the format outlined above.
+A: Add or edit entries in the appropriate data file (`js/data/` directory). Follow the format outlined above.
 
 **Q: What happens if a data file is missing or broken?**
 

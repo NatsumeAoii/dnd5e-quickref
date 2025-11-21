@@ -5,54 +5,101 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Security Hardening: CSP with Trusted Types & Permissions Policy -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; require-trusted-types-for 'script';">
-    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=(), usb=(), vr=(), accelerometer=(), gyroscope=(), magnetometer=()">
-    
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; require-trusted-types-for 'script';">
+    <meta http-equiv="Permissions-Policy"
+        content="geolocation=(), microphone=(), camera=(), payment=(), usb=(), vr=(), accelerometer=(), gyroscope=(), magnetometer=()">
+
     <title>D&D5e QuickRef</title>
 
-    <meta name="description" content="A quick, searchable reference guide for Dungeons & Dragons 5th Edition (D&D 5e) rulesets." />
+    <meta name="description"
+        content="A quick, searchable reference guide for Dungeons & Dragons 5th Edition (D&D 5e) rulesets." />
     <meta name="author" content="Natsumee" />
-    <meta name="theme-color" content="#802b1c"/>
-    
-    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="theme-color" content="#802b1c" />
+
+    <link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
     <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="5e Quickref" />
     <link rel="manifest" href="manifest.json" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
     <link rel="preload" href="css/quickref.css" as="style">
     <link rel="stylesheet" href="css/quickref.css">
-    
+
     <link id="theme-stylesheet" rel="stylesheet" type="text/css" href="">
     <link rel="stylesheet" type="text/css" href="css/icons.css">
     <style>
-      /* Critical CSS for skeleton loader */
-      .skeleton-loader { max-width: 2000px; margin: 0 auto; padding: var(--spacing-md); }
-      .skeleton-section { height: 60px; background-color: var(--color-card-bg); border-radius: var(--border-radius-lg); margin-bottom: 0.5rem; opacity: 0.5; animation: pulse 1.5s infinite ease-in-out; }
-      @keyframes pulse { 0% { background-color: var(--color-card-bg); } 50% { background-color: var(--color-border); } 100% { background-color: var(--color-card-bg); } }
-      
-      /* Error Boundary Styles */
-      #global-error-boundary { display: none; position: fixed; inset: 0; background: var(--color-bg); z-index: 20000; padding: 2rem; text-align: center; align-items: center; justify-content: center; flex-direction: column; }
-      #global-error-boundary.visible { display: flex; }
-      .error-actions { margin-top: 1rem; }
+        /* Critical CSS for skeleton loader */
+        .skeleton-loader {
+            max-width: 2000px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+
+        .skeleton-section {
+            height: 60px;
+            background-color: var(--color-card-bg);
+            border-radius: var(--border-radius-lg);
+            margin-bottom: 0.5rem;
+            opacity: 0.5;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                background-color: var(--color-card-bg);
+            }
+
+            50% {
+                background-color: var(--color-border);
+            }
+
+            100% {
+                background-color: var(--color-card-bg);
+            }
+        }
+
+        /* Error Boundary Styles */
+        #global-error-boundary {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--color-bg);
+            z-index: 20000;
+            padding: 2rem;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        #global-error-boundary.visible {
+            display: flex;
+        }
+
+        .error-actions {
+            margin-top: 1rem;
+        }
     </style>
-    
+
     <!-- Global Error Handler -->
     <script>
-      window.onerror = function(msg, url, line, col, error) {
-        const el = document.getElementById('global-error-boundary');
-        const txt = document.getElementById('error-text');
-        if (el && txt) {
-          el.classList.add('visible');
-          txt.textContent = msg;
-        }
-        return false;
-      };
+        window.onerror = function (msg, url, line, col, error) {
+            const el = document.getElementById('global-error-boundary');
+            const txt = document.getElementById('error-text');
+            if (el && txt) {
+                el.classList.add('visible');
+                txt.textContent = msg;
+            }
+            return false;
+        };
     </script>
 </head>
 
@@ -60,10 +107,12 @@
     <div id="global-error-boundary" role="alert">
         <h1>Something went wrong</h1>
         <p>We encountered an unexpected error.</p>
-        <code id="error-text" style="background: #333; color: #fff; padding: 0.5rem; border-radius: 4px; display: block; margin: 1rem 0; max-width: 100%; overflow: auto;"></code>
+        <code id="error-text"
+            style="background: #333; color: #fff; padding: 0.5rem; border-radius: 4px; display: block; margin: 1rem 0; max-width: 100%; overflow: auto;"></code>
         <div class="error-actions">
             <button onclick="window.location.reload()">Reload Page</button>
-            <button onclick="localStorage.clear(); sessionStorage.clear(); window.location.reload()">Factory Reset</button>
+            <button onclick="localStorage.clear(); sessionStorage.clear(); window.location.reload()">Factory
+                Reset</button>
         </div>
     </div>
 
@@ -126,7 +175,8 @@
                 </h2>
                 <div class="section-content" data-rendered="false">
                     <p class="section-subtitle">
-                        You can take a bonus action only when a special ability, spell, or feature states that you can do something as a bonus action.
+                        You can take a bonus action only when a special ability, spell, or feature states that you can
+                        do something as a bonus action.
                     </p>
                     <div class="section-row" id="basic-bonus-actions"></div>
                 </div>
@@ -139,7 +189,8 @@
                 </h2>
                 <div class="section-content" data-rendered="false">
                     <p class="section-subtitle">
-                        A reaction is an instant response to a trigger of some kind, which can occur on your turn or on someone else's.
+                        A reaction is an instant response to a trigger of some kind, which can occur on your turn or on
+                        someone else's.
                     </p>
                     <div class="section-row" id="basic-reactions"></div>
                 </div>
@@ -151,7 +202,8 @@
                 </h2>
                 <div class="section-content" data-rendered="false">
                     <p class="section-subtitle">
-                        Conditions alter your capabilities in a variety of ways, and can arise as a result of a spell, a class feature, a monster's attack, or other effect.
+                        Conditions alter your capabilities in a variety of ways, and can arise as a result of a spell, a
+                        class feature, a monster's attack, or other effect.
                     </p>
                     <div class="section-row" id="basic-conditions"></div>
                 </div>
@@ -193,7 +245,8 @@
                     <h3 class="settings-row-title">Content Rulesets</h3>
                     <p class="section-subtitle">Control which rule sets are displayed throughout the application.</p>
                     <div class="section-row">
-                        <label class="item itemsize" for="optional-switch" title="Include Optional Rules" data-filterable="false">
+                        <label class="item itemsize" for="optional-switch" title="Include Optional Rules"
+                            data-filterable="false">
                             <div class="item-text-container">
                                 <div class="item-title">Include Optional Rules (*)</div>
                                 <div class="item-desc">Show/hide optional rules from DMG.</div>
@@ -205,7 +258,8 @@
                                 </span>
                             </div>
                         </label>
-                        <label class="item itemsize" for="homebrew-switch" title="Include Homebrew Rules" data-filterable="false">
+                        <label class="item itemsize" for="homebrew-switch" title="Include Homebrew Rules"
+                            data-filterable="false">
                             <div class="item-text-container">
                                 <div class="item-title">Include Homebrew Rules (**)</div>
                                 <div class="item-desc">Show/hide most common Homebrew rules.</div>
@@ -217,8 +271,9 @@
                                 </span>
                             </div>
                         </label>
-                        <label class="item itemsize" for="rules2024-switch" title="Switch to 2024 Rules" data-filterable="false">
-                             <div class="item-text-container">
+                        <label class="item itemsize" for="rules2024-switch" title="Switch to 2024 Rules"
+                            data-filterable="false">
+                            <div class="item-text-container">
                                 <div class="item-title">Use 2024 Rules</div>
                                 <div class="item-desc">Enable D&D 2024 Rules (reloads page).</div>
                             </div>
@@ -240,7 +295,7 @@
                                 <div class="item-desc">Change the application's appearance.</div>
                             </div>
                             <div class="item-control-container">
-                                 <select id="theme-select" aria-labelledby="theme-label"></select>
+                                <select id="theme-select" aria-labelledby="theme-label"></select>
                             </div>
                         </div>
                         <label class="item itemsize" for="mode-switch" title="Toggle Dark Mode" data-filterable="false">
@@ -255,7 +310,8 @@
                                 </span>
                             </div>
                         </label>
-                        <label class="item itemsize" for="reduce-motion-switch" title="Reduce Motion" data-filterable="false">
+                        <label class="item itemsize" for="reduce-motion-switch" title="Reduce Motion"
+                            data-filterable="false">
                             <div class="item-text-container">
                                 <div class="item-title">Reduce Motion</div>
                                 <div class="item-desc">Disable animations and transitions.</div>
@@ -267,7 +323,8 @@
                                 </span>
                             </div>
                         </label>
-                        <label class="item itemsize" for="wakelock-switch" title="Keep Screen On" data-filterable="false">
+                        <label class="item itemsize" for="wakelock-switch" title="Keep Screen On"
+                            data-filterable="false">
                             <div class="item-text-container">
                                 <div class="item-title">Keep Screen On</div>
                                 <div class="item-desc">Prevent screen from sleeping while active.</div>
@@ -297,14 +354,17 @@
                 <div class="footer-content">
                     <div class="footer-column footer-column-left">
                         <p>
-                            <a href="https://github.com/NatsumeAoii/dnd5e-quickref" target="_blank" rel="noopener noreferrer" class="github-link">View on GitHub</a>
+                            <a href="https://github.com/NatsumeAoii/dnd5e-quickref" target="_blank"
+                                rel="noopener noreferrer" class="github-link">View on GitHub</a>
                         </p>
-                        <p class="footer-message">A quick reference tool for Dungeons & Dragons 5th Edition players and Dungeon Masters.</p>
+                        <p class="footer-message">A quick reference tool for Dungeons & Dragons 5th Edition players and
+                            Dungeon Masters.</p>
                         <p class="copyright">
                             &copy; <span id="copyright-year"></span> D&D 5e Quick Ref contributors. All Rights Reserved.
                         </p>
                         <p>
-                            <button id="report-rule-btn" class="footer-report-btn">Report missing or incorrect rules</button>
+                            <button id="report-rule-btn" class="footer-report-btn">Report missing or incorrect
+                                rules</button>
                         </p>
                     </div>
 
@@ -314,23 +374,30 @@
                             <div class="footer-links-group">
                                 <h5>GM/DM Related</h5>
                                 <ul class="footer-links-list">
-                                    <li><a href="https://5e.tools/" target="_blank" rel="noopener noreferrer">5e.tools</a></li>
-                                    <li><a href="https://donjon.bin.sh/" target="_blank" rel="noopener noreferrer">donjon</a></li>
+                                    <li><a href="https://5e.tools/" target="_blank"
+                                            rel="noopener noreferrer">5e.tools</a></li>
+                                    <li><a href="https://donjon.bin.sh/" target="_blank"
+                                            rel="noopener noreferrer">donjon</a></li>
                                 </ul>
                             </div>
                             <div class="footer-links-group">
                                 <h5>Map Makers</h5>
                                 <ul class="footer-links-list">
-                                    <li><a href="https://dungeonscrawl.com/" target="_blank" rel="noopener noreferrer">Dungeon Scrawl (Free)</a></li>
-                                    <li><a href="https://inkarnate.com/" target="_blank" rel="noopener noreferrer">Inkarnate (Free/Pro)</a></li>
+                                    <li><a href="https://dungeonscrawl.com/" target="_blank"
+                                            rel="noopener noreferrer">Dungeon Scrawl (Free)</a></li>
+                                    <li><a href="https://inkarnate.com/" target="_blank"
+                                            rel="noopener noreferrer">Inkarnate (Free/Pro)</a></li>
                                 </ul>
                             </div>
                             <div class="footer-links-group">
                                 <h5>For Playing</h5>
                                 <ul class="footer-links-list">
-                                    <li><a href="https://www.dndbeyond.com/" target="_blank" rel="noopener noreferrer">D&D Beyond</a></li>
-                                    <li><a href="https://roll20.net/" target="_blank" rel="noopener noreferrer">Roll20</a></li>
-                                    <li><a href="https://foundryvtt.com/" target="_blank" rel="noopener noreferrer">Foundry VTT</a></li>
+                                    <li><a href="https://www.dndbeyond.com/" target="_blank"
+                                            rel="noopener noreferrer">D&D Beyond</a></li>
+                                    <li><a href="https://roll20.net/" target="_blank"
+                                            rel="noopener noreferrer">Roll20</a></li>
+                                    <li><a href="https://foundryvtt.com/" target="_blank"
+                                            rel="noopener noreferrer">Foundry VTT</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -342,11 +409,13 @@
 
     <div id="popup-container"></div>
 
-    <div id="cookie-notice" class="cookie-notice" role="dialog" aria-labelledby="cookie-notice-title" aria-describedby="cookie-notice-text">
+    <div id="cookie-notice" class="cookie-notice" role="dialog" aria-labelledby="cookie-notice-title"
+        aria-describedby="cookie-notice-text">
         <div class="cookie-notice-content">
             <h3 id="cookie-notice-title" class="cookie-notice-title">Your Privacy</h3>
             <p id="cookie-notice-text" class="cookie-notice-text">
-                This website uses local storage to save your preferences and settings. By clicking "Accept", you agree to this practice.
+                This website uses local storage to save your preferences and settings. By clicking "Accept", you agree
+                to this practice.
             </p>
             <div class="cookie-notice-actions">
                 <button id="remind-cookies-later" class="cookie-notice-secondary-btn">Remind Me Later</button>
@@ -357,10 +426,11 @@
 
     <button id="close-all-popups-btn" title="Close All Popups" aria-label="Close All Popups">
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" viewBox="0 0 24 24">
-            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+            <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
         </svg>
     </button>
-    
+
     <template id="rule-item-template">
         <div class="item itemsize">
             <div class="item-content" role="button" tabindex="0">
@@ -399,12 +469,14 @@
                         <label class="popup-notes-label">Your Notes</label>
                         <span class="popup-notes-status" aria-live="polite"></span>
                     </div>
-                    <textarea class="popup-notes-textarea" placeholder="Add personal notes, house rules, etc."></textarea>
+                    <textarea class="popup-notes-textarea"
+                        placeholder="Add personal notes, house rules, etc."></textarea>
                 </div>
             </div>
         </dialog>
     </template>
 
-    <script src="js/quickref.js" defer></script>
+    <script type="module" src="js/quickref.js" defer></script>
 </body>
+
 </html>

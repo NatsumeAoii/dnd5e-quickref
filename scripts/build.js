@@ -75,19 +75,19 @@ function copyAssets() {
 
   fs.copySync('favicon.ico', `${distDir}/favicon.ico`);
   fs.copySync('manifest.json', `${distDir}/manifest.json`);
-  fs.copySync('web-app-manifest-192x192.png', `${distDir}/web-app-manifest-192x192.png`);
-  fs.copySync('web-app-manifest-512x512.png', `${distDir}/web-app-manifest-512x512.png`);
 
-  const jsonFiles = glob.sync('{js,themes}/*.json');
+  const jsonFiles = glob.sync('themes/*.json');
   for (const file of jsonFiles) {
     const dest = path.join(distDir, file);
     fs.copySync(file, dest);
   }
+
+  fs.copySync('js/data', `${distDir}/js/data`);
 }
 
 function generateDataManifest() {
   logStep('Generating data manifest for service worker...');
-  const dataFiles = glob.sync('js/{data_*.json,2024_data_*.json}');
+  const dataFiles = glob.sync('js/data/{data_*.json,2024_data_*.json}');
   const manifest = {
     files: dataFiles.map((file) => `./${file.replace(/\\/g, '/')}`),
   };
