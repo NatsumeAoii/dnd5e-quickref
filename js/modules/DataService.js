@@ -37,7 +37,7 @@ export class DataService {
     if (this.#fetchPromises.has(cacheKey)) return this.#fetchPromises.get(cacheKey);
 
     const prefix = rulesetKey === '2024' ? '2024_' : '';
-    const path = `js/data/${prefix}data_${dataFileName}.json`;
+    const path = `js/data/${prefix}data_${dataFileName}.json?v=1`;
 
     const promise = (async () => {
       try {
@@ -66,7 +66,10 @@ export class DataService {
   async ensureAllDataLoadedForActiveRuleset() {
     const { use2024Rules } = this.#stateManager.getState().settings;
     const rulesetKey = this.#getRulesetKey(use2024Rules);
-    await Promise.all(CONFIG.DATA_FILES.map((file) => this.#loadDataFile(file, rulesetKey)));
+    // Load sequentially to prevent potential rate limiting or 503 errors
+    for (const file of CONFIG.DATA_FILES) {
+      await this.#loadDataFile(file, rulesetKey);
+    }
   }
 
   async preloadAllDataSilent() {
