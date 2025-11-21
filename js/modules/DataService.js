@@ -13,6 +13,22 @@ export class DataService {
 
   getDataSourceKey = (key) => (key.startsWith('environment_') ? 'environment' : key);
 
+  async #fetchWithRetry(url, retries = 3, backoff = 500) {
+    try {
+      const response = await fetch(url);
+      if (response.ok) return response;
+      if (retries > 0 && (response.status >= 500 || response.status === 429)) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+      return response;
+    } catch (error) {
+      if (retries === 0) throw error;
+      console.warn(`Fetch failed for ${url}. Retrying in ${backoff}ms... (${retries} attempts left)`);
+      await new Promise((resolve) => { setTimeout(resolve, backoff); });
+      return this.#fetchWithRetry(url, retries - 1, backoff * 2);
+    }
+  }
+
   async #loadDataFile(dataFileName, rulesetKey) {
     const state = this.#stateManager.getState();
     if (state.data.loadedRulesets[rulesetKey].has(dataFileName)) return;
@@ -25,7 +41,7 @@ export class DataService {
 
     const promise = (async () => {
       try {
-        const res = await fetch(path);
+        const res = await this.#fetchWithRetry(path);
         if (!res.ok) throw new DataLoadError(path, `HTTP ${res.status}`);
         state.data.rulesets[rulesetKey][dataFileName] = await res.json();
         state.data.loadedRulesets[rulesetKey].add(dataFileName);

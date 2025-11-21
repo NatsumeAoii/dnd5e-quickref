@@ -83,6 +83,9 @@ function copyAssets() {
   }
 
   fs.copySync('js/data', `${distDir}/js/data`);
+
+  // Create .nojekyll to disable Jekyll processing on GitHub Pages
+  fs.writeFileSync(path.join(distDir, '.nojekyll'), '');
 }
 
 function generateDataManifest() {
