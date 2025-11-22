@@ -27,17 +27,161 @@
     href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
 
-  if (notice) notice.classList.remove('hidden');
+  <link rel="preload" href="/dnd5e-quickref/css/quickref.css" as="style">
+  <link rel="stylesheet" href="/dnd5e-quickref/css/quickref.css">
 
-  // Safe regex to validate hash content before redirecting
-  const safe=/^#[\w\-.,
-  ~% !*'();:@&=+$/?]*$/;
-  if (safe.test(window.location.hash)) {
-  window.location.replace('./' + window.location.hash);
-  }
-  }
-  })();
+  <link id="theme-stylesheet" rel="stylesheet" type="text/css" href="">
+  <link rel="stylesheet" type="text/css" href="/dnd5e-quickref/css/icons.css">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: var(--color-bg);
+    }
+
+    .error-card {
+      background-color: var(--color-card-bg);
+      border: var(--border-width) solid var(--color-border);
+      border-radius: var(--border-radius-lg);
+      box-shadow: 0 8px 24px var(--color-shadow-strong);
+      padding: var(--spacing-xl);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      animation: pop-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .error-icon {
+      font-size: 4rem;
+      margin-bottom: var(--spacing-md);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .error-title {
+      font-family: var(--font-secondary);
+      font-size: 2.5rem;
+      color: var(--color-movement);
+      margin-bottom: var(--spacing-xs);
+      font-variant: small-caps;
+      line-height: 1.2;
+    }
+
+    .error-subtitle {
+      font-size: var(--font-size-lg);
+      color: var(--color-text-subtle);
+      margin-bottom: var(--spacing-lg);
+      font-weight: bold;
+    }
+
+    .error-message {
+      margin-bottom: var(--spacing-xl);
+      line-height: 1.6;
+    }
+
+    .home-link {
+      display: inline-block;
+      padding: var(--spacing-sm) var(--spacing-xl);
+      background-color: var(--color-movement);
+      color: #fff;
+      text-decoration: none;
+      border-radius: var(--border-radius-md);
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+    }
+
+    .home-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--color-shadow);
+      background-color: #a03522;
+      /* Slightly darker red */
+      text-decoration: none;
+    }
+
+    .redirect-notice {
+      margin-top: var(--spacing-lg);
+      padding: var(--spacing-md);
+      background-color: var(--color-item-hover-bg);
+      border-radius: var(--border-radius-md);
+      font-size: var(--font-size-sm);
+      color: var(--color-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-sm);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes pop-in {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <div class="error-card">
+      <div class="error-icon">🎲</div>
+      <h1 class="error-title">CRITICAL MISS</h1>
+      <p class="error-subtitle">404 - Page Not Found</p>
+      <p class="error-message">
+        The page you are looking for seems to have vanished into the Ethereal Plane.
+      </p>
+      <a href="/dnd5e-quickref/" class="home-link">Return to Safety</a>
+
+      <p id="redirect-notice" class="redirect-notice hidden" aria-live="polite">
+        <span>🔍</span> Detecting a specific rule... Attempting to redirect...
+      </p>
+      <noscript>
+        <p class="redirect-notice">Enable JavaScript to allow automatic redirection for rule links.</p>
+      </noscript>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const theme = localStorage.getItem('theme') || 'original';
+      const mode = localStorage.getItem('mode') === 'true' ? 'dark' : 'light';
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.dataset.mode = mode;
+      const themeSheet = document.getElementById('theme-stylesheet');
+      if (theme !== 'original' && themeSheet) themeSheet.href = 'themes/' + theme + '.css';
+
+      if (window.location.hash) {
+        const notice = document.getElementById('redirect-notice');
+        if (notice) notice.classList.remove('hidden');
+        // Safe regex to validate hash content before redirecting
+        const safe = /^#[\w\-.,~%!*'();:@&=+$/?]*$/;
+        if (safe.test(window.location.hash)) {
+          window.location.replace('./' + window.location.hash);
+        }
+      }
+    })();
   </script>
-  </body>
+</body>
 
 </html>
