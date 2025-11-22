@@ -21,7 +21,10 @@ export class StateManager {
 
   getState = () => this.#state;
 
-  subscribe(event, callback) { if (!this.#listeners.has(event)) this.#listeners.set(event, []); this.#listeners.get(event).push(callback); }
+  subscribe(event, callback) {
+    if (!this.#listeners.has(event)) this.#listeners.set(event, []);
+    this.#listeners.get(event).push(callback);
+  }
 
   publish(event, data) { if (this.#listeners.has(event)) this.#listeners.get(event).forEach((cb) => cb(data)); }
 }

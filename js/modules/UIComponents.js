@@ -2,6 +2,8 @@
 /* eslint-disable max-len */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-new */
+/* eslint-disable no-alert */
+/* eslint-disable no-undef */
 import { CONFIG } from './Config.js';
 import { safeHTML, debounce } from './Utils.js';
 import { ServiceWorkerMessenger } from './Services.js';
@@ -286,52 +288,79 @@ export class ViewRenderer {
 
   renderFatalError(msg) {
     const container = document.createElement('div');
-    container.style.cssText = 'display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;text-align:center;padding:20px;font-family:sans-serif;background:#1a1a1a;color:#fff;';
+    container.className = 'fatal-error-container';
 
-    const err = document.createElement('h2');
-    err.textContent = msg;
-    err.className = CONFIG.CSS.FATAL_ERROR;
-    err.style.color = '#ff6b6b';
+    const card = document.createElement('div');
+    card.className = 'fatal-error-card';
 
-    const help = document.createElement('p');
-    help.innerHTML = 'Press <strong>Ctrl + Shift + R</strong> or <strong>Ctrl + F5</strong> to force refresh.';
-    help.style.marginTop = '20px';
-    help.style.fontSize = '1.1em';
+    const icon = document.createElement('div');
+    icon.className = 'fatal-error-icon';
+    icon.innerHTML = '⚠️'; // Or use an SVG
+
+    const title = document.createElement('h1');
+    title.className = 'fatal-error-title';
+    title.textContent = 'Critical Error';
+
+    const message = document.createElement('p');
+    message.className = 'fatal-error-message';
+    message.innerHTML = 'The application encountered a problem it couldn\'t recover from.<br>Please try refreshing the page.';
+
+    const codeBlock = document.createElement('div');
+    codeBlock.className = 'fatal-error-code';
+    codeBlock.textContent = msg;
+
+    const actions = document.createElement('div');
+    actions.className = 'fatal-error-actions';
+
+    const reloadBtn = document.createElement('button');
+    reloadBtn.className = 'btn-error-action btn-primary';
+    reloadBtn.innerHTML = 'Reload Page';
+    reloadBtn.onclick = () => window.location.reload();
 
     const resetBtn = document.createElement('button');
-    resetBtn.textContent = 'Reset Application (Clear Cache)';
-    resetBtn.style.marginTop = '20px';
-    resetBtn.style.padding = '10px 20px';
-    resetBtn.style.fontSize = '1em';
-    resetBtn.style.cursor = 'pointer';
-    resetBtn.style.background = '#d32f2f';
-    resetBtn.style.color = 'white';
-    resetBtn.style.border = 'none';
-    resetBtn.style.borderRadius = '4px';
+    resetBtn.className = 'btn-error-action btn-secondary';
+    resetBtn.innerHTML = 'Reset App';
     resetBtn.onclick = async () => {
-      try {
-        if ('serviceWorker' in navigator) {
-          const registrations = await navigator.serviceWorker.getRegistrations();
-          await Promise.all(registrations.map((r) => r.unregister()));
+      if (window.confirm('This will clear all local data and cache. Are you sure?')) {
+        try {
+          if ('serviceWorker' in navigator) {
+            const registrations = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(registrations.map((r) => r.unregister()));
+          }
+          if ('caches' in window) {
+            const keys = await caches.keys();
+            await Promise.all(keys.map((key) => caches.delete(key)));
+          }
+          localStorage.clear();
+          sessionStorage.clear();
+          window.location.reload(true);
+        } catch (e) {
+          window.alert('Reset failed. Please clear browser data manually.');
         }
-        localStorage.clear();
-        sessionStorage.clear();
-        window.location.reload();
-      } catch (e) {
-        console.error('Reset failed:', e);
-        alert('Failed to reset automatically. Please clear your browser cache manually.');
       }
     };
 
-    const contact = document.createElement('p');
-    contact.textContent = 'If still not working, you can report this issue or message me on Discord.';
-    contact.style.marginTop = '20px';
-    contact.style.opacity = '0.8';
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'btn-error-action btn-secondary';
+    copyBtn.innerHTML = 'Copy Error';
+    copyBtn.onclick = () => {
+      navigator.clipboard.writeText(msg).then(() => {
+        copyBtn.innerHTML = 'Copied';
+        setTimeout(() => { copyBtn.innerHTML = 'Copy Error'; }, 2000);
+      });
+    };
 
-    container.appendChild(err);
-    container.appendChild(help);
-    container.appendChild(resetBtn);
-    container.appendChild(contact);
+    const reportBtn = document.createElement('button');
+    reportBtn.className = 'btn-error-action btn-secondary';
+    reportBtn.innerHTML = 'Report Issue';
+    reportBtn.onclick = () => {
+      const body = `Error Report:\n\n${msg}\n\nUser Agent: ${navigator.userAgent}`;
+      window.open(`https://github.com/NatsumeAoii/dnd5e-quickref/issues/new?title=Critical+Error&body=${encodeURIComponent(body)}`, '_blank');
+    };
+
+    actions.append(reloadBtn, resetBtn, copyBtn, reportBtn);
+    card.append(icon, title, message, codeBlock, actions);
+    container.appendChild(card);
     document.body.replaceChildren(container);
   }
 
@@ -349,12 +378,28 @@ export class ViewRenderer {
   showNotification(message, level = 'info') {
     if (!this.#notificationContainer) return;
     const notification = document.createElement('div');
-    notification.className = 'notification';
+    notification.className = 'notification-toast';
     notification.dataset.level = level;
-    notification.textContent = message;
-    notification.setAttribute('role', 'alert');
+
+    const iconMap = {
+      info: 'ℹ️', success: '✅', warning: '⚠️', error: '❌',
+    };
+    const icon = document.createElement('div');
+    icon.className = 'notification-icon';
+    icon.textContent = iconMap[level] || 'ℹ️';
+
+    const msgEl = document.createElement('div');
+    msgEl.className = 'notification-message';
+    msgEl.textContent = message;
+
+    notification.append(icon, msgEl);
     this.#notificationContainer.appendChild(notification);
-    setTimeout(() => notification.remove(), CONFIG.ANIMATION_DURATION.NOTIFICATION_MS);
+
+    // Slide out animation
+    setTimeout(() => {
+      notification.style.animation = 'slideInRight 0.3s reverse forwards';
+      notification.addEventListener('animationend', () => notification.remove());
+    }, CONFIG.ANIMATION_DURATION.NOTIFICATION_MS);
   }
 }
 
@@ -677,17 +722,13 @@ export class WindowManager {
     const state = this.#stateManager.getState();
     let idsFromHash = new Set();
 
-    // URLPattern API Implementation for Routing
     if ('URLPattern' in window) {
-      // eslint-disable-next-line no-undef
       const pattern = new URLPattern({ hash: '*' });
       const match = pattern.exec(window.location.href);
       if (match && match.hash.input) {
-        // URLPattern gives us the raw hash, but we still need to split it for multi-window support
         idsFromHash = new Set(match.hash.input.substring(1).split(',').filter(Boolean).map(this.#fromShortId));
       }
     } else {
-      // Fallback
       idsFromHash = new Set(window.location.hash.substring(1).split(',').filter(Boolean).map(this.#fromShortId));
     }
 
@@ -754,7 +795,6 @@ export class UIController {
     this.#stateManager.subscribe('settingChanged', this.#handleSettingChangeEvent.bind(this));
     this.#stateManager.subscribe('favoritesChanged', () => {
       this.#components.viewRenderer.renderFavoritesSection();
-      // Re-initialize drag and drop after render
       new DragDropManager(CONFIG.ELEMENT_IDS.FAVORITES_CONTAINER, this.#services.userData);
     });
     this.#stateManager.subscribe('externalStateChange', this.#handleExternalStateChange.bind(this));

@@ -26,7 +26,7 @@ export class DataLoadError extends Error {
 
 export const debounce = (func, delay) => {
   let timeoutId;
-  return function (...args) {
+  return function debounced(...args) {
     const ctx = this;
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => func.apply(ctx, args), delay);

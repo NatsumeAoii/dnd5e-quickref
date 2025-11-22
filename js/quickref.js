@@ -2,7 +2,8 @@
 /* eslint-disable no-new */
 import { CONFIG } from './modules/Config.js';
 import {
-  ServiceWorkerMessenger, DOMProvider, A11yService, DBService, WakeLockService, SyncService, PerformanceOptimizer, GamepadService, SettingsService, UserDataService, PersistenceService,
+  ServiceWorkerMessenger, DOMProvider, A11yService, DBService, WakeLockService, SyncService,
+  PerformanceOptimizer, GamepadService, SettingsService, UserDataService, PersistenceService,
 } from './modules/Services.js';
 import { StateManager } from './modules/StateManager.js';
 import { DataService } from './modules/DataService.js';
@@ -49,7 +50,12 @@ class QuickRefApplication {
 
   #initializeComponents() {
     const templateService = new TemplateService(this.#services.domProvider);
-    const viewRenderer = new ViewRenderer(this.#services.domProvider, this.#stateManager, this.#services.userData, templateService);
+    const viewRenderer = new ViewRenderer(
+      this.#services.domProvider,
+      this.#stateManager,
+      this.#services.userData,
+      templateService,
+    );
     const popupFactory = new PopupFactory(templateService, this.#services.userData, this.#stateManager);
     const windowManager = new WindowManager({
       domProvider: this.#services.domProvider,

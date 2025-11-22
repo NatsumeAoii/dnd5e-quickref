@@ -288,12 +288,6 @@ body.motion-reduced *::after {
     transition: opacity var(--transition-speed-normal);
 }
 
-.fatal-error-message {
-    color: var(--color-movement);
-    text-align: center;
-    padding: 2em;
-}
-
 /* Section Container */
 .section-container {
     background-color: var(--color-card-bg);
