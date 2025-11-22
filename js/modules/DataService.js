@@ -37,7 +37,7 @@ export class DataService {
     if (this.#fetchPromises.has(cacheKey)) return this.#fetchPromises.get(cacheKey);
 
     const prefix = rulesetKey === '2024' ? '2024_' : '';
-    const path = `js/data/${prefix}data_${dataFileName}.json?v=2`;
+    const path = `js/data/${prefix}data_${dataFileName}.json?v=${CONFIG.APP_VERSION}`;
 
     const promise = (async () => {
       try {

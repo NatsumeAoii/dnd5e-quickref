@@ -924,7 +924,7 @@ export class UIController {
       this.#services.data.buildRuleMap();
       CONFIG.SECTION_CONFIG.filter((c) => c.type === 'Environment').forEach(this.#renderSingleSection);
     } else {
-      const dataKey = dataSectionKey.replace('-', '');
+      const dataKey = dataSectionKey.replace('-', '_');
       await this.#services.data.ensureSectionDataLoaded(dataKey);
       this.#services.data.buildRuleMap();
       const sectionConfig = CONFIG.SECTION_CONFIG.find((c) => c.dataKey === dataKey);
