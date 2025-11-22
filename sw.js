@@ -1,6 +1,6 @@
 /* eslint-disable default-case */
 /* eslint-disable no-console */
-const CACHE_NAME = 'dnd5e-quickref-cache-v7';
+const CACHE_NAME = 'dnd5e-quickref-cache-v8';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -14,16 +14,12 @@ const CORE_ASSETS = [
   './themes/themes.json',
 ];
 
-// Normalize scope and root URLs for consistent matching
 const scopeUrl = new URL(self.registration.scope);
 const ROOT_URL = scopeUrl.pathname.endsWith('/') ? scopeUrl.pathname : `${scopeUrl.pathname}/`;
 const INDEX_URL = `${ROOT_URL}index.html`;
 
-let cachingAllowed = false;
+let cachingAllowed = true;
 
-/**
- * Clears non-core assets from the cache if user consent is revoked.
- */
 async function clearDataCache() {
   console.log('[SW] Clearing data cache (consent revoked).');
   cachingAllowed = false;
@@ -41,16 +37,23 @@ async function clearDataCache() {
   }
 }
 
-/**
- * Helper to safely cache a response if allowed.
- */
 async function tryCachePut(request, response) {
-  if (!cachingAllowed || !response || !response.ok) return;
+  if (!response || !response.ok) return;
+
+  const url = new URL(request.url);
+  const { pathname } = url;
+  const isCoreAsset = CORE_ASSETS.some((path) => pathname.endsWith(path.substring(2)))
+    || pathname.endsWith('.html')
+    || pathname.endsWith('.css')
+    || pathname.endsWith('.js')
+    || pathname.endsWith('.json');
+
+  if (!isCoreAsset && !cachingAllowed) return;
+
   try {
     const cache = await caches.open(CACHE_NAME);
     await cache.put(request, response.clone());
   } catch (error) {
-    // Quota exceeded or storage error; suppress to prevent app breakage
   }
 }
 
@@ -90,12 +93,10 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Only handle HTTP/HTTPS GET requests
   if (!url.protocol.startsWith('http') || request.method !== 'GET') {
     return;
   }
 
-  // Strategy: Network First for navigation (HTML), falling back to cache
   if (request.mode === 'navigate') {
     event.respondWith((async () => {
       try {
@@ -113,7 +114,6 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Strategy: Stale-While-Revalidate for assets/data
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
     const cachedResponse = await cache.match(request, { ignoreSearch: true });
@@ -124,7 +124,6 @@ self.addEventListener('fetch', (event) => {
     }).catch(() => undefined);
 
     if (cachedResponse) {
-      // Trigger network update in background, return cache immediately
       networkFetch.catch(() => { });
       return cachedResponse;
     }

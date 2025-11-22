@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 export const CONFIG = Object.freeze({
-  APP_VERSION: '1.0.0', // Increment this to force cache busting for data files
+  APP_VERSION: '1.0.0',
   STORAGE_KEYS: Object.freeze({
     RULES_2024: 'rules2024',
     OPTIONAL: 'optional',
