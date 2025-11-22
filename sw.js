@@ -54,6 +54,7 @@ async function tryCachePut(request, response) {
     const cache = await caches.open(CACHE_NAME);
     await cache.put(request, response.clone());
   } catch (error) {
+    console.error('[SW] Failed to cache resource:', error);
   }
 }
 
