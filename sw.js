@@ -5,6 +5,7 @@ const CORE_ASSETS = [
   './',
   './index.html',
   './404.html',
+  './.nojekyll',
   './manifest.json',
   './favicon.ico',
   './css/quickref.css',
@@ -124,7 +125,7 @@ self.addEventListener('fetch', (event) => {
 
     if (cachedResponse) {
       // Trigger network update in background, return cache immediately
-      networkFetch.catch(() => {});
+      networkFetch.catch(() => { });
       return cachedResponse;
     }
 

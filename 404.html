@@ -95,7 +95,6 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 12px var(--color-shadow);
       background-color: #a03522;
-      /* Slightly darker red */
       text-decoration: none;
     }
 
@@ -169,15 +168,18 @@
       document.documentElement.dataset.theme = theme;
       document.documentElement.dataset.mode = mode;
       const themeSheet = document.getElementById('theme-stylesheet');
-      if (theme !== 'original' && themeSheet) themeSheet.href = 'themes/' + theme + '.css';
+      if (theme !== 'original' && themeSheet) {
+        themeSheet.href = '/dnd5e-quickref/themes/' + theme + '.css';
+      }
 
       if (window.location.hash) {
         const notice = document.getElementById('redirect-notice');
         if (notice) notice.classList.remove('hidden');
-        // Safe regex to validate hash content before redirecting
         const safe = /^#[\w\-.,~%!*'();:@&=+$/?]*$/;
         if (safe.test(window.location.hash)) {
-          window.location.replace('./' + window.location.hash);
+          setTimeout(() => {
+            window.location.replace('/dnd5e-quickref/' + window.location.hash);
+          }, 500);
         }
       }
     })();

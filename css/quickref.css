@@ -445,18 +445,21 @@ body.motion-reduced *::after {
     align-items: center;
     justify-content: space-between;
     gap: var(--spacing-sm);
-    border-radius: var(--border-radius-sm);
-    padding: var(--spacing-xs);
-    transition: transform var(--transition-speed-fast), box-shadow var(--transition-speed-fast), background-color var(--transition-speed-fast);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-sm);
+    background-color: var(--color-card-bg);
+    border: 1px solid transparent;
+    transition: transform var(--transition-speed-fast), box-shadow var(--transition-speed-fast), border-color var(--transition-speed-fast);
     opacity: 0;
-    animation: fade-in 0.2s var(--transition-curve) forwards;
+    animation: pop-in 0.3s var(--transition-curve) forwards;
 }
 
 .item:hover,
 .item:focus-within {
-    background-color: var(--color-item-hover-bg);
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px var(--color-shadow);
+    box-shadow: 0 4px 12px var(--color-shadow);
+    border-color: var(--color-link);
+    z-index: 1;
 }
 
 .item.is-focused {
