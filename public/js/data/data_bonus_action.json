@@ -1,0 +1,290 @@
+[
+    {
+        "title": "Cast a Spell",
+        "optional": "Standard rule",
+        "icon": "magicswirl",
+        "subtitle": "Cast time of 1 bonus action",
+        "description": "Cast a swift spell with a casting time of 1 bonus action, which restricts further spellcasting on your turn.",
+        "reference": "PHB, pg. 202.",
+        "summary": "Cast a spell with a 1-bonus-action casting time. If you do, the only other spell you can cast on the same turn is a cantrip with a 1-action casting time.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Bonus action spells provide incredible flexibility, but they come with a specific and important restriction on what other spells you can cast in the same turn. This rule is a cornerstone of the game's action economy for spellcasters."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "If you cast any spell using a bonus action, you cannot cast another spell during the same turn, except for a cantrip with a casting time of 1 action.",
+                    "For example, if you cast <b>Misty Step</b> (a bonus action spell), you can only cast a cantrip like <b>Fire Bolt</b> with your action, not another leveled spell like <b>Magic Missile</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This rule prevents a caster from using two leveled spells in one turn, such as casting <b>Healing Word</b> as a bonus action and <b>Cure Wounds</b> as an action. Understanding this limitation is critical to playing a spellcaster effectively."
+            }
+        ]
+    },
+    {
+        "title": "Offhand Attack",
+        "optional": "Standard rule",
+        "icon": "crossedswords",
+        "subtitle": "Use with the Attack action",
+        "description": "When taking the Attack action with a light weapon, use your bonus action to attack with a different light weapon in your other hand.",
+        "reference": "PHB, pg. 195.",
+        "summary": "After taking the Attack action with a Light weapon, you can use your bonus action to make one attack with a different Light weapon. You don't add your ability modifier to the bonus attack's damage.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "This is the core rule for two-weapon fighting, allowing a character to make an additional attack at the cost of their bonus action. However, this extra attack has a key limitation on the damage it deals."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "When you take the <b>Attack</b> action and attack with a <b>light</b> melee weapon you're holding, you can use a bonus action to attack with another <b>light</b> melee weapon in your other hand.",
+                    "You don't add your ability modifier to the damage of the bonus attack, unless that modifier is negative.",
+                    "The <i>Two-Weapon Fighting</i> fighting style lets you add your ability modifier to the damage, and the <i>Dual Wielder</i> feat removes the 'light' weapon requirement."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Remember, you are only eligible to make an offhand attack if you have already taken the Attack action on your turn. You cannot, for example, cast a spell with your action and then make an offhand attack."
+            }
+        ]
+    },
+    {
+        "title": "Use Class Feature",
+        "optional": "Standard rule",
+        "icon": "embrassedenergy",
+        "subtitle": "Some features use bonus actions",
+        "description": "Activate a racial or class feature that uses a bonus action, as specified in the feature's description.",
+        "reference": "See class page for more information.",
+        "summary": "Activate a unique ability from your class, race, or other source that requires a bonus action to use, as specified in the feature's description.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Many classes have defining features that use a bonus action, allowing them to supplement their main action with another powerful or tactical effect. These abilities often define a class's unique rhythm in combat."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Examples include a Rogue's Cunning Action (Dash, Disengage, or Hide), a Monk's Martial Arts or Ki abilities, a Barbarian entering a Rage, or a Cleric using their War Priest feature."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Managing your bonus action is a key part of mastering these classes, as it often competes with other options like two-weapon fighting or bonus action spells."
+            }
+        ]
+    },
+    {
+        "title": "Aim*",
+        "optional": "Optional rule",
+        "icon": "archerytarget",
+        "subtitle": "Gain advantage on an attack",
+        "description": "As a bonus action, forgo your movement this turn to grant yourself advantage on your next attack roll.",
+        "reference": "TCE, pg. 46.",
+        "summary": "If you haven't moved this turn, you can use your bonus action to gain advantage on the next attack roll you make this turn. Your speed becomes 0 for the rest of the turn.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "This optional rule, introduced in Tasha's Cauldron of Everything, provides a clear tactical trade-off: sacrifice all mobility for a single, more accurate attack. It's a fantastic tool, especially for ranged attackers."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You can use this bonus action only if you haven't moved during this turn.",
+                    "After using it, your speed is 0 until the end of the current turn.",
+                    "This grants you advantage on the first attack roll you make on the current turn."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This is an excellent option for Rogues to ensure their Sneak Attack hits, or for a character with the Sharpshooter feat to help offset the -5 attack penalty."
+            }
+        ]
+    },
+    {
+        "title": "Overrun*",
+        "optional": "Optional rule",
+        "icon": "shieldbash",
+        "subtitle": "Run through a hostile space",
+        "description": "As an action or bonus action, attempt to force your way through a hostile creature's space.",
+        "reference": "DMG, pg. 272.",
+        "summary": "As a bonus action, make a Strength (Athletics) check contested by an enemy's Athletics. If you win, you can move through their space once this turn. You have advantage if you are larger.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "This maneuver from the Dungeon Master's Guide allows you to bull-rush past an enemy blocking your path. It relies on a contested Strength (Athletics) check to gain passage."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "As an action or a bonus action, make a Strength (Athletics) check contested by the target's Strength (Athletics) check.",
+                    "You have <b>advantage</b> on the check if you are larger than the target, or <b>disadvantage</b> if you are smaller.",
+                    "If you win the contest, you can move through the hostile creature's space once on this turn."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Having this available as a bonus action makes it much more viable for characters who want to reposition and still take the Attack action on the same turn."
+            }
+        ]
+    },
+    {
+        "title": "Tumble*",
+        "optional": "Optional rule",
+        "icon": "acrobatic",
+        "subtitle": "Tumble through a hostile space",
+        "description": "As an action or bonus action, attempt to deftly move through a hostile creature's space.",
+        "reference": "DMG, pg. 272.",
+        "summary": "As a bonus action, make a Dexterity (Acrobatics) check contested by an enemy's Acrobatics. If you win, you can move through their space once this turn.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "As an agile alternative to the Strength-based Overrun, this maneuver allows a dexterous character to slip past an opponent using a contested Dexterity (Acrobatics) check."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "As an action or a bonus action, you make a Dexterity (Acrobatics) check contested by the target's Dexterity (Acrobatics) check.",
+                    "If you win the contest, you can move through the hostile creature's space once on this turn."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This is an excellent bonus action for mobile characters like Monks or Rogues to navigate a crowded battlefield without sacrificing their main action."
+            }
+        ]
+    },
+    {
+        "title": "Drink a Potion**",
+        "optional": "Homebrew rule",
+        "icon": "potionball",
+        "subtitle": "Quaff a potion quickly",
+        "description": "A popular house rule that allows you to drink a potion as a bonus action, making them more useful in combat.",
+        "reference": "Common Homebrew",
+        "summary": "A popular house rule that allows you to drink a potion as a bonus action. Administering a potion to another creature remains a full action.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "By standard rules, drinking a potion requires the Use an Object action. This common house rule speeds up play and makes potions a more attractive and viable option in the heat of battle."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Variant 1 (Most Common):</b> You can drink a potion yourself as a bonus action. Administering a potion to another creature remains an action.",
+                    "<b>Variant 2 (Uncommon):</b> Drinking a potion as a bonus action restores the rolled amount of hit points. Using a full action restores the maximum possible amount."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Adopting this rule can significantly change combat economy, allowing characters to both heal and attack in the same turn, which can lead to faster and more heroic encounters."
+            }
+        ]
+    },
+    {
+        "title": "Feint**",
+        "optional": "Homebrew rule",
+        "icon": "liar",
+        "subtitle": "Gain advantage on your attack",
+        "description": "A house rule that lets you use a bonus action and a contested skill check to gain advantage on your next attack.",
+        "reference": "Uncommon Homebrew",
+        "summary": "Use your bonus action to make a Charisma (Deception) check contested by a target's Wisdom (Insight). On a success, you gain advantage on your next attack roll against that creature this turn.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "This homebrew provides a tactical option for creating your own advantage through subterfuge, rather than relying on positioning or allies. It creates a dueling-style mind game."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "As a bonus action, choose a creature within 5 feet of you. Make a Charisma (Deception) check contested by its Wisdom (Insight) check.",
+                    "If you succeed, you gain advantage on your next attack roll against that creature this turn."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This is a great thematic fit for Swashbuckler Rogues or Battle Master Fighters, adding a tactical, skill-based mechanic to their toolkit."
+            }
+        ]
+    },
+    {
+        "title": "Quick Assessment**",
+        "optional": "Homebrew rule",
+        "icon": "eyeball",
+        "subtitle": "Gauge an enemy's condition",
+        "description": "A house rule allowing a bonus action to make a skill check to learn tactical information about a foe.",
+        "reference": "Common Homebrew",
+        "summary": "A house rule to use a bonus action for a skill check (e.g., Insight) to learn one piece of tactical information about an enemy, such as its vulnerabilities or current HP.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "This rule provides a mechanic for the common desire to assess an enemy's state without spending a full action. It rewards tactical thinking and knowledge-based skills by letting you gain a quick insight."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "As a bonus action, choose a creature you can see. Make a Wisdom (Insight) or Intelligence (Investigation) check against a DC set by the DM (often 10 + the creature's CR).",
+                    "On a success, the DM tells you one useful piece of tactical information, such as its damage vulnerabilities, resistances, immunities, or whether it is above or below half its maximum hit points."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This is especially useful for characters with high mental stats who want to contribute tactically beyond their primary role in combat."
+            }
+        ]
+    },
+    {
+        "title": "Swap Weapons**",
+        "optional": "Homebrew rule",
+        "icon": "switchweapon",
+        "subtitle": "Sheathe one, draw another",
+        "description": "A house rule that allows sheathing one weapon and drawing another as a single bonus action.",
+        "reference": "Uncommon Homebrew",
+        "summary": "A house rule that allows you to use your bonus action to sheathe a weapon you are holding and draw a different one, bypassing the normal action cost for a second object interaction.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "The standard rules for object interaction can be cumbersome for characters who switch between melee and ranged weapons. This house rule streamlines that process into a single bonus action."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "As a bonus action, you can sheathe a weapon you are holding and draw a different weapon.",
+                    "This would normally require your action after using your one free object interaction for the turn."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This is particularly helpful for characters with the Thrown Weapon Fighting style or those who need to switch from a two-handed weapon to have a hand free for spellcasting."
+            }
+        ]
+    },
+    {
+        "title": "Tactical Repositioning**",
+        "optional": "Homebrew rule",
+        "icon": "move",
+        "subtitle": "A mini-disengage",
+        "description": "A house rule that grants a 5-foot step as a bonus action, avoiding an opportunity attack from one creature.",
+        "reference": "Uncommon Homebrew",
+        "summary": "A house rule that allows you to use your bonus action to move 5 feet. This movement does not provoke an opportunity attack from one creature of your choice.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "This homebrew provides a more limited but less costly version of the Disengage action, allowing for small, tactical shifts in position without sacrificing your main action."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "As a bonus action, you can move 5 feet to an unoccupied space.",
+                    "This movement does not provoke opportunity attacks from one creature of your choice that you can see."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This is useful for getting out of a grapple, moving to a flanking position, or stepping out from behind cover to attack without drawing a reaction from every nearby enemy."
+            }
+        ]
+    }
+]

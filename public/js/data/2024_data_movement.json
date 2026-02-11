@@ -1,0 +1,371 @@
+[
+    {
+        "title": "Climb",
+        "optional": "Standard rule",
+        "icon": "crags",
+        "subtitle": "Cost: +1ft per 1ft",
+        "description": "Climbing is difficult terrain, costing 1 extra foot of movement for every foot climbed unless you have a climb speed.",
+        "reference": "PHB 2024, pg. 292.",
+        "summary": "Each foot of movement spent climbing costs 1 extra foot, treating it as difficult terrain. A creature with a climbing speed ignores this extra cost.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Climbing represents the extra effort required to scale a vertical surface. For most creatures, this effectively halves their movement speed while climbing, treating each foot climbed as two feet of movement."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "A creature with a climbing speed ignores this extra cost.",
+                    "The DM might require a Strength (Athletics) check for a particularly difficult or slippery surface."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "With a 30ft speed, you can climb a maximum of 15 feet in a turn without Dashing."
+            }
+        ]
+    },
+    {
+        "title": "Crawl",
+        "optional": "Standard rule",
+        "icon": "crawl",
+        "subtitle": "Cost: +1ft per 1ft",
+        "description": "While prone, your only movement option is to crawl, which costs 1 extra foot of movement for every foot moved.",
+        "reference": "PHB 2024, pg. 292.",
+        "summary": "While you are Prone, your only movement option is to crawl. Each foot of movement spent crawling costs 1 extra foot, treating it as difficult terrain.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Crawling is the slow and arduous movement you are restricted to while in the Prone condition. It costs double your normal movement, making it a highly inefficient way to get around the battlefield."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Crawling is the only way to move while you have the Prone condition (unless you use magic)."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "To move your full speed, you must first spend half your movement to stand up, which is usually a more efficient option if possible."
+            }
+        ]
+    },
+    {
+        "title": "Difficult terrain",
+        "optional": "Standard rule",
+        "icon": "stonepile",
+        "subtitle": "Cost: +1ft per 1ft",
+        "reference": "PHB 2024, pg. 292.",
+        "description": "Moving through areas like rubble, snow, or undergrowth costs double movement, effectively halving your speed.",
+        "summary": "Every foot of movement in difficult terrain costs 1 extra foot of your speed. This effect is not cumulative; a space is either difficult terrain or it isn't.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Difficult terrain is one of the most common environmental factors, making positioning and movement a tactical challenge. Every foot of movement in such terrain costs an extra foot of your speed."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Every foot of movement costs 1 extra foot (e.g., moving 5 feet in difficult terrain costs 10 feet of speed).",
+                    "Difficult terrain isn't cumulative; either a space is difficult terrain or it isn't."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Spells that create difficult terrain are a powerful form of battlefield control, hindering enemy advances without requiring concentration."
+            }
+        ]
+    },
+    {
+        "title": "Drop Prone",
+        "optional": "Standard rule",
+        "icon": "falling",
+        "subtitle": "Cost: 0ft",
+        "description": "You can drop to the ground at any point on your turn without using any movement, an action, or a reaction.",
+        "reference": "PHB 2024, pg. 292.",
+        "summary": "You can drop to the ground at any time on your turn without using any movement. This gives you the Prone condition.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "This is a free and instantaneous way to change your stance. It's often used defensively to make yourself a harder target for ranged attacks, though it comes with significant drawbacks."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "To move while prone, you must crawl.",
+                    "Dropping prone gives you the <i>Prone</i> condition, which has tactical advantages and disadvantages."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "While being prone imposes disadvantage on ranged attackers, it grants advantage to melee attackers within 5 feet, so use this tactic wisely."
+            }
+        ]
+    },
+    {
+        "title": "Flying",
+        "optional": "Standard rule",
+        "icon": "angelwings",
+        "subtitle": "Cost: 1ft per 1ft",
+        "description": "Flying allows you to move in three dimensions, but comes with the risk of falling if you are incapacitated or knocked prone.",
+        "reference": "PHB 2024, pg. 293.",
+        "summary": "You can move in three dimensions up to your fly speed. You fall if you are Incapacitated, Prone, or your fly speed becomes 0, unless you can hover.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Flight offers incredible tactical mobility, allowing you to bypass ground-based obstacles and enemies entirely. However, this freedom comes with the significant risk of falling."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "While you have a fly speed, you can stay aloft until you land, fall or die.",
+                    "While flying, you fall if you have the <i>Incapacitated</i> or <i>Prone</i> condition or your fly speed is reduced to 0.",
+                    "You can stay aloft in those circumstances if you can hover."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "The risk of falling makes effects that can knock you prone or incapacitate you especially dangerous for flying creatures."
+            }
+        ]
+    },
+    {
+        "title": "Grapple Move",
+        "optional": "Standard rule",
+        "icon": "grab",
+        "subtitle": "Modifier: Difficult Terrain",
+        "description": "When you move while grappling a creature, your movement is treated as difficult terrain unless the target is two+ sizes smaller.",
+        "reference": "PHB 2024, pg. 317.",
+        "summary": "When you move while grappling another creature, your movement is treated as if you are moving through difficult terrain (double movement cost).",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "The 2024 rules simplify moving a grappled creature by treating it as difficult terrain instead of halving your speed. This makes the calculation more straightforward while representing the effort of dragging a foe."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "If you move while grappling another creature, your movement is through <b>Difficult Terrain</b> (each foot moved costs 1 extra foot), unless the creature is two or more sizes smaller than you."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This is a powerful way to drag an enemy into an environmental hazard or away from your vulnerable allies."
+            }
+        ]
+    },
+    {
+        "title": "Improvise",
+        "optional": "Standard rule",
+        "icon": "juggler",
+        "subtitle": "Any stunt not on this list",
+        "description": "Perform any cinematic movement or stunt you can imagine, such as swinging on a chandelier or sliding down a bannister.",
+        "reference": "PHB 2024, pg. 289.",
+        "summary": "You can attempt any creative movement not covered by the rules. The DM determines if it's possible and what d20 Test, if any, is required.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "This rule covers all creative movement that isn't explicitly defined, empowering the DM to reward player ingenuity with appropriate ability checks to determine the outcome of their stunt."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "When you describe a kind of movement not detailed elsewhere in the rules, the DM tells you whether it is possible and what kind of roll you need to make, if any, to determine success or failure."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This is the mechanic that allows for memorable, action-movie moments within the game's framework."
+            }
+        ]
+    },
+    {
+        "title": "Jump",
+        "optional": "Standard rule",
+        "icon": "wingfoot",
+        "subtitle": "Distance: up to STR score",
+        "description": "The rules for jumping have been simplified: your Strength score determines your horizontal jump distance as part of your move.",
+        "reference": "PHB 2024, pg. 292.",
+        "summary": "You can jump horizontally a number of feet up to your Strength score. To jump vertically, you make a Strength (Athletics) check to determine the height. Each foot jumped costs movement.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "The 2024 rules unify high and long jumps into a single, more intuitive system based on your Strength score and an Athletics check, removing the need for a running start."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You can jump a number of feet horizontally up to your Strength score (minimum 0). Each foot jumped costs one foot of movement.",
+                    "To make a high jump, you make a <b>Strength (Athletics)</b> check. The result is how many feet you can clear vertically. This also costs movement.",
+                    "A running start (moving 10 feet prior) is no longer required for a maximum distance jump."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This simplification makes jumping quicker to adjudicate at the table, allowing the game to flow more smoothly."
+            }
+        ]
+    },
+    {
+        "title": "Move",
+        "optional": "Standard rule",
+        "icon": "run",
+        "subtitle": "Cost: 1ft per 1ft",
+        "description": "On your turn, you can move a distance up to your speed, breaking this movement up before, after, or between your actions.",
+        "reference": "PHB 2024, pg. 292.",
+        "summary": "You can move a distance up to your speed, breaking it up between your actions. You can move through a nonhostile creature's space, but not a hostile one (unless there is a large size difference).",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Your speed is a resource you can spend during your turn. This flexibility allows for fluid and tactical positioning in combat, but there are important rules governing how you can move through other creatures' spaces."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "If you have multiple speeds (e.g., walking and flying), you can switch between them. Subtract the distance already moved from the new speed.",
+                    "You can move through a nonhostile creature's space. You can only move through a hostile creature's space if it is at least two sizes larger or smaller than you.",
+                    "Another creature's space is always difficult terrain for you.",
+                    "You can't willingly end your move in another creature's space."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "The ability to break up your movement is key to tactics like moving from cover, attacking, and then returning to cover."
+            }
+        ]
+    },
+    {
+        "title": "Mount/Dismount",
+        "optional": "Standard rule",
+        "icon": "horsehead",
+        "subtitle": "Cost: half movement speed",
+        "description": "Getting on or off a mount costs an amount of movement equal to half of your total speed for the turn.",
+        "reference": "PHB 2024, pg. 296.",
+        "summary": "You can get on or off a mount by spending movement equal to half your speed. If your mount is moved against its will, you must make a DC 10 DEX save or fall off and land prone.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Mounting or dismounting a creature requires you to spend a portion of your available movement for the turn. There are also risks involved if your mount is moved against its will or knocked prone."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Once during your move, you can mount or dismount a creature that is within 5 feet of you and at least one size larger than you.",
+                    "If an effect moves your mount against its will while you're on it, you must succeed on a DC 10 Dexterity saving throw or fall off, landing prone.",
+                    "If your mount is knocked prone, you can use your reaction to dismount it as it falls to land on your feet. Otherwise, you are dismounted and fall prone."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "If you have a 30-foot speed, you must spend 15 feet of movement to mount your horse, leaving you with 15 feet remaining to move."
+            }
+        ]
+    },
+    {
+        "title": "Squeezing",
+        "optional": "Standard rule",
+        "icon": "resize",
+        "subtitle": "Move through a smaller space",
+        "description": "You can squeeze through a space one size category smaller than you, but you are slow and vulnerable while doing so.",
+        "reference": "PHB 2024, pg. 292.",
+        "summary": "Moving through a space one size smaller costs double movement. While squeezing, you have disadvantage on attacks and DEX saves, and attacks against you have advantage.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Squeezing allows passage through tight areas at a significant cost to both your movement speed and your combat effectiveness, making you an easy target."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "While squeezing into a smaller space, every foot of movement costs 1 extra foot (as if it were difficult terrain).",
+                    "You have <b>disadvantage on attack rolls and Dexterity saving throws</b>.",
+                    "Attack rolls against you have <b>advantage</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "A Medium creature can squeeze through a 2.5-foot wide opening, but they will be highly vulnerable while inside it."
+            }
+        ]
+    },
+    {
+        "title": "Stand Up",
+        "optional": "Standard rule",
+        "icon": "strong",
+        "subtitle": "Cost: half movement speed",
+        "description": "Getting up from the Prone condition costs an amount of movement equal to half of your total speed.",
+        "reference": "PHB 2024, pg. 292.",
+        "summary": "You can get up from being Prone by spending an amount of movement equal to half your speed. You cannot stand up if your speed is 0 or you don't have enough movement.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Regaining your footing after being knocked Prone requires a significant portion of your movement for the turn, potentially preventing you from moving any further."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You can't stand up if you don't have enough movement left or if your speed is 0.",
+                    "For example, if your speed is 30 feet, you must spend 15 feet of movement to stand up."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This fixed cost means that even if you only have 1 foot of movement remaining, you cannot stand up if your speed is 30, as the cost is 15."
+            }
+        ]
+    },
+    {
+        "title": "Swim",
+        "optional": "Standard rule",
+        "icon": "atsea",
+        "subtitle": "Cost: +1ft per 1ft",
+        "description": "Swimming is difficult terrain, costing 1 extra foot of movement for every foot swam unless you have a swim speed.",
+        "reference": "PHB 2024, pg. 292.",
+        "summary": "Each foot of movement spent swimming costs 1 extra foot, treating it as difficult terrain. A creature with a swimming speed ignores this extra cost.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "For creatures not adapted to aquatic environments, swimming is slow and strenuous, effectively halving their speed by treating the water as difficult terrain."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "A creature with a swimming speed ignores this extra cost.",
+                    "The DM might require a Strength (Athletics) check for rough water or strong currents."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "This rule, combined with the rules for underwater combat, makes fighting in water a distinct tactical challenge."
+            }
+        ]
+    },
+    {
+        "title": "Travel Pace",
+        "optional": "Standard rule",
+        "icon": "trail",
+        "subtitle": "Traveling for an hour or more",
+        "description": "When traveling overland, your group's pace determines how far you move and your awareness of your surroundings.",
+        "reference": "PHB 2024, pg. 183.",
+        "summary": "Determines overland travel speed and awareness. A fast pace gives disadvantage on Perception, while a slow pace allows for Stealth. Traveling more than 8 hours a day risks Exhaustion.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "These rules govern long-distance travel, creating a trade-off between speed, perception, and the ability to travel stealthily. Traveling for extended periods also risks exhaustion."
+            },
+            {
+                "type": "table",
+                "headers": ["Pace", "Distance per Hour", "Distance per Day", "Effect"],
+                "rows": [
+                    ["Fast", "4 miles", "30 miles", "Disadvantage on Perception checks"],
+                    ["Normal", "3 miles", "24 miles", "-"],
+                    ["Slow", "2 miles", "18 miles", "Can use Stealth"]
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "<b>Forced March:</b> For each hour of travel beyond 8 hours, characters make a Constitution save (DC 10 + 1 per hour past 8). On a failure, they gain one level of exhaustion."
+            }
+        ]
+    }
+]

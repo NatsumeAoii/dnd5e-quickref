@@ -1,16 +1,11 @@
-/* eslint-disable default-case */
 /* eslint-disable no-console */
-const CACHE_NAME = 'dnd5e-quickref-cache-v8';
+const CACHE_NAME = 'dnd5e-quickref-cache-v9';
 const CORE_ASSETS = [
   './',
   './index.html',
   './404.html',
-  './.nojekyll',
   './manifest.json',
   './favicon.ico',
-  './css/quickref.css',
-  './css/icons.css',
-  './js/quickref.js',
   './themes/themes.json',
 ];
 
@@ -20,6 +15,23 @@ const INDEX_URL = `${ROOT_URL}index.html`;
 
 let cachingAllowed = true;
 
+function isStaticAsset(pathname) {
+  return pathname.endsWith('.html')
+    || pathname.endsWith('.css')
+    || pathname.endsWith('.js')
+    || pathname.endsWith('.json')
+    || pathname.endsWith('.webp')
+    || pathname.endsWith('.png')
+    || pathname.endsWith('.svg')
+    || pathname.endsWith('.ico')
+    || pathname.endsWith('.woff2');
+}
+
+function isCoreAsset(pathname) {
+  return CORE_ASSETS.some((path) => pathname.endsWith(path.substring(path.startsWith('./') ? 2 : 0)))
+    || pathname.includes('/assets/');
+}
+
 async function clearDataCache() {
   console.log('[SW] Clearing data cache (consent revoked).');
   cachingAllowed = false;
@@ -27,8 +39,8 @@ async function clearDataCache() {
     const cache = await caches.open(CACHE_NAME);
     const keys = await cache.keys();
     const deletions = keys.map((request) => {
-      const isCore = CORE_ASSETS.some((path) => request.url.endsWith(path.substring(1)));
-      return !isCore ? cache.delete(request) : Promise.resolve();
+      const url = new URL(request.url);
+      return !isCoreAsset(url.pathname) ? cache.delete(request) : Promise.resolve();
     });
     await Promise.all(deletions);
     console.log('[SW] Non-core cache cleared.');
@@ -42,19 +54,37 @@ async function tryCachePut(request, response) {
 
   const url = new URL(request.url);
   const { pathname } = url;
-  const isCoreAsset = CORE_ASSETS.some((path) => pathname.endsWith(path.substring(2)))
-    || pathname.endsWith('.html')
-    || pathname.endsWith('.css')
-    || pathname.endsWith('.js')
-    || pathname.endsWith('.json');
 
-  if (!isCoreAsset && !cachingAllowed) return;
+  if (!isCoreAsset(pathname) && !cachingAllowed) return;
+  if (!isStaticAsset(pathname) && !isCoreAsset(pathname) && !cachingAllowed) return;
 
   try {
     const cache = await caches.open(CACHE_NAME);
     await cache.put(request, response.clone());
   } catch (error) {
     console.error('[SW] Failed to cache resource:', error);
+  }
+}
+
+async function precacheAllContent() {
+  console.log('[SW] Pre-caching all content for offline access...');
+  try {
+    const cache = await caches.open(CACHE_NAME);
+    await Promise.allSettled(CORE_ASSETS.map((url) => cache.add(url)));
+
+    const dataFiles = ['movement', 'action', 'bonus_action', 'reaction', 'condition', 'environment'];
+    const prefixes = ['', '2024_'];
+    const dataPromises = [];
+    for (const prefix of prefixes) {
+      for (const file of dataFiles) {
+        dataPromises.push(cache.add(`./js/data/${prefix}data_${file}.json`).catch(() => { }));
+      }
+    }
+    dataPromises.push(cache.add('./themes/themes.json').catch(() => { }));
+    await Promise.allSettled(dataPromises);
+    console.log('[SW] Pre-caching complete.');
+  } catch (error) {
+    console.error('[SW] Pre-caching failed:', error);
   }
 }
 
@@ -83,6 +113,7 @@ self.addEventListener('message', (event) => {
     case 'SET_CACHING_POLICY':
       cachingAllowed = !!event.data.allowed;
       console.log(`[SW] Caching policy: ${cachingAllowed}`);
+      if (cachingAllowed) event.waitUntil(precacheAllContent());
       break;
     case 'CLEAR_CACHE':
       event.waitUntil(clearDataCache());

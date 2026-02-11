@@ -30,11 +30,7 @@
         href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
 
-    <link rel="preload" href="css/quickref.css" as="style">
-    <link rel="stylesheet" href="css/quickref.css">
-
     <link id="theme-stylesheet" rel="stylesheet" type="text/css" href="">
-    <link rel="stylesheet" type="text/css" href="css/icons.css">
     <style>
         /* Critical CSS for skeleton loader */
         .skeleton-loader {
@@ -336,6 +332,20 @@
                                 </span>
                             </div>
                         </label>
+                        <div class="item itemsize" data-filterable="false">
+                            <div class="item-text-container">
+                                <label for="density-select" class="item-title" id="density-label">Display
+                                    Density</label>
+                                <div class="item-desc">Adjust spacing and sizing of items.</div>
+                            </div>
+                            <div class="item-control-container">
+                                <select id="density-select" aria-labelledby="density-label">
+                                    <option value="compact">Compact</option>
+                                    <option value="normal" selected>Normal</option>
+                                    <option value="comfortable">Comfortable</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <hr>
                     <h3 class="settings-row-title">Data Management</h3>
@@ -346,6 +356,13 @@
                                 <div class="item-desc">Download your notes (Compressed JSON).</div>
                             </div>
                         </div>
+                        <div class="item itemsize" role="button" tabindex="0" id="import-notes-btn">
+                            <div class="item-text-container">
+                                <div class="item-title">Import Notes</div>
+                                <div class="item-desc">Restore notes from a previous export file.</div>
+                            </div>
+                        </div>
+                        <input type="file" id="import-notes-input" accept=".json,.gz,.json.gz" class="visually-hidden">
                     </div>
                 </div>
             </section>
@@ -360,7 +377,9 @@
                         <p class="footer-message">A quick reference tool for Dungeons & Dragons 5th Edition players and
                             Dungeon Masters.</p>
                         <p class="copyright">
-                            &copy; <span id="copyright-year"></span> D&D 5e Quick Ref contributors. All Rights Reserved.
+                            &copy; <span id="copyright-year"></span> D&D 5e Quick Ref contributors • <a
+                                href="CHANGELOG.md" target="_blank" class="footer-link"><span
+                                    id="app-version-display"></span></a>
                         </p>
                         <p>
                             <button id="report-rule-btn" class="footer-report-btn">Report missing or incorrect
@@ -431,6 +450,8 @@
         </svg>
     </button>
 
+    <button id="back-to-top-btn" title="Back to Top" aria-label="Back to Top">▲</button>
+
     <template id="rule-item-template">
         <div class="item itemsize">
             <div class="item-content" role="button" tabindex="0">
@@ -452,6 +473,13 @@
                 <span class="popup-title"></span>
                 <div class="popup-header-right">
                     <span class="popup-type"></span>
+                    <button class="popup-copy-link-btn" title="Copy link" aria-label="Copy link to this rule">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20"
+                            height="20">
+                            <path
+                                d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z" />
+                        </svg>
+                    </button>
                     <button class="popup-close-btn" title="Close" aria-label="Close">&times;</button>
                 </div>
             </header>
@@ -476,7 +504,7 @@
         </dialog>
     </template>
 
-    <script type="module" src="js/quickref.js" defer></script>
+    <script type="module" src="/src/main.ts"></script>
 </body>
 
 </html>
