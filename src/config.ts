@@ -1,7 +1,7 @@
 import type { SectionConfig, SettingsConfig } from './types.js';
 
 export const CONFIG = Object.freeze({
-    APP_VERSION: '1.0.0',
+    APP_VERSION: '1.1.0',
     STORAGE_KEYS: Object.freeze({
         RULES_2024: 'rules2024',
         OPTIONAL: 'optional',
@@ -14,6 +14,8 @@ export const CONFIG = Object.freeze({
         COOKIES_ACCEPTED: 'cookiesAccepted',
         FAVORITES: 'userFavorites',
         NOTES: 'userNotes',
+        SECTION_STATES: 'sectionStates',
+        ONBOARDING_COMPLETED: 'onboardingCompleted',
     } as const),
     SESSION_STORAGE_KEYS: Object.freeze({
         RULESET_CHANGED: 'rulesetChanged',
@@ -46,6 +48,10 @@ export const CONFIG = Object.freeze({
         IMPORT_NOTES_INPUT: 'import-notes-input',
         DENSITY_SELECT: 'density-select',
         BACK_TO_TOP_BTN: 'back-to-top-btn',
+        MINIMIZED_BAR: 'minimized-popups-bar',
+        SHORTCUTS_MODAL: 'keyboard-shortcuts-modal',
+        ONBOARDING_OVERLAY: 'onboarding-overlay',
+        PRINT_BTN: 'print-mode-btn',
     } as const),
     THEME_CONFIG: Object.freeze({
         PATH: 'themes/',
@@ -88,14 +94,17 @@ export const CONFIG = Object.freeze({
         LINK_DISABLED: 'is-disabled',
         POPUP_WINDOW: 'popup-window',
         POPUP_MODAL: 'is-modal',
+        POPUP_MINIMIZED: 'is-minimized',
         POPUP_CONTAINER_MODAL_OPEN: 'modal-open',
         POPUP_CLOSE_BTN: 'popup-close-btn',
+        POPUP_MINIMIZE_BTN: 'popup-minimize-btn',
         SECTION_CONTAINER: 'section-container',
         HIDDEN: 'hidden',
         SECTION_TITLE: 'section-title',
         SECTION_CONTENT: 'section-content',
         IS_FOCUSED: 'is-focused',
         DRAG_OVER: 'drag-over',
+        PRINT_MODE: 'print-mode',
     } as const),
     DEFAULTS: Object.freeze({
         ICON: '', TITLE: '[Untitled Rule]', RULE_TYPE: 'Standard rule', THEME: 'original',
@@ -115,7 +124,10 @@ export const CONFIG = Object.freeze({
     } as const),
     DEBOUNCE_DELAY: { RESIZE_MS: 200, NOTE_AUTOSAVE_MS: 750 } as const,
     ANIMATION_DURATION: {
-        ITEM_DELAY_MS: 20, POPUP_MS: 200, NOTE_FADEOUT_MS: 2000, NOTIFICATION_MS: 4000,
+        ITEM_DELAY_MS: 20, POPUP_MS: 200, NOTE_FADEOUT_MS: 2000, NOTIFICATION_MS: 4000, SECTION_TRANSITION_MS: 350,
+    } as const,
+    IMPORT_LIMITS: {
+        MAX_NOTES: 500, MAX_NOTE_SIZE_BYTES: 10_240, MAX_FILE_SIZE_BYTES: 5_242_880,
     } as const,
     LAYOUT: {
         DESKTOP_BREAKPOINT_MIN_PX: 1024,
@@ -123,5 +135,7 @@ export const CONFIG = Object.freeze({
         POPUP_CASCADE_WRAP_COUNT: 10,
         POPUP_Z_INDEX_BASE: 1000,
         POPUP_VIEWPORT_PADDING_PX: 8,
+        POPUP_MIN_WIDTH_PX: 300,
+        POPUP_MIN_HEIGHT_PX: 200,
     } as const,
 });

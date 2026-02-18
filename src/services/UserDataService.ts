@@ -89,33 +89,65 @@ export class UserDataService {
         URL.revokeObjectURL(url);
     }
 
-    async importNotes(file: File): Promise<number> {
-        let jsonString: string;
+    static #DANGEROUS_PATTERN = /<script[\s>]|javascript:|on\w+\s*=/gi;
+    static #KEY_PATTERN = /^[\w\s]+::[\w\s\-'(),/]+$/;
 
+    #sanitizeNoteText(text: string): string {
+        return text.replace(UserDataService.#DANGEROUS_PATTERN, '');
+    }
+
+    #validateNoteKey(key: string): boolean {
+        return UserDataService.#KEY_PATTERN.test(key) && key.length < 200;
+    }
+
+    async importNotes(file: File): Promise<number> {
+        if (file.size > CONFIG.IMPORT_LIMITS.MAX_FILE_SIZE_BYTES) {
+            throw new Error(`File exceeds maximum size of ${(CONFIG.IMPORT_LIMITS.MAX_FILE_SIZE_BYTES / 1_048_576).toFixed(1)}MB`);
+        }
+
+        let jsonString: string;
         if (file.name.endsWith('.gz')) {
             const stream = file.stream().pipeThrough(new DecompressionStream('gzip'));
-            const response = new Response(stream);
-            jsonString = await response.text();
+            jsonString = await new Response(stream).text();
         } else {
             jsonString = await file.text();
         }
 
-        const imported = JSON.parse(jsonString) as Record<string, string>;
-        if (typeof imported !== 'object' || imported === null) throw new Error('Invalid notes format');
+        let imported: unknown;
+        try { imported = JSON.parse(jsonString); } catch { throw new Error('Invalid JSON format'); }
+        if (typeof imported !== 'object' || imported === null || Array.isArray(imported)) throw new Error('Notes must be a JSON object');
+
+        const entries = Object.entries(imported as Record<string, unknown>);
+        if (entries.length > CONFIG.IMPORT_LIMITS.MAX_NOTES) {
+            throw new Error(`Import exceeds maximum of ${CONFIG.IMPORT_LIMITS.MAX_NOTES} notes (found ${entries.length})`);
+        }
 
         const state = this.#stateManager.getState();
-        let count = 0;
+        const toWrite: [string, string][] = [];
+        let skipped = 0;
 
-        for (const [id, text] of Object.entries(imported)) {
-            if (typeof text !== 'string') continue;
-            const existing = state.user.notes.get(id);
+        for (const [key, value] of entries) {
+            if (typeof value !== 'string') { skipped++; continue; }
+            if (!this.#validateNoteKey(key)) { skipped++; continue; }
+
+            const encoder = new TextEncoder();
+            if (encoder.encode(value).byteLength > CONFIG.IMPORT_LIMITS.MAX_NOTE_SIZE_BYTES) { skipped++; continue; }
+
+            const sanitized = this.#sanitizeNoteText(value);
+            const existing = state.user.notes.get(key);
+
             if (!existing || existing.trim() === '') {
-                state.user.notes.set(id, text);
-                await this.#dbService.put(id, text);
-                count++;
+                state.user.notes.set(key, sanitized);
+                toWrite.push([key, sanitized]);
             }
         }
 
-        return count;
+        // Batch DB writes
+        for (const [key, text] of toWrite) {
+            await this.#dbService.put(key, text);
+        }
+
+        if (skipped > 0) console.warn(`Import: skipped ${skipped} invalid entries`);
+        return toWrite.length;
     }
 }

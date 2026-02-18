@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] - 2026-02-18
+
+### Added
+
+#### New Features
+- **Onboarding Tour**: First-visit guided walkthrough highlighting key features (collapsible sections, favorites, settings, shortcuts).
+- **Keyboard Shortcuts Panel**: Press `?` or click the floating `?` button to view all available shortcuts.
+- **Keyboard Shortcuts**: `Esc` (close popup), `Ctrl+E` (expand/collapse all), `Ctrl+P` (print mode), `Ctrl+W` (close all popups), `T` (scroll to top).
+- **Arrow Key Navigation**: `←/→` navigate between items, `↑/↓` jump between sections, `Enter/Space` activate focused item.
+- **Popup Minimize**: Minimize popups to a bottom tab bar and restore them with a click.
+- **Popup Resize**: Drag popup edges to resize on desktop (≥1024px); dimensions persist across sessions.
+- **Print Mode**: `Ctrl+P` toggles a print-friendly view that expands all sections and hides interactive chrome.
+- **Shortcuts FAB**: Floating `?` button on the right side (desktop only) for quick access to keyboard shortcuts.
+
+#### Code Quality & Infrastructure
+- **ErrorService**: Centralized error reporting with structured logging and in-memory ring buffer.
+- **Input Validation**: Import notes now validates file size (5MB), note count (500), per-note size (10KB), key format, and strips dangerous HTML.
+- **ESLint Integration**: Flat config with `typescript-eslint`, `consistent-type-imports`, `no-eval`, and security rules.
+
+### Improved
+
+#### UI/UX
+- **Section Collapse Memory**: Collapse/expand state persists in localStorage across page reloads.
+- **Section Transitions**: Replaced `max-height` hack with smooth `grid-template-rows` animation for collapse/expand.
+- **Skeleton Loader**: Refined loading skeleton with title bars and item grids matching actual layout.
+- **Error Boundary**: Enhanced global error handler to capture unhandled promise rejections with structured output.
+- **FAB Buttons**: Unified all floating action buttons to consistent 44px size and even spacing.
+
+#### Performance
+- **CSS Audit**: Removed dead selectors, consolidated redundant rules, improved transition performance.
+- **Content Visibility**: Applied `content-visibility: auto` with `contain-intrinsic-size` for lazy section rendering.
+
+---
+
 ## [1.0.0] - 2026-02-12
 
 ### Initial Release of the Modernized Stack

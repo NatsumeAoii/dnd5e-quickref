@@ -14,6 +14,7 @@ export class PersistenceService {
         state.ui.openPopups.forEach((el, id) => {
             sessionState.openPopups.push({
                 id, top: el.style.top, left: el.style.left, zIndex: el.style.zIndex,
+                width: el.style.width || undefined, height: el.style.height || undefined,
             });
         });
         this.#storage.setItem(CONFIG.SESSION_STORAGE_KEYS.UI_SESSION, JSON.stringify(sessionState));

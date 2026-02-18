@@ -1,6 +1,22 @@
+# Build output
 /dist
-/node_modules
-/.vscode
 
+# Dependencies
+/node_modules
 .npm
+
+# Editor / IDE
+/.vscode
 *.local
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+
+# TypeScript cache
+*.tsbuildinfo

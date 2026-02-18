@@ -11,7 +11,7 @@ export class StateManager {
         this.#state = {
             settings: {} as AppState['settings'],
             user: { favorites: new Set(), notes: new Map() },
-            ui: { openPopups: new Map(), activeZIndex: CONFIG.LAYOUT.POPUP_Z_INDEX_BASE, fadeTimeout: null },
+            ui: { openPopups: new Map(), minimizedPopups: new Map(), activeZIndex: CONFIG.LAYOUT.POPUP_Z_INDEX_BASE, fadeTimeout: null },
             data: {
                 rulesets: { 2014: {}, 2024: {} },
                 loadedRulesets: { 2014: new Set(), 2024: new Set() },

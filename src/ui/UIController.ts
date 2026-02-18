@@ -30,6 +30,7 @@ export class UIController {
     #stateManager: StateManager;
     #services: UIServices;
     #components: UIComponents;
+    #dragDropManager: DragDropManager | null = null;
 
     constructor(domProvider: DOMProvider, stateManager: StateManager, services: UIServices, components: UIComponents) {
         this.#domProvider = domProvider;
@@ -47,13 +48,19 @@ export class UIController {
         this.setupBackToTop();
         this.#components.viewRenderer.updateFooterInfo();
         this.#handleShareTarget();
+        this.#initDragDrop();
+    }
+
+    #initDragDrop(): void {
+        this.#dragDropManager?.destroy();
+        this.#dragDropManager = new DragDropManager(CONFIG.ELEMENT_IDS.FAVORITES_CONTAINER, this.#services.userData);
     }
 
     setupEventSubscriptions(): void {
         this.#stateManager.subscribe('settingChanged', this.#handleSettingChangeEvent.bind(this) as (data?: unknown) => void);
         this.#stateManager.subscribe('favoritesChanged', () => {
             this.#components.viewRenderer.renderFavoritesSection();
-            new DragDropManager(CONFIG.ELEMENT_IDS.FAVORITES_CONTAINER, this.#services.userData);
+            this.#initDragDrop();
         });
         this.#stateManager.subscribe('externalStateChange', this.#handleExternalStateChange.bind(this) as (data?: unknown) => void);
     }
@@ -148,10 +155,32 @@ export class UIController {
         }
     }
 
+    #loadSectionStates(): Record<string, boolean> {
+        try {
+            const raw = localStorage.getItem(CONFIG.STORAGE_KEYS.SECTION_STATES);
+            return raw ? JSON.parse(raw) : {};
+        } catch { return {}; }
+    }
+
+    #saveSectionState(sectionKey: string, collapsed: boolean): void {
+        const states = this.#loadSectionStates();
+        states[sectionKey] = collapsed;
+        localStorage.setItem(CONFIG.STORAGE_KEYS.SECTION_STATES, JSON.stringify(states));
+    }
+
     setupCollapsibleSections = (): void => {
+        const savedStates = this.#loadSectionStates();
         this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_TITLE}`).forEach((header) => {
             const section = header.closest(`.${CONFIG.CSS.SECTION_CONTAINER}`);
             if (!section || (section as HTMLElement).dataset.section === 'settings' || (section as HTMLElement).dataset.section === 'favorites') return;
+
+            const sectionKey = (section as HTMLElement).dataset.section || '';
+
+            // Restore saved state
+            if (sectionKey in savedStates) {
+                section.classList.toggle(CONFIG.CSS.IS_COLLAPSED, savedStates[sectionKey]);
+            }
+
             header.setAttribute('role', 'button');
             header.setAttribute('tabindex', '0');
             const isExpanded = !section.classList.contains(CONFIG.CSS.IS_COLLAPSED);
@@ -159,13 +188,22 @@ export class UIController {
             const handler = async (): Promise<void> => {
                 const collapsed = section.classList.toggle(CONFIG.CSS.IS_COLLAPSED);
                 header.setAttribute('aria-expanded', String(!collapsed));
+                this.#saveSectionState(sectionKey, collapsed);
                 if (!collapsed) await this.renderSectionContent(section as HTMLElement);
-                this.#services.a11y.announce(`${(section as HTMLElement).dataset.section} section ${collapsed ? 'collapsed' : 'expanded'}.`);
+                this.#services.a11y.announce(`${sectionKey} section ${collapsed ? 'collapsed' : 'expanded'}.`);
             };
             header.addEventListener('click', handler);
             header.addEventListener('keydown', (e) => { if ((e as KeyboardEvent).key === 'Enter' || (e as KeyboardEvent).key === ' ') { e.preventDefault(); handler(); } });
         });
     };
+
+    persistAllSectionStates(): void {
+        this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}[data-section]`).forEach((section) => {
+            const key = (section as HTMLElement).dataset.section;
+            if (!key || key === 'settings' || key === 'favorites') return;
+            this.#saveSectionState(key, section.classList.contains(CONFIG.CSS.IS_COLLAPSED));
+        });
+    }
 
     bindGlobalEventListeners = (): void => {
         const mainArea = this.#domProvider.get(CONFIG.ELEMENT_IDS.MAIN_SCROLL_AREA);
@@ -247,13 +285,14 @@ export class UIController {
         const content = section.querySelector(`.${CONFIG.CSS.SECTION_CONTENT}`);
         if (!content || content.getAttribute(CONFIG.ATTRIBUTES.RENDERED) === 'true') return;
         const dataSectionKey = section.getAttribute(CONFIG.ATTRIBUTES.SECTION_KEY);
+        if (!dataSectionKey) return;
 
         if (dataSectionKey === 'environment') {
             await this.#services.data.ensureSectionDataLoaded('environment');
             this.#services.data.buildRuleMap();
             (CONFIG.SECTION_CONFIG as readonly SectionConfig[]).filter((c) => c.type === 'Environment').forEach(this.#renderSingleSection);
         } else {
-            const dataKey = dataSectionKey!.replace('-', '_');
+            const dataKey = dataSectionKey.replace('-', '_');
             await this.#services.data.ensureSectionDataLoaded(dataKey);
             this.#services.data.buildRuleMap();
             const sectionConfig = CONFIG.SECTION_CONFIG.find((c) => c.dataKey === dataKey);

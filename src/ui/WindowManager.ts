@@ -48,6 +48,21 @@ export class WindowManager {
         this.#dataService = services.data;
         this.#popupContainer = this.#domProvider.get(CONFIG.ELEMENT_IDS.POPUP_CONTAINER);
         this.#closeAllBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.CLOSE_ALL_POPUPS_BTN);
+        this.#ensureMinimizedBar();
+    }
+
+    #minimizedBar: HTMLElement | null = null;
+
+    #ensureMinimizedBar(): void {
+        this.#minimizedBar = document.getElementById(CONFIG.ELEMENT_IDS.MINIMIZED_BAR);
+        if (!this.#minimizedBar) {
+            this.#minimizedBar = document.createElement('div');
+            this.#minimizedBar.id = CONFIG.ELEMENT_IDS.MINIMIZED_BAR;
+            this.#minimizedBar.className = 'minimized-popups-bar hidden';
+            this.#minimizedBar.setAttribute('role', 'toolbar');
+            this.#minimizedBar.setAttribute('aria-label', 'Minimized popups');
+            document.body.appendChild(this.#minimizedBar);
+        }
     }
 
     initialize(): void {
@@ -223,7 +238,7 @@ export class WindowManager {
         header.addEventListener('mousedown', onMouseDown);
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    #createPopup(id: string, ruleInfo: any, pos?: { top?: string; left?: string; zIndex?: string }): void {
+    #createPopup(id: string, ruleInfo: any, pos?: { top?: string; left?: string; zIndex?: string; width?: string; height?: string }): void {
         const popup = this.#popupFactory.create(id, ruleInfo, this.#linkifyContent);
         if (this.#isMobileView) {
             popup.classList.add(CONFIG.CSS.POPUP_MODAL);
@@ -243,6 +258,16 @@ export class WindowManager {
             document.startViewTransition(() => dialogEl.show());
         } else {
             dialogEl.show();
+        }
+
+        // Apply resize on desktop
+        if (!this.#isMobileView) {
+            popup.style.resize = 'both';
+            popup.style.overflow = 'hidden';
+            popup.style.minWidth = `${CONFIG.LAYOUT.POPUP_MIN_WIDTH_PX}px`;
+            popup.style.minHeight = `${CONFIG.LAYOUT.POPUP_MIN_HEIGHT_PX}px`;
+            if (pos?.width) popup.style.width = pos.width;
+            if (pos?.height) popup.style.height = pos.height;
         }
 
         const state = this.#stateManager.getState();
@@ -298,6 +323,14 @@ export class WindowManager {
                 });
             }
         }
+
+        // Minimize button handler
+        const minimizeBtn = (target as HTMLElement).closest(`.${CONFIG.CSS.POPUP_MINIMIZE_BTN}`) as HTMLElement | null;
+        if (minimizeBtn) {
+            const popup = minimizeBtn.closest(`.${CONFIG.CSS.POPUP_WINDOW}`);
+            const popupId = Array.from(this.#stateManager.getState().ui.openPopups.entries()).find(([, p]) => p === popup)?.[0];
+            if (popupId) this.minimizePopup(popupId);
+        }
     };
 
     #handleHashChange = (): void => {
@@ -348,5 +381,73 @@ export class WindowManager {
         let topId: string | null = null; let maxZ = -1;
         state.ui.openPopups.forEach((el, id) => { const z = parseInt(el.style.zIndex || '0', 10); if (z > maxZ) { maxZ = z; topId = id; } });
         return topId;
+    }
+
+    minimizePopup(id: string): void {
+        const state = this.#stateManager.getState();
+        const popup = state.ui.openPopups.get(id);
+        if (!popup) return;
+
+        const title = popup.querySelector('.popup-title')?.textContent || 'Popup';
+        state.ui.minimizedPopups.set(id, {
+            title,
+            top: popup.style.top,
+            left: popup.style.left,
+            zIndex: popup.style.zIndex,
+        });
+
+        popup.close();
+        popup.remove();
+        state.ui.openPopups.delete(id);
+
+        // Create minimized tab in the bar
+        this.#renderMinimizedBar();
+        this.#updateCloseBtnVisibility();
+        this.#a11yService.announce(`${title} minimized`);
+    }
+
+    #renderMinimizedBar(): void {
+        if (!this.#minimizedBar) return;
+        const state = this.#stateManager.getState();
+        this.#minimizedBar.innerHTML = '';
+
+        if (state.ui.minimizedPopups.size === 0) {
+            this.#minimizedBar.classList.add(CONFIG.CSS.HIDDEN);
+            return;
+        }
+
+        this.#minimizedBar.classList.remove(CONFIG.CSS.HIDDEN);
+        state.ui.minimizedPopups.forEach((meta, id) => {
+            const tab = document.createElement('button');
+            tab.className = 'minimized-popup-tab';
+            tab.textContent = meta.title;
+            tab.setAttribute('aria-label', `Restore ${meta.title}`);
+            tab.addEventListener('click', () => this.restorePopup(id));
+
+            const closeBtn = document.createElement('span');
+            closeBtn.className = 'minimized-tab-close';
+            closeBtn.textContent = '✕';
+            closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                state.ui.minimizedPopups.delete(id);
+                this.#renderMinimizedBar();
+            });
+            tab.appendChild(closeBtn);
+            this.#minimizedBar!.appendChild(tab);
+        });
+    }
+
+    restorePopup(id: string): void {
+        const state = this.#stateManager.getState();
+        const meta = state.ui.minimizedPopups.get(id);
+        if (!meta) return;
+
+        state.ui.minimizedPopups.delete(id);
+        this.#renderMinimizedBar();
+
+        const rule = state.data.ruleMap.get(id);
+        if (rule) {
+            this.#createPopup(id, rule, { top: meta.top, left: meta.left, zIndex: meta.zIndex });
+        }
     }
 }

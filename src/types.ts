@@ -56,8 +56,16 @@ export interface UserState {
 
 export interface UIState {
     openPopups: Map<string, HTMLDialogElement>;
+    minimizedPopups: Map<string, MinimizedPopupState>;
     activeZIndex: number;
     fadeTimeout: ReturnType<typeof setTimeout> | null;
+}
+
+export interface MinimizedPopupState {
+    title: string;
+    top: string;
+    left: string;
+    zIndex: string;
 }
 
 export interface DataState {
@@ -79,6 +87,8 @@ export interface PopupState {
     top: string;
     left: string;
     zIndex: string;
+    width?: string;
+    height?: string;
 }
 
 export interface ThemeManifest {

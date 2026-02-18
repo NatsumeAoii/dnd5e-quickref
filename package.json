@@ -1,6 +1,6 @@
 {
   "name": "dnd5e-quickref",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "D&D 5e Quick Reference – Vite + TypeScript",
   "type": "module",
   "scripts": {

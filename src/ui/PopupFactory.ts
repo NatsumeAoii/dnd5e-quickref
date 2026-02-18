@@ -37,7 +37,7 @@ export class PopupFactory {
         }, CONFIG.DEBOUNCE_DELAY.NOTE_AUTOSAVE_MS);
 
         textarea.addEventListener('input', () => {
-            clearTimeout(this.#stateManager.getState().ui.fadeTimeout!);
+            if (this.#stateManager.getState().ui.fadeTimeout) clearTimeout(this.#stateManager.getState().ui.fadeTimeout!);
             statusEl.textContent = CONFIG.UI_STRINGS.NOTE_STATUS_SAVING;
             debouncedSave();
         });
