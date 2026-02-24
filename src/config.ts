@@ -1,7 +1,7 @@
 import type { SectionConfig, SettingsConfig } from './types.js';
 
 export const CONFIG = Object.freeze({
-    APP_VERSION: '1.1.0',
+    APP_VERSION: '1.1.2',
     STORAGE_KEYS: Object.freeze({
         RULES_2024: 'rules2024',
         OPTIONAL: 'optional',

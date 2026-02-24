@@ -26,8 +26,19 @@ export class PersistenceService {
         try {
             const parsed = JSON.parse(saved);
             const state = this.#stateManager.getState();
-            state.ui.activeZIndex = parsed.activeZIndex || state.ui.activeZIndex;
-            return parsed.openPopups || [];
+
+            // Validate activeZIndex
+            const z = parsed.activeZIndex;
+            state.ui.activeZIndex = (typeof z === 'number' && Number.isFinite(z) && z > 0)
+                ? z
+                : CONFIG.LAYOUT.POPUP_Z_INDEX_BASE;
+
+            // Validate openPopups schema
+            if (!Array.isArray(parsed.openPopups)) return [];
+            return parsed.openPopups.filter(
+                (p: unknown): p is PopupState =>
+                    typeof p === 'object' && p !== null && typeof (p as PopupState).id === 'string' && (p as PopupState).id.length > 0,
+            );
         } catch (e) {
             console.error('Failed to parse session state:', e);
             return [];

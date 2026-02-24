@@ -29,6 +29,8 @@ export class WindowManager {
     #popupContainer!: HTMLElement;
     #closeAllBtn!: HTMLElement;
     #isMobileView = false;
+    // #3: Cache linkified HTML to avoid redundant DOM tree-walk + serialization
+    #linkifyCache = new Map<string, string>();
 
     #TYPE_ENCODING: Readonly<Record<string, string>> = Object.freeze({
         Action: 'Ac', 'Bonus action': 'Ba', Condition: 'Co', Environment: 'En', Move: 'Mo', Reaction: 'Re',
@@ -49,6 +51,12 @@ export class WindowManager {
         this.#popupContainer = this.#domProvider.get(CONFIG.ELEMENT_IDS.POPUP_CONTAINER);
         this.#closeAllBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.CLOSE_ALL_POPUPS_BTN);
         this.#ensureMinimizedBar();
+
+        // (H) Clear linkify cache when ruleset changes — cached HTML may reference stale rule links
+        this.#stateManager.subscribe('settingChanged', (data?: unknown) => {
+            const { key } = data as { key: string };
+            if (key === 'RULES_2024') this.#linkifyCache.clear();
+        });
     }
 
     #minimizedBar: HTMLElement | null = null;
@@ -87,12 +95,25 @@ export class WindowManager {
         const encodedType = shortId.substring(0, separatorIndex);
         const encodedTitle = shortId.substring(separatorIndex + 1);
         const type = this.#TYPE_DECODING[encodedType];
-        return type ? `${type}::${decodeURIComponent(encodedTitle)}` : shortId;
+        if (!type) return shortId;
+        try {
+            return `${type}::${decodeURIComponent(encodedTitle)}`;
+        } catch {
+            console.warn(`Failed to decode URL component: "${encodedTitle}"`);
+            return shortId;
+        }
     };
 
     #linkifyContent = (html: string): string => {
         const state = this.#stateManager.getState();
         if (!html || !state.data.ruleLinkerRegex) return html;
+
+        // #3: Return cached result if available
+        const cached = this.#linkifyCache.get(html);
+        if (cached) return cached;
+
+        // Reset regex lastIndex to prevent stale state from prior matchAll calls
+        state.data.ruleLinkerRegex.lastIndex = 0;
 
         const container = document.createElement('div');
         container.innerHTML = safeHTML(html) as string;
@@ -124,8 +145,8 @@ export class WindowManager {
                 const link = document.createElement('a');
                 link.className = 'rule-link';
                 link.textContent = matchText;
-                const id = Array.from(state.data.ruleMap.keys())
-                    .find((key) => key.toLowerCase().endsWith(`::${matchText.toLowerCase()}`));
+                // O(1) lookup via pre-built titleLookup map
+                const id = state.data.titleLookup.get(matchText.toLowerCase());
 
                 if (id) {
                     link.setAttribute(CONFIG.ATTRIBUTES.POPUP_ID, id);
@@ -151,12 +172,15 @@ export class WindowManager {
             textNode.parentNode!.replaceChild(fragment, textNode);
         });
 
-        return container.innerHTML;
+        const result = container.innerHTML;
+        this.#linkifyCache.set(html, result);
+        return result;
     };
 
+    // #9: Scope link state queries to popup container — rule-links only exist there
     #updateAllLinkStates(): void {
         const openIds = new Set(this.#stateManager.getState().ui.openPopups.keys());
-        document.querySelectorAll('a.rule-link').forEach((link) => {
+        this.#popupContainer.querySelectorAll('a.rule-link').forEach((link) => {
             const id = (link as HTMLElement).dataset.popupId;
             if (id) link.classList.toggle(CONFIG.CSS.LINK_DISABLED, openIds.has(id));
         });
@@ -164,12 +188,22 @@ export class WindowManager {
 
     #updateCloseBtnVisibility = (): void => { this.#closeAllBtn?.classList.toggle(CONFIG.CSS.IS_VISIBLE, this.#stateManager.getState().ui.openPopups.size > 1); };
 
+    #getPopupIdByElement(popup: Element | null): string | undefined {
+        if (!popup) return undefined;
+        const entries = this.#stateManager.getState().ui.openPopups;
+        for (const [id, el] of entries) {
+            if (el === popup) return id;
+        }
+        return undefined;
+    }
+
     #updateURLHash(): void {
         const openIds = Array.from(this.#stateManager.getState().ui.openPopups.keys());
         const hash = openIds.map(this.#toShortId).join(',');
         window.history.replaceState(null, '', hash ? `#${hash}` : window.location.pathname + window.location.search);
     }
 
+    // (B) Removed duplicate #updateCloseBtnVisibility call — deferred one inside setTimeout is sufficient
     #closePopup = (id: string): void => {
         const state = this.#stateManager.getState();
         const popup = state.ui.openPopups.get(id);
@@ -180,21 +214,18 @@ export class WindowManager {
         this.#updateAllLinkStates();
         if (this.#isMobileView) this.#popupContainer.classList.remove(CONFIG.CSS.POPUP_CONTAINER_MODAL_OPEN);
         document.body.style.setProperty('--is-modal-open', state.ui.openPopups.size > 0 ? '1' : '0');
+        this.#updateCloseBtnVisibility();
         setTimeout(() => {
             popup.close();
             popup.remove();
-            this.#updateCloseBtnVisibility();
         }, CONFIG.ANIMATION_DURATION.POPUP_MS);
         this.#persistenceService.saveSession();
-        this.#updateCloseBtnVisibility();
         this.#updateURLHash();
     };
 
     #handleKeyDown = (e: KeyboardEvent): void => {
-        const state = this.#stateManager.getState();
-        if (e.key !== 'Escape' || state.ui.openPopups.size === 0) return;
-        let topId: string | null = null; let maxZ = -1;
-        state.ui.openPopups.forEach((el, id) => { const z = parseInt(el.style.zIndex || '0', 10); if (z > maxZ) { maxZ = z; topId = id; } });
+        if (e.key !== 'Escape' || this.#stateManager.getState().ui.openPopups.size === 0) return;
+        const topId = this.getTopMostPopupId();
         if (topId) this.#closePopup(topId);
     };
 
@@ -287,8 +318,7 @@ export class WindowManager {
     #handleContainerClick = (e: Event): void => {
         const { target } = e;
         if ((target as HTMLElement).closest(`.${CONFIG.CSS.POPUP_CLOSE_BTN}`)) {
-            const popup = (target as HTMLElement).closest(`.${CONFIG.CSS.POPUP_WINDOW}`);
-            const popupId = Array.from(this.#stateManager.getState().ui.openPopups.entries()).find(([, p]) => p === popup)?.[0];
+            const popupId = this.#getPopupIdByElement((target as HTMLElement).closest(`.${CONFIG.CSS.POPUP_WINDOW}`));
             if (popupId) this.#closePopup(popupId);
         }
         const link = (target as HTMLElement).closest('a.rule-link') as HTMLElement | null;
@@ -312,8 +342,7 @@ export class WindowManager {
 
         const copyLinkBtn = (target as HTMLElement).closest('.popup-copy-link-btn') as HTMLElement | null;
         if (copyLinkBtn) {
-            const popup = copyLinkBtn.closest(`.${CONFIG.CSS.POPUP_WINDOW}`);
-            const popupId = Array.from(this.#stateManager.getState().ui.openPopups.entries()).find(([, p]) => p === popup)?.[0];
+            const popupId = this.#getPopupIdByElement(copyLinkBtn.closest(`.${CONFIG.CSS.POPUP_WINDOW}`));
             if (popupId) {
                 const shortId = this.#toShortId(popupId);
                 const url = `${window.location.origin}${window.location.pathname}#${shortId}`;
@@ -327,8 +356,7 @@ export class WindowManager {
         // Minimize button handler
         const minimizeBtn = (target as HTMLElement).closest(`.${CONFIG.CSS.POPUP_MINIMIZE_BTN}`) as HTMLElement | null;
         if (minimizeBtn) {
-            const popup = minimizeBtn.closest(`.${CONFIG.CSS.POPUP_WINDOW}`);
-            const popupId = Array.from(this.#stateManager.getState().ui.openPopups.entries()).find(([, p]) => p === popup)?.[0];
+            const popupId = this.#getPopupIdByElement(minimizeBtn.closest(`.${CONFIG.CSS.POPUP_WINDOW}`));
             if (popupId) this.minimizePopup(popupId);
         }
     };
@@ -409,7 +437,7 @@ export class WindowManager {
     #renderMinimizedBar(): void {
         if (!this.#minimizedBar) return;
         const state = this.#stateManager.getState();
-        this.#minimizedBar.innerHTML = '';
+        this.#minimizedBar.replaceChildren();
 
         if (state.ui.minimizedPopups.size === 0) {
             this.#minimizedBar.classList.add(CONFIG.CSS.HIDDEN);
@@ -449,5 +477,6 @@ export class WindowManager {
         if (rule) {
             this.#createPopup(id, rule, { top: meta.top, left: meta.left, zIndex: meta.zIndex });
         }
+        this.#updateURLHash();
     }
 }

@@ -11,6 +11,8 @@ export class ViewRenderer {
     #userDataService: UserDataService;
     #templateService: TemplateService;
     #notificationContainer: HTMLElement | null = null;
+    // #5: Cached reference for scoped DOM queries
+    #mainScrollArea: HTMLElement | null = null;
 
     constructor(domProvider: DOMProvider, stateManager: StateManager, userDataService: UserDataService, templateService: TemplateService) {
         this.#domProvider = domProvider;
@@ -18,6 +20,7 @@ export class ViewRenderer {
         this.#userDataService = userDataService;
         this.#templateService = templateService;
         try { this.#notificationContainer = this.#domProvider.get(CONFIG.ELEMENT_IDS.NOTIFICATION_CONTAINER); } catch { console.error('Notification container not found.'); }
+        try { this.#mainScrollArea = this.#domProvider.get(CONFIG.ELEMENT_IDS.MAIN_SCROLL_AREA); } catch { console.error('Main scroll area not found.'); }
     }
 
     renderSection(parentId: string, rules: { popupId: string; ruleInfo: RuleInfo }[]): void {
@@ -97,8 +100,10 @@ export class ViewRenderer {
     filterRuleItems(): void {
         const { showOptional, showHomebrew } = this.#stateManager.getState().settings;
         const sectionCounts = new Map<Element, number>();
+        // #5: Scope query to main scroll area to avoid scanning popup containers
+        const queryRoot = this.#mainScrollArea ?? document;
 
-        this.#domProvider.queryAll(`.${CONFIG.CSS.ITEM_SIZE_CLASS}`).forEach((item) => {
+        queryRoot.querySelectorAll(`.${CONFIG.CSS.ITEM_SIZE_CLASS}`).forEach((item) => {
             if (item.getAttribute(CONFIG.ATTRIBUTES.FILTERABLE) === 'false') return;
             const type = item.getAttribute(CONFIG.ATTRIBUTES.RULE_TYPE);
             const isOpt = type === 'Optional rule';
@@ -133,7 +138,7 @@ export class ViewRenderer {
 
         const message = document.createElement('p');
         message.className = 'fatal-error-message';
-        message.innerHTML = 'The application encountered a problem it couldn\'t recover from.<br>Please try refreshing the page.';
+        message.textContent = 'The application encountered a problem it couldn\'t recover from. Please try refreshing the page.';
 
         const codeBlock = document.createElement('div');
         codeBlock.className = 'fatal-error-code';
@@ -144,13 +149,13 @@ export class ViewRenderer {
 
         const reloadBtn = document.createElement('button');
         reloadBtn.className = 'btn-error-action btn-primary';
-        reloadBtn.innerHTML = 'Reload Page';
-        reloadBtn.onclick = () => window.location.reload();
+        reloadBtn.textContent = 'Reload Page';
+        reloadBtn.addEventListener('click', () => window.location.reload());
 
         const resetBtn = document.createElement('button');
         resetBtn.className = 'btn-error-action btn-secondary';
-        resetBtn.innerHTML = 'Reset App';
-        resetBtn.onclick = async () => {
+        resetBtn.textContent = 'Reset App';
+        resetBtn.addEventListener('click', async () => {
             if (window.confirm('This will clear all local data and cache. Are you sure?')) {
                 try {
                     if ('serviceWorker' in navigator) {
@@ -168,25 +173,25 @@ export class ViewRenderer {
                     window.alert('Reset failed. Please clear browser data manually.');
                 }
             }
-        };
+        });
 
         const copyBtn = document.createElement('button');
         copyBtn.className = 'btn-error-action btn-secondary';
-        copyBtn.innerHTML = 'Copy Error';
-        copyBtn.onclick = () => {
+        copyBtn.textContent = 'Copy Error';
+        copyBtn.addEventListener('click', () => {
             navigator.clipboard.writeText(msg).then(() => {
-                copyBtn.innerHTML = 'Copied';
-                setTimeout(() => { copyBtn.innerHTML = 'Copy Error'; }, 2000);
+                copyBtn.textContent = 'Copied';
+                setTimeout(() => { copyBtn.textContent = 'Copy Error'; }, 2000);
             });
-        };
+        });
 
         const reportBtn = document.createElement('button');
         reportBtn.className = 'btn-error-action btn-secondary';
-        reportBtn.innerHTML = 'Report Issue';
-        reportBtn.onclick = () => {
+        reportBtn.textContent = 'Report Issue';
+        reportBtn.addEventListener('click', () => {
             const body = `Error Report:\n\n${msg}\n\nUser Agent: ${navigator.userAgent}`;
             window.open(`https://github.com/NatsumeAoii/dnd5e-quickref/issues/new?title=Critical+Error&body=${encodeURIComponent(body)}`, '_blank');
-        };
+        });
 
         actions.append(reloadBtn, resetBtn, copyBtn, reportBtn);
         card.append(icon, title, message, codeBlock, actions);

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Security Hardening: CSP with Trusted Types & Permissions Policy -->
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; require-trusted-types-for 'script';">
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; require-trusted-types-for 'script';">
     <meta http-equiv="Permissions-Policy"
         content="geolocation=(), microphone=(), camera=(), payment=(), usb=(), vr=(), accelerometer=(), gyroscope=(), magnetometer=()">
 
@@ -26,9 +26,17 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
+    <!-- #8: Non-render-blocking font loading -->
+    <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap">
+    <link id="google-fonts-link"
         href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+        rel="stylesheet" media="print">
+    <noscript>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet">
+    </noscript>
 
     <link id="theme-stylesheet" rel="stylesheet" type="text/css" href="">
     <style>
@@ -85,29 +93,8 @@
         }
     </style>
 
-    <!-- Global Error Handler -->
-    <script>
-        window.onerror = function (msg, url, line, col, error) {
-            const el = document.getElementById('global-error-boundary');
-            const txt = document.getElementById('error-text');
-            if (el && txt) {
-                el.classList.add('visible');
-                txt.textContent = `[${new Date().toISOString()}] ${msg}\nSource: ${url}:${line}:${col}\n${error?.stack || ''}`;
-            }
-            return false;
-        };
-        window.onunhandledrejection = function (event) {
-            const el = document.getElementById('global-error-boundary');
-            const txt = document.getElementById('error-text');
-            if (el && txt) {
-                const reason = event.reason;
-                const message = reason instanceof Error ? reason.message : String(reason);
-                const stack = reason instanceof Error ? reason.stack : '';
-                el.classList.add('visible');
-                txt.textContent = `[${new Date().toISOString()}] Unhandled Promise Rejection: ${message}\n${stack || ''}`;
-            }
-        };
-    </script>
+    <!-- #11/#12: Global error handler moved to external script for CSP compliance -->
+    <script src="error-handler.js"></script>
 </head>
 
 <body>
@@ -117,8 +104,8 @@
         <code id="error-text"
             style="background: #333; color: #fff; padding: 0.5rem; border-radius: 4px; display: block; margin: 1rem 0; max-width: 100%; overflow: auto;"></code>
         <div class="error-actions">
-            <button onclick="window.location.reload()">Reload Page</button>
-            <button onclick="localStorage.clear(); sessionStorage.clear(); window.location.reload()">Factory
+            <button id="error-reload-btn">Reload Page</button>
+            <button id="error-reset-btn">Factory
                 Reset</button>
         </div>
     </div>

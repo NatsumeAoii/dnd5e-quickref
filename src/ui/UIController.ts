@@ -31,6 +31,8 @@ export class UIController {
     #services: UIServices;
     #components: UIComponents;
     #dragDropManager: DragDropManager | null = null;
+    // #2: Dirty flag to avoid redundant buildRuleMap() calls on every section expand
+    #ruleMapDirty = true;
 
     constructor(domProvider: DOMProvider, stateManager: StateManager, services: UIServices, components: UIComponents) {
         this.#domProvider = domProvider;
@@ -74,8 +76,10 @@ export class UIController {
 
     async #switchRuleset(): Promise<void> {
         this.#components.windowManager.closeAllPopups();
+        this.#ruleMapDirty = true;
         await this.#services.data.ensureAllDataLoadedForActiveRuleset();
         this.#services.data.buildRuleMap();
+        this.#ruleMapDirty = false;
         this.#services.data.buildLinkerData();
         this.#components.viewRenderer.renderFavoritesSection();
         await this.renderOpenSections();
@@ -86,13 +90,14 @@ export class UIController {
         this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}[data-section]`).forEach((section) => {
             const sectionId = section.getAttribute('id');
             if (sectionId === CONFIG.ELEMENT_IDS.SECTION_FAVORITES || sectionId === 'section-settings') return;
+            if (section.classList.contains(CONFIG.CSS.IS_COLLAPSED)) return;
             const content = section.querySelector(`.${CONFIG.CSS.SECTION_CONTENT}`);
             if (content) {
                 content.setAttribute(CONFIG.ATTRIBUTES.RENDERED, 'false');
                 const row = content.querySelector('.section-row');
-                if (row) row.innerHTML = '';
+                if (row) row.replaceChildren();
             }
-            if (!section.classList.contains(CONFIG.CSS.IS_COLLAPSED)) rerenderPromises.push(this.renderSectionContent(section as HTMLElement));
+            rerenderPromises.push(this.renderSectionContent(section as HTMLElement));
         });
         await Promise.all(rerenderPromises);
     }
@@ -289,12 +294,13 @@ export class UIController {
 
         if (dataSectionKey === 'environment') {
             await this.#services.data.ensureSectionDataLoaded('environment');
-            this.#services.data.buildRuleMap();
+            // #2: Only rebuild ruleMap when data has actually changed
+            if (this.#ruleMapDirty) { this.#services.data.buildRuleMap(); this.#ruleMapDirty = false; }
             (CONFIG.SECTION_CONFIG as readonly SectionConfig[]).filter((c) => c.type === 'Environment').forEach(this.#renderSingleSection);
         } else {
             const dataKey = dataSectionKey.replace('-', '_');
             await this.#services.data.ensureSectionDataLoaded(dataKey);
-            this.#services.data.buildRuleMap();
+            if (this.#ruleMapDirty) { this.#services.data.buildRuleMap(); this.#ruleMapDirty = false; }
             const sectionConfig = CONFIG.SECTION_CONFIG.find((c) => c.dataKey === dataKey);
             if (sectionConfig) this.#renderSingleSection(sectionConfig);
         }

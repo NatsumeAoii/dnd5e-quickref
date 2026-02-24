@@ -3,9 +3,14 @@ import { DataLoadError } from '../utils/Utils.js';
 import type { StateManager } from '../state/StateManager.js';
 import type { RuleData } from '../types.js';
 
+// #15: Pattern for detecting potentially malicious content in data entries
+const DANGEROUS_DATA_RE = /<script[\s>]|onerror\s*=|javascript:/i;
+
 export class DataService {
     #stateManager: StateManager;
     #fetchPromises = new Map<string, Promise<void>>();
+    // #1: Persistent cache so ruleset switches don't re-fetch+re-parse
+    #dataCache = new Map<string, RuleData[]>();
 
     constructor(stateManager: StateManager) { this.#stateManager = stateManager; }
 
@@ -29,12 +34,46 @@ export class DataService {
         }
     }
 
+    // #15: Validate and sanitize parsed rule data
+    // (G) Avoids JSON.stringify per entry — iterates string fields directly
+    #validateData(data: unknown): RuleData[] {
+        if (!Array.isArray(data)) return [];
+        return (data as RuleData[]).filter((entry) => {
+            if (!entry || typeof entry !== 'object' || typeof entry.title !== 'string') return false;
+            // Check all string-valued properties for dangerous patterns
+            for (const val of Object.values(entry)) {
+                if (typeof val === 'string' && DANGEROUS_DATA_RE.test(val)) {
+                    console.warn(`Stripped potentially dangerous rule entry: "${entry.title}"`);
+                    return false;
+                }
+                // Also check arrays of strings (items in bullets, etc.)
+                if (Array.isArray(val)) {
+                    for (const item of val) {
+                        if (typeof item === 'string' && DANGEROUS_DATA_RE.test(item)) {
+                            console.warn(`Stripped potentially dangerous rule entry: "${entry.title}"`);
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        });
+    }
+
     async #loadDataFile(dataFileName: string, rulesetKey: string): Promise<void> {
         const state = this.#stateManager.getState();
         if (state.data.loadedRulesets[rulesetKey].has(dataFileName)) return;
 
         const cacheKey = `${rulesetKey}_${dataFileName}`;
         if (this.#fetchPromises.has(cacheKey)) return this.#fetchPromises.get(cacheKey);
+
+        // #1: Check persistent data cache before fetching
+        const cached = this.#dataCache.get(cacheKey);
+        if (cached) {
+            state.data.rulesets[rulesetKey][dataFileName] = cached;
+            state.data.loadedRulesets[rulesetKey].add(dataFileName);
+            return;
+        }
 
         const prefix = rulesetKey === '2024' ? '2024_' : '';
         const path = `js/data/${prefix}data_${dataFileName}.json?v=${CONFIG.APP_VERSION}`;
@@ -43,7 +82,10 @@ export class DataService {
             try {
                 const res = await this.#fetchWithRetry(path);
                 if (!res.ok) throw new DataLoadError(path, `HTTP ${res.status}`);
-                state.data.rulesets[rulesetKey][dataFileName] = await res.json() as RuleData[];
+                const raw = await res.json();
+                const validated = this.#validateData(raw);
+                state.data.rulesets[rulesetKey][dataFileName] = validated;
+                this.#dataCache.set(cacheKey, validated);
                 state.data.loadedRulesets[rulesetKey].add(dataFileName);
             } catch (e) {
                 console.error(`Data load failed for ${dataFileName} (${rulesetKey}):`, e);
@@ -69,13 +111,24 @@ export class DataService {
         await Promise.all(CONFIG.DATA_FILES.map((file) => this.#loadDataFile(file, rulesetKey)));
     }
 
+    // #7: Concurrency-limited preload (batch of 4) to avoid browser connection saturation
     async preloadAllDataSilent(): Promise<void> {
         console.log('Starting background preload of all data files...');
-        const promises: Promise<void>[] = [];
+        const tasks: (() => Promise<void>)[] = [];
         (['2014', '2024'] as const).forEach((ruleset) => {
-            CONFIG.DATA_FILES.forEach((file) => promises.push(this.#loadDataFile(file, ruleset)));
+            CONFIG.DATA_FILES.forEach((file) => tasks.push(() => this.#loadDataFile(file, ruleset)));
         });
-        try { await Promise.allSettled(promises); console.log('All data files preloaded.'); } catch (err) { console.error('Background preload encountered errors:', err); }
+
+        const concurrency = 4;
+        let idx = 0;
+        const run = async (): Promise<void> => {
+            while (idx < tasks.length) {
+                const taskIdx = idx++;
+                try { await tasks[taskIdx](); } catch { /* errors logged in #loadDataFile */ }
+            }
+        };
+        await Promise.allSettled(Array.from({ length: Math.min(concurrency, tasks.length) }, () => run()));
+        console.log('All data files preloaded.');
     }
 
     buildRuleMap(): void {
@@ -101,8 +154,19 @@ export class DataService {
 
     buildLinkerData(): void {
         const state = this.#stateManager.getState();
-        const ruleTitles = [...state.data.ruleMap.keys()].map((k) => k.split('::')[1]);
-        const uniqueTitles = [...new Set(ruleTitles.filter((t) => t.length > 2))].sort((a, b) => b.length - a.length);
+        const titleLookup = new Map<string, string>();
+        const ruleTitles: string[] = [];
+
+        state.data.ruleMap.forEach((_info, key) => {
+            const title = key.split('::')[1];
+            if (title && title.length > 2) {
+                ruleTitles.push(title);
+                titleLookup.set(title.toLowerCase(), key);
+            }
+        });
+
+        state.data.titleLookup = titleLookup;
+        const uniqueTitles = [...new Set(ruleTitles)].sort((a, b) => b.length - a.length);
         const esc = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         state.data.ruleLinkerRegex = new RegExp(`\\b(${uniqueTitles.map(esc).join('|')})\\b`, 'gi');
     }

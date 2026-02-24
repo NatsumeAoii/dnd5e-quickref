@@ -73,6 +73,7 @@ export interface DataState {
     loadedRulesets: Record<string, Set<string>>;
     ruleMap: Map<string, RuleInfo>;
     ruleLinkerRegex: RegExp | null;
+    titleLookup: Map<string, string>;
 }
 
 export interface AppState {

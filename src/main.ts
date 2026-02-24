@@ -40,6 +40,9 @@ class QuickRefApplication {
     #stateManager!: StateManager;
     #services!: Services;
     #components!: Components;
+    // #4: Cached focusables list for arrow-key navigation
+    #focusablesCache: HTMLElement[] = [];
+    #focusablesDirty = true;
 
     constructor() {
         try {
@@ -108,6 +111,17 @@ class QuickRefApplication {
         );
     }
 
+    // #4: Invalidate focusables cache after render changes
+    #invalidateFocusables(): void { this.#focusablesDirty = true; }
+
+    #rebuildFocusables(): HTMLElement[] {
+        this.#focusablesCache = Array.from<HTMLElement>(
+            document.querySelectorAll(`.${CONFIG.CSS.SECTION_TITLE}, .${CONFIG.CSS.SECTION_CONTAINER}:not(.${CONFIG.CSS.IS_COLLAPSED}) .item`)
+        ).filter((el) => el.offsetParent !== null);
+        this.#focusablesDirty = false;
+        return this.#focusablesCache;
+    }
+
     async start(): Promise<void> {
         try {
             this.#services.settings.initialize();
@@ -125,6 +139,7 @@ class QuickRefApplication {
             this.#components.viewRenderer.renderFavoritesSection();
             this.#components.controller.setupCollapsibleSections();
             await this.#components.controller.renderOpenSections();
+            this.#invalidateFocusables();
 
             const restoredPopups = this.#services.persistence.loadSession();
             restoredPopups.forEach((p) => this.#components.windowManager.createPopupFromState(p));
@@ -193,6 +208,7 @@ class QuickRefApplication {
             // Persist all states and trigger lazy-render if expanding
             this.#components.controller.persistAllSectionStates();
             if (allCollapsed) this.#components.controller.renderOpenSections();
+            this.#invalidateFocusables();
         });
 
         // Print mode toggle
@@ -207,6 +223,7 @@ class QuickRefApplication {
                 });
                 // Trigger rendering of all un-rendered sections
                 this.#components.controller.renderOpenSections();
+                this.#invalidateFocusables();
             }
         });
 
@@ -231,9 +248,8 @@ class QuickRefApplication {
             if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
             if ((e.target as HTMLElement).isContentEditable) return;
 
-            const focusables = Array.from<HTMLElement>(
-                document.querySelectorAll(`.${CONFIG.CSS.SECTION_TITLE}, .${CONFIG.CSS.SECTION_CONTAINER}:not(.${CONFIG.CSS.IS_COLLAPSED}) .item`)
-            ).filter((el) => el.offsetParent !== null);
+            // #4: Use cached focusables, rebuild only when dirty
+            const focusables = this.#focusablesDirty ? this.#rebuildFocusables() : this.#focusablesCache;
 
             if (!focusables.length) return;
 

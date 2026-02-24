@@ -17,6 +17,7 @@ export class StateManager {
                 loadedRulesets: { 2014: new Set(), 2024: new Set() },
                 ruleMap: new Map(),
                 ruleLinkerRegex: null,
+                titleLookup: new Map(),
             },
         };
     }
@@ -28,7 +29,12 @@ export class StateManager {
         this.#listeners.get(event)!.push(callback);
     }
 
+    // (K) Error isolation — a throwing subscriber must not break sibling listeners
     publish(event: string, data?: unknown): void {
-        if (this.#listeners.has(event)) this.#listeners.get(event)!.forEach((cb) => cb(data));
+        if (this.#listeners.has(event)) {
+            this.#listeners.get(event)!.forEach((cb) => {
+                try { cb(data); } catch (e) { console.error(`[StateManager] Listener error for "${event}":`, e); }
+            });
+        }
     }
 }

@@ -80,16 +80,27 @@ export class UserDataService {
         const compressedReadableStream = stream.pipeThrough(new CompressionStream('gzip'));
         const compressedResponse = await new Response(compressedReadableStream);
         const blob = await compressedResponse.blob();
+        const fileName = `quickref-notes-${new Date().toISOString().split('T')[0]}.json.gz`;
+
+        // #20: Try Web Share API for mobile (Safari iOS <a>.click() silently fails)
+        const file = new File([blob], fileName, { type: 'application/gzip' });
+        if (navigator.canShare?.({ files: [file] })) {
+            try {
+                await navigator.share({ files: [file], title: 'QuickRef Notes Export' });
+                return;
+            } catch { /* User cancelled or share failed — fall through to download */ }
+        }
 
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `quickref-notes-${new Date().toISOString().split('T')[0]}.json.gz`;
+        a.download = fileName;
         a.click();
         URL.revokeObjectURL(url);
     }
 
-    static #DANGEROUS_PATTERN = /<script[\s>]|javascript:|on\w+\s*=/gi;
+    // (D) Removed `g` flag: `g` + `test()` causes lastIndex drift across calls on a static regex
+    static #DANGEROUS_PATTERN = /<script[\s>]|javascript:|on\w+\s*=/i;
     static #KEY_PATTERN = /^[\w\s]+::[\w\s\-'(),/]+$/;
 
     #sanitizeNoteText(text: string): string {
@@ -106,8 +117,22 @@ export class UserDataService {
         }
 
         let jsonString: string;
+        const maxDecompressedSize = CONFIG.IMPORT_LIMITS.MAX_FILE_SIZE_BYTES * 10; // 50MB decompressed limit
+
         if (file.name.endsWith('.gz')) {
-            const stream = file.stream().pipeThrough(new DecompressionStream('gzip'));
+            // #14: Streaming size check to defend against zip bombs
+            let totalBytes = 0;
+            const sizeGuard = new TransformStream<Uint8Array, Uint8Array>({
+                transform(chunk, controller) {
+                    totalBytes += chunk.byteLength;
+                    if (totalBytes > maxDecompressedSize) {
+                        controller.error(new Error(`Decompressed data exceeds ${(maxDecompressedSize / 1_048_576).toFixed(0)}MB safety limit`));
+                        return;
+                    }
+                    controller.enqueue(chunk);
+                },
+            });
+            const stream = file.stream().pipeThrough(new DecompressionStream('gzip')).pipeThrough(sizeGuard);
             jsonString = await new Response(stream).text();
         } else {
             jsonString = await file.text();
@@ -125,12 +150,12 @@ export class UserDataService {
         const state = this.#stateManager.getState();
         const toWrite: [string, string][] = [];
         let skipped = 0;
+        const encoder = new TextEncoder();
 
         for (const [key, value] of entries) {
             if (typeof value !== 'string') { skipped++; continue; }
             if (!this.#validateNoteKey(key)) { skipped++; continue; }
 
-            const encoder = new TextEncoder();
             if (encoder.encode(value).byteLength > CONFIG.IMPORT_LIMITS.MAX_NOTE_SIZE_BYTES) { skipped++; continue; }
 
             const sanitized = this.#sanitizeNoteText(value);

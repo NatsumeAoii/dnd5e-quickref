@@ -16,8 +16,14 @@ export class DBService {
             };
             req.onsuccess = (e) => {
                 this.#db = (e.target as IDBOpenDBRequest).result;
+                // (C) Auto-close stale connection when another tab upgrades schema
+                this.#db.onversionchange = () => {
+                    this.#db?.close();
+                    this.#db = null;
+                };
                 resolve(this.#db);
             };
+            req.onblocked = () => reject(new Error('IndexedDB open blocked — close other tabs using this app and retry.'));
             req.onerror = () => reject(req.error);
         });
     }

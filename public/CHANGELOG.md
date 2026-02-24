@@ -7,6 +7,61 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.2] - 2026-02-24
+
+### Architecture & Optimization Pass
+A comprehensive Zero-Mass autonomous optimization pass targeting strict architectural constraints, security, and performance.
+
+#### Security & Edge Cases
+- **Trusted Types Integration**: Fully implemented strict sanitization in the Trusted Types `default` policy (`Utils.ts`) to selectively strip `<script>`, `on*` handler attributes, and `javascript:` URIs.
+- **IndexedDB Hardening**: `DBService` now handles `onblocked` rejections and automatically closes stale connections via `onversionchange`, preventing schema upgrade deadlocks across tabs.
+- **Zip Bomb Defense**: Added a streaming size guard (`TransformStream`) during GZIP decompression in `UserDataService` to preemptively abort payloads exceeding the 50MB safety limit.
+- **Memory Safety**: `decodeURIComponent` in `WindowManager` is now wrapped in `try/catch` to gracefully handle malformed URL payload crashes.
+- **State Validation**: Strict schema and bounds validation added to `PersistenceService` for incoming `sessionStorage` parsing.
+- **Cross-Tab Sync Guard**: `SyncService` updates are now version-gated to drop payloads from incompatible app versions, with added `onmessageerror` protections.
+- **Mobile Exports**: `UserDataService` now prioritizes the Web Share API natively before falling back to `<a>.click()`, fixing silent download failures on iOS Safari.
+
+#### Performance & Modularity
+- **Zero-Allocation Data Caching**: Introduced a persistent `#dataCache` in `DataService` to completely eliminate redundantly fetching/parsing JSON when toggling between 2014 and 2024 rulesets.
+- **Concurrency Limiting**: Network preloading of data modules is cleanly throttled (batch limit of 4) to prevent browser connection saturation.
+- **Hot-Path Optimizations**: Stripped expensive `JSON.stringify` allocations out of `DataService` validation loops, iterating `Object.values()` directly.
+- **Memoization Gates**: `#ruleMapDirty` flag gates redundant rule map rebuilds, while arrow-key focusables in `main.ts` are strictly cached with targeted cache invalidation to bypass layout trashing.
+- **Linkify Caching**: Expensive regex `TreeWalker` rule linkification HTML is now memoized dynamically, and intelligently invalidated when the active ruleset switches.
+- **Scoped DOM Traversal**: Hard-scoped `querySelectorAll` from global `document` down to `#main-scroll-area` or `#popup-container` across `ViewRenderer` and `WindowManager`.
+- **CSP Hardening**: Extracted inline `onclick` handlers into `error-handler.js`, allowing strict removal of `'unsafe-inline'` from `script-src` Content-Security-Policy.
+- **DOM Cleansing**: Purged `innerHTML = ''` in favor of CSP-safe `replaceChildren()`, avoiding Trusted Types bottlenecks; migrated `innerHTML` to `textContent` for plain text.
+- **Regex Drift Fix**: Fixed logical drift bug in `UserDataService` where a static regex `g` flag mutated `lastIndex` across independent `.test()` calls.
+- **Error Isolation**: `StateManager.publish` now wraps discrete listener callbacks in `try/catch` so a single faulty subscriber cannot collapse the event pipeline.
+
+---
+
+## [1.1.1] - 2026-02-24
+
+### Fixed
+
+- **Regex Stale State**: Reset `ruleLinkerRegex.lastIndex` before each `matchAll` call, preventing skipped rule-link matches on consecutive popup renders.
+- **Section Content Flicker**: `renderOpenSections` no longer clears DOM content on collapsed sections, eliminating visible flicker during ruleset switches.
+- **WakeLock Re-entrancy**: Added in-flight promise guard to `WakeLockService`, preventing duplicate `wakeLock.request()` calls on rapid `visibilitychange` events.
+- **CSP Compliance**: Replaced 4 inline `onclick` assignments in the fatal error screen with `addEventListener` calls.
+
+### Improved
+
+#### Performance
+- **O(1) Rule Link Resolution**: Pre-built `titleLookup` map in `DataService.buildLinkerData()` replaces per-match `Array.from().find()` scans in popup content linking.
+- **TextEncoder Reuse**: Hoisted `TextEncoder` allocation outside the import-notes loop to avoid per-entry object creation.
+- **Popup ID Lookup**: Extracted `#getPopupIdByElement()` helper in `WindowManager`, eliminating 3 repeated `Array.from(entries()).find()` chains in click handlers.
+
+#### Code Quality
+- **Deduplicated `getTopMostPopupId`**: `#handleKeyDown` now calls the existing public method instead of re-implementing the z-index scan.
+
+#### CI/CD
+- **Split `deploy.yml`**: Separated monolithic `build-and-deploy` into independent `build` and `deploy` jobs with `needs:` dependency.
+- **Upgraded `upload-pages-artifact`**: v3 → v4 (uses `node20` runtime, avoids deprecated `node16`).
+- **Removed redundant `configure-pages` step**: Base path is already set via `vite.config.ts`.
+- **Automatic Changelog Sync**: Added a `prebuild` script to automatically copy `CHANGELOG.md` to `public/CHANGELOG.md` so it is always included in the final production build (`dist/`).
+
+---
+
 ## [1.1.0] - 2026-02-18
 
 ### Added

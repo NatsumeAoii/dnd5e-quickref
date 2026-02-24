@@ -1,6 +1,7 @@
 export class WakeLockService {
     #wakeLock: WakeLockSentinel | null = null;
     #isEnabled = false;
+    #pending: Promise<void> | null = null;
 
     constructor() {
         document.addEventListener('visibilitychange', () => {
@@ -17,12 +18,17 @@ export class WakeLockService {
     }
 
     async #requestLock(): Promise<void> {
-        if (!this.#isEnabled || !('wakeLock' in navigator)) return;
-        try {
-            this.#wakeLock = await navigator.wakeLock.request('screen');
-        } catch (err) {
-            console.warn('Wake Lock failed:', err);
-        }
+        if (!this.#isEnabled || !('wakeLock' in navigator) || this.#pending) return;
+        this.#pending = (async () => {
+            try {
+                this.#wakeLock = await navigator.wakeLock.request('screen');
+            } catch (err) {
+                console.warn('Wake Lock failed:', err);
+            } finally {
+                this.#pending = null;
+            }
+        })();
+        return this.#pending;
     }
 
     async #releaseLock(): Promise<void> {
