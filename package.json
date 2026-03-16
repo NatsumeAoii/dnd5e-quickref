@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/prebuild.js -e \"import('node:fs').then(fs => fs.copyFileSync('CHANGELOG.md', 'public/CHANGELOG.md'))",
+    "prebuild": "node scripts/prebuild.js",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
