@@ -34,10 +34,11 @@ export class ViewRenderer {
         });
 
         if (document.startViewTransition) {
-            document.startViewTransition(() => {
+            const transition = document.startViewTransition(() => {
                 parent.replaceChildren(fragment);
                 this.#postRender(parent);
             });
+            transition.finished.catch(() => { /* view transition superseded — safe to ignore */ });
         } else {
             parent.replaceChildren(fragment);
             this.#postRender(parent);

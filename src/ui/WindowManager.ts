@@ -286,7 +286,8 @@ export class WindowManager {
 
         const dialogEl = popup as unknown as HTMLDialogElement;
         if (document.startViewTransition) {
-            document.startViewTransition(() => dialogEl.show());
+            const transition = document.startViewTransition(() => dialogEl.show());
+            transition.finished.catch(() => { /* view transition superseded — safe to ignore */ });
         } else {
             dialogEl.show();
         }

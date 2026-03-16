@@ -229,10 +229,11 @@ export class ViewRenderer {
     });
 
     if (document.startViewTransition) {
-      document.startViewTransition(() => {
+      const transition = document.startViewTransition(() => {
         parent.replaceChildren(fragment);
         this.#postRender(parent);
       });
+      transition.finished.catch(() => { /* view transition superseded — safe to ignore */ });
     } else {
       parent.replaceChildren(fragment);
       this.#postRender(parent);
@@ -672,7 +673,8 @@ export class WindowManager {
     this.#popupContainer.appendChild(popup);
 
     if (document.startViewTransition) {
-      document.startViewTransition(() => popup.show());
+      const transition = document.startViewTransition(() => popup.show());
+      transition.finished.catch(() => { /* view transition superseded — safe to ignore */ });
     } else {
       popup.show();
     }
