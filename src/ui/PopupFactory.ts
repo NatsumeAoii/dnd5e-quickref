@@ -27,17 +27,18 @@ export class PopupFactory {
         const statusEl = popup.querySelector('.popup-notes-status') as HTMLElement | null;
         if (!textarea || !statusEl) return;
 
+        let fadeTimeout: ReturnType<typeof setTimeout> | null = null;
+
         const debouncedSave = debounce(() => {
             this.#userDataService.saveNote(id, textarea.value);
             statusEl.textContent = CONFIG.UI_STRINGS.NOTE_STATUS_SAVED;
-            const state = this.#stateManager.getState();
-            state.ui.fadeTimeout = setTimeout(() => {
+            fadeTimeout = setTimeout(() => {
                 if (statusEl.textContent === CONFIG.UI_STRINGS.NOTE_STATUS_SAVED) statusEl.textContent = '';
             }, CONFIG.ANIMATION_DURATION.NOTE_FADEOUT_MS);
         }, CONFIG.DEBOUNCE_DELAY.NOTE_AUTOSAVE_MS);
 
         textarea.addEventListener('input', () => {
-            if (this.#stateManager.getState().ui.fadeTimeout) clearTimeout(this.#stateManager.getState().ui.fadeTimeout!);
+            if (fadeTimeout) clearTimeout(fadeTimeout);
             statusEl.textContent = CONFIG.UI_STRINGS.NOTE_STATUS_SAVING;
             debouncedSave();
         });

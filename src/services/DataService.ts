@@ -35,24 +35,34 @@ export class DataService {
     }
 
     // #15: Validate and sanitize parsed rule data
-    // (G) Avoids JSON.stringify per entry — iterates string fields directly
+    // (G) Avoids JSON.stringify per entry — iterates string fields directly + deep-checks bullets
     #validateData(data: unknown): RuleData[] {
         if (!Array.isArray(data)) return [];
         return (data as RuleData[]).filter((entry) => {
             if (!entry || typeof entry !== 'object' || typeof entry.title !== 'string') return false;
-            // Check all string-valued properties for dangerous patterns
+            // Check all string-valued top-level properties for dangerous patterns
             for (const val of Object.values(entry)) {
                 if (typeof val === 'string' && DANGEROUS_DATA_RE.test(val)) {
                     console.warn(`Stripped potentially dangerous rule entry: "${entry.title}"`);
                     return false;
                 }
-                // Also check arrays of strings (items in bullets, etc.)
-                if (Array.isArray(val)) {
-                    for (const item of val) {
-                        if (typeof item === 'string' && DANGEROUS_DATA_RE.test(item)) {
-                            console.warn(`Stripped potentially dangerous rule entry: "${entry.title}"`);
-                            return false;
+            }
+            // Deep-check bullets array: content, items[], headers[], rows[][]
+            if (Array.isArray(entry.bullets)) {
+                for (const bullet of entry.bullets) {
+                    if (!bullet || typeof bullet !== 'object') continue;
+                    const stringsToCheck: string[] = [];
+                    if (typeof bullet.content === 'string') stringsToCheck.push(bullet.content);
+                    if (Array.isArray(bullet.items)) stringsToCheck.push(...bullet.items.filter((s: unknown): s is string => typeof s === 'string'));
+                    if (Array.isArray(bullet.headers)) stringsToCheck.push(...bullet.headers.filter((s: unknown): s is string => typeof s === 'string'));
+                    if (Array.isArray(bullet.rows)) {
+                        for (const row of bullet.rows) {
+                            if (Array.isArray(row)) stringsToCheck.push(...row.filter((s: unknown): s is string => typeof s === 'string'));
                         }
+                    }
+                    if (stringsToCheck.some((s) => DANGEROUS_DATA_RE.test(s))) {
+                        console.warn(`Stripped potentially dangerous rule entry: "${entry.title}"`);
+                        return false;
                     }
                 }
             }
@@ -167,6 +177,13 @@ export class DataService {
 
         state.data.titleLookup = titleLookup;
         const uniqueTitles = [...new Set(ruleTitles)].sort((a, b) => b.length - a.length);
+
+        // Guard: empty pattern would match empty strings and cause infinite loops in matchAll
+        if (uniqueTitles.length === 0) {
+            state.data.ruleLinkerRegex = null;
+            return;
+        }
+
         const esc = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         state.data.ruleLinkerRegex = new RegExp(`\\b(${uniqueTitles.map(esc).join('|')})\\b`, 'gi');
     }

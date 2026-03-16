@@ -184,7 +184,7 @@ class QuickRefApplication {
             }
         } catch (e) {
             this.#services?.errorService?.report(e, 'Application.start', 'fatal');
-            this.#components.viewRenderer.renderFatalError('Application failed to start.');
+            this.#components?.viewRenderer?.renderFatalError('Application failed to start.');
         }
     }
 

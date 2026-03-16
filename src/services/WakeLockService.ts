@@ -5,7 +5,7 @@ export class WakeLockService {
 
     constructor() {
         document.addEventListener('visibilitychange', () => {
-            if (this.#wakeLock !== null && document.visibilityState === 'visible') {
+            if (this.#isEnabled && this.#wakeLock !== null && document.visibilityState === 'visible') {
                 this.#requestLock();
             }
         });

@@ -31,6 +31,7 @@ export class WindowManager {
     #isMobileView = false;
     // #3: Cache linkified HTML to avoid redundant DOM tree-walk + serialization
     #linkifyCache = new Map<string, string>();
+    static #LINKIFY_CACHE_MAX = 500;
 
     #TYPE_ENCODING: Readonly<Record<string, string>> = Object.freeze({
         Action: 'Ac', 'Bonus action': 'Ba', Condition: 'Co', Environment: 'En', Move: 'Mo', Reaction: 'Re',
@@ -174,6 +175,11 @@ export class WindowManager {
 
         const result = container.innerHTML;
         this.#linkifyCache.set(html, result);
+        // Evict oldest entries when cache exceeds size cap
+        if (this.#linkifyCache.size > WindowManager.#LINKIFY_CACHE_MAX) {
+            const firstKey = this.#linkifyCache.keys().next().value;
+            if (firstKey !== undefined) this.#linkifyCache.delete(firstKey);
+        }
         return result;
     };
 
@@ -350,6 +356,8 @@ export class WindowManager {
                 navigator.clipboard.writeText(url).then(() => {
                     copyLinkBtn.classList.add('copied');
                     setTimeout(() => { copyLinkBtn.classList.remove('copied'); }, 1800);
+                }).catch(() => {
+                    console.warn('Clipboard write failed — likely insecure context.');
                 });
             }
         }

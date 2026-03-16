@@ -18,7 +18,7 @@ export class GamepadService {
         const gp = navigator.getGamepads()[0];
         if (gp) {
             const now = Date.now();
-            if (now - this.#lastMove > this.#MOVE_DELAY) {
+            if (now - this.#lastMove > this.#MOVE_DELAY && gp.axes.length >= 2) {
                 const x = gp.axes[0];
                 const y = gp.axes[1];
                 if (Math.abs(x) > 0.5 || Math.abs(y) > 0.5) {
@@ -50,7 +50,10 @@ export class GamepadService {
         }
 
         const containerWidth = this.#domProvider.get(CONFIG.ELEMENT_IDS.MAIN_SCROLL_AREA).offsetWidth;
-        const itemWidth = items[0].parentElement!.offsetWidth;
+        const parentEl = items[0].parentElement;
+        if (!parentEl) return;
+        const itemWidth = parentEl.offsetWidth;
+        if (itemWidth === 0) return;
         const cols = Math.floor(containerWidth / itemWidth);
 
         if (Math.abs(x) > 0.5) { index += (x > 0 ? 1 : -1); } else if (Math.abs(y) > 0.5) { index += (y > 0 ? cols : -cols); }

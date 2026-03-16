@@ -9,8 +9,8 @@ const sanitizeHTML = (html: string): string => {
     clean = clean.replace(/<\/?script[^>]*>/gi, '');
     // Strip on* event handler attributes (e.g., onerror="...", onclick='...')
     clean = clean.replace(/\s+on\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '');
-    // Strip javascript: URIs in href/src/action attributes
-    clean = clean.replace(/(href|src|action)\s*=\s*(?:"javascript:[^"]*"|'javascript:[^']*')/gi, '$1=""');
+    // Strip javascript: URIs in href/src/action/formaction/xlink:href attributes
+    clean = clean.replace(/(href|src|action|formaction|xlink:href)\s*=\s*(?:"javascript:[^"]*"|'javascript:[^']*')/gi, '$1=""');
     return clean;
 };
 
@@ -33,7 +33,7 @@ if (_win.trustedTypes?.createPolicy) {
 }
 
 export const safeHTML = (html: string): string =>
-    trustedPolicy ? trustedPolicy.createHTML(html) : html;
+    trustedPolicy ? trustedPolicy.createHTML(html) : sanitizeHTML(html);
 
 export const safeScriptURL = (url: string): string =>
     trustedPolicy ? trustedPolicy.createScriptURL(url) : url;

@@ -6,6 +6,7 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
+# Top-level permissions: minimum required for Pages deployment
 permissions:
   contents: read
   pages: write
@@ -19,24 +20,22 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js 22
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version-file: package.json
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Type check
-        run: npx tsc --noEmit
-
       - name: Build production bundle
-        run: npx vite build
+        run: npm run build
 
       - name: Add .nojekyll
         run: touch dist/.nojekyll
@@ -50,6 +49,7 @@ jobs:
     name: Deploy
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

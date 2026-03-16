@@ -3,6 +3,9 @@
   "version": "1.1.2",
   "description": "D&D 5e Quick Reference – Vite + TypeScript",
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "vite",
     "prebuild": "node scripts/prebuild.js -e \"import('node:fs').then(fs => fs.copyFileSync('CHANGELOG.md', 'public/CHANGELOG.md'))",
