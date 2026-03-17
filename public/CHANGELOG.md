@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.3] - 2026-03-17
+
+### Documentation Overhaul
+
+A comprehensive rewrite of `README.md` for developer onboarding and end-user clarity.
+
+#### Fixed
+- **Node Version Mismatch**: Corrected prerequisite from "Node.js 18+" to "Node.js 22+" to match `package.json` `engines` field.
+- **Duplicate Heading**: Removed duplicate `## Getting Started` section header.
+- **Icon Field Docs**: Corrected custom rule `icon` field description from CSS sprite class reference to `public/img/` filename reference.
+
+#### Added
+- **Project Structure**: Full annotated directory tree covering `src/`, `js/`, `css/`, `public/`, `config/`, and `scripts/`.
+- **Architecture Notes**: Documented the dual-layer architecture (legacy JS + modern TypeScript) and data flow through services.
+- **npm Scripts Table**: Documented all available scripts (`dev`, `prebuild`, `build`, `preview`, `type-check`, `lint:css`).
+- **Deployment Section**: Documented GitHub Actions CI/CD pipeline and manual deployment workflow.
+- **Contributing Guide**: Quick start, code quality tools (TypeScript strict, ESLint, Stylelint), and project conventions.
+- **Known Limitations**: Documented legacy `build.js` (dead code), missing test framework, SW caching behavior, and `file://` restriction.
+- **Expanded FAQ** (9 new entries):
+  - Keyboard shortcuts (with full shortcut table)
+  - Gamepad navigation
+  - Deep linking
+  - Favorites (star, drag-and-drop reorder)
+  - Themes and dark mode
+  - Display density
+  - Keep Screen On (Wake Lock API)
+  - Print mode
+  - Cross-tab sync (BroadcastChannel)
+- **Import Limits**: Added concrete limits (500 notes, 10 KB/note, 5 MB/file) to notes backup FAQ.
+- **Expanded Credits**: Added live demo links, license links, and full source book names.
+
+---
+
 ## [1.1.2] - 2026-02-24
 
 ### Architecture & Optimization Pass

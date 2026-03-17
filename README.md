@@ -4,11 +4,7 @@ A modern, interactive quick reference sheet for **Dungeons & Dragons 5th Edition
 
 Built on [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref) with a revamped TypeScript architecture, offline PWA support, and a rich feature set for players and DMs.
 
----
-
-## Live Demo
-
-- [natsumeaoii.github.io/dnd5e-quickref](https://natsumeaoii.github.io/dnd5e-quickref/)
+**Live Demo** — [natsumeaoii.github.io/dnd5e-quickref](https://natsumeaoii.github.io/dnd5e-quickref/)
 
 ---
 
@@ -34,90 +30,201 @@ Built on [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref) with a 
 | Build | [Vite](https://vite.dev/) 6 |
 | Language | TypeScript 5.7 (strict) |
 | CSS | Vanilla CSS + [LightningCSS](https://lightningcss.dev/) |
-| Icons | [Game-icons.net](https://game-icons.net/) (CSS sprites) |
+| Icons | [Game-icons.net](https://game-icons.net/) (WebP images) |
 | Hosting | GitHub Pages (static) |
 
 ---
 
 ## Getting Started
 
-## Getting Started
+### Prerequisites
+
+- **[Node.js](https://nodejs.org/) 22+** and **npm** (required for development and building).
+- A modern web browser (Edge, Chrome, Firefox, Safari).
+- **Git** (optional, for cloning the repository).
+
+### Development
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/natsumeaoii/dnd5e-quickref.git
+   cd dnd5e-quickref
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+   Vite opens the app automatically at `http://localhost:5173/`. File changes trigger hot-reload.
+
+### Production Build
+
+1. **Build the project:**
+   ```bash
+   npm run build
+   ```
+   This runs the `prebuild` version-sync script, type-checks with `tsc --noEmit`, then produces an optimized bundle in `dist/`.
+
+2. **Preview the build locally:**
+   ```bash
+   npm run preview
+   ```
+   Serves `dist/` on a local HTTP server for final verification before deployment.
+
+### Static Hosting (XAMPP / Apache / Nginx)
+
+For environments without Node.js:
+
+1. Build the project using `npm run build`, or download a release artifact.
+2. Copy the **contents** of `dist/` (not `src/`) to your web server's public directory (e.g. `C:/xampp/htdocs/dnd5e`).
+3. Open the corresponding URL (e.g. `http://localhost/dnd5e`).
+
+> **Note**: The app must be served over HTTP/HTTPS. Opening via `file://` will not work due to browser security restrictions on ES modules and Service Workers.
+
+---
+
+## npm Scripts
+
+| Script | Command | Description |
+|--------|---------|-------------|
+| `dev` | `vite` | Start the Vite dev server with HMR |
+| `prebuild` | `node scripts/prebuild.js` | Sync version from `CHANGELOG.md` to `package.json` and `src/config.ts` |
+| `build` | `tsc --noEmit && vite build` | Type-check then produce production bundle in `dist/` |
+| `preview` | `vite preview` | Serve the production build locally |
+| `type-check` | `tsc --noEmit` | Run TypeScript type-checking without emitting |
+| `lint:css` | `stylelint "src/**/*.css"` | Lint CSS files via Stylelint |
+
+> The `prebuild` script runs automatically before `build` via npm's lifecycle hook.
+
+---
 
 <details>
-<summary><b>Prerequisites</b></summary>
+<summary><b>Project Structure</b></summary>
 
-   - **[Node.js](https://nodejs.org/) 18+** and **npm** (Required only for development/building).
-   - A modern web browser (Edge, Chrome, Firefox, Safari).
-   - **Git** (Optional, for cloning the repository).
+```
+dnd5e-quickref/
+├── index.html               # Main HTML entry point (Vite root)
+├── package.json              # Node metadata, scripts, dependencies
+├── vite.config.ts            # Vite build configuration
+├── tsconfig.json             # TypeScript compiler options
+├── eslint.config.js          # ESLint flat config (typescript-eslint)
+│
+├── src/                      # TypeScript source (modern layer)
+│   ├── main.ts               # Application bootstrap & initialization
+│   ├── config.ts             # Centralized configuration constants
+│   ├── types.ts              # Shared TypeScript interfaces
+│   ├── css/
+│   │   ├── quickref.css      # Main application styles
+│   │   └── icons.css         # Icon sprite definitions
+│   ├── services/             # Business logic & infrastructure
+│   │   ├── DataService.ts    # Rule data fetching, caching, & validation
+│   │   ├── DBService.ts      # IndexedDB wrapper for notes storage
+│   │   ├── UserDataService.ts# Import/export notes (GZIP, Web Share API)
+│   │   ├── SettingsService.ts# Settings persistence (localStorage)
+│   │   ├── PersistenceService.ts # Session state persistence
+│   │   ├── SyncService.ts    # Cross-tab sync via BroadcastChannel
+│   │   ├── KeyboardShortcutsService.ts # Keyboard shortcut handling
+│   │   ├── GamepadService.ts # Gamepad input support
+│   │   ├── OnboardingService.ts # First-visit guided tour
+│   │   ├── A11yService.ts    # Accessibility helpers
+│   │   ├── WakeLockService.ts# Screen Wake Lock API
+│   │   ├── ErrorService.ts   # Structured error logging
+│   │   ├── PerformanceOptimizer.ts # Performance helpers
+│   │   ├── ServiceWorkerMessenger.ts # SW communication bridge
+│   │   └── DOMProvider.ts    # Cached DOM element references
+│   ├── state/
+│   │   └── StateManager.ts   # Pub/sub event bus for app state
+│   ├── ui/                   # Presentation layer
+│   │   ├── UIController.ts   # Top-level UI orchestration
+│   │   ├── ViewRenderer.ts   # Section & item rendering
+│   │   ├── WindowManager.ts  # Popup lifecycle (open/close/minimize/resize)
+│   │   ├── PopupFactory.ts   # Popup DOM construction
+│   │   ├── TemplateService.ts# HTML template cloning & population
+│   │   └── DragDropManager.ts# Drag-and-drop for favorites reordering
+│   └── utils/
+│       └── Utils.ts          # Shared utilities & Trusted Types policy
+│
+├── js/                       # Legacy JavaScript layer
+│   ├── quickref.js           # Legacy entry point (still bundled)
+│   ├── data/                 # Rule data JSON files
+│   │   ├── data_*.json       # 2014 ruleset (6 categories)
+│   │   └── 2024_data_*.json  # 2024 ruleset (6 categories)
+│   └── modules/              # Legacy JS modules
+│       ├── Config.js
+│       ├── DataService.js
+│       ├── Services.js
+│       ├── StateManager.js
+│       ├── UIComponents.js
+│       └── Utils.js
+│
+├── css/                      # Legacy CSS (consumed by legacy JS layer)
+│   ├── quickref.css
+│   └── icons.css
+│
+├── public/                   # Static assets (copied verbatim to dist/)
+│   ├── sw.js                 # Service Worker (cache-first strategy)
+│   ├── manifest.json         # PWA manifest
+│   ├── error-handler.js      # Global error boundary (CSP-compliant)
+│   ├── 404.html              # Custom 404 page
+│   ├── favicon.ico
+│   ├── img/                  # Icons & rule images (WebP, PNG, SVG)
+│   ├── themes/
+│   │   ├── themes.json       # Theme registry
+│   │   ├── sepia.css
+│   │   ├── high-contrast.css
+│   │   ├── nord.css
+│   │   ├── cyberpunk.css
+│   │   └── steampunk.css
+│   └── js/data/              # (Mirrors js/data/ in public for SW pre-caching)
+│
+├── config/                   # Linter configurations
+│   ├── .eslintrc.json        # Legacy ESLint config (superseded by root flat config)
+│   ├── .eslintignore
+│   ├── .stylelintrc.json     # Stylelint config
+│   └── .stylelintignore
+│
+├── scripts/                  # Build & automation scripts
+│   ├── prebuild.js           # Version sync: CHANGELOG → package.json + config.ts
+│   └── build.js              # Legacy build script (not wired to npm scripts)
+│
+├── .github/workflows/
+│   └── deploy.yml            # GitHub Actions: build → deploy to GitHub Pages
+│
+├── CHANGELOG.md              # Version history (Keep a Changelog format)
+├── LICENSE.md                # MIT License
+└── dist/                     # Build output (gitignored)
+```
 </details>
 
-<details>
-<summary><b>Development (Node.js)</b></summary>
+### Architecture Notes
 
-   **Recommended for developers who want to modify the code.**
-   
-   1. **Clone the repository:**
-      ```bash
-      git clone https://github.com/natsumeaoii/dnd5e-quickref.git
-      cd dnd5e-quickref
-      ```
+The codebase has a **dual-layer architecture**:
 
-   2. **Install dependencies:**
-      ```bash
-      npm install
-      ```
-      *This downloads all necessary libraries defined in `package.json`.*
+- **Modern layer** (`src/`): TypeScript modules processed by Vite. This is the primary application code. Entry point is `src/main.ts`, loaded via `<script type="module">` in `index.html`.
+- **Legacy layer** (`js/`, `css/`): The original vanilla JavaScript from the upstream `crobi/dnd5e-quickref` project. The `js/data/` directory contains the rule data JSON files consumed by both layers. The JS modules in `js/modules/` are bundled via the legacy `js/quickref.js` entry point.
 
-   3. **Start the development server:**
-      ```bash
-      npm run dev
-      ```
-      The app will be available at `http://localhost:5173/`. Changes to files will automatically reload the browser.
-</details>
-
-<details>
-<summary><b>Production Build</b></summary>
-
-   **For deploying to a live server.**
-   
-   1. **Build the project:**
-      ```bash
-      npm run build
-      ```
-      This compiles TypeScript, optimizes CSS/JS, and outputs everything to the `dist/` folder.
-
-   2. **Preview the build locally:**
-      ```bash
-      npm run preview
-      ```
-      Runs a local server hosting the `dist/` folder to verify everything works before deploying.
-</details>
-
-<details>
-<summary><b>Static Hosting (XAMPP / Apache)</b></summary>
-
-   **For users without Node.js.**
-   
-   1. Download the latest release (or build the project using `npm run build`).
-   2. Copy the contents of the `dist/` folder (NOT the `src/` folder) to your web server's public directory.
-      - Example: `C:/xampp/htdocs/dnd5e`.
-   3. Open your browser to the corresponding URL (e.g., `http://localhost/dnd5e`).
-   
-   > **Note**: The app must be served via HTTP/HTTPS; getting it to work directly from the file system (`file://`) is not supported due to browser security restrictions on modules and service workers.
-</details>
+Data flows through a service-oriented architecture:
+1. `DataService` fetches and caches JSON rule data from `js/data/`
+2. `StateManager` provides a pub/sub event bus
+3. `UIController` orchestrates the presentation layer
+4. `ViewRenderer` renders sections and items from the data
+5. `WindowManager` manages the popup lifecycle
 
 ---
 
 ## Customization
 
-<details>
-<summary><b>How to Add Custom Rules (JSON)</b></summary>
+### Adding Custom Rules (JSON)
 
-   Rules are stored in `js/data/`. To add your own:
+Rules are stored in `js/data/`. To add your own:
 
-   1. **Locate the file**: Open `js/data/data_*.json` (for 2014) or `js/data/2024_data_*.json` (for 2024).
-   2. **Add a new entry**: Insert a JSON object into the array.
-   3. **Format**:
+1. Open `js/data/data_*.json` (2014) or `js/data/2024_data_*.json` (2024).
+2. Insert a JSON object into the array:
 
    ```json
    {
@@ -134,28 +241,42 @@ Built on [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref) with a 
        ]
    }
    ```
-   
-   - **`optional`**: Controls visibility.
-     - `"Standard rule"`: Always shown.
-     - `"Optional rule"`: Hidden unless "Show Optional Rules" is enabled.
-     - `"Homebrew rule"`: Hidden unless "Show Homebrew Rules" is enabled.
-   - **`icon`**: Matches a class name from `css/icons.css` (e.g., `icon-spell-book`).
-</details>
 
-<details>
-<summary><b>How to Add Custom Themes</b></summary>
+- **`optional`**: Controls visibility.
+  - `"Standard rule"` — Always shown.
+  - `"Optional rule"` — Hidden unless "Show Optional Rules" is enabled in Settings.
+  - `"Homebrew rule"` — Hidden unless "Show Homebrew Rules" is enabled in Settings.
+- **`icon`**: Corresponds to an image filename in `public/img/` (without extension).
 
-   1. **Create the CSS file**: Add a new CSS file in `public/css/themes/` (e.g., `my-theme.css`).
-   2. **Define Variables**: Override the CSS variables (colors, fonts). See `public/css/themes/sepia.css` for an example.
-   3. **Register the Theme**: Open `public/themes/themes.json` and add an entry:
-      ```json
-      {
-        "id": "my-theme",
-        "displayName": "My Custom Theme"
-      }
-      ```
-   4. **Reload**: The new theme will appear in the Settings dropdown.
-</details>
+### Adding Custom Themes
+
+1. Create a CSS file in `public/themes/` (e.g. `my-theme.css`).
+2. Override CSS custom properties. See `public/themes/sepia.css` for an example.
+3. Register the theme in `public/themes/themes.json`:
+   ```json
+   {
+     "id": "my-theme",
+     "displayName": "My Custom Theme"
+   }
+   ```
+4. Reload — the new theme appears in the Settings dropdown.
+
+---
+
+## Deployment
+
+### GitHub Pages (Automated)
+
+Pushing to `main` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`):
+
+1. Checks out the repository.
+2. Sets up Node.js (version read from `package.json` `engines` field).
+3. Runs `npm ci` and `npm run build`.
+4. Deploys `dist/` to GitHub Pages.
+
+### Manual Deployment
+
+Run `npm run build` and upload the `dist/` directory to any static hosting provider (Netlify, Vercel, Cloudflare Pages, S3, etc.). The app uses relative paths (`base: './'` in Vite config), so it works in any subdirectory.
 
 ---
 
@@ -164,65 +285,169 @@ Built on [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref) with a 
 <details>
 <summary><b>How do I install this as an App (PWA)?</b></summary>
 
-   This app is a Progressive Web App (PWA) and can be installed on your device for offline use.
-
-   - **Android (Chrome)**:
-     1. Open the menu (three dots `⋮`).
-     2. Tap **"Install App"** or **"Add to Home Screen"**.
-     
-   - **iOS (Safari)**:
-     1. Tap the **Share** button (box with arrow).
-     2. Scroll down and tap **"Add to Home Screen"**.
-     
-   - **PC / Mac (Chrome/Edge)**:
-     1. Look for the **Install icon** (monitor with arrow) in the address bar.
-     2. Click it and select **Install**.
+- **Android (Chrome)**: Menu (⋮) → "Install App" or "Add to Home Screen".
+- **iOS (Safari)**: Share button → "Add to Home Screen".
+- **Desktop (Chrome/Edge)**: Click the Install icon in the address bar.
 </details>
 
 <details>
 <summary><b>How do I switch between 2014 and 2024 rules?</b></summary>
 
-   1. Open the **Settings** section (bottom of the page).
-   2. Toggle the **"Use 2024 Rules"** switch.
-   3. The app will instantly reload with the new data set.
+Open **Settings** (bottom of the page) → toggle **"Use 2024 Rules"**. The app reloads with the new dataset.
 </details>
 
 <details>
 <summary><b>Why does the app still show the old version after update?</b></summary>
 
-   The Service Worker caches the app aggressively to ensuring it works offline. To force an update:
+The Service Worker caches aggressively for offline support. To force an update:
 
-   - **PC**: Press `Ctrl + Shift + R` (Windows) or `Cmd + Shift + R` (Mac).
-   - **Mobile**: Go to Settings > Privacy > Clear Browsing Data (Cached Images and Files).
-   - **Advanced**: Open DevTools (F12) > Application > Service Workers > Click "Unregister", then reload.
+- **PC**: `Ctrl + Shift + R` (Windows) or `Cmd + Shift + R` (Mac).
+- **Mobile**: Settings → Privacy → Clear Browsing Data (Cached Images and Files).
+- **Advanced**: DevTools (F12) → Application → Service Workers → "Unregister", then reload.
 </details>
 
 <details>
 <summary><b>Can I backup and restore my notes?</b></summary>
 
-   **Yes!** Your notes are stored in your browser's local database. To transfer them:
+Yes. Notes are stored in your browser's IndexedDB.
 
-   1. **Export**: 
-      - Go to **Settings**.
-      - Click **"Export Notes"**.
-      - Save the `.json.gz` file.
-      
-   2. **Import**:
-      - On the new device/browser, go to **Settings**.
-      - Click **"Import Notes"**.
-      - Select your backup file.
-      - Your notes will be merged (existing notes with the same ID will be overwritten).
+- **Export**: Settings → "Export Notes" → save the `.json.gz` file.
+- **Import**: Settings → "Import Notes" → select the backup. Notes merge; duplicates overwrite by ID.
+- **Limits**: Max 500 notes, 10 KB per note, 5 MB per import file.
 </details>
+
+<details>
+<summary><b>What keyboard shortcuts are available?</b></summary>
+
+Press `?` (or click the floating **?** button on desktop) to open the shortcuts panel. Available shortcuts:
+
+| Shortcut | Action |
+|----------|--------|
+| `?` | Toggle keyboard shortcuts panel |
+| `Esc` | Close topmost popup |
+| `Ctrl+W` | Close all popups |
+| `Ctrl+E` | Expand/collapse all sections |
+| `Ctrl+P` | Toggle print mode |
+| `T` | Scroll to top |
+| `← →` | Navigate between items in a section |
+| `↑ ↓` | Navigate between sections |
+| `Enter` / `Space` | Activate focused item |
+
+Shortcuts are disabled while typing in inputs, textareas, or select fields.
+</details>
+
+<details>
+<summary><b>Does the app support gamepad navigation?</b></summary>
+
+Yes. Connect any standard gamepad — the app auto-detects it via the Gamepad API.
+
+- **Left stick** — Navigate between items (X axis) and sections (Y axis).
+- **A button** (button 0) — Activate the focused item.
+</details>
+
+<details>
+<summary><b>How does deep linking work?</b></summary>
+
+Each rule popup has a **link icon** (🔗) in its header. Clicking it copies a URL containing the rule title as a hash parameter. When someone opens that URL, the app scrolls to the matching section and opens the popup automatically.
+</details>
+
+<details>
+<summary><b>How do favorites work?</b></summary>
+
+Click the **star** (★) on any rule item to add it to your Favorites section (appears at the top of the page). Favorites are stored in `localStorage` and persist across sessions. You can **drag and drop** favorites to reorder them.
+</details>
+
+<details>
+<summary><b>How do I change the theme or enable dark mode?</b></summary>
+
+Open **Settings** → use the **Color Theme** dropdown (Original, Sepia, High Contrast, Nord, Cyberpunk, Steampunk) and the **Dark Mode** toggle. Both persist in `localStorage`. See the [Adding Custom Themes](#adding-custom-themes) section to create your own.
+</details>
+
+<details>
+<summary><b>What does "Display Density" do?</b></summary>
+
+Settings → **Display Density** adjusts the spacing and sizing of rule items. Options: **Compact**, **Normal** (default), **Comfortable**. Useful for different screen sizes or personal preference.
+</details>
+
+<details>
+<summary><b>What does "Keep Screen On" do?</b></summary>
+
+Enabling **Keep Screen On** in Settings uses the [Screen Wake Lock API](https://developer.mozilla.org/en-US/docs/Web/API/Screen_Wake_Lock_API) to prevent your device's screen from dimming or locking while the app is visible. Useful during game sessions. The lock is automatically released when the tab loses visibility and re-acquired when it becomes visible again. Not all browsers support this API.
+</details>
+
+<details>
+<summary><b>How do I use print mode?</b></summary>
+
+Press `Ctrl+P` or use the print button. Print mode expands all sections and hides interactive UI (popups, FABs, settings) so the page prints cleanly. Press `Ctrl+P` again to exit print mode.
+</details>
+
+<details>
+<summary><b>Does the app sync across tabs?</b></summary>
+
+Yes. The app uses `BroadcastChannel` to synchronize settings changes (theme, ruleset, etc.) across open tabs in the same browser. Changes made in one tab are reflected instantly in others, provided both tabs are running the same app version.
+</details>
+
+---
+
+## Contributing
+
+### Quick Start
+
+```bash
+git clone https://github.com/natsumeaoii/dnd5e-quickref.git
+cd dnd5e-quickref
+npm install
+npm run dev
+```
+
+### Code Quality
+
+- **TypeScript**: Strict mode enabled. Run `npm run type-check` before committing.
+- **ESLint**: Flat config in `eslint.config.js`. Enforces `consistent-type-imports`, `no-eval`, `eqeqeq`, and `no-console` (except `warn`/`error`/`info`).
+- **Stylelint**: CSS linting via `npm run lint:css` using config in `config/.stylelintrc.json`.
+
+### Conventions
+
+- TypeScript source lives in `src/`. Do not add new `.js` files to `js/modules/`.
+- Rule data (JSON) lives in `js/data/`. Each category has paired files: `data_<category>.json` (2014) and `2024_data_<category>.json` (2024).
+- Static assets belong in `public/`. Vite copies them to `dist/` verbatim.
+- Version is single-sourced from `CHANGELOG.md`. The `prebuild` script propagates it to `package.json` and `src/config.ts`.
+
+### Testing
+
+> **Note**: This project does not currently include a test framework or automated tests. Validation is manual and via the CI type-check step in `npm run build`.
+
+---
+
+## Known Limitations & Pitfalls
+
+- **No automated tests**: There is no test runner (Jest, Vitest, etc.) configured. Quality gates are limited to `tsc --noEmit` and ESLint.
+- **Legacy dual-layer**: The `js/` and `css/` directories contain the original vanilla JS codebase. These are still present for backwards compatibility but are progressively being superseded by `src/`.
+- **`scripts/build.js` is a legacy artifact**: It references dependencies (`fs-extra`, `glob`, `esbuild`, `html-minifier-terser`) that are not listed in `package.json`. It is not wired to any npm script. The active build pipeline uses `vite build`.
+- **Service Worker caching**: The SW uses a stale-while-revalidate strategy. Users may see stale content until the background update completes on next navigation. Hard-refresh forces a fresh load.
+- **`file://` protocol unsupported**: ES modules and Service Workers require HTTP(S).
 
 ---
 
 ## Credits & Acknowledgements
 
 - **Original Project** — [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref)
+   - Live Demo: https://crobi.github.io/dnd5e-quickref/preview/quickref.html
+   - License: [MIT](https://github.com/crobi/dnd5e-quickref/blob/master/LICENSE.md)
 - **2024 Rules Content** — [nico-713/dnd5e-quickref-2024](https://github.com/nico-713/dnd5e-quickref-2024)
+   - Live Demo: https://nico-713.github.io/dnd5e-quickref-2024/
+   - License: [MIT](https://github.com/nico-713/dnd5e-quickref-2024/blob/master/LICENSE.md)
+- **Based Inspiration** — [mfriik/dnd5e-quickref](https://github.com/mfriik/dnd5e-quickref)
+   - Live Demo: https://dnd.milobedzki.pl/
+   - License: [MIT](https://github.com/mfriik/dnd5e-quickref/blob/master/LICENSE.md)
 - **Icons** — [Game-icons.net](https://game-icons.net/)
 - **Favicon** — [IconDuck](https://iconduck.com/icons/21871/dragon)
-- **Sources**: PHB, DMG, MM (2014 & 2024), XGE, TCE
+- **Sources**:
+  - Player Handbook 2014 & 2024 (PHB)
+  - Dungeon Master Guide 2014 & 2024 (DMG)
+  - Monster Manual 2014 & 2024 (MM)
+  - Xanathar's Guide to Everything (XGE)
+  - Tasha's Cauldron of Everything (TCE)
 
 ---
 
