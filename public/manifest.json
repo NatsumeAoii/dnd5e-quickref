@@ -2,7 +2,7 @@
   "name": "D&D 5e Quick Reference",
   "short_name": "QuickRef",
   "description": "A quick, searchable reference guide for Dungeons & Dragons 5th Edition (D&D 5e) rulesets.",
-  "start_url": "/index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#fdf6e4",
   "theme_color": "#802b1c",
@@ -21,7 +21,7 @@
     }
   ],
   "share_target": {
-    "action": "/index.html",
+    "action": "./index.html",
     "method": "GET",
     "enctype": "application/x-www-form-urlencoded",
     "params": {

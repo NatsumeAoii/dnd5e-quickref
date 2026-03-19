@@ -65,8 +65,13 @@ export class UserDataService {
 
     saveNote(id: string, text: string, broadcast = true): void {
         const state = this.#stateManager.getState();
-        state.user.notes.set(id, text);
-        this.#dbService.put(id, text).catch((e) => console.error('Save note failed', e));
+        if (text.trim() === '') {
+            state.user.notes.delete(id);
+            this.#dbService.delete(id).catch((e) => console.error('Delete note failed', e));
+        } else {
+            state.user.notes.set(id, text);
+            this.#dbService.put(id, text).catch((e) => console.error('Save note failed', e));
+        }
         if (broadcast) this.#syncService.broadcast('NOTE_UPDATE', { id, text });
     }
 
@@ -97,6 +102,33 @@ export class UserDataService {
         a.download = fileName;
         a.click();
         URL.revokeObjectURL(url);
+    }
+
+    exportFavorites(): void {
+        const favorites = [...this.#stateManager.getState().user.favorites];
+        const jsonString = JSON.stringify(favorites, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const fileName = `quickref-favorites-${new Date().toISOString().split('T')[0]}.json`;
+
+        // Try Web Share API for mobile (Safari iOS <a>.click() silently fails)
+        const file = new File([blob], fileName, { type: 'application/json' });
+        if (navigator.canShare?.({ files: [file] })) {
+            navigator.share({ files: [file], title: 'QuickRef Favorites Export' }).catch(() => {
+                /* User cancelled or share failed — fall through handled below */
+            });
+            return;
+        }
+
+        try {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            URL.revokeObjectURL(url);
+        } catch (e) {
+            console.error('Export favorites failed:', e);
+        }
     }
 
     // (D) Removed `g` flag: `g` + `test()` causes lastIndex drift across calls on a static regex

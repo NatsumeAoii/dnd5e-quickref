@@ -156,23 +156,35 @@ export class ViewRenderer {
         const resetBtn = document.createElement('button');
         resetBtn.className = 'btn-error-action btn-secondary';
         resetBtn.textContent = 'Reset App';
+        let resetPending = false;
+        let resetTimer: ReturnType<typeof setTimeout> | null = null;
         resetBtn.addEventListener('click', async () => {
-            if (window.confirm('This will clear all local data and cache. Are you sure?')) {
-                try {
-                    if ('serviceWorker' in navigator) {
-                        const registrations = await navigator.serviceWorker.getRegistrations();
-                        await Promise.all(registrations.map((r) => r.unregister()));
-                    }
-                    if ('caches' in window) {
-                        const keys = await caches.keys();
-                        await Promise.all(keys.map((key) => caches.delete(key)));
-                    }
-                    localStorage.clear();
-                    sessionStorage.clear();
-                    window.location.reload();
-                } catch {
-                    window.alert('Reset failed. Please clear browser data manually.');
+            if (!resetPending) {
+                resetPending = true;
+                resetBtn.textContent = 'Confirm Reset?';
+                resetBtn.classList.add('btn-confirm');
+                resetTimer = setTimeout(() => {
+                    resetPending = false;
+                    resetBtn.textContent = 'Reset App';
+                    resetBtn.classList.remove('btn-confirm');
+                }, 3000);
+                return;
+            }
+            if (resetTimer) clearTimeout(resetTimer);
+            try {
+                if ('serviceWorker' in navigator) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    await Promise.all(registrations.map((r) => r.unregister()));
                 }
+                if ('caches' in window) {
+                    const keys = await caches.keys();
+                    await Promise.all(keys.map((key) => caches.delete(key)));
+                }
+                localStorage.clear();
+                sessionStorage.clear();
+                window.location.reload();
+            } catch {
+                resetBtn.textContent = 'Reset failed. Clear browser data manually.';
             }
         });
 

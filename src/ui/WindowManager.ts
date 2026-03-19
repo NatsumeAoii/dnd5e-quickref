@@ -7,6 +7,7 @@ import type { DataService } from '../services/DataService.js';
 import type { StateManager } from '../state/StateManager.js';
 import type { PopupFactory } from './PopupFactory.js';
 import type { ViewRenderer } from './ViewRenderer.js';
+import type { RuleInfo } from '../types.js';
 
 interface WindowManagerServices {
     domProvider: DOMProvider;
@@ -221,12 +222,12 @@ export class WindowManager {
         if (this.#isMobileView) this.#popupContainer.classList.remove(CONFIG.CSS.POPUP_CONTAINER_MODAL_OPEN);
         document.body.style.setProperty('--is-modal-open', state.ui.openPopups.size > 0 ? '1' : '0');
         this.#updateCloseBtnVisibility();
+        this.#updateURLHash();
         setTimeout(() => {
             popup.close();
             popup.remove();
+            this.#persistenceService.saveSession();
         }, CONFIG.ANIMATION_DURATION.POPUP_MS);
-        this.#persistenceService.saveSession();
-        this.#updateURLHash();
     };
 
     #handleKeyDown = (e: KeyboardEvent): void => {
@@ -274,8 +275,7 @@ export class WindowManager {
         };
         header.addEventListener('mousedown', onMouseDown);
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    #createPopup(id: string, ruleInfo: any, pos?: { top?: string; left?: string; zIndex?: string; width?: string; height?: string }): void {
+    #createPopup(id: string, ruleInfo: RuleInfo, pos?: { top?: string; left?: string; zIndex?: string; width?: string; height?: string }): void {
         const popup = this.#popupFactory.create(id, ruleInfo, this.#linkifyContent);
         if (this.#isMobileView) {
             popup.classList.add(CONFIG.CSS.POPUP_MODAL);
@@ -431,6 +431,8 @@ export class WindowManager {
             top: popup.style.top,
             left: popup.style.left,
             zIndex: popup.style.zIndex,
+            width: popup.style.width,
+            height: popup.style.height,
         });
 
         popup.close();
@@ -484,7 +486,7 @@ export class WindowManager {
 
         const rule = state.data.ruleMap.get(id);
         if (rule) {
-            this.#createPopup(id, rule, { top: meta.top, left: meta.left, zIndex: meta.zIndex });
+            this.#createPopup(id, rule, { top: meta.top, left: meta.left, zIndex: meta.zIndex, width: meta.width, height: meta.height });
         }
         this.#updateURLHash();
     }

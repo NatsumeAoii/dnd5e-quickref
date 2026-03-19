@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.4] - 2026-03-19
+
+### Correctness & Robustness Pass
+
+A targeted review addressing edge cases, mobile touch interactions, and race conditions.
+
+#### Fixed
+- **Touch Listener Memory Leak**: `DragDropManager` now binds `pointerdown` through a shared `AbortController`, ensuring listeners are properly garbage collected when the favorites section re-renders.
+- **Orphaned Touch State**: Added `pointercancel` handling to `DragDropManager` to correctly clean up document-level listeners and visual clones if a system gesture or incoming call interrupts a drag action.
+- **Stale DOM References**: Added null-guards in `NavigationService` to prevent throwing errors if `focus()` or `scrollIntoView()` are called on elements that have been removed from the DOM mid-navigation.
+- **Event Payload Type Safety**: Strict validation added to `UIController.#handleSettingChangeEvent` to prevent destructuring crashes on malformed `externalStateChange` events.
+- **Mobile Export Failures**: `exportFavorites` now mirrors `exportNotes` by prioritizing the native Web Share API on mobile devices, gracefully falling back to a `try/catch` wrapped `URL.createObjectURL` download sequence to fix silent failures in iOS Safari WebViews.
+- **State Save Race Condition**: `WindowManager.#closePopup` now defers `saveSession()` until *after* the popup DOM removal animation completes, preventing transient closing states from being serialized to storage.
+
+#### Improved
+- **Search Key Rate**: Hoisted settings property resolution (`showOptional`, `showHomebrew`) outside the per-item filtering loop in `UIController`, significantly reducing object reads per keystroke during active searching.
+- **Key Event Throttling**: Replaced an `Array.includes` linear lookup with an `O(1)` `Set.has` check for rapid-fire `keydown` validation in `NavigationService`.
+
+---
+
 ## [1.1.3] - 2026-03-17
 
 ### Documentation Overhaul
@@ -37,6 +57,11 @@ A comprehensive rewrite of `README.md` for developer onboarding and end-user cla
   - Cross-tab sync (BroadcastChannel)
 - **Import Limits**: Added concrete limits (500 notes, 10 KB/note, 5 MB/file) to notes backup FAQ.
 - **Expanded Credits**: Added live demo links, license links, and full source book names.
+
+### UI/UX
+
+#### Added
+- **In-App Changelog Modal**: Clicking the version number in the footer now opens a styled "What's New" modal instead of navigating to the raw `CHANGELOG.md` file. Shows the 3 most recent versions by default with a "Show All Versions" expansion. Content is fetched on-demand and cached. Rendered via `createElement`/`textContent` for CSP compliance (no `innerHTML`). New `ChangelogService` follows the existing `KeyboardShortcutsService` modal pattern.
 
 ---
 

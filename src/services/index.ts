@@ -13,3 +13,5 @@ export { DataService } from './DataService.js';
 export { ErrorService } from './ErrorService.js';
 export { OnboardingService } from './OnboardingService.js';
 export { KeyboardShortcutsService } from './KeyboardShortcutsService.js';
+export { ChangelogService } from './ChangelogService.js';
+export { NavigationService } from './NavigationService.js';

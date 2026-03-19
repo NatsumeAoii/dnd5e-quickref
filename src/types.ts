@@ -22,6 +22,7 @@ export interface RuleInfo {
     ruleData: RuleData;
     type: string;
     sectionId: string;
+    searchIndex?: string;
 }
 
 export interface SectionConfig {
@@ -66,6 +67,8 @@ export interface MinimizedPopupState {
     top: string;
     left: string;
     zIndex: string;
+    width: string;
+    height: string;
 }
 
 export interface DataState {

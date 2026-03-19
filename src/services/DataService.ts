@@ -155,15 +155,27 @@ export class DataService {
                 src.forEach((rule) => {
                     if (rule.title) {
                         const id = `${section.type}::${rule.title}`;
-                        state.data.ruleMap.set(id, { ruleData: rule, type: section.type, sectionId: section.id });
+                        const titlePart = rule.title.toLowerCase();
+                        const descPart = (rule.description ?? '').replace(/<[^>]*>/g, '').toLowerCase();
+                        const subtitlePart = (rule.subtitle ?? '').toLowerCase();
+                        state.data.ruleMap.set(id, {
+                            ruleData: rule,
+                            type: section.type,
+                            sectionId: section.id,
+                            searchIndex: `${titlePart}\0${descPart}\0${subtitlePart}`,
+                        });
                     }
                 });
             }
         });
     }
 
+    // #5: Persistent linker data cache keyed by ruleset
+    #linkerDataCache = new Map<string, { regex: RegExp | null; titleLookup: Map<string, string>; titleHash: string }>();
+
     buildLinkerData(): void {
         const state = this.#stateManager.getState();
+        const rulesetKey = this.#getRulesetKey(state.settings.use2024Rules);
         const titleLookup = new Map<string, string>();
         const ruleTitles: string[] = [];
 
@@ -175,16 +187,28 @@ export class DataService {
             }
         });
 
+        // Simple hash to detect whether titles changed
+        const titleHash = ruleTitles.sort().join('|');
+        const cached = this.#linkerDataCache.get(rulesetKey);
+        if (cached && cached.titleHash === titleHash) {
+            state.data.titleLookup = cached.titleLookup;
+            state.data.ruleLinkerRegex = cached.regex;
+            return;
+        }
+
         state.data.titleLookup = titleLookup;
         const uniqueTitles = [...new Set(ruleTitles)].sort((a, b) => b.length - a.length);
 
         // Guard: empty pattern would match empty strings and cause infinite loops in matchAll
         if (uniqueTitles.length === 0) {
             state.data.ruleLinkerRegex = null;
+            this.#linkerDataCache.set(rulesetKey, { regex: null, titleLookup, titleHash });
             return;
         }
 
         const esc = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        state.data.ruleLinkerRegex = new RegExp(`\\b(${uniqueTitles.map(esc).join('|')})\\b`, 'gi');
+        const regex = new RegExp(`\\b(${uniqueTitles.map(esc).join('|')})\\b`, 'gi');
+        state.data.ruleLinkerRegex = regex;
+        this.#linkerDataCache.set(rulesetKey, { regex, titleLookup, titleHash });
     }
 }

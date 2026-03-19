@@ -31,7 +31,13 @@ export class SettingsService {
 
         state.settings.keepScreenOn = this.#readBool(CONFIG.STORAGE_KEYS.WAKE_LOCK);
         state.settings.theme = this.#readString(CONFIG.STORAGE_KEYS.THEME, CONFIG.DEFAULTS.THEME);
-        state.settings.darkMode = this.#readBool(CONFIG.STORAGE_KEYS.MODE);
+
+        // #19: Auto-detect OS dark mode preference when no stored preference exists
+        const storedMode = this.#storage.getItem(CONFIG.STORAGE_KEYS.MODE);
+        state.settings.darkMode = storedMode !== null
+            ? storedMode === 'true'
+            : window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
+
         state.settings.density = this.#readString(CONFIG.STORAGE_KEYS.DENSITY, 'normal');
     }
 

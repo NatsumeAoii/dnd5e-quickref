@@ -6,6 +6,7 @@ import type { SettingsService } from '../services/SettingsService.js';
 import type { UserDataService } from '../services/UserDataService.js';
 import type { DataService } from '../services/DataService.js';
 import { ServiceWorkerMessenger } from '../services/ServiceWorkerMessenger.js';
+import { debounce } from '../utils/Utils.js';
 import type { StateManager } from '../state/StateManager.js';
 import type { ViewRenderer } from './ViewRenderer.js';
 import type { WindowManager } from './WindowManager.js';
@@ -51,6 +52,7 @@ export class UIController {
         this.#components.viewRenderer.updateFooterInfo();
         this.#handleShareTarget();
         this.#initDragDrop();
+        this.#setupSearch();
     }
 
     #initDragDrop(): void {
@@ -59,12 +61,12 @@ export class UIController {
     }
 
     setupEventSubscriptions(): void {
-        this.#stateManager.subscribe('settingChanged', this.#handleSettingChangeEvent.bind(this) as (data?: unknown) => void);
+        this.#stateManager.subscribe('settingChanged', this.#handleSettingChangeEvent);
         this.#stateManager.subscribe('favoritesChanged', () => {
             this.#components.viewRenderer.renderFavoritesSection();
             this.#initDragDrop();
         });
-        this.#stateManager.subscribe('externalStateChange', this.#handleExternalStateChange.bind(this) as (data?: unknown) => void);
+        this.#stateManager.subscribe('externalStateChange', this.#handleExternalStateChange as (data?: unknown) => void);
     }
 
     applyInitialSettings(): void {
@@ -102,7 +104,9 @@ export class UIController {
         await Promise.all(rerenderPromises);
     }
 
-    #handleSettingChangeEvent = async ({ key, value }: { key: string; value: boolean | string }): Promise<void> => {
+    #handleSettingChangeEvent = async (data?: unknown): Promise<void> => {
+        if (!data || typeof data !== 'object') return;
+        const { key, value } = data as { key: string; value: boolean | string };
         this.#services.a11y.announce(`Setting updated: ${key.toLowerCase().replace('_', ' ')}.`);
         const { settings } = this.#stateManager.getState();
         if (key === 'RULES_2024') await this.#switchRuleset();
@@ -153,6 +157,15 @@ export class UIController {
                 option.value = theme.id;
                 option.textContent = theme.displayName;
                 selectEl.appendChild(option);
+
+                // Preload non-original theme CSS so switching is instant
+                if (theme.id !== 'original') {
+                    const link = document.createElement('link');
+                    link.rel = 'preload';
+                    link.as = 'style';
+                    link.href = `${CONFIG.THEME_CONFIG.PATH}${theme.id}.css`;
+                    document.head.appendChild(link);
+                }
             });
         } catch (e) {
             console.error('Fatal: Could not load theme manifest.', e);
@@ -233,13 +246,21 @@ export class UIController {
                 importInput.value = '';
             });
         } catch { console.warn('Import notes elements not found.'); }
+        try { this.#domProvider.get(CONFIG.ELEMENT_IDS.EXPORT_FAVORITES_BTN).addEventListener('click', () => this.#services.userData.exportFavorites()); } catch { console.warn('Export favorites button not found.'); }
     };
 
     setupBackToTop = (): void => {
         try {
             const btn = this.#domProvider.get(CONFIG.ELEMENT_IDS.BACK_TO_TOP_BTN);
+            let ticking = false;
             window.addEventListener('scroll', () => {
-                btn.classList.toggle(CONFIG.CSS.IS_VISIBLE, window.scrollY > 400);
+                if (!ticking) {
+                    ticking = true;
+                    requestAnimationFrame(() => {
+                        btn.classList.toggle(CONFIG.CSS.IS_VISIBLE, window.scrollY > 400);
+                        ticking = false;
+                    });
+                }
             }, { passive: true });
             btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
         } catch { console.warn('Back-to-top button not found.'); }
@@ -366,4 +387,80 @@ export class UIController {
             } catch (e) { console.warn(`Failed to set up setting #${id}: ${(e as Error).message}`); }
         });
     };
+
+    #setupSearch(): void {
+        try {
+            const input = this.#domProvider.get(CONFIG.ELEMENT_IDS.SEARCH_INPUT) as HTMLInputElement;
+            const clearBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.SEARCH_CLEAR_BTN);
+
+            const performFilter = debounce(() => {
+                const query = input.value.trim().toLowerCase();
+                clearBtn.classList.toggle(CONFIG.CSS.HIDDEN, query.length === 0);
+
+                // When clearing: restore optional/homebrew visibility before doing anything
+                if (query.length === 0) {
+                    this.#components.viewRenderer.filterRuleItems();
+                    // Re-show sections that were hidden by a previous search query
+                    this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}:not([data-section="settings"]):not([data-section="favorites"])`).forEach((section) => {
+                        // Only unhide if section is specifically search-hidden (has hidden class but has visible items)
+                        const visibleItems = section.querySelectorAll(`.${CONFIG.CSS.ITEM_CLASS}`);
+                        const anyVisible = Array.from(visibleItems).some((item) => (item as HTMLElement).style.display !== 'none');
+                        if (anyVisible) section.classList.remove(CONFIG.CSS.HIDDEN);
+                    });
+                    const favSection = document.querySelector(`[data-section="favorites"]`);
+                    if (favSection) favSection.classList.toggle(CONFIG.CSS.HIDDEN, this.#stateManager.getState().user.favorites.size === 0);
+                    this.#services.a11y.announce('Filter cleared');
+                    return;
+                }
+
+                // Build a set of matching popup IDs from the in-memory search index
+                const ruleMap = this.#stateManager.getState().data.ruleMap;
+                const matchingIds = new Set<string>();
+                ruleMap.forEach((info, id) => {
+                    if (info.searchIndex && info.searchIndex.includes(query)) {
+                        matchingIds.add(id);
+                    }
+                });
+
+                const { showOptional, showHomebrew } = this.#stateManager.getState().settings;
+                const sections = this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}:not([data-section="settings"])`);
+                sections.forEach((section) => {
+                    const sectionKey = (section as HTMLElement).dataset.section;
+                    if (sectionKey === 'favorites') {
+                        section.classList.add(CONFIG.CSS.HIDDEN);
+                        return;
+                    }
+                    const items = section.querySelectorAll(`.${CONFIG.CSS.ITEM_CLASS}`);
+                    let visibleCount = 0;
+                    items.forEach((item) => {
+                        const el = item as HTMLElement;
+                        // Skip items already hidden by optional/homebrew filter
+                        const ruleType = el.getAttribute(CONFIG.ATTRIBUTES.RULE_TYPE);
+                        const hiddenByRuleset = (ruleType === 'Optional rule' && !showOptional) ||
+                                                (ruleType === 'Homebrew rule' && !showHomebrew);
+                        if (hiddenByRuleset) return; // leave as display:none, don't count
+
+                        const popupId = el.getAttribute(CONFIG.ATTRIBUTES.POPUP_ID) ?? '';
+                        const matches = matchingIds.has(popupId);
+                        el.style.display = matches ? '' : 'none';
+                        if (matches) visibleCount++;
+                    });
+                    // Hide sections entirely if no items match
+                    if (items.length > 0 && visibleCount === 0) {
+                        section.classList.add(CONFIG.CSS.HIDDEN);
+                    } else if (visibleCount > 0) {
+                        section.classList.remove(CONFIG.CSS.HIDDEN);
+                    }
+                });
+                this.#services.a11y.announce(`Filtering by: ${query}`);
+            }, 200);
+
+            input.addEventListener('input', performFilter);
+            clearBtn.addEventListener('click', () => {
+                input.value = '';
+                performFilter();
+                input.focus();
+            });
+        } catch { console.warn('Search elements not found.'); }
+    }
 }

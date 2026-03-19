@@ -58,4 +58,15 @@ export class DBService {
             req.onerror = () => reject(req.error);
         });
     }
+
+    async delete(key: string): Promise<void> {
+        const db = await this.open();
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(this.#storeName, 'readwrite');
+            const store = tx.objectStore(this.#storeName);
+            const req = store.delete(key);
+            req.onsuccess = () => resolve();
+            req.onerror = () => reject(req.error);
+        });
+    }
 }

@@ -1,7 +1,7 @@
 import type { SectionConfig, SettingsConfig } from './types.js';
 
 export const CONFIG = Object.freeze({
-    APP_VERSION: '1.1.3',
+    APP_VERSION: '1.1.4',
     STORAGE_KEYS: Object.freeze({
         RULES_2024: 'rules2024',
         OPTIONAL: 'optional',
@@ -50,8 +50,12 @@ export const CONFIG = Object.freeze({
         BACK_TO_TOP_BTN: 'back-to-top-btn',
         MINIMIZED_BAR: 'minimized-popups-bar',
         SHORTCUTS_MODAL: 'keyboard-shortcuts-modal',
+        CHANGELOG_MODAL: 'changelog-modal',
         ONBOARDING_OVERLAY: 'onboarding-overlay',
         PRINT_BTN: 'print-mode-btn',
+        SEARCH_INPUT: 'search-input',
+        SEARCH_CLEAR_BTN: 'search-clear-btn',
+        EXPORT_FAVORITES_BTN: 'export-favorites-btn',
     } as const),
     THEME_CONFIG: Object.freeze({
         PATH: 'themes/',

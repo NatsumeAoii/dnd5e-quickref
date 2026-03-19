@@ -31,6 +31,7 @@ export class TemplateService {
                 const headerRow = thead.insertRow();
                 bullet.headers.forEach((headerText) => {
                     const th = document.createElement('th');
+                    // #4: Headers are plain text — skip sanitization/linkification
                     th.textContent = headerText;
                     headerRow.appendChild(th);
                 });

@@ -19,8 +19,19 @@
     };
 
     window.onunhandledrejection = function (event) {
-        var ts = new Date().toISOString();
         var reason = event.reason;
+        // Suppress benign View Transition abort errors
+        if (reason && (
+            (reason.name === 'AbortError') ||
+            (typeof reason.message === 'string' && (
+                reason.message.indexOf('Transition was skipped') !== -1 ||
+                reason.message.indexOf('Transition was aborted') !== -1
+            ))
+        )) {
+            event.preventDefault();
+            return;
+        }
+        var ts = new Date().toISOString();
         var message = reason instanceof Error ? reason.message : String(reason);
         var stack = reason instanceof Error ? reason.stack : '';
         showError('[' + ts + '] Unhandled Promise Rejection: ' + message + '\n' + (stack || ''));

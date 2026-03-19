@@ -415,13 +415,15 @@ npm run dev
 
 ### Testing
 
-> **Note**: This project does not currently include a test framework or automated tests. Validation is manual and via the CI type-check step in `npm run build`.
+> **Note**: This project uses **Vitest** for unit testing core logic (services, utilities, state handlers). 
+> - Run tests once: `npm run test`
+> - Run tests in watch mode: `npx vitest`
 
 ---
 
 ## Known Limitations & Pitfalls
 
-- **No automated tests**: There is no test runner (Jest, Vitest, etc.) configured. Quality gates are limited to `tsc --noEmit` and ESLint.
+- **Test coverage is incomplete**: While Vitest is configured, coverage is currently focused on core state management and utilities (`src/__tests__/`). UI components and legacy JS logic lack coverage.
 - **Legacy dual-layer**: The `js/` and `css/` directories contain the original vanilla JS codebase. These are still present for backwards compatibility but are progressively being superseded by `src/`.
 - **`scripts/build.js` is a legacy artifact**: It references dependencies (`fs-extra`, `glob`, `esbuild`, `html-minifier-terser`) that are not listed in `package.json`. It is not wired to any npm script. The active build pipeline uses `vite build`.
 - **Service Worker caching**: The SW uses a stale-while-revalidate strategy. Users may see stale content until the background update completes on next navigation. Hard-refresh forces a fresh load.

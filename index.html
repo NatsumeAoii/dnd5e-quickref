@@ -146,6 +146,10 @@
 
     <div id="app-container" class="app-container hidden" style="opacity:0">
         <main class="page" id="main-scroll-area">
+            <div class="search-bar" id="search-bar">
+                <input type="search" id="search-input" class="search-input" placeholder="Search rules..." autocomplete="off" aria-label="Search rules" />
+                <button type="button" id="search-clear-btn" class="search-clear-btn hidden" aria-label="Clear search">&times;</button>
+            </div>
             <section id="section-favorites" class="section-container hidden" data-section="favorites">
                 <h2 class="section-title">
                     <span>Favorites</span>
@@ -401,6 +405,12 @@
                             </div>
                         </div>
                         <input type="file" id="import-notes-input" accept=".json,.gz,.json.gz" class="visually-hidden">
+                        <div class="item itemsize" role="button" tabindex="0" id="export-favorites-btn">
+                            <div class="item-text-container">
+                                <div class="item-title">Export Favorites</div>
+                                <div class="item-desc">Download your favorites list (JSON).</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -415,9 +425,8 @@
                         <p class="footer-message">A quick reference tool for Dungeons & Dragons 5th Edition players and
                             Dungeon Masters.</p>
                         <p class="copyright">
-                            &copy; <span id="copyright-year"></span> D&D 5e Quick Ref contributors • <a
-                                href="CHANGELOG.md" target="_blank" class="footer-link"><span
-                                    id="app-version-display"></span></a>
+                            &copy; <span id="copyright-year"></span> D&D 5e Quick Ref contributors • <button
+                                type="button" class="changelog-version-btn" id="app-version-display"></button>
                         </p>
                         <p>
                             <button id="report-rule-btn" class="footer-report-btn">Report missing or incorrect

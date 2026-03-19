@@ -5,7 +5,7 @@ import { StateManager } from './state/StateManager.js';
 import {
     ServiceWorkerMessenger, DOMProvider, A11yService, DBService, WakeLockService, SyncService,
     PerformanceOptimizer, GamepadService, SettingsService, UserDataService, PersistenceService, DataService,
-    ErrorService, OnboardingService, KeyboardShortcutsService,
+    ErrorService, OnboardingService, KeyboardShortcutsService, ChangelogService, NavigationService,
 } from './services/index.js';
 import {
     TemplateService, ViewRenderer, PopupFactory, WindowManager, UIController,
@@ -26,6 +26,8 @@ interface Services {
     errorService: ErrorService;
     onboarding: OnboardingService;
     shortcuts: KeyboardShortcutsService;
+    changelog: ChangelogService;
+    navigation: NavigationService;
 }
 
 interface Components {
@@ -40,9 +42,6 @@ class QuickRefApplication {
     #stateManager!: StateManager;
     #services!: Services;
     #components!: Components;
-    // #4: Cached focusables list for arrow-key navigation
-    #focusablesCache: HTMLElement[] = [];
-    #focusablesDirty = true;
 
     constructor() {
         try {
@@ -71,10 +70,12 @@ class QuickRefApplication {
         const errorService = new ErrorService();
         const onboarding = new OnboardingService(window.localStorage, a11y);
         const shortcuts = new KeyboardShortcutsService(a11y);
+        const changelog = new ChangelogService(a11y);
+        const navigation = new NavigationService(shortcuts, onboarding);
 
         this.#services = {
             domProvider, a11y, db, wakeLock, sync, optimizer, gamepad, persistence, settings, userData, data,
-            errorService, onboarding, shortcuts,
+            errorService, onboarding, shortcuts, changelog, navigation,
         };
     }
 
@@ -111,17 +112,6 @@ class QuickRefApplication {
         );
     }
 
-    // #4: Invalidate focusables cache after render changes
-    #invalidateFocusables(): void { this.#focusablesDirty = true; }
-
-    #rebuildFocusables(): HTMLElement[] {
-        this.#focusablesCache = Array.from<HTMLElement>(
-            document.querySelectorAll(`.${CONFIG.CSS.SECTION_TITLE}, .${CONFIG.CSS.SECTION_CONTAINER}:not(.${CONFIG.CSS.IS_COLLAPSED}) .item`)
-        ).filter((el) => el.offsetParent !== null);
-        this.#focusablesDirty = false;
-        return this.#focusablesCache;
-    }
-
     async start(): Promise<void> {
         try {
             this.#services.settings.initialize();
@@ -139,7 +129,7 @@ class QuickRefApplication {
             this.#components.viewRenderer.renderFavoritesSection();
             this.#components.controller.setupCollapsibleSections();
             await this.#components.controller.renderOpenSections();
-            this.#invalidateFocusables();
+            this.#services.navigation.invalidateFocusables();
 
             const restoredPopups = this.#services.persistence.loadSession();
             restoredPopups.forEach((p) => this.#components.windowManager.createPopupFromState(p));
@@ -155,10 +145,16 @@ class QuickRefApplication {
             // Wire keyboard shortcuts
             this.#registerKeyboardShortcuts();
             this.#services.shortcuts.initialize();
+            this.#services.navigation.initialize();
 
             // Wire shortcuts FAB button
             document.getElementById('shortcuts-fab-btn')?.addEventListener('click', () => {
                 this.#services.shortcuts.toggle();
+            });
+
+            // Wire changelog modal to version display button
+            document.getElementById(CONFIG.ELEMENT_IDS.APP_VERSION_DISPLAY)?.addEventListener('click', () => {
+                this.#services.changelog.toggle();
             });
 
             // Wire ErrorService notifier
@@ -208,7 +204,7 @@ class QuickRefApplication {
             // Persist all states and trigger lazy-render if expanding
             this.#components.controller.persistAllSectionStates();
             if (allCollapsed) this.#components.controller.renderOpenSections();
-            this.#invalidateFocusables();
+            this.#services.navigation.invalidateFocusables();
         });
 
         // Print mode toggle
@@ -223,7 +219,7 @@ class QuickRefApplication {
                 });
                 // Trigger rendering of all un-rendered sections
                 this.#components.controller.renderOpenSections();
-                this.#invalidateFocusables();
+                this.#services.navigation.invalidateFocusables();
             }
         });
 
@@ -237,68 +233,6 @@ class QuickRefApplication {
             this.#components.windowManager.closeAllPopups();
         });
 
-        // Arrow key navigation (document-level)
-        document.addEventListener('keydown', (e) => {
-            const key = e.key;
-            // Fast exit for irrelevant keys — before any DOM queries
-            if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Enter', ' '].includes(key)) return;
-
-            if (this.#services.shortcuts.isModalOpen || this.#services.onboarding.isActive) return;
-            const tag = (e.target as HTMLElement).tagName;
-            if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
-            if ((e.target as HTMLElement).isContentEditable) return;
-
-            // #4: Use cached focusables, rebuild only when dirty
-            const focusables = this.#focusablesDirty ? this.#rebuildFocusables() : this.#focusablesCache;
-
-            if (!focusables.length) return;
-
-            const active = document.activeElement as HTMLElement;
-            const currentIdx = focusables.indexOf(active);
-
-            // Enter/Space on focused item — click it
-            if ((key === 'Enter' || key === ' ') && currentIdx >= 0) {
-                e.preventDefault();
-                active.click();
-                return;
-            }
-
-            // Don't handle Enter/Space if nothing focused in the grid
-            if (key === 'Enter' || key === ' ') return;
-
-            e.preventDefault();
-
-            if (key === 'ArrowRight' || key === 'ArrowDown') {
-                if (key === 'ArrowDown') {
-                    const nextSection = focusables.find((el, i) =>
-                        i > currentIdx && el.classList.contains(CONFIG.CSS.SECTION_TITLE)
-                    );
-                    const target = nextSection ?? focusables[0];
-                    target.focus();
-                    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                } else {
-                    const nextIdx = currentIdx < 0 ? 0 : Math.min(currentIdx + 1, focusables.length - 1);
-                    focusables[nextIdx].focus();
-                    focusables[nextIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }
-            } else {
-                if (key === 'ArrowUp') {
-                    const searchFrom = currentIdx < 0 ? focusables.length : currentIdx;
-                    const prevSections = focusables.filter((el, i) =>
-                        i < searchFrom && el.classList.contains(CONFIG.CSS.SECTION_TITLE)
-                    );
-                    if (prevSections.length) {
-                        const prev = prevSections[prevSections.length - 1];
-                        prev.focus();
-                        prev.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-                } else {
-                    const prevIdx = currentIdx <= 0 ? 0 : currentIdx - 1;
-                    focusables[prevIdx].focus();
-                    focusables[prevIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }
-            }
-        });
     }
 }
 

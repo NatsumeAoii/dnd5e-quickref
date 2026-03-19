@@ -121,6 +121,10 @@ self.addEventListener('message', (event) => {
   }
 });
 
+function isImmutableAsset(pathname) {
+  return pathname.includes('/img/') || (pathname.includes('/themes/') && pathname.endsWith('.css'));
+}
+
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
@@ -146,6 +150,24 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Cache-first for immutable static assets (images, theme CSS) — no background revalidation
+  if (isImmutableAsset(url.pathname)) {
+    event.respondWith((async () => {
+      const cache = await caches.open(CACHE_NAME);
+      const cached = await cache.match(request, { ignoreSearch: true });
+      if (cached) return cached;
+      try {
+        const response = await fetch(request);
+        await tryCachePut(request, response);
+        return response;
+      } catch {
+        return Response.error();
+      }
+    })());
+    return;
+  }
+
+  // Stale-while-revalidate for everything else (JS, CSS bundles, JSON data)
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
     const cachedResponse = await cache.match(request, { ignoreSearch: true });

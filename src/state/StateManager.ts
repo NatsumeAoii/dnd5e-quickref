@@ -29,6 +29,13 @@ export class StateManager {
         this.#listeners.get(event)!.push(callback);
     }
 
+    unsubscribe(event: string, callback: EventCallback): void {
+        const listeners = this.#listeners.get(event);
+        if (!listeners) return;
+        const idx = listeners.indexOf(callback);
+        if (idx !== -1) listeners.splice(idx, 1);
+    }
+
     // (K) Error isolation — a throwing subscriber must not break sibling listeners
     publish(event: string, data?: unknown): void {
         if (this.#listeners.has(event)) {
