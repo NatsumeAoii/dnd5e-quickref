@@ -161,10 +161,10 @@ export class UIController {
                 option.textContent = theme.displayName;
                 selectEl.appendChild(option);
 
-                // Preload non-original theme CSS so switching is instant
+                // Prefetch non-original theme CSS so switching is near-instant
                 if (theme.id !== 'original') {
                     const link = document.createElement('link');
-                    link.rel = 'preload';
+                    link.rel = 'prefetch';
                     link.as = 'style';
                     link.href = `${CONFIG.THEME_CONFIG.PATH}${theme.id}.css`;
                     document.head.appendChild(link);
