@@ -122,35 +122,66 @@ export class KeyboardShortcutsService {
             groups.get(entry.category)!.push(entry);
         });
 
-        let html = `
-            <div class="shortcuts-modal" tabindex="-1">
-                <div class="shortcuts-modal-header">
-                    <h2>⌨️ Keyboard Shortcuts</h2>
-                    <button class="shortcuts-close-btn" aria-label="Close shortcuts">✕</button>
-                </div>
-                <div class="shortcuts-modal-body">`;
+        // Build modal DOM via createElement/textContent (Trusted Types safe)
+        const modal = document.createElement('div');
+        modal.className = 'shortcuts-modal';
+        modal.setAttribute('tabindex', '-1');
+
+        const header = document.createElement('div');
+        header.className = 'shortcuts-modal-header';
+        const h2 = document.createElement('h2');
+        h2.textContent = '\u2328\uFE0F Keyboard Shortcuts';
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'shortcuts-close-btn';
+        closeBtn.setAttribute('aria-label', 'Close shortcuts');
+        closeBtn.textContent = '\u2715';
+        closeBtn.addEventListener('click', () => this.close());
+        header.append(h2, closeBtn);
+
+        const body = document.createElement('div');
+        body.className = 'shortcuts-modal-body';
 
         groups.forEach((entries, category) => {
-            html += `<div class="shortcuts-group">
-                <h3 class="shortcuts-group-title">${category}</h3>
-                <div class="shortcuts-list">`;
+            const group = document.createElement('div');
+            group.className = 'shortcuts-group';
+
+            const groupTitle = document.createElement('h3');
+            groupTitle.className = 'shortcuts-group-title';
+            groupTitle.textContent = category;
+            group.appendChild(groupTitle);
+
+            const list = document.createElement('div');
+            list.className = 'shortcuts-list';
 
             entries.forEach((entry) => {
-                const keys = entry.keys.split('+').map((k) => `<kbd>${k.trim()}</kbd>`).join(' + ');
-                html += `<div class="shortcut-row">
-                    <span class="shortcut-keys">${keys}</span>
-                    <span class="shortcut-desc">${entry.description}</span>
-                </div>`;
+                const row = document.createElement('div');
+                row.className = 'shortcut-row';
+
+                const keysSpan = document.createElement('span');
+                keysSpan.className = 'shortcut-keys';
+                entry.keys.split('+').forEach((k, i) => {
+                    if (i > 0) keysSpan.appendChild(document.createTextNode(' + '));
+                    const kbd = document.createElement('kbd');
+                    kbd.textContent = k.trim();
+                    keysSpan.appendChild(kbd);
+                });
+
+                const descSpan = document.createElement('span');
+                descSpan.className = 'shortcut-desc';
+                descSpan.textContent = entry.description;
+
+                row.append(keysSpan, descSpan);
+                list.appendChild(row);
             });
 
-            html += `</div></div>`;
+            group.appendChild(list);
+            body.appendChild(group);
         });
 
-        html += `</div></div>`;
-        this.#modalEl.innerHTML = html;
+        modal.append(header, body);
+        this.#modalEl.appendChild(modal);
 
         // Close handlers
-        this.#modalEl.querySelector('.shortcuts-close-btn')!.addEventListener('click', () => this.close());
         this.#modalEl.addEventListener('click', (e) => {
             if (e.target === this.#modalEl) this.close();
         });
@@ -160,7 +191,7 @@ export class KeyboardShortcutsService {
         });
 
         document.body.appendChild(this.#modalEl);
-        (this.#modalEl.querySelector('.shortcuts-modal') as HTMLElement).focus();
+        modal.focus();
     }
 
     getShortcuts(): ShortcutEntry[] {

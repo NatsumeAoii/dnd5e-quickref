@@ -78,6 +78,9 @@ export class UIController {
 
     async #switchRuleset(): Promise<void> {
         this.#components.windowManager.closeAllPopups();
+        this.#components.windowManager.clearMinimized();
+        // Clear active search to prevent stale matchingIds from the previous ruleset
+        this.#clearSearchInput();
         this.#ruleMapDirty = true;
         await this.#services.data.ensureAllDataLoadedForActiveRuleset();
         this.#services.data.buildRuleMap();
@@ -216,11 +219,13 @@ export class UIController {
     };
 
     persistAllSectionStates(): void {
+        const states = this.#loadSectionStates();
         this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}[data-section]`).forEach((section) => {
             const key = (section as HTMLElement).dataset.section;
             if (!key || key === 'settings' || key === 'favorites') return;
-            this.#saveSectionState(key, section.classList.contains(CONFIG.CSS.IS_COLLAPSED));
+            states[key] = section.classList.contains(CONFIG.CSS.IS_COLLAPSED);
         });
+        localStorage.setItem(CONFIG.STORAGE_KEYS.SECTION_STATES, JSON.stringify(states));
     }
 
     bindGlobalEventListeners = (): void => {
@@ -357,6 +362,8 @@ export class UIController {
             const dismissNotice = (): void => {
                 notice.classList.add(CONFIG.CSS.IS_CLOSING);
                 notice.addEventListener('animationend', () => { notice.style.display = 'none'; }, { once: true });
+                // Fallback: guarantee hide even when animations are suppressed (e.g. motion-reduced)
+                setTimeout(() => { notice.style.display = 'none'; }, CONFIG.ANIMATION_DURATION.SECTION_TRANSITION_MS);
             };
             acceptBtn.addEventListener('click', async () => {
                 window.localStorage.setItem(CONFIG.STORAGE_KEYS.COOKIES_ACCEPTED, 'true');
@@ -388,6 +395,23 @@ export class UIController {
         });
     };
 
+    #clearSearchInput(): void {
+        try {
+            const input = this.#domProvider.get(CONFIG.ELEMENT_IDS.SEARCH_INPUT) as HTMLInputElement;
+            const clearBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.SEARCH_CLEAR_BTN);
+            if (input.value.trim().length === 0) return;
+            input.value = '';
+            clearBtn.classList.add(CONFIG.CSS.HIDDEN);
+            this.#components.viewRenderer.filterRuleItems();
+            // Unhide all rule sections so the fresh render is not masked by stale search state
+            this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}:not([data-section="settings"])`).forEach((section) => {
+                section.classList.remove(CONFIG.CSS.HIDDEN);
+            });
+            const favSection = document.querySelector(`[data-section="favorites"]`);
+            if (favSection) favSection.classList.toggle(CONFIG.CSS.HIDDEN, this.#stateManager.getState().user.favorites.size === 0);
+        } catch { /* search elements may not exist */ }
+    }
+
     #setupSearch(): void {
         try {
             const input = this.#domProvider.get(CONFIG.ELEMENT_IDS.SEARCH_INPUT) as HTMLInputElement;
@@ -415,14 +439,18 @@ export class UIController {
 
                 // Build a set of matching popup IDs from the in-memory search index
                 const ruleMap = this.#stateManager.getState().data.ruleMap;
+                const { showOptional, showHomebrew } = this.#stateManager.getState().settings;
                 const matchingIds = new Set<string>();
+                // Track which SECTION_CONFIG ids have at least one match (for collapsed/unrendered sections)
+                const matchingSectionIds = new Set<string>();
                 ruleMap.forEach((info, id) => {
-                    if (info.searchIndex && info.searchIndex.includes(query)) {
-                        matchingIds.add(id);
-                    }
+                    if (!info.searchIndex || !info.searchIndex.includes(query)) return;
+                    const ruleType = info.ruleData.optional || '';
+                    if ((ruleType === 'Optional rule' && !showOptional) || (ruleType === 'Homebrew rule' && !showHomebrew)) return;
+                    matchingIds.add(id);
+                    matchingSectionIds.add(info.sectionId);
                 });
 
-                const { showOptional, showHomebrew } = this.#stateManager.getState().settings;
                 const sections = this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}:not([data-section="settings"])`);
                 sections.forEach((section) => {
                     const sectionKey = (section as HTMLElement).dataset.section;
@@ -431,25 +459,31 @@ export class UIController {
                         return;
                     }
                     const items = section.querySelectorAll(`.${CONFIG.CSS.ITEM_CLASS}`);
-                    let visibleCount = 0;
-                    items.forEach((item) => {
-                        const el = item as HTMLElement;
-                        // Skip items already hidden by optional/homebrew filter
-                        const ruleType = el.getAttribute(CONFIG.ATTRIBUTES.RULE_TYPE);
-                        const hiddenByRuleset = (ruleType === 'Optional rule' && !showOptional) ||
-                                                (ruleType === 'Homebrew rule' && !showHomebrew);
-                        if (hiddenByRuleset) return; // leave as display:none, don't count
 
-                        const popupId = el.getAttribute(CONFIG.ATTRIBUTES.POPUP_ID) ?? '';
-                        const matches = matchingIds.has(popupId);
-                        el.style.display = matches ? '' : 'none';
-                        if (matches) visibleCount++;
-                    });
-                    // Hide sections entirely if no items match
-                    if (items.length > 0 && visibleCount === 0) {
-                        section.classList.add(CONFIG.CSS.HIDDEN);
-                    } else if (visibleCount > 0) {
-                        section.classList.remove(CONFIG.CSS.HIDDEN);
+                    if (items.length > 0) {
+                        // Section is rendered — filter DOM items directly
+                        let visibleCount = 0;
+                        items.forEach((item) => {
+                            const el = item as HTMLElement;
+                            const ruleType = el.getAttribute(CONFIG.ATTRIBUTES.RULE_TYPE);
+                            const hiddenByRuleset = (ruleType === 'Optional rule' && !showOptional) ||
+                                                    (ruleType === 'Homebrew rule' && !showHomebrew);
+                            if (hiddenByRuleset) return;
+
+                            const popupId = el.getAttribute(CONFIG.ATTRIBUTES.POPUP_ID) ?? '';
+                            const matches = matchingIds.has(popupId);
+                            el.style.display = matches ? '' : 'none';
+                            if (matches) visibleCount++;
+                        });
+                        section.classList.toggle(CONFIG.CSS.HIDDEN, items.length > 0 && visibleCount === 0);
+                    } else {
+                        // Section is collapsed/unrendered — check ruleMap for matches by sectionId
+                        const dataKey = sectionKey === 'environment' ? sectionKey : sectionKey!.replace('-', '_');
+                        const sectionConfigs = dataKey === 'environment'
+                            ? (CONFIG.SECTION_CONFIG as readonly { id: string; dataKey: string; type: string }[]).filter((c) => c.type === 'Environment')
+                            : (CONFIG.SECTION_CONFIG as readonly { id: string; dataKey: string; type: string }[]).filter((c) => c.dataKey === dataKey);
+                        const hasMatch = sectionConfigs.some((c) => matchingSectionIds.has(c.id));
+                        section.classList.toggle(CONFIG.CSS.HIDDEN, !hasMatch);
                     }
                 });
                 this.#services.a11y.announce(`Filtering by: ${query}`);

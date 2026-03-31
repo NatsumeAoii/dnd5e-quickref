@@ -56,7 +56,6 @@ async function tryCachePut(request, response) {
   const { pathname } = url;
 
   if (!isCoreAsset(pathname) && !cachingAllowed) return;
-  if (!isStaticAsset(pathname) && !isCoreAsset(pathname) && !cachingAllowed) return;
 
   try {
     const cache = await caches.open(CACHE_NAME);

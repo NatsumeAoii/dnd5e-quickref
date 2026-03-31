@@ -28,6 +28,8 @@ export class ChangelogService {
         this.#isOpen = true;
         this.#showingAll = false;
         await this.#createModal();
+        // Guard: user may have closed the dialog during the async fetch
+        if (!this.#isOpen) return;
         this.#a11yService.announce('Changelog panel opened');
     }
 
@@ -92,6 +94,8 @@ export class ChangelogService {
 
     async #createModal(): Promise<void> {
         const versions = await this.#fetchChangelog();
+        // Bail out if user closed the dialog while fetch was in-flight
+        if (!this.#isOpen) return;
 
         this.#modalEl = document.createElement('div');
         this.#modalEl.id = CONFIG.ELEMENT_IDS.CHANGELOG_MODAL;

@@ -14,4 +14,5 @@ export { ErrorService } from './ErrorService.js';
 export { OnboardingService } from './OnboardingService.js';
 export { KeyboardShortcutsService } from './KeyboardShortcutsService.js';
 export { ChangelogService } from './ChangelogService.js';
+export { ReadmeService } from './ReadmeService.js';
 export { NavigationService } from './NavigationService.js';

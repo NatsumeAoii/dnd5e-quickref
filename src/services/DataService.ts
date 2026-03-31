@@ -155,6 +155,10 @@ export class DataService {
                 src.forEach((rule) => {
                     if (rule.title) {
                         const id = `${section.type}::${rule.title}`;
+                        const existing = state.data.ruleMap.get(id);
+                        if (existing && existing.ruleData !== rule) {
+                            console.warn(`Duplicate rule key "${id}" in section "${section.id}" — previous entry overwritten.`);
+                        }
                         const titlePart = rule.title.toLowerCase();
                         const descPart = (rule.description ?? '').replace(/<[^>]*>/g, '').toLowerCase();
                         const subtitlePart = (rule.subtitle ?? '').toLowerCase();

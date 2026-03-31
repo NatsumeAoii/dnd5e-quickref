@@ -5,7 +5,7 @@ export class WakeLockService {
 
     constructor() {
         document.addEventListener('visibilitychange', () => {
-            if (this.#isEnabled && this.#wakeLock !== null && document.visibilityState === 'visible') {
+            if (this.#isEnabled && document.visibilityState === 'visible') {
                 this.#requestLock();
             }
         });
@@ -22,6 +22,8 @@ export class WakeLockService {
         this.#pending = (async () => {
             try {
                 this.#wakeLock = await navigator.wakeLock.request('screen');
+                // Clear stale reference when the browser releases the lock (e.g., tab hidden)
+                this.#wakeLock.addEventListener('release', () => { this.#wakeLock = null; }, { once: true });
             } catch (err) {
                 console.warn('Wake Lock failed:', err);
             } finally {
@@ -38,3 +40,4 @@ export class WakeLockService {
         }
     }
 }
+

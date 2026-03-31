@@ -28,45 +28,44 @@ export class DBService {
         });
     }
 
-    async getAll(): Promise<Record<string, string>> {
-        const db = await this.open();
-        return new Promise((resolve, reject) => {
-            const tx = db.transaction(this.#storeName, 'readonly');
-            const store = tx.objectStore(this.#storeName);
-            const req = store.openCursor();
-            const results: Record<string, string> = {};
-            req.onsuccess = (e) => {
-                const cursor = (e.target as IDBRequest<IDBCursorWithValue | null>).result;
-                if (cursor) {
-                    results[cursor.key as string] = cursor.value;
-                    cursor.continue();
-                } else {
-                    resolve(results);
+    // Retry transaction once if the connection was closed by versionchange between open() and transaction()
+    async #withTransaction<T>(mode: IDBTransactionMode, fn: (store: IDBObjectStore) => IDBRequest<T>): Promise<T> {
+        for (let attempt = 0; attempt < 2; attempt++) {
+            const db = await this.open();
+            try {
+                return await new Promise<T>((resolve, reject) => {
+                    const tx = db.transaction(this.#storeName, mode);
+                    const req = fn(tx.objectStore(this.#storeName));
+                    req.onsuccess = () => resolve(req.result);
+                    req.onerror = () => reject(req.error);
+                });
+            } catch (e) {
+                // InvalidStateError means the connection was closed — force re-open on next attempt
+                if (attempt === 0 && e instanceof DOMException && e.name === 'InvalidStateError') {
+                    this.#db = null;
+                    continue;
                 }
-            };
-            req.onerror = () => reject(req.error);
-        });
+                throw e;
+            }
+        }
+        throw new Error('IndexedDB transaction failed after retry');
+    }
+
+    async getAll(): Promise<Record<string, string>> {
+        const keys = await this.#withTransaction<IDBValidKey[]>('readonly', (store) => store.getAllKeys());
+        const values = await this.#withTransaction<string[]>('readonly', (store) => store.getAll());
+        const results: Record<string, string> = {};
+        for (let i = 0; i < keys.length; i++) {
+            results[keys[i] as string] = values[i];
+        }
+        return results;
     }
 
     async put(key: string, value: string): Promise<void> {
-        const db = await this.open();
-        return new Promise((resolve, reject) => {
-            const tx = db.transaction(this.#storeName, 'readwrite');
-            const store = tx.objectStore(this.#storeName);
-            const req = store.put(value, key);
-            req.onsuccess = () => resolve();
-            req.onerror = () => reject(req.error);
-        });
+        await this.#withTransaction('readwrite', (store) => store.put(value, key));
     }
 
     async delete(key: string): Promise<void> {
-        const db = await this.open();
-        return new Promise((resolve, reject) => {
-            const tx = db.transaction(this.#storeName, 'readwrite');
-            const store = tx.objectStore(this.#storeName);
-            const req = store.delete(key);
-            req.onsuccess = () => resolve();
-            req.onerror = () => reject(req.error);
-        });
+        await this.#withTransaction('readwrite', (store) => store.delete(key));
     }
 }

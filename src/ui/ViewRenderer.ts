@@ -50,7 +50,8 @@ export class ViewRenderer {
             const iconName = iconEl.getAttribute(CONFIG.ATTRIBUTES.ICON);
             if (iconName) iconEl.classList.add(`icon-${iconName}`);
         });
-        this.filterRuleItems();
+        // Scope to just-rendered section to avoid full-document scan during batch renders
+        this.filterRuleItems(parent);
     }
 
     #updateSectionItemCount(section: Element, count: number): void {
@@ -98,11 +99,12 @@ export class ViewRenderer {
 
     applyMotionReduction = (isEnabled: boolean): void => { document.body.classList.toggle(CONFIG.CSS.MOTION_REDUCED, isEnabled); };
 
-    filterRuleItems(): void {
+    filterRuleItems(scope?: HTMLElement): void {
         const { showOptional, showHomebrew } = this.#stateManager.getState().settings;
         const sectionCounts = new Map<Element, number>();
-        // #5: Scope query to main scroll area to avoid scanning popup containers
-        const queryRoot = this.#mainScrollArea ?? document;
+        // When scope is provided (post-render), scan only the rendered parent.
+        // Otherwise fall back to main scroll area to avoid scanning popup containers.
+        const queryRoot = scope ?? this.#mainScrollArea ?? document;
 
         queryRoot.querySelectorAll(`.${CONFIG.CSS.ITEM_SIZE_CLASS}`).forEach((item) => {
             if (item.getAttribute(CONFIG.ATTRIBUTES.FILTERABLE) === 'false') return;
@@ -131,7 +133,7 @@ export class ViewRenderer {
 
         const icon = document.createElement('div');
         icon.className = 'fatal-error-icon';
-        icon.innerHTML = '⚠️';
+        icon.textContent = '\u26A0\uFE0F';
 
         const title = document.createElement('h1');
         title.className = 'fatal-error-title';
@@ -255,6 +257,8 @@ export class ViewRenderer {
         setTimeout(() => {
             notification.style.animation = 'slideInRight 0.3s reverse forwards';
             notification.addEventListener('animationend', () => notification.remove());
+            // Fallback: guarantee removal even when animations are suppressed (e.g. motion-reduced)
+            setTimeout(() => notification.remove(), 500);
         }, CONFIG.ANIMATION_DURATION.NOTIFICATION_MS);
     }
 }

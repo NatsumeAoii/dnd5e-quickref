@@ -17,7 +17,10 @@ export class SyncService {
         this.#channel.postMessage({ type, payload, version: CONFIG.APP_VERSION });
     }
 
-    #handleMessage({ type, payload, version }: { type: string; payload: unknown; version?: string }): void {
+    #handleMessage(data: unknown): void {
+        if (!data || typeof data !== 'object') return;
+        const { type, payload, version } = data as { type: string; payload: unknown; version?: string };
+        if (typeof type !== 'string') return;
         if (version && version !== CONFIG.APP_VERSION) return; // Ignore messages from incompatible versions
         this.#stateManager.publish('externalStateChange', { type, payload });
     }

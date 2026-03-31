@@ -30,6 +30,8 @@ export class WindowManager {
     #popupContainer!: HTMLElement;
     #closeAllBtn!: HTMLElement;
     #isMobileView = false;
+    // Prevents concurrent togglePopup calls for the same ID (race-condition guard)
+    #inflight = new Set<string>();
     // #3: Cache linkified HTML to avoid redundant DOM tree-walk + serialization
     #linkifyCache = new Map<string, string>();
     static #LINKIFY_CACHE_MAX = 500;
@@ -215,6 +217,8 @@ export class WindowManager {
         const state = this.#stateManager.getState();
         const popup = state.ui.openPopups.get(id);
         if (!popup) return;
+        // Hold inflight lock during closing animation to prevent re-open race
+        this.#inflight.add(id);
         popup.classList.add(CONFIG.CSS.IS_CLOSING);
         state.ui.openPopups.delete(id);
         this.#a11yService.announce(`Closed popup for ${id.split('::')[1]}`);
@@ -226,6 +230,7 @@ export class WindowManager {
         setTimeout(() => {
             popup.close();
             popup.remove();
+            this.#inflight.delete(id);
             this.#persistenceService.saveSession();
         }, CONFIG.ANIMATION_DURATION.POPUP_MS);
     };
@@ -387,19 +392,26 @@ export class WindowManager {
     async togglePopup(id: string): Promise<void> {
         const state = this.#stateManager.getState();
         if (state.ui.openPopups.has(id)) { this.#closePopup(id); return; }
+        // Guard against concurrent opens (rapid clicks) or re-open during closing animation
+        if (this.#inflight.has(id)) return;
+        this.#inflight.add(id);
 
-        let rule = state.data.ruleMap.get(id);
-        if (!rule) {
-            await this.#dataService.ensureAllDataLoadedForActiveRuleset();
-            this.#dataService.buildRuleMap();
-            rule = this.#stateManager.getState().data.ruleMap.get(id);
-        }
+        try {
+            let rule = state.data.ruleMap.get(id);
+            if (!rule) {
+                await this.#dataService.ensureAllDataLoadedForActiveRuleset();
+                this.#dataService.buildRuleMap();
+                rule = this.#stateManager.getState().data.ruleMap.get(id);
+            }
 
-        if (rule) {
-            this.#createPopup(id, rule);
-        } else {
-            console.warn(`Rule not found: "${id}". Removing from URL hash.`);
-            this.#updateURLHash();
+            if (rule) {
+                this.#createPopup(id, rule);
+            } else {
+                console.warn(`Rule not found: "${id}". Removing from URL hash.`);
+                this.#updateURLHash();
+            }
+        } finally {
+            this.#inflight.delete(id);
         }
     }
 
@@ -412,6 +424,11 @@ export class WindowManager {
 
     closeAllPopups = (): void => [...this.#stateManager.getState().ui.openPopups.keys()].forEach((id) => this.#closePopup(id));
 
+    clearMinimized(): void {
+        this.#stateManager.getState().ui.minimizedPopups.clear();
+        this.#renderMinimizedBar();
+    }
+
     getTopMostPopupId(): string | null {
         const state = this.#stateManager.getState();
         if (state.ui.openPopups.size === 0) return null;
@@ -421,6 +438,7 @@ export class WindowManager {
     }
 
     minimizePopup(id: string): void {
+        if (this.#inflight.has(id)) return;
         const state = this.#stateManager.getState();
         const popup = state.ui.openPopups.get(id);
         if (!popup) return;
@@ -477,6 +495,7 @@ export class WindowManager {
     }
 
     restorePopup(id: string): void {
+        if (this.#inflight.has(id)) return;
         const state = this.#stateManager.getState();
         const meta = state.ui.minimizedPopups.get(id);
         if (!meta) return;

@@ -6,6 +6,7 @@ export class GamepadService {
     #domProvider: DOMProvider;
     #lastMove = 0;
     #MOVE_DELAY = 150;
+    #buttonHeld = false;
 
     constructor(domProvider: DOMProvider) {
         this.#domProvider = domProvider;
@@ -18,6 +19,8 @@ export class GamepadService {
         const gp = navigator.getGamepads()[0];
         if (gp) {
             const now = Date.now();
+
+            // Axis navigation with cooldown
             if (now - this.#lastMove > this.#MOVE_DELAY && gp.axes.length >= 2) {
                 const x = gp.axes[0];
                 const y = gp.axes[1];
@@ -25,13 +28,20 @@ export class GamepadService {
                     this.#navigate(x, y);
                     this.#lastMove = now;
                 }
-                if (gp.buttons[0].pressed) {
+            }
+
+            // Button press with held-state guard to prevent repeat fires
+            if (gp.buttons[0].pressed) {
+                if (!this.#buttonHeld) {
+                    this.#buttonHeld = true;
                     const focused = document.activeElement as HTMLElement | null;
                     if (focused?.click) {
                         focused.click();
                         this.#lastMove = now + 200;
                     }
                 }
+            } else {
+                this.#buttonHeld = false;
             }
         }
         requestAnimationFrame(this.#poll);
@@ -63,3 +73,4 @@ export class GamepadService {
         items[index].scrollIntoView({ block: 'nearest' });
     }
 }
+

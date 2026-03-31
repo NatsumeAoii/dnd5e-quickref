@@ -7,6 +7,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.5] - 2026-03-31
+
+### Correctness & Robustness Pass II
+
+A second targeted review addressing logic bugs, security hardening, and consistency across services.
+
+#### Fixed
+- **WakeLock Not Re-Acquiring**: `WakeLockService` now listens for the sentinel's `release` event to clear stale references. Previously, the browser-initiated release (e.g., tab hidden) left a dangling reference that prevented re-acquisition on visibility restore.
+- **Gamepad Button Rapid-Fire**: `GamepadService` A-button press now fires once per press via a `#buttonHeld` guard. Previously, `click()` fired every animation frame (~60fps) while the button was held, causing dozens of popup opens or favorites toggles per second.
+- **ArrowLeft Navigation Direction**: `NavigationService` ArrowLeft with no focused item now wraps to the last focusable element instead of jumping to the first, making directional intent consistent with ArrowRight behavior.
+- **prefers-reduced-motion Ignored**: `PerformanceOptimizer.shouldReduceMotion()` now checks the OS-level `prefers-reduced-motion: reduce` media query in addition to hardware/network heuristics, per WCAG 2.1 SC 2.3.3.
+- **Search Filter Leaking on Ruleset Switch**: `UIController.#switchRuleset()` now clears the search input before re-rendering, preventing stale `matchingIds` from the previous ruleset from ghosting section visibility.
+- **Import Sanitizer Single-Match**: Restored the `g` flag on `UserDataService.#DANGEROUS_PATTERN` (used with `.replace()`). Without it, only the first occurrence of a dangerous pattern was stripped during note import.
+- **Service Worker Dead Code**: Removed an unreachable second caching guard in `sw.js` `tryCachePut()` — the broader check on the preceding line already covered all cases.
+
+#### Improved
+- **Trusted Types Compliance**: Replaced `innerHTML` with `createElement`/`textContent` DOM construction in `KeyboardShortcutsService.#createModal()` and `ViewRenderer.renderFatalError()`. These were the last two raw `innerHTML` usages outside the sanitized `safeHTML()` pipeline.
+- **BroadcastChannel Resilience**: `SyncService.#handleMessage()` now validates incoming payloads with type guards before destructuring, preventing runtime throws when other extensions or libraries post non-object messages to the shared channel.
+- **Duplicate Rule Diagnostics**: `DataService.buildRuleMap()` now logs a warning when two different rules produce the same `type::title` key, making silent overwrites visible. Uses object identity check to suppress false positives from shared data sources (environment sub-sections).
+
+#### Changed
+- **DBService `getAll()` Refactored**: Replaced the hand-rolled cursor-based implementation (with its own manual retry logic) with `IDBObjectStore.getAllKeys()` + `IDBObjectStore.getAll()` routed through the existing `#withTransaction` helper. Retry behavior is now consistent across all DB operations (`put`, `delete`, `getAll`).
+
+### Documentation
+
+A grounded review of `README.md` to fix stale references, fill gaps, and improve contributor onboarding accuracy.
+
+#### Fixed
+- **Missing `test` Script in npm Scripts Table**: Added `test` / `vitest run` row. The script was in `package.json` but omitted from the documentation table.
+- **Stale `prebuild` Description**: Updated to reflect that `prebuild.js` now copies both `CHANGELOG.md` and `README.md` to `public/` in addition to syncing the version string.
+- **Stale `scripts/build.js` References**: Removed `build.js` from the Project Structure tree and the Known Limitations section. The file no longer exists; the active build pipeline uses `vite build`.
+- **Missing Services in Project Structure Tree**: Added `NavigationService.ts` and `ReadmeService.ts` to the `src/services/` directory listing. Both were present in `services/index.ts` but omitted from the documented tree.
+
+#### Added
+- **ESLint Dependency Gap Note** (Code Quality + Known Limitations): Documented that `@eslint/js` and `typescript-eslint` are imported by `eslint.config.js` but not listed in `devDependencies`, with manual install instructions.
+- **`package.json` License Mismatch** (Known Limitations): Flagged that the `license` field says `ISC` while `LICENSE.md` specifies MIT.
+- **Vitest `jsdom` Environment Note** (Testing): Documented the `// @vitest-environment jsdom` pragma for DOM-dependent tests and confirmed `jsdom` is already in `devDependencies`.
+
+---
+
 ## [1.1.4] - 2026-03-19
 
 ### Correctness & Robustness Pass

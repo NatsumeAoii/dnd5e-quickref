@@ -104,7 +104,7 @@ export class UserDataService {
         URL.revokeObjectURL(url);
     }
 
-    exportFavorites(): void {
+    async exportFavorites(): Promise<void> {
         const favorites = [...this.#stateManager.getState().user.favorites];
         const jsonString = JSON.stringify(favorites, null, 2);
         const blob = new Blob([jsonString], { type: 'application/json' });
@@ -113,10 +113,10 @@ export class UserDataService {
         // Try Web Share API for mobile (Safari iOS <a>.click() silently fails)
         const file = new File([blob], fileName, { type: 'application/json' });
         if (navigator.canShare?.({ files: [file] })) {
-            navigator.share({ files: [file], title: 'QuickRef Favorites Export' }).catch(() => {
-                /* User cancelled or share failed — fall through handled below */
-            });
-            return;
+            try {
+                await navigator.share({ files: [file], title: 'QuickRef Favorites Export' });
+                return; // Share succeeded — skip download fallback
+            } catch { /* User cancelled or share failed — fall through to download */ }
         }
 
         try {
@@ -131,8 +131,8 @@ export class UserDataService {
         }
     }
 
-    // (D) Removed `g` flag: `g` + `test()` causes lastIndex drift across calls on a static regex
-    static #DANGEROUS_PATTERN = /<script[\s>]|javascript:|on\w+\s*=/i;
+    // (D) DANGEROUS_PATTERN uses `gi` for replace(); KEY_PATTERN omits `g` to avoid lastIndex drift with test()
+    static #DANGEROUS_PATTERN = /<script[\s>]|javascript:|on\w+\s*=/gi;
     static #KEY_PATTERN = /^[\w\s]+::[\w\s\-'(),/]+$/;
 
     #sanitizeNoteText(text: string): string {
