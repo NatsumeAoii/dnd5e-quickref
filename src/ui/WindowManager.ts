@@ -29,7 +29,7 @@ export class WindowManager {
     #dataService: DataService;
     #popupContainer!: HTMLElement;
     #closeAllBtn!: HTMLElement;
-    #isMobileView = false;
+    #isMobileView = typeof window !== 'undefined' && window.innerWidth < CONFIG.LAYOUT.DESKTOP_BREAKPOINT_MIN_PX;
     // Prevents concurrent togglePopup calls for the same ID (race-condition guard)
     #inflight = new Set<string>();
     // #3: Cache linkified HTML to avoid redundant DOM tree-walk + serialization
@@ -84,6 +84,13 @@ export class WindowManager {
         window.addEventListener('resize', debounce(this.#handleResize, CONFIG.DEBOUNCE_DELAY.RESIZE_MS));
         document.addEventListener('keydown', this.#handleKeyDown);
         window.addEventListener('hashchange', this.#handleHashChange);
+        // Close mobile modal when user taps the backdrop (the ::before pseudo-element)
+        this.#popupContainer.addEventListener('click', (e: Event) => {
+            if (e.target === this.#popupContainer && this.#isMobileView) {
+                const topId = this.getTopMostPopupId();
+                if (topId) this.#closePopup(topId);
+            }
+        });
     }
 
     #toShortId = (fullId: string): string => {
@@ -223,7 +230,10 @@ export class WindowManager {
         state.ui.openPopups.delete(id);
         this.#a11yService.announce(`Closed popup for ${id.split('::')[1]}`);
         this.#updateAllLinkStates();
-        if (this.#isMobileView) this.#popupContainer.classList.remove(CONFIG.CSS.POPUP_CONTAINER_MODAL_OPEN);
+        // Only remove modal-open when no more popups remain (prevents backdrop flash)
+        if (this.#isMobileView && state.ui.openPopups.size === 0) {
+            this.#popupContainer.classList.remove(CONFIG.CSS.POPUP_CONTAINER_MODAL_OPEN);
+        }
         document.body.style.setProperty('--is-modal-open', state.ui.openPopups.size > 0 ? '1' : '0');
         this.#updateCloseBtnVisibility();
         this.#updateURLHash();
@@ -283,6 +293,9 @@ export class WindowManager {
     #createPopup(id: string, ruleInfo: RuleInfo, pos?: { top?: string; left?: string; zIndex?: string; width?: string; height?: string }): void {
         const popup = this.#popupFactory.create(id, ruleInfo, this.#linkifyContent);
         if (this.#isMobileView) {
+            // Mobile: close any existing popup first — only one bottom-sheet at a time
+            const existingIds = [...this.#stateManager.getState().ui.openPopups.keys()];
+            existingIds.forEach((existingId) => this.#closePopup(existingId));
             popup.classList.add(CONFIG.CSS.POPUP_MODAL);
             this.#popupContainer.classList.add(CONFIG.CSS.POPUP_CONTAINER_MODAL_OPEN);
         } else {

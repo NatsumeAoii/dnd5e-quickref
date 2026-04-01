@@ -422,6 +422,18 @@ body.motion-reduced *::after {
     display: block;
 }
 
+/* Touch drag-and-drop: tell the browser not to handle touch gestures on
+   favorite items so pointer events flow to JS drag logic instead of being
+   cancelled by native scroll/pan.  Scoped to favorites only. */
+#favorites-container .item {
+    touch-action: none;
+    cursor: grab;
+}
+
+#favorites-container .item.is-dragging {
+    cursor: grabbing;
+}
+
 .settings-row-title {
     font-family: var(--font-secondary);
     font-variant: small-caps;
@@ -542,6 +554,17 @@ body.motion-reduced *::after {
 .favorite-btn.is-favorited {
     color: var(--color-favorite);
     opacity: 1;
+}
+
+/* Touch devices: always show favorite buttons since hover-to-reveal doesn't work */
+@media (pointer: coarse) {
+    .favorite-btn {
+        opacity: 0.6;
+    }
+
+    .favorite-btn.is-favorited {
+        opacity: 1;
+    }
 }
 
 /* Settings Switch Item */
@@ -1144,6 +1167,16 @@ input:checked+.slider::before {
     .popup-window.is-modal .popup-header {
         cursor: default;
     }
+
+    /* Hide minimize button on mobile — bottom-sheet modals don't support minimize */
+    .popup-minimize-btn {
+        display: none;
+    }
+
+    /* Hide minimized bar on mobile */
+    .minimized-popups-bar {
+        display: none !important;
+    }
 }
 
 /* Density Control */
@@ -1376,6 +1409,13 @@ html:not([data-density]) {
 .item[data-tooltip]:hover::after {
     opacity: 1;
     transition-delay: 0.4s;
+}
+
+/* Touch devices: disable CSS tooltips — hover is unreliable */
+@media (pointer: coarse) {
+    .item[data-tooltip]::after {
+        display: none;
+    }
 }
 
 .item {

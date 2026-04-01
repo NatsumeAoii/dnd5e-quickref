@@ -148,6 +148,9 @@ export class DragDropManager {
                 this.#touchClone.style.top = `${me.clientY - this.#touchOffsetY}px`;
             }
 
+            // Suppress native scroll during active drag
+            if (activated) me.preventDefault();
+
             // Highlight drop target
             const targetEl = document.elementFromPoint(me.clientX, me.clientY);
             const dropTarget = targetEl?.closest(`.${CONFIG.CSS.ITEM_CLASS}`) as HTMLElement | null;
