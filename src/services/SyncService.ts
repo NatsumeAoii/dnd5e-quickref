@@ -22,6 +22,7 @@ export class SyncService {
         const { type, payload, version } = data as { type: string; payload: unknown; version?: string };
         if (typeof type !== 'string') return;
         if (version && version !== CONFIG.APP_VERSION) return; // Ignore messages from incompatible versions
+        if (!payload || typeof payload !== 'object') return; // Reject malformed payloads
         this.#stateManager.publish('externalStateChange', { type, payload });
     }
 }

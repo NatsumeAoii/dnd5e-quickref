@@ -14,7 +14,6 @@ export class DragDropManager {
         this.#userDataService = userDataService;
         if (this.#container) {
             this.#bind();
-            this.#bindTouch();
         }
     }
 
@@ -111,8 +110,7 @@ export class DragDropManager {
     #touchOffsetX = 0;
     #touchOffsetY = 0;
 
-    // Touch binding now handled inside #bind() via shared AbortController.
-    #bindTouch(): void { /* no-op — kept for call-site compatibility */ }
+
 
     #onPointerDown = (e: PointerEvent): void => {
         if (e.pointerType !== 'touch' || !this.#container) return;

@@ -7,6 +7,66 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.6] - 2026-04-02
+
+### Dependency Maintenance & Security
+
+Resolved outstanding security advisories and upgraded safe patch-level dependencies.
+
+#### Security
+
+- **4 Vulnerability Fixes via `npm audit fix`**: Resolved high-severity advisories in `rollup` (GHSA-mw96-cpmx-2vgc), `picomatch` (GHSA-3v7f-55p6-f55p, GHSA-c2c7-rcm5-vvqj), and moderate `ajv` (GHSA-2g4f-4pwh-qvx6) / `flatted` (GHSA-25h7-pfq9-p65f) via transitive dependency resolution.
+
+#### Changed
+
+- **Upgraded `vitest`**: 4.1.0 → 4.1.2 (patch bug fixes).
+- **Upgraded `jsdom`**: 29.0.0 → 29.0.1 (patch bug fixes).
+- **Upgraded `lightningcss`**: 1.31.1 → 1.32.0 (minor, additive CSS property support).
+- **Deleted Orphaned ESLint Config Files**: Removed `eslint.config.js`, `config/.eslintrc.json`, and `config/.eslintignore`. No ESLint runtime or dependencies are installed; these files were non-functional dead config from a prior setup attempt.
+
+### Frontend Reliability & UX State Review
+
+A targeted audit of UI state transitions, async rendering flows, and modal interaction resilience.
+
+#### Fixed
+
+- **Search Filter Desync on Section Expand**: Expanding a collapsed section while a search query is active now re-applies the search filter to the newly rendered items. Previously, `renderSectionContent` → `filterRuleItems` only applied optional/homebrew visibility, ignoring the active search query entirely. Added `UIController.#reapplySearchFilter()` which re-dispatches the search input event to reuse the existing debounced filter logic.
+- **URL Hash Not Updated on Popup Minimize**: `WindowManager.minimizePopup()` now calls `#updateURLHash()` after removing the popup from `openPopups`. Previously, the URL hash retained the popup ID after minimizing — a reload would re-open the popup in full instead of keeping it minimized.
+- **Arrow Key Navigation Behind README Modal**: Added `CONFIG.ELEMENT_IDS.README_MODAL` to the `MODAL_SELECTORS` exclusion list in `NavigationService`. Previously, pressing arrow keys while the README modal was open triggered grid navigation behind it, causing unexpected focus shifts and scroll jumps.
+
+#### Improved
+
+- **Trusted Types Consistency**: Replaced `innerHTML` with `replaceChildren()` + `createElement` in `OnboardingService.#showStep()` for dot indicator rendering. This was the last `innerHTML` usage in the service layer, making CSP/Trusted Types compliance consistent across the entire codebase.
+
+### Build Infrastructure
+
+#### Fixed
+
+- **Dev Server TypeScript Checker Failing on Test Files**: `vite-plugin-checker` was scanning test files via the main `tsconfig.json`, causing "Cannot find module 'vitest'" errors in the dev server overlay. Created `tsconfig.app.json` (extends root config, excludes `src/__tests__/`) and pointed `vite-plugin-checker` to it. The root `tsconfig.json` (used by `tsc --noEmit` and IDE tooling) still covers all source files including tests.
+
+### Documentation
+
+A comprehensive accuracy audit of `README.md` against the actual filesystem and codebase state.
+
+#### Fixed
+
+- **7 Stale File References Removed from Project Structure**: Removed references to deleted files (`eslint.config.js`, `config/.eslintrc.json`, `config/.eslintignore`) and directories that no longer exist (`css/`, `js/quickref.js`, `js/modules/` with 6 files).
+- **Architecture Notes Rewritten**: Replaced the "dual-layer architecture" description (which claimed active JS modules in `js/modules/`) with an accurate characterization: the application is a pure TypeScript codebase, with `js/data/` containing only rule data JSON files.
+- **TypeScript Version Updated**: Corrected version references from 5.7 to 5.9 (matching installed `typescript@5.9.3`).
+- **`package.json` License Fixed**: Changed the `license` field from `"ISC"` to `"MIT"` to match `LICENSE.md`.
+
+#### Added
+
+- **5 Missing Files Added to Project Structure**: `tsconfig.app.json`, `vitest.config.ts`, `src/img/`, `src/services/index.ts`, `ChangelogService.ts`, and the `src/__tests__/` directory with test files.
+- **Icon Inlining Convention** (Conventions section): Documented that `src/img/` WebP icons are inlined as base64 data URIs during build via the 10 KB `assetsInlineLimit` threshold.
+
+#### Removed
+
+- **ESLint Code Quality Section**: Removed the entire ESLint subsection from Contributing (including manual install instructions for `@eslint/js` and `typescript-eslint`). Replaced with a Known Limitations note that the project has no ESLint configuration.
+- **3 Stale Known Limitations Bullets**: Removed "Legacy dual-layer" (inaccurate), "ESLint dependencies not in package.json" (config deleted), and "`package.json` license says ISC" (now fixed).
+
+---
+
 ## [1.1.5] - 2026-03-31
 
 ### Correctness & Robustness Pass II

@@ -140,9 +140,13 @@ export class OnboardingService {
 
         const dotsContainer = this.#overlay.querySelector('.onboarding-dots');
         if (dotsContainer) {
-            dotsContainer.innerHTML = STEPS.map((_, i) =>
-                `<span class="onboarding-dot${i === index ? ' is-active' : ''}" aria-label="Step ${i + 1}"></span>`
-            ).join('');
+            dotsContainer.replaceChildren();
+            STEPS.forEach((_, i) => {
+                const dot = document.createElement('span');
+                dot.className = `onboarding-dot${i === index ? ' is-active' : ''}`;
+                dot.setAttribute('aria-label', `Step ${i + 1}`);
+                dotsContainer.appendChild(dot);
+            });
         }
 
         const prevBtn = this.#overlay.querySelector('.onboarding-prev-btn') as HTMLElement | null;

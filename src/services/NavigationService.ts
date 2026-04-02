@@ -3,7 +3,7 @@ import type { KeyboardShortcutsService } from './KeyboardShortcutsService.js';
 import type { OnboardingService } from './OnboardingService.js';
 
 const NAV_KEYS = new Set(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Enter', ' ']);
-const MODAL_SELECTORS = `#${CONFIG.ELEMENT_IDS.POPUP_CONTAINER}, #${CONFIG.ELEMENT_IDS.SHORTCUTS_MODAL}, #${CONFIG.ELEMENT_IDS.CHANGELOG_MODAL}`;
+const MODAL_SELECTORS = `#${CONFIG.ELEMENT_IDS.POPUP_CONTAINER}, #${CONFIG.ELEMENT_IDS.SHORTCUTS_MODAL}, #${CONFIG.ELEMENT_IDS.CHANGELOG_MODAL}, #${CONFIG.ELEMENT_IDS.README_MODAL}`;
 
 export class NavigationService {
     #focusablesCache: HTMLElement[] = [];

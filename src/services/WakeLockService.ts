@@ -35,7 +35,9 @@ export class WakeLockService {
 
     async #releaseLock(): Promise<void> {
         if (this.#wakeLock) {
-            await this.#wakeLock.release();
+            try {
+                await this.#wakeLock.release();
+            } catch { /* sentinel already released */ }
             this.#wakeLock = null;
         }
     }

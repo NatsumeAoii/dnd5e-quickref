@@ -110,7 +110,7 @@ export class UIController {
     #handleSettingChangeEvent = async (data?: unknown): Promise<void> => {
         if (!data || typeof data !== 'object') return;
         const { key, value } = data as { key: string; value: boolean | string };
-        this.#services.a11y.announce(`Setting updated: ${key.toLowerCase().replace('_', ' ')}.`);
+        this.#services.a11y.announce(`Setting updated: ${key.toLowerCase().replaceAll('_', ' ')}.`);
         const { settings } = this.#stateManager.getState();
         if (key === 'RULES_2024') await this.#switchRuleset();
         else if (key === 'THEME' || key === 'MODE' || key === 'DENSITY') this.#components.viewRenderer.applyAppearance(settings);
@@ -121,12 +121,17 @@ export class UIController {
 
     #handleExternalStateChange = ({ type, payload }: { type: string; payload: Record<string, unknown> }): void => {
         if (type === 'SETTING_CHANGE') {
+            // M3: Validate payload key against known settings whitelist
+            const validKeys = CONFIG.SETTINGS_CONFIG.map((c) => c.key);
+            if (typeof payload.key !== 'string' || !validKeys.includes(payload.key)) return;
             this.#services.settings.update(CONFIG.STORAGE_KEYS[payload.key as keyof typeof CONFIG.STORAGE_KEYS], payload.value as boolean | string, false);
             const config = CONFIG.SETTINGS_CONFIG.find((c) => c.key === payload.key);
             if (config) {
-                const el = this.#domProvider.get(config.id);
-                if ((el as HTMLInputElement).type === 'checkbox') (el as HTMLInputElement).checked = payload.value as boolean;
-                else (el as HTMLSelectElement).value = payload.value as string;
+                try {
+                    const el = this.#domProvider.get(config.id);
+                    if ((el as HTMLInputElement).type === 'checkbox') (el as HTMLInputElement).checked = payload.value as boolean;
+                    else (el as HTMLSelectElement).value = payload.value as string;
+                } catch { /* DOM element may not exist yet */ }
             }
         } else if (type === 'FAVORITE_TOGGLE') {
             this.#services.userData.toggleFavorite(payload.id as string, false);
@@ -140,7 +145,8 @@ export class UIController {
         const title = params.get('title');
         const text = params.get('text');
         if (title || text) {
-            const query = (text || title || '').trim();
+            // M1: Truncate external share content to prevent layout overflow
+            const query = (text || title || '').trim().substring(0, 200);
             if (query) {
                 this.#components.viewRenderer.showNotification(`Shared content received: ${query}`);
                 window.history.replaceState({}, document.title, window.location.pathname);
@@ -154,7 +160,7 @@ export class UIController {
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const manifest = await response.json() as ThemeManifest;
             const selectEl = this.#domProvider.get(CONFIG.ELEMENT_IDS.THEME_SELECT) as HTMLSelectElement;
-            selectEl.innerHTML = '';
+            selectEl.replaceChildren();
             manifest.themes.forEach((theme) => {
                 const option = document.createElement('option');
                 option.value = theme.id;
@@ -172,7 +178,12 @@ export class UIController {
             });
         } catch (e) {
             console.error('Fatal: Could not load theme manifest.', e);
-            (this.#domProvider.get(CONFIG.ELEMENT_IDS.THEME_SELECT) as HTMLSelectElement).innerHTML = '<option value="original">Original</option>';
+            const selectFallback = this.#domProvider.get(CONFIG.ELEMENT_IDS.THEME_SELECT) as HTMLSelectElement;
+            selectFallback.replaceChildren();
+            const fallbackOption = document.createElement('option');
+            fallbackOption.value = 'original';
+            fallbackOption.textContent = 'Original';
+            selectFallback.appendChild(fallbackOption);
         }
     }
 
@@ -189,17 +200,24 @@ export class UIController {
         localStorage.setItem(CONFIG.STORAGE_KEYS.SECTION_STATES, JSON.stringify(states));
     }
 
+    // Sections to expand by default for new users (no saved preferences).
+    // Keeps first-load fast by capping initial DOM creation to ~30 items.
+    static readonly #NEW_USER_DEFAULT_EXPANDED = new Set(['movement', 'action']);
+
     setupCollapsibleSections = (): void => {
         const savedStates = this.#loadSectionStates();
+        const isNewUser = Object.keys(savedStates).length === 0;
         this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_TITLE}`).forEach((header) => {
             const section = header.closest(`.${CONFIG.CSS.SECTION_CONTAINER}`);
             if (!section || (section as HTMLElement).dataset.section === 'settings' || (section as HTMLElement).dataset.section === 'favorites') return;
 
             const sectionKey = (section as HTMLElement).dataset.section || '';
 
-            // Restore saved state
+            // Restore saved state, or apply new-user defaults
             if (sectionKey in savedStates) {
                 section.classList.toggle(CONFIG.CSS.IS_COLLAPSED, savedStates[sectionKey]);
+            } else if (isNewUser && !UIController.#NEW_USER_DEFAULT_EXPANDED.has(sectionKey)) {
+                section.classList.add(CONFIG.CSS.IS_COLLAPSED);
             }
 
             header.setAttribute('role', 'button');
@@ -210,7 +228,11 @@ export class UIController {
                 const collapsed = section.classList.toggle(CONFIG.CSS.IS_COLLAPSED);
                 header.setAttribute('aria-expanded', String(!collapsed));
                 this.#saveSectionState(sectionKey, collapsed);
-                if (!collapsed) await this.renderSectionContent(section as HTMLElement);
+                if (!collapsed) {
+                    await this.renderSectionContent(section as HTMLElement);
+                    // Re-apply active search filter to newly rendered items
+                    this.#reapplySearchFilter();
+                }
                 this.#services.a11y.announce(`${sectionKey} section ${collapsed ? 'collapsed' : 'expanded'}.`);
             };
             header.addEventListener('click', handler);
@@ -394,6 +416,16 @@ export class UIController {
             } catch (e) { console.warn(`Failed to set up setting #${id}: ${(e as Error).message}`); }
         });
     };
+
+    /** Re-fires the search input event so the debounced filter re-applies to newly rendered items. */
+    #reapplySearchFilter(): void {
+        try {
+            const input = this.#domProvider.get(CONFIG.ELEMENT_IDS.SEARCH_INPUT) as HTMLInputElement;
+            if (input.value.trim().length > 0) {
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+        } catch { /* search input may not exist */ }
+    }
 
     #clearSearchInput(): void {
         try {

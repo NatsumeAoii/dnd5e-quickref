@@ -127,7 +127,6 @@ class QuickRefApplication {
             ]);
 
             this.#services.data.buildRuleMap();
-            this.#services.data.buildLinkerData();
             this.#components.viewRenderer.renderFavoritesSection();
             this.#components.controller.setupCollapsibleSections();
             await this.#components.controller.renderOpenSections();
@@ -141,8 +140,12 @@ class QuickRefApplication {
             this.#components.windowManager.initialize();
             this.#components.viewRenderer.showApp();
 
-            // Background tasks — non-blocking
-            this.#services.data.preloadAllDataSilent();
+            // Deferred: build linker data after UI is visible (only needed for popup cross-references)
+            this.#services.data.buildLinkerData();
+
+            // Background tasks — yielded to idle time to avoid competing with user interactions
+            const idleCallback = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 200));
+            idleCallback(() => this.#services.data.preloadAllDataSilent());
 
             // Wire keyboard shortcuts
             this.#registerKeyboardShortcuts();

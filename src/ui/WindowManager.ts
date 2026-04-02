@@ -58,6 +58,7 @@ export class WindowManager {
 
         // (H) Clear linkify cache when ruleset changes — cached HTML may reference stale rule links
         this.#stateManager.subscribe('settingChanged', (data?: unknown) => {
+            if (!data || typeof data !== 'object') return;
             const { key } = data as { key: string };
             if (key === 'RULES_2024') this.#linkifyCache.clear();
         });
@@ -473,6 +474,7 @@ export class WindowManager {
         // Create minimized tab in the bar
         this.#renderMinimizedBar();
         this.#updateCloseBtnVisibility();
+        this.#updateURLHash();
         this.#a11yService.announce(`${title} minimized`);
     }
 

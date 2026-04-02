@@ -78,7 +78,11 @@ export class ViewRenderer {
     }
 
     applyAppearance({ theme, darkMode, density }: { theme: string; darkMode: boolean; density?: string }): void {
-        document.documentElement.dataset.theme = theme;
+        // H2: Validate theme ID format to prevent path traversal via localStorage poisoning
+        const SAFE_THEME_ID = /^[a-z0-9][a-z0-9-]*$/i;
+        const safeTheme = SAFE_THEME_ID.test(theme) ? theme : 'original';
+
+        document.documentElement.dataset.theme = safeTheme;
         document.documentElement.dataset.mode = darkMode ? 'dark' : 'light';
         if (density && density !== 'normal') {
             document.documentElement.dataset.density = density;
@@ -87,8 +91,8 @@ export class ViewRenderer {
         }
         try {
             const themeLink = this.#domProvider.get(CONFIG.ELEMENT_IDS.THEME_STYLESHEET) as HTMLLinkElement;
-            if (theme !== 'original') {
-                themeLink.href = `${CONFIG.THEME_CONFIG.PATH}${theme}.css`;
+            if (safeTheme !== 'original') {
+                themeLink.href = `${CONFIG.THEME_CONFIG.PATH}${safeTheme}.css`;
                 themeLink.disabled = false;
             } else {
                 themeLink.href = '';

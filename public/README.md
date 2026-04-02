@@ -19,7 +19,7 @@ Built on [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref) with a 
 
 ### Technical
 
-- **Modern Stack** — Built with Vite 6 + TypeScript 5.7
+- **Modern Stack** — Built with Vite 6 + TypeScript 5.9
 - **Performance** — LightningCSS optimizations + zero runtime dependencies
 - **Accessibility** — Full keyboard support, screen reader optimized, reduced motion
 
@@ -30,7 +30,7 @@ Built on [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref) with a 
 | Layer    | Technology                                              |
 | -------- | ------------------------------------------------------- |
 | Build    | [Vite](https://vite.dev/) 6                             |
-| Language | TypeScript 5.7 (strict)                                 |
+| Language | TypeScript 5.9 (strict)                                 |
 | CSS      | Vanilla CSS + [LightningCSS](https://lightningcss.dev/) |
 | Icons    | [Game-icons.net](https://game-icons.net/) (WebP images) |
 | Hosting  | GitHub Pages (static)                                   |
@@ -118,23 +118,27 @@ dnd5e-quickref/
 ├── index.html               # Main HTML entry point (Vite root)
 ├── package.json              # Node metadata, scripts, dependencies
 ├── vite.config.ts            # Vite build configuration
-├── tsconfig.json             # TypeScript compiler options
-├── eslint.config.js          # ESLint flat config (typescript-eslint)
+├── vitest.config.ts          # Vitest test runner configuration
+├── tsconfig.json             # TypeScript compiler options (all source)
+├── tsconfig.app.json         # App-only TS config (excludes tests, used by vite-plugin-checker)
 │
-├── src/                      # TypeScript source (modern layer)
+├── src/                      # TypeScript source
 │   ├── main.ts               # Application bootstrap & initialization
 │   ├── config.ts             # Centralized configuration constants
 │   ├── types.ts              # Shared TypeScript interfaces
 │   ├── css/
 │   │   ├── quickref.css      # Main application styles
 │   │   └── icons.css         # Icon sprite definitions
+│   ├── img/                  # Rule icons (WebP) — inlined at build time
 │   ├── services/             # Business logic & infrastructure
+│   │   ├── index.ts          # Barrel export
 │   │   ├── DataService.ts    # Rule data fetching, caching, & validation
 │   │   ├── DBService.ts      # IndexedDB wrapper for notes storage
 │   │   ├── UserDataService.ts# Import/export notes (GZIP, Web Share API)
 │   │   ├── SettingsService.ts# Settings persistence (localStorage)
 │   │   ├── PersistenceService.ts # Session state persistence
 │   │   ├── SyncService.ts    # Cross-tab sync via BroadcastChannel
+│   │   ├── ChangelogService.ts # In-app changelog modal renderer
 │   │   ├── KeyboardShortcutsService.ts # Keyboard shortcut handling
 │   │   ├── GamepadService.ts # Gamepad input support
 │   │   ├── NavigationService.ts # Arrow-key / focus navigation
@@ -155,25 +159,16 @@ dnd5e-quickref/
 │   │   ├── PopupFactory.ts   # Popup DOM construction
 │   │   ├── TemplateService.ts# HTML template cloning & population
 │   │   └── DragDropManager.ts# Drag-and-drop for favorites reordering
-│   └── utils/
-│       └── Utils.ts          # Shared utilities & Trusted Types policy
+│   ├── utils/
+│   │   └── Utils.ts          # Shared utilities & Trusted Types policy
+│   └── __tests__/            # Unit tests (Vitest + jsdom)
+│       ├── StateManager.test.ts
+│       └── Utils.test.ts
 │
-├── js/                       # Legacy JavaScript layer
-│   ├── quickref.js           # Legacy entry point (still bundled)
-│   ├── data/                 # Rule data JSON files
-│   │   ├── data_*.json       # 2014 ruleset (6 categories)
-│   │   └── 2024_data_*.json  # 2024 ruleset (6 categories)
-│   └── modules/              # Legacy JS modules
-│       ├── Config.js
-│       ├── DataService.js
-│       ├── Services.js
-│       ├── StateManager.js
-│       ├── UIComponents.js
-│       └── Utils.js
-│
-├── css/                      # Legacy CSS (consumed by legacy JS layer)
-│   ├── quickref.css
-│   └── icons.css
+├── js/                       # Rule data (JSON)
+│   └── data/                 # Rule data JSON files
+│       ├── data_*.json       # 2014 ruleset (6 categories)
+│       └── 2024_data_*.json  # 2024 ruleset (6 categories)
 │
 ├── public/                   # Static assets (copied verbatim to dist/)
 │   ├── sw.js                 # Service Worker (cache-first strategy)
@@ -189,11 +184,9 @@ dnd5e-quickref/
 │   │   ├── nord.css
 │   │   ├── cyberpunk.css
 │   │   └── steampunk.css
-│   └── js/data/              # (Mirrors js/data/ in public for SW pre-caching)
+│   └── js/data/              # Mirrors js/data/ for SW pre-caching
 │
 ├── config/                   # Linter configurations
-│   ├── .eslintrc.json        # Legacy ESLint config (superseded by root flat config)
-│   ├── .eslintignore
 │   ├── .stylelintrc.json     # Stylelint config
 │   └── .stylelintignore
 │
@@ -212,10 +205,10 @@ dnd5e-quickref/
 
 ### Architecture Notes
 
-The codebase has a **dual-layer architecture**:
+The application is a pure TypeScript codebase built on Vite:
 
-- **Modern layer** (`src/`): TypeScript modules processed by Vite. This is the primary application code. Entry point is `src/main.ts`, loaded via `<script type="module">` in `index.html`.
-- **Legacy layer** (`js/`, `css/`): The original vanilla JavaScript from the upstream `crobi/dnd5e-quickref` project. The `js/data/` directory contains the rule data JSON files consumed by both layers. The JS modules in `js/modules/` are bundled via the legacy `js/quickref.js` entry point.
+- **Application layer** (`src/`): TypeScript modules processed by Vite. Entry point is `src/main.ts`, loaded via `<script type="module">` in `index.html`.
+- **Data layer** (`js/data/`): Rule data JSON files (12 files covering 6 categories × 2 rulesets). Fetched at runtime by `DataService`. This is the only remaining artifact from the upstream `crobi/dnd5e-quickref` project.
 
 Data flows through a service-oriented architecture:
 
@@ -422,21 +415,14 @@ npm run dev
 ### Code Quality
 
 - **TypeScript**: Strict mode enabled. Run `npm run type-check` before committing.
-- **ESLint**: Flat config in `eslint.config.js`. Enforces `consistent-type-imports`, `no-eval`, `eqeqeq`, and `no-console` (except `warn`/`error`/`info`).
-
-  > **Note**: ESLint's runtime dependencies (`@eslint/js`, `typescript-eslint`) are not listed in `devDependencies`. Install them manually to run the linter:
-  > ```bash
-  > npm install -D @eslint/js typescript-eslint
-  > npx eslint src/
-  > ```
-
 - **Stylelint**: CSS linting via `npm run lint:css` using config in `config/.stylelintrc.json`.
 
 ### Conventions
 
-- TypeScript source lives in `src/`. Do not add new `.js` files to `js/modules/`.
-- Rule data (JSON) lives in `js/data/`. Each category has paired files: `data_<category>.json` (2014) and `2024_data_<category>.json` (2024).
+- TypeScript source lives in `src/`. Rule data (JSON) lives in `js/data/`.
+- Each category has paired data files: `data_<category>.json` (2014) and `2024_data_<category>.json` (2024).
 - Static assets belong in `public/`. Vite copies them to `dist/` verbatim.
+- Icons in `src/img/` are inlined as base64 data URIs during build (under 10 KB threshold).
 - Version is single-sourced from `CHANGELOG.md`. The `prebuild` script propagates it to `package.json` and `src/config.ts`.
 
 ### Testing
@@ -452,12 +438,10 @@ npm run dev
 
 ## Known Limitations & Pitfalls
 
-- **Test coverage is incomplete**: While Vitest is configured, coverage is currently focused on core state management and utilities (`src/__tests__/`). UI components and legacy JS logic lack coverage.
-- **Legacy dual-layer**: The `js/` and `css/` directories contain the original vanilla JS codebase. These are still present for backwards compatibility but are progressively being superseded by `src/`.
-- **ESLint dependencies not in `package.json`**: The flat config (`eslint.config.js`) imports `@eslint/js` and `typescript-eslint`, but these are not listed in `devDependencies`. No `lint` npm script exists. See the [Code Quality](#code-quality) section for manual installation instructions.
-- **`package.json` license says ISC**: The actual license is MIT (per `LICENSE.md`). The `license` field in `package.json` should be updated.
+- **Test coverage is incomplete**: Vitest is configured, but coverage is focused on core state management and utilities (`src/__tests__/`). UI components lack unit test coverage.
 - **Service Worker caching**: The SW uses a stale-while-revalidate strategy. Users may see stale content until the background update completes on next navigation. Hard-refresh forces a fresh load.
 - **`file://` protocol unsupported**: ES modules and Service Workers require HTTP(S).
+- **No ESLint**: The project does not currently have an ESLint configuration or dependencies. Only Stylelint (CSS) is configured.
 
 ---
 

@@ -476,6 +476,19 @@ body.motion-reduced *::after {
     z-index: 1;
 }
 
+/* Touch: disable hover lift to prevent sticky-hover on tap */
+@media (pointer: coarse) {
+    .item:hover {
+        transform: none;
+        box-shadow: none;
+        border-color: transparent;
+    }
+
+    .item:active {
+        background-color: var(--color-item-hover-bg);
+    }
+}
+
 .item.is-focused {
     outline: 2px solid var(--color-link);
     background-color: var(--color-item-hover-bg);
@@ -593,6 +606,13 @@ body.motion-reduced *::after {
     height: 100%;
     pointer-events: none;
     z-index: var(--z-index-popup);
+}
+
+/* Lock body scroll when mobile modal is open */
+@media (width <=1023px) {
+    body:has(#popup-container.modal-open) {
+        overflow: hidden;
+    }
 }
 
 #popup-container.modal-open::before {
@@ -1031,7 +1051,7 @@ input:checked+.slider::before {
 
 #close-all-popups-btn {
     position: fixed;
-    bottom: var(--spacing-lg);
+    bottom: calc(var(--spacing-lg) + env(safe-area-inset-bottom, 0px));
     right: var(--spacing-lg);
     width: 44px;
     height: 44px;
@@ -1114,6 +1134,18 @@ input:checked+.slider::before {
         right: var(--spacing-md);
         bottom: var(--spacing-md);
         max-width: none;
+        /* Safe-area inset for phones with bottom bars */
+        padding-bottom: calc(var(--spacing-lg) + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* Full-width items on narrow phones */
+    .itemsize {
+        flex: 0 0 100%;
+    }
+
+    /* Prevent iOS zoom on input focus — font-size must be >= 16px */
+    .search-input {
+        font-size: 16px;
     }
 }
 
@@ -1153,11 +1185,13 @@ input:checked+.slider::before {
         inset: auto 0 0;
         width: 100%;
         max-width: 100%;
-        max-height: 85vh;
+        max-height: 85dvh;
         border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
         animation: slide-in-up var(--transition-speed-normal);
         z-index: var(--z-index-modal-mobile);
         margin: 0;
+        /* Safe-area bottom padding for phones with gesture bars */
+        padding-bottom: env(safe-area-inset-bottom, 0px);
     }
 
     .popup-window.is-modal.is-closing {
@@ -1306,7 +1340,7 @@ html:not([data-density]) {
 /* Back-to-top Button */
 #back-to-top-btn {
     position: fixed;
-    bottom: calc(var(--spacing-lg) + 60px);
+    bottom: calc(var(--spacing-lg) + 60px + env(safe-area-inset-bottom, 0px));
     right: var(--spacing-lg);
     width: 44px;
     height: 44px;

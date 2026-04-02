@@ -13,8 +13,9 @@
     }
 
     window.onerror = function (msg, url, line, col, error) {
-        var ts = new Date().toISOString();
-        showError('[' + ts + '] ' + msg + '\nSource: ' + url + ':' + line + ':' + col + '\n' + (error && error.stack ? error.stack : ''));
+        // H3: Log full details to console; show only a safe generic message to the user
+        console.error('[GlobalError]', msg, url + ':' + line + ':' + col, error);
+        showError('An unexpected error occurred. Try reloading the page.');
         return false;
     };
 
@@ -31,10 +32,9 @@
             event.preventDefault();
             return;
         }
-        var ts = new Date().toISOString();
-        var message = reason instanceof Error ? reason.message : String(reason);
-        var stack = reason instanceof Error ? reason.stack : '';
-        showError('[' + ts + '] Unhandled Promise Rejection: ' + message + '\n' + (stack || ''));
+        // H3: Log full details to console; show only a safe generic message to the user
+        console.error('[UnhandledRejection]', reason);
+        showError('An unexpected error occurred. Try reloading the page.');
     };
 
     // #11: Wire error boundary buttons via addEventListener (no inline onclick)

@@ -78,7 +78,9 @@ export class UserDataService {
     getNote = (id: string): string => this.#stateManager.getState().user.notes.get(id) || '';
 
     async exportNotes(): Promise<void> {
-        const notes = Object.fromEntries(this.#stateManager.getState().user.notes);
+        const state = this.#stateManager.getState();
+        if (state.user.notes.size === 0) return;
+        const notes = Object.fromEntries(state.user.notes);
         const jsonString = JSON.stringify(notes);
 
         const stream = new Blob([jsonString]).stream();
@@ -96,12 +98,16 @@ export class UserDataService {
             } catch { /* User cancelled or share failed — fall through to download */ }
         }
 
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        a.click();
-        URL.revokeObjectURL(url);
+        try {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            URL.revokeObjectURL(url);
+        } catch (e) {
+            console.error('Export notes failed:', e);
+        }
     }
 
     async exportFavorites(): Promise<void> {
@@ -131,7 +137,8 @@ export class UserDataService {
         }
     }
 
-    // (D) DANGEROUS_PATTERN uses `gi` for replace(); KEY_PATTERN omits `g` to avoid lastIndex drift with test()
+    // M2: .replace() auto-resets lastIndex so `gi` is safe here. Do NOT use this regex with .test() — the `g` flag
+    // causes lastIndex drift that can skip matches on sequential calls. Use a non-global copy for .test().
     static #DANGEROUS_PATTERN = /<script[\s>]|javascript:|on\w+\s*=/gi;
     static #KEY_PATTERN = /^[\w\s]+::[\w\s\-'(),/]+$/;
 
