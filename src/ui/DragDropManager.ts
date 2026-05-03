@@ -6,6 +6,8 @@ export class DragDropManager {
     #userDataService: UserDataService;
     #draggedItem: HTMLElement | null = null;
     #abortController: AbortController | null = null;
+    // Secondary controller for document-level pointer listeners active during a touch drag
+    #activeDragAbort: AbortController | null = null;
 
     constructor(containerId: string, userDataService: UserDataService) {
         this.#container = document.getElementById(containerId);
@@ -31,7 +33,10 @@ export class DragDropManager {
     destroy(): void {
         this.#abortController?.abort();
         this.#abortController = null;
+        this.#activeDragAbort?.abort();
+        this.#activeDragAbort = null;
         this.#cleanup();
+        this.#touchCleanup();
     }
 
     #handleDragStart = (e: Event): void => {
@@ -155,9 +160,8 @@ export class DragDropManager {
         };
 
         const cleanup = () => {
-            document.removeEventListener('pointermove', onMove);
-            document.removeEventListener('pointerup', onUp);
-            document.removeEventListener('pointercancel', onCancel);
+            this.#activeDragAbort?.abort();
+            this.#activeDragAbort = null;
         };
 
         const onUp = (ue: PointerEvent) => {
@@ -193,9 +197,11 @@ export class DragDropManager {
             this.#touchCleanup();
         };
 
-        document.addEventListener('pointermove', onMove, { passive: false });
-        document.addEventListener('pointerup', onUp);
-        document.addEventListener('pointercancel', onCancel);
+        this.#activeDragAbort = new AbortController();
+        const signal = this.#activeDragAbort.signal;
+        document.addEventListener('pointermove', onMove, { passive: false, signal });
+        document.addEventListener('pointerup', onUp, { signal });
+        document.addEventListener('pointercancel', onCancel, { signal });
     };
 
     #touchCleanup(): void {
