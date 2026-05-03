@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.5] - 2026-05-03
+
+### Robustness & Regression Hardening
+
+A follow-up hardening pass focused on browser runtime boundaries, Trusted Types behavior, persistence correctness, service-worker freshness, and automated regression coverage.
+
+#### Fixed
+- **Trusted Types Modal Rendering**: Rebuilt the keyboard shortcuts and onboarding modals with `createElement`/`replaceChildren` instead of static `innerHTML`, preventing the default Trusted Types policy from stripping required dialog controls.
+- **Trusted Types Sanitizer Recursion**: Reworked `safeHTML` sanitization so the default Trusted Types policy no longer re-enters protected HTML sinks and overflows the call stack.
+- **Notes Import Round Trip**: Notes for optional and homebrew rule IDs ending in `*` or `**` now import correctly instead of being skipped by an overly strict key validator.
+- **Plain-Text Note Preservation**: Imported notes are preserved literally because they are stored in textarea values, avoiding destructive removal of harmless text such as `javascript:` or `<script>` examples.
+- **Out-of-Order Note Saves**: Note writes for the same rule now queue per ID so older async writes cannot overwrite newer text.
+- **IndexedDB Commit Semantics**: `DBService` now resolves writes only after transaction completion, not request success, preventing false "saved" states after aborted transactions.
+- **Versioned Service-Worker Cache Reads**: JSON and bundled assets now keep query strings during cache lookup, preventing stale `?v=` data from being served after app updates.
+- **Service Worker Claim Message**: Added handling for the app's `CLAIM` message so readiness and controller takeover behavior match the messenger contract.
+- **URL Hash Input Bounds**: Popup IDs restored from the URL hash are now length- and count-bounded before data loading, avoiding unnecessary work from malformed hashes.
+- **Print Restore Fallback**: Print mode now has a bounded restore fallback in addition to `afterprint`, preventing the page from staying in print state if the event is missed.
+- **Theme and Density Validation**: Stored and synced appearance values are now validated before applying dataset values or theme stylesheet paths.
+- **Rule Link Aliases**: Linkification now recognizes titles with optional/homebrew trailing star markers through normalized aliases.
+
+#### Improved
+- **Regression Coverage**: Added focused tests for Trusted Types modal behavior, sanitizer recursion, note import/export edge cases, service-worker caching, IndexedDB transaction handling, URL hash hardening, print fallback, linker aliases, and tooling consistency.
+- **Tooling Enforcement**: Added an executable TypeScript lint script for the existing ESLint configuration and fixed surfaced lint issues.
+- **Version Sync**: Added `prebuild` version synchronization so production builds copy the changelog and keep `package.json` and `src/config.ts` aligned.
+- **Dependency Audit**: Updated dev tooling within existing semver ranges; `npm audit` now reports zero vulnerabilities.
+
+#### Documentation
+- **Contribution Guide**: Added `CONTRIBUTING.md` with setup, validation commands, data-editing guidance, service-worker cautions, UI review checks, and pull request expectations.
+- **Code of Conduct**: Added `CODE_OF_CONDUCT.md` covering expected behavior, unacceptable behavior, reporting, scope, and enforcement.
+
+---
+
 ## [1.1.4] - 2026-03-19
 
 ### Correctness & Robustness Pass

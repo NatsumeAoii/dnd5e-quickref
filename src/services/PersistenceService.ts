@@ -8,6 +8,41 @@ export class PersistenceService {
 
     constructor(storage: Storage, stateManager: StateManager) { this.#storage = storage; this.#stateManager = stateManager; }
 
+    #safeCssLength(value: unknown, maxPx = 10_000): string | undefined {
+        if (typeof value !== 'string' || value.length > 32) return undefined;
+        const match = value.match(/^(-?\d+(?:\.\d+)?)(px|rem|em|vh|vw|%)$/);
+        if (!match) return undefined;
+        const amount = Number(match[1]);
+        if (!Number.isFinite(amount)) return undefined;
+        if (match[2] === 'px' && Math.abs(amount) > maxPx) return undefined;
+        return value;
+    }
+
+    #safeZIndex(value: unknown): string | undefined {
+        if (typeof value !== 'string' && typeof value !== 'number') return undefined;
+        const z = Number(value);
+        if (!Number.isInteger(z) || z < 0 || z > 2_147_483_647) return undefined;
+        return String(z);
+    }
+
+    #sanitizePopupState(value: unknown): PopupState | null {
+        if (!value || typeof value !== 'object') return null;
+        const raw = value as Record<string, unknown>;
+        if (typeof raw.id !== 'string' || raw.id.length === 0 || raw.id.length > 200) return null;
+        const popup: PopupState = { id: raw.id };
+        const top = this.#safeCssLength(raw.top);
+        const left = this.#safeCssLength(raw.left);
+        const zIndex = this.#safeZIndex(raw.zIndex);
+        const width = this.#safeCssLength(raw.width, 5_000);
+        const height = this.#safeCssLength(raw.height, 5_000);
+        if (top) popup.top = top;
+        if (left) popup.left = left;
+        if (zIndex) popup.zIndex = zIndex;
+        if (width) popup.width = width;
+        if (height) popup.height = height;
+        return popup;
+    }
+
     saveSession(): void {
         const state = this.#stateManager.getState();
         const sessionState = { openPopups: [] as PopupState[], activeZIndex: state.ui.activeZIndex };
@@ -17,7 +52,11 @@ export class PersistenceService {
                 width: el.style.width || undefined, height: el.style.height || undefined,
             });
         });
-        this.#storage.setItem(CONFIG.SESSION_STORAGE_KEYS.UI_SESSION, JSON.stringify(sessionState));
+        try {
+            this.#storage.setItem(CONFIG.SESSION_STORAGE_KEYS.UI_SESSION, JSON.stringify(sessionState));
+        } catch (e) {
+            console.warn('Failed to save session state:', e);
+        }
     }
 
     loadSession(): PopupState[] {
@@ -33,12 +72,10 @@ export class PersistenceService {
                 ? z
                 : CONFIG.LAYOUT.POPUP_Z_INDEX_BASE;
 
-            // Validate openPopups schema
             if (!Array.isArray(parsed.openPopups)) return [];
-            return parsed.openPopups.filter(
-                (p: unknown): p is PopupState =>
-                    typeof p === 'object' && p !== null && typeof (p as PopupState).id === 'string' && (p as PopupState).id.length > 0,
-            );
+            return parsed.openPopups
+                .map((p: unknown) => this.#sanitizePopupState(p))
+                .filter((p: PopupState | null): p is PopupState => p !== null);
         } catch (e) {
             console.error('Failed to parse session state:', e);
             return [];

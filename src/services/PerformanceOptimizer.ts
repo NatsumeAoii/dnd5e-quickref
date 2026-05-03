@@ -1,15 +1,21 @@
 interface NavigatorConnection {
     saveData?: boolean;
     effectiveType?: string;
+    addEventListener?: (type: 'change', listener: () => void) => void;
+    removeEventListener?: (type: 'change', listener: () => void) => void;
 }
 
 export class PerformanceOptimizer {
     #isLowEnd = false;
     #isSaveData = false;
+    #connection: NavigatorConnection | undefined;
+    #handleConnectionChange = (): void => this.#checkNetwork();
 
     constructor() {
         this.#checkHardware();
+        this.#connection = (navigator as Navigator & { connection?: NavigatorConnection }).connection;
         this.#checkNetwork();
+        this.#connection?.addEventListener?.('change', this.#handleConnectionChange);
     }
 
     #checkHardware(): void {
@@ -19,7 +25,8 @@ export class PerformanceOptimizer {
     }
 
     #checkNetwork(): void {
-        const connection = (navigator as Navigator & { connection?: NavigatorConnection }).connection;
+        const connection = this.#connection;
+        this.#isSaveData = false;
         if (connection) {
             if (connection.saveData || connection.effectiveType === '2g') {
                 this.#isSaveData = true;
@@ -29,5 +36,9 @@ export class PerformanceOptimizer {
 
     shouldReduceMotion(): boolean {
         return this.#isLowEnd || this.#isSaveData;
+    }
+
+    destroy(): void {
+        this.#connection?.removeEventListener?.('change', this.#handleConnectionChange);
     }
 }

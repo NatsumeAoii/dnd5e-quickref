@@ -1,4 +1,5 @@
 import { CONFIG } from '../config.js';
+import { trapFocusWithin } from '../utils/Utils.js';
 import type { A11yService } from './A11yService.js';
 
 interface OnboardingStep {
@@ -19,7 +20,7 @@ const STEPS: OnboardingStep[] = [
     {
         target: '[data-section="action"] .item',
         title: 'Rule Items & Favorites',
-        description: 'Click any rule to see its details in a popup. Use the ★ star icon to add it to your Favorites for quick access.',
+        description: 'Click any rule to see its details in a popup. Use the star icon to add it to your Favorites for quick access.',
         placement: 'bottom',
         fallbackMessage: 'Expand a section to see rule items you can click.',
     },
@@ -53,7 +54,11 @@ export class OnboardingService {
     }
 
     shouldShow(): boolean {
-        return this.#storage.getItem(CONFIG.STORAGE_KEYS.ONBOARDING_COMPLETED) !== 'true';
+        try {
+            return this.#storage.getItem(CONFIG.STORAGE_KEYS.ONBOARDING_COMPLETED) !== 'true';
+        } catch {
+            return true;
+        }
     }
 
     start(): void {
@@ -71,32 +76,56 @@ export class OnboardingService {
         this.#overlay.setAttribute('role', 'dialog');
         this.#overlay.setAttribute('aria-modal', 'true');
         this.#overlay.setAttribute('aria-label', 'Welcome tour');
-        this.#overlay.innerHTML = `
-            <div class="onboarding-spotlight"></div>
-            <div class="onboarding-tooltip" role="alertdialog" tabindex="-1">
-                <div class="onboarding-tooltip-header">
-                    <h3 class="onboarding-tooltip-title"></h3>
-                    <button class="onboarding-skip-btn" aria-label="Skip tour">✕</button>
-                </div>
-                <p class="onboarding-tooltip-body"></p>
-                <div class="onboarding-tooltip-footer">
-                    <div class="onboarding-dots"></div>
-                    <div class="onboarding-nav">
-                        <button class="onboarding-prev-btn">← Back</button>
-                        <button class="onboarding-next-btn">Next →</button>
-                    </div>
-                </div>
-            </div>`;
 
-        this.#overlay.querySelector('.onboarding-skip-btn')!.addEventListener('click', () => this.#complete());
-        this.#overlay.querySelector('.onboarding-prev-btn')!.addEventListener('click', () => this.#prev());
-        this.#overlay.querySelector('.onboarding-next-btn')!.addEventListener('click', () => this.#next());
+        const spotlight = document.createElement('div');
+        spotlight.className = 'onboarding-spotlight';
+
+        const tooltip = document.createElement('div');
+        tooltip.className = 'onboarding-tooltip';
+        tooltip.setAttribute('role', 'alertdialog');
+        tooltip.setAttribute('tabindex', '-1');
+
+        const header = document.createElement('div');
+        header.className = 'onboarding-tooltip-header';
+        const title = document.createElement('h3');
+        title.className = 'onboarding-tooltip-title';
+        const skipBtn = document.createElement('button');
+        skipBtn.className = 'onboarding-skip-btn';
+        skipBtn.setAttribute('aria-label', 'Skip tour');
+        skipBtn.textContent = 'x';
+        header.append(title, skipBtn);
+
+        const body = document.createElement('p');
+        body.className = 'onboarding-tooltip-body';
+
+        const footer = document.createElement('div');
+        footer.className = 'onboarding-tooltip-footer';
+        const dots = document.createElement('div');
+        dots.className = 'onboarding-dots';
+        const nav = document.createElement('div');
+        nav.className = 'onboarding-nav';
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'onboarding-prev-btn';
+        prevBtn.textContent = 'Back';
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'onboarding-next-btn';
+        nextBtn.textContent = 'Next';
+        nav.append(prevBtn, nextBtn);
+        footer.append(dots, nav);
+
+        tooltip.append(header, body, footer);
+        this.#overlay.append(spotlight, tooltip);
+
+        skipBtn.addEventListener('click', () => this.#complete());
+        prevBtn.addEventListener('click', () => this.#prev());
+        nextBtn.addEventListener('click', () => this.#next());
 
         this.#overlay.addEventListener('click', (e) => {
             if (e.target === this.#overlay) this.#complete();
         });
 
         this.#overlay.addEventListener('keydown', (e: KeyboardEvent) => {
+            trapFocusWithin(e, this.#overlay!);
             if (e.key === 'Escape') { e.stopPropagation(); this.#complete(); }
             else if (e.key === 'ArrowRight' || e.key === 'Enter') { e.stopPropagation(); this.#next(); }
             else if (e.key === 'ArrowLeft') { e.stopPropagation(); this.#prev(); }
@@ -104,7 +133,6 @@ export class OnboardingService {
 
         document.body.appendChild(this.#overlay);
 
-        // Store bound reference so we can remove it on cleanup
         this.#boundReposition = (): void => { if (this.#isActive) this.#positionCurrentStep(); };
         window.addEventListener('resize', this.#boundReposition, { passive: true });
         window.addEventListener('scroll', this.#boundReposition, { passive: true });
@@ -121,10 +149,20 @@ export class OnboardingService {
         this.#positionElements(targetEl, tooltip, spotlight, step.placement);
     }
 
+    #renderDots(container: Element, index: number): void {
+        const fragment = document.createDocumentFragment();
+        STEPS.forEach((_step, stepIndex) => {
+            const dot = document.createElement('span');
+            dot.className = `onboarding-dot${stepIndex === index ? ' is-active' : ''}`;
+            dot.setAttribute('aria-label', `Step ${stepIndex + 1}`);
+            fragment.appendChild(dot);
+        });
+        container.replaceChildren(fragment);
+    }
+
     #showStep(index: number): void {
         if (!this.#overlay || index < 0 || index >= STEPS.length) return;
 
-        // Cancel any pending scroll-position timer from previous step
         if (this.#scrollTimer !== null) {
             clearTimeout(this.#scrollTimer);
             this.#scrollTimer = null;
@@ -139,16 +177,12 @@ export class OnboardingService {
         if (bodyEl) bodyEl.textContent = step.description;
 
         const dotsContainer = this.#overlay.querySelector('.onboarding-dots');
-        if (dotsContainer) {
-            dotsContainer.innerHTML = STEPS.map((_, i) =>
-                `<span class="onboarding-dot${i === index ? ' is-active' : ''}" aria-label="Step ${i + 1}"></span>`
-            ).join('');
-        }
+        if (dotsContainer) this.#renderDots(dotsContainer, index);
 
         const prevBtn = this.#overlay.querySelector('.onboarding-prev-btn') as HTMLElement | null;
         const nextBtn = this.#overlay.querySelector('.onboarding-next-btn') as HTMLElement | null;
         if (prevBtn) prevBtn.style.visibility = index === 0 ? 'hidden' : 'visible';
-        if (nextBtn) nextBtn.textContent = index === STEPS.length - 1 ? 'Done ✓' : 'Next →';
+        if (nextBtn) nextBtn.textContent = index === STEPS.length - 1 ? 'Done' : 'Next';
 
         const targetEl = document.querySelector(step.target) as HTMLElement | null;
         const tooltip = this.#overlay.querySelector('.onboarding-tooltip') as HTMLElement | null;
@@ -189,7 +223,6 @@ export class OnboardingService {
             height: ${rect.height + pad * 2}px;
         `;
 
-        // Measure tooltip off-screen
         tooltip.style.visibility = 'hidden';
         tooltip.style.display = 'block';
         const ttRect = tooltip.getBoundingClientRect();
@@ -252,15 +285,17 @@ export class OnboardingService {
 
     #complete(): void {
         this.#isActive = false;
-        this.#storage.setItem(CONFIG.STORAGE_KEYS.ONBOARDING_COMPLETED, 'true');
+        try {
+            this.#storage.setItem(CONFIG.STORAGE_KEYS.ONBOARDING_COMPLETED, 'true');
+        } catch {
+            // Storage can be unavailable in private browsing or hardened contexts.
+        }
 
-        // Cancel pending scroll timer
         if (this.#scrollTimer !== null) {
             clearTimeout(this.#scrollTimer);
             this.#scrollTimer = null;
         }
 
-        // Remove window event listeners to prevent memory leak
         if (this.#boundReposition) {
             window.removeEventListener('resize', this.#boundReposition);
             window.removeEventListener('scroll', this.#boundReposition);

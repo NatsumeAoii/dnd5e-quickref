@@ -6,8 +6,7 @@ import type { PersistenceService } from '../services/PersistenceService.js';
 import type { DataService } from '../services/DataService.js';
 import type { StateManager } from '../state/StateManager.js';
 import type { PopupFactory } from './PopupFactory.js';
-import type { ViewRenderer } from './ViewRenderer.js';
-import type { RuleInfo } from '../types.js';
+import type { PopupState, RuleInfo } from '../types.js';
 
 interface WindowManagerServices {
     domProvider: DOMProvider;
@@ -15,7 +14,6 @@ interface WindowManagerServices {
     persistence: PersistenceService;
     a11y: A11yService;
     popupFactory: PopupFactory;
-    viewRenderer: ViewRenderer;
     data: DataService;
 }
 
@@ -25,14 +23,16 @@ export class WindowManager {
     #persistenceService: PersistenceService;
     #a11yService: A11yService;
     #popupFactory: PopupFactory;
-    #viewRenderer: ViewRenderer;
     #dataService: DataService;
     #popupContainer!: HTMLElement;
     #closeAllBtn!: HTMLElement;
     #isMobileView = false;
     // #3: Cache linkified HTML to avoid redundant DOM tree-walk + serialization
     #linkifyCache = new Map<string, string>();
+    #inflightPopups = new Set<string>();
     static #LINKIFY_CACHE_MAX = 500;
+    static #MAX_HASH_POPUPS = 10;
+    static #MAX_POPUP_ID_LENGTH = 200;
 
     #TYPE_ENCODING: Readonly<Record<string, string>> = Object.freeze({
         Action: 'Ac', 'Bonus action': 'Ba', Condition: 'Co', Environment: 'En', Move: 'Mo', Reaction: 'Re',
@@ -48,7 +48,6 @@ export class WindowManager {
         this.#persistenceService = services.persistence;
         this.#a11yService = services.a11y;
         this.#popupFactory = services.popupFactory;
-        this.#viewRenderer = services.viewRenderer;
         this.#dataService = services.data;
         this.#popupContainer = this.#domProvider.get(CONFIG.ELEMENT_IDS.POPUP_CONTAINER);
         this.#closeAllBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.CLOSE_ALL_POPUPS_BTN);
@@ -106,6 +105,13 @@ export class WindowManager {
         }
     };
 
+    #isValidPopupId(id: string): boolean {
+        return id.length > 0 &&
+            id.length <= WindowManager.#MAX_POPUP_ID_LENGTH &&
+            id.includes('::') &&
+            !/[<>"`]/.test(id);
+    }
+
     #linkifyContent = (html: string): string => {
         const state = this.#stateManager.getState();
         if (!html || !state.data.ruleLinkerRegex) return html;
@@ -152,15 +158,6 @@ export class WindowManager {
 
                 if (id) {
                     link.setAttribute(CONFIG.ATTRIBUTES.POPUP_ID, id);
-                    const preload = (): void => {
-                        const ruleInfo = state.data.ruleMap.get(id);
-                        if (ruleInfo) {
-                            const sectionConfig = CONFIG.SECTION_CONFIG.find((c) => c.id === ruleInfo.sectionId);
-                            if (sectionConfig) this.#dataService.ensureSectionDataLoaded(this.#dataService.getDataSourceKey(sectionConfig.dataKey));
-                        }
-                    };
-                    link.addEventListener('mouseenter', preload, { once: true });
-                    link.addEventListener('focus', preload, { once: true });
                     fragment.appendChild(link);
                 } else {
                     fragment.appendChild(document.createTextNode(matchText));
@@ -374,36 +371,54 @@ export class WindowManager {
         const state = this.#stateManager.getState();
         let idsFromHash = new Set<string>();
         const rawHash = window.location.hash.substring(1);
+        let hashWasSanitized = false;
 
         if (rawHash) {
-            idsFromHash = new Set(rawHash.split(',').filter(Boolean).map(this.#fromShortId));
+            const rawIds = rawHash.split(',').filter(Boolean);
+            const boundedIds = rawIds.slice(0, WindowManager.#MAX_HASH_POPUPS);
+            const validIds = boundedIds
+                .map(this.#fromShortId)
+                .filter((id) => this.#isValidPopupId(id));
+            hashWasSanitized = rawIds.length !== boundedIds.length || validIds.length !== boundedIds.length;
+            idsFromHash = new Set(validIds);
         }
 
         const openIds = new Set(state.ui.openPopups.keys());
         [...openIds].filter((id) => !idsFromHash.has(id)).forEach((id) => this.#closePopup(id));
         [...idsFromHash].filter((id) => !openIds.has(id)).forEach((id) => this.togglePopup(id));
+        if (hashWasSanitized) this.#updateURLHash();
     };
 
     async togglePopup(id: string): Promise<void> {
+        if (!this.#isValidPopupId(id)) {
+            this.#updateURLHash();
+            return;
+        }
         const state = this.#stateManager.getState();
         if (state.ui.openPopups.has(id)) { this.#closePopup(id); return; }
+        if (this.#inflightPopups.has(id)) return;
 
-        let rule = state.data.ruleMap.get(id);
-        if (!rule) {
-            await this.#dataService.ensureAllDataLoadedForActiveRuleset();
-            this.#dataService.buildRuleMap();
-            rule = this.#stateManager.getState().data.ruleMap.get(id);
-        }
+        this.#inflightPopups.add(id);
+        try {
+            let rule = state.data.ruleMap.get(id);
+            if (!rule) {
+                await this.#dataService.ensureAllDataLoadedForActiveRuleset();
+                this.#dataService.buildRuleMap();
+                rule = this.#stateManager.getState().data.ruleMap.get(id);
+            }
 
-        if (rule) {
-            this.#createPopup(id, rule);
-        } else {
-            console.warn(`Rule not found: "${id}". Removing from URL hash.`);
-            this.#updateURLHash();
+            if (rule) {
+                this.#createPopup(id, rule);
+            } else {
+                console.warn(`Rule not found: "${id}". Removing from URL hash.`);
+                this.#updateURLHash();
+            }
+        } finally {
+            this.#inflightPopups.delete(id);
         }
     }
 
-    createPopupFromState(popupState: { id: string; top?: string; left?: string; zIndex?: string }): void {
+    createPopupFromState(popupState: PopupState): void {
         const rule = this.#stateManager.getState().data.ruleMap.get(popupState.id);
         if (rule) this.#createPopup(popupState.id, rule, popupState);
     }
@@ -439,9 +454,13 @@ export class WindowManager {
         popup.remove();
         state.ui.openPopups.delete(id);
 
-        // Create minimized tab in the bar
+        this.#updateAllLinkStates();
+        if (this.#isMobileView) this.#popupContainer.classList.remove(CONFIG.CSS.POPUP_CONTAINER_MODAL_OPEN);
+        document.body.style.setProperty('--is-modal-open', state.ui.openPopups.size > 0 ? '1' : '0');
         this.#renderMinimizedBar();
         this.#updateCloseBtnVisibility();
+        this.#updateURLHash();
+        this.#persistenceService.saveSession();
         this.#a11yService.announce(`${title} minimized`);
     }
 

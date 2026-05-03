@@ -8,6 +8,11 @@ export class TemplateService {
 
     constructor(domProvider: DOMProvider) { this.#domProvider = domProvider; }
 
+    #toDomId(prefix: string, value: string): string {
+        const encoded = encodeURIComponent(value).replace(/%/g, '-').replace(/[^A-Za-z0-9_-]/g, '-');
+        return `${prefix}-${encoded || 'rule'}`;
+    }
+
     #renderers: Record<string, (bullet: Bullet, linkifyFn: (html: string) => string) => HTMLElement> = {
         paragraph: (bullet, linkifyFn) => {
             const p = document.createElement('p');
@@ -91,12 +96,14 @@ export class TemplateService {
         const popup = (tpl.content.cloneNode(true) as DocumentFragment).firstElementChild as HTMLElement;
         const sourceSection = document.getElementById(sectionId)?.closest(`.${CONFIG.CSS.SECTION_CONTAINER}`);
         const borderColor = sourceSection ? window.getComputedStyle(sourceSection).borderColor : 'var(--color-hr)';
+        const titleId = this.#toDomId('popup-title', popupId);
+        const notesId = this.#toDomId('notes', popupId);
 
-        popup.setAttribute('aria-labelledby', `popup-title-${popupId}`);
+        popup.setAttribute('aria-labelledby', titleId);
         popup.style.setProperty('--section-color', borderColor);
 
         const titleEl = popup.querySelector('.popup-title') as HTMLElement;
-        titleEl.id = `popup-title-${popupId}`;
+        titleEl.id = titleId;
         titleEl.textContent = ruleData.title || CONFIG.DEFAULTS.TITLE;
 
         (popup.querySelector('.popup-header') as HTMLElement).style.backgroundColor = borderColor;
@@ -123,8 +130,8 @@ export class TemplateService {
 
         const textarea = popup.querySelector('.popup-notes-textarea') as HTMLTextAreaElement;
         const notesLabel = popup.querySelector('.popup-notes-label') as HTMLElement;
-        notesLabel.setAttribute('for', `notes-${popupId}`);
-        textarea.id = `notes-${popupId}`;
+        notesLabel.setAttribute('for', notesId);
+        textarea.id = notesId;
         textarea.value = getNoteFn(popupId);
         return popup;
     }

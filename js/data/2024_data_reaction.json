@@ -26,23 +26,23 @@
         ]
     },
     {
-        "title": "Identify a Spell",
-        "optional": "Standard rule",
+        "title": "Identify a Spell*",
+        "optional": "Optional rule",
         "icon": "eyeball",
         "subtitle": "Identify a spell being cast",
-        "description": "Use your reaction and an Arcana check to identify a spell as it is being cast, or an action to study a magical effect.",
-        "reference": "PHB 2024, pg. 303.",
-        "summary": "As a reaction when a creature you can see casts a spell, you can make an Intelligence (Arcana) check (DC 10 + spell's level) to identify it. Using this reaction means you cannot also use it to Counterspell.",
+        "description": "Use the optional Xanathar's rule to identify a spell as it is cast, or to identify an existing spell effect.",
+        "reference": "XGE, pg. 85.",
+        "summary": "As a reaction when you perceive a spell being cast, make an Intelligence (Arcana) check (DC 15 + spell level) to identify it. Using this reaction means you cannot also use it to Counterspell.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "Now a core rule, this gives knowledgeable characters a clear mechanic for recognizing magical threats. This enables tactical decisions like whether to use Counterspell or how to best counter an ongoing magical effect."
+                "content": "This optional rule gives knowledgeable characters a clear mechanic for recognizing magical threats. It supports tactical decisions like whether to spend a reaction on Counterspell or how to handle an ongoing magical effect."
             },
             {
                 "type": "list",
                 "items": [
                     "<b>Trigger:</b> A creature you can see casts a spell or you encounter a magical effect.",
-                    "<b>Reaction or Action:</b> Make an Intelligence (Arcana) check. The DC equals 10 + the spell's level.",
+                    "<b>Reaction or Action:</b> Make an Intelligence (Arcana) check. The DC equals 15 + the spell's level.",
                     "On a success, you identify the spell if you are reacting to its casting, or you learn the properties of a magical effect if you are studying it with an action."
                 ]
             },
@@ -57,9 +57,9 @@
         "optional": "Standard rule",
         "icon": "crossedswords",
         "subtitle": "Enemy leaves your reach",
-        "description": "Make one free melee attack against a hostile creature that moves out of your reach without Disengaging.",
+        "description": "Use your reaction to make one melee attack against a hostile creature that moves out of your reach without Disengaging.",
         "reference": "PHB 2024, pg. 295.",
-        "summary": "When a hostile creature you can see moves out of your reach, you can use your reaction to make one melee attack against it. This attack occurs just before the creature leaves your reach.",
+        "summary": "When a hostile creature you can see moves out of your reach, use your reaction to make one melee attack roll with a weapon or Unarmed Strike. The attack occurs before it leaves your reach.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -69,7 +69,7 @@
                 "type": "list",
                 "items": [
                     "<b>Trigger:</b> A hostile creature you can see moves out of your reach.",
-                    "<b>Reaction:</b> You make one melee attack against the provoking creature.",
+                    "<b>Reaction:</b> You make one melee attack roll with a weapon or an Unarmed Strike against the provoking creature.",
                     "The attack interrupts the creature's movement, occurring right before it leaves your reach.",
                     "You don't provoke an opportunity attack when you Teleport or when someone or something moves you without using your movement or action.",
                     "The <b>Disengage</b> action prevents you from provoking opportunity attacks for the rest of your turn."
@@ -162,24 +162,25 @@
         ]
     },
     {
-        "title": "Grapple Opportunity Attack**",
-        "optional": "Homebrew rule",
+        "title": "Grapple Opportunity Attack",
+        "optional": "Standard rule",
         "icon": "grab",
         "subtitle": "Stop an enemy from fleeing",
-        "description": "A house rule allowing a creature to attempt a Grapple in place of a normal damage-dealing Opportunity Attack.",
+        "description": "Use an Unarmed Strike as an Opportunity Attack and choose the Grapple option if it hits.",
         "reference": "PHB (2024) pg. 295 & pg. 317.",
-        "summary": "A house rule (arguably RAW in 2024) that allows you to use your Opportunity Attack to make an Unarmed Strike to Grapple a creature, potentially stopping its movement by reducing its speed to 0.",
+        "summary": "Because a 2024 Opportunity Attack can be an Unarmed Strike, a hit can use the Grapple option and potentially stop the creature by giving it the Grappled condition.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "This popular house rule allows battlefield controllers to stop a fleeing foe in their tracks, which is often more valuable than a small amount of damage. It changes an opportunity attack from a parting shot to a lockdown tool."
+                "content": "In 2024, an Opportunity Attack can be made with an Unarmed Strike. Since Grapple is one of the effects an Unarmed Strike can apply, this is a standard tactical option rather than a separate house rule."
             },
             {
                 "type": "list",
                 "items": [
                     "<b>Trigger:</b> A hostile creature you can see moves out of your reach.",
-                    "<b>RAW:</b> An Opportunity Attack is 'one melee attack'. Because the 2024 Grapple is an Unarmed Strike (a type of melee attack), this is now arguably Rules As Written, though DMs may rule that the 'special' nature of the Grapple attack prevents its use here.",
-                    "<b>Homebrew:</b> The DM explicitly allows you to make an Unarmed Strike to Grapple instead of dealing damage, potentially stopping the creature by imposing the Grappled condition (Speed 0)."
+                    "Use your reaction to make an <b>Unarmed Strike</b> as the Opportunity Attack.",
+                    "If the Unarmed Strike hits, choose the <b>Grapple</b> option. The target then makes the required save against your grapple DC.",
+                    "On a failed save, the target gains the Grappled condition and its Speed becomes 0."
                 ]
             },
             {

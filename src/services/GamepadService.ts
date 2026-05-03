@@ -6,16 +6,36 @@ export class GamepadService {
     #domProvider: DOMProvider;
     #lastMove = 0;
     #MOVE_DELAY = 150;
+    #abortController = new AbortController();
+    #animationFrameId: number | null = null;
 
     constructor(domProvider: DOMProvider) {
         this.#domProvider = domProvider;
-        window.addEventListener('gamepadconnected', () => { this.#active = true; this.#poll(); });
-        window.addEventListener('gamepaddisconnected', () => { this.#active = false; });
+        window.addEventListener('gamepadconnected', this.#handleConnected, { signal: this.#abortController.signal });
+        window.addEventListener('gamepaddisconnected', this.#handleDisconnected, { signal: this.#abortController.signal });
+    }
+
+    #handleConnected = (): void => {
+        if (this.#active) return;
+        this.#active = true;
+        this.#poll();
+    };
+
+    #handleDisconnected = (): void => {
+        this.#stopPolling();
+    };
+
+    #stopPolling(): void {
+        this.#active = false;
+        if (this.#animationFrameId !== null) {
+            cancelAnimationFrame(this.#animationFrameId);
+            this.#animationFrameId = null;
+        }
     }
 
     #poll = (): void => {
         if (!this.#active) return;
-        const gp = navigator.getGamepads()[0];
+        const gp = navigator.getGamepads?.()[0];
         if (gp) {
             const now = Date.now();
             if (now - this.#lastMove > this.#MOVE_DELAY && gp.axes.length >= 2) {
@@ -34,8 +54,13 @@ export class GamepadService {
                 }
             }
         }
-        requestAnimationFrame(this.#poll);
+        this.#animationFrameId = requestAnimationFrame(this.#poll);
     };
+
+    destroy(): void {
+        this.#stopPolling();
+        this.#abortController.abort();
+    }
 
     #navigate(x: number, y: number): void {
         const items = Array.from(this.#domProvider.queryAll(`.${CONFIG.CSS.ITEM_CLASS}:not([style*="display: none"]) .item-content`)) as HTMLElement[];

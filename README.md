@@ -68,7 +68,12 @@ Built on [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref) with a 
    ```bash
    npm run build
    ```
-   This runs the `prebuild` version-sync script, type-checks with `tsc --noEmit`, then produces an optimized bundle in `dist/`.
+   This type-checks with `tsc --noEmit`, then produces an optimized bundle in `dist/`.
+
+   To sync the app version from `CHANGELOG.md` into `package.json` and `src/config.ts`, run this explicitly before a release build:
+   ```bash
+   npm run sync-version
+   ```
 
 2. **Preview the build locally:**
    ```bash
@@ -93,13 +98,13 @@ For environments without Node.js:
 | Script | Command | Description |
 |--------|---------|-------------|
 | `dev` | `vite` | Start the Vite dev server with HMR |
-| `prebuild` | `node scripts/prebuild.js` | Sync version from `CHANGELOG.md` to `package.json` and `src/config.ts` |
+| `sync-version` | `node scripts/prebuild.js` | Sync version from `CHANGELOG.md` to `package.json` and `src/config.ts` |
 | `build` | `tsc --noEmit && vite build` | Type-check then produce production bundle in `dist/` |
 | `preview` | `vite preview` | Serve the production build locally |
 | `type-check` | `tsc --noEmit` | Run TypeScript type-checking without emitting |
 | `lint:css` | `stylelint "src/**/*.css"` | Lint CSS files via Stylelint |
 
-> The `prebuild` script runs automatically before `build` via npm's lifecycle hook.
+> Version sync is explicit so normal build verification does not mutate tracked files.
 
 ---
 
@@ -411,7 +416,7 @@ npm run dev
 - TypeScript source lives in `src/`. Do not add new `.js` files to `js/modules/`.
 - Rule data (JSON) lives in `js/data/`. Each category has paired files: `data_<category>.json` (2014) and `2024_data_<category>.json` (2024).
 - Static assets belong in `public/`. Vite copies them to `dist/` verbatim.
-- Version is single-sourced from `CHANGELOG.md`. The `prebuild` script propagates it to `package.json` and `src/config.ts`.
+- Version is single-sourced from `CHANGELOG.md`. The `sync-version` script propagates it to `package.json` and `src/config.ts`.
 
 ### Testing
 

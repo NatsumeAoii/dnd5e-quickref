@@ -17,6 +17,12 @@ export class ErrorService {
 
     setNotifier(fn: NotifyFn): void { this.#notifyFn = fn; }
 
+    #getUserMessage(level: ErrorLevel): string {
+        return level === 'fatal'
+            ? 'A critical error occurred. Please reload the app.'
+            : 'Something went wrong. Please try again.';
+    }
+
     report(error: unknown, context?: string, level: ErrorLevel = 'error'): void {
         const message = error instanceof Error ? error.message : String(error);
         const stack = error instanceof Error ? error.stack : undefined;
@@ -33,10 +39,8 @@ export class ErrorService {
             console.error(`${prefix} ${message}`, stack || '');
         }
 
-        if (level === 'fatal') {
-            this.#notifyFn?.(message, 'error');
-        } else if (level === 'error' && this.#notifyFn) {
-            this.#notifyFn(`${prefix} ${message}`, 'error');
+        if ((level === 'fatal' || level === 'error') && this.#notifyFn) {
+            this.#notifyFn(this.#getUserMessage(level), 'error');
         }
     }
 

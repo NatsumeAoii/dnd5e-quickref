@@ -8,6 +8,7 @@ export class UserDataService {
     #stateManager: StateManager;
     #dbService: DBService;
     #syncService: SyncService;
+    #noteSaveQueues = new Map<string, Promise<boolean>>();
 
     constructor(storage: Storage, stateManager: StateManager, dbService: DBService, syncService: SyncService) {
         this.#storage = storage;
@@ -20,15 +21,33 @@ export class UserDataService {
         try { const val = this.#storage.getItem(key); return val ? JSON.parse(val) : def; } catch (e) { console.error(`Failed to parse user data for "${key}":`, e); return def; }
     };
 
+    #asStringArray(value: unknown): string[] {
+        return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : [];
+    }
+
+    #asStringRecord(value: unknown): Record<string, string> | null {
+        if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+        const entries = Object.entries(value as Record<string, unknown>).filter((entry): entry is [string, string] => typeof entry[1] === 'string');
+        return Object.fromEntries(entries);
+    }
+
+    #persistFavorites(ids: string[]): void {
+        try {
+            this.#storage.setItem(CONFIG.STORAGE_KEYS.FAVORITES, JSON.stringify(ids));
+        } catch (e) {
+            console.warn('Failed to persist favorites:', e);
+        }
+    }
+
     async initialize(): Promise<void> {
         const state = this.#stateManager.getState();
-        state.user.favorites = new Set(this.#load(CONFIG.STORAGE_KEYS.FAVORITES, []) as string[]);
+        state.user.favorites = new Set(this.#asStringArray(this.#load(CONFIG.STORAGE_KEYS.FAVORITES, [])));
 
         try {
             const notes = await this.#dbService.getAll();
-            state.user.notes = new Map(Object.entries(notes));
+            state.user.notes = new Map(Object.entries(notes).filter((entry): entry is [string, string] => typeof entry[1] === 'string'));
 
-            const legacyNotes = this.#load(CONFIG.STORAGE_KEYS.NOTES, null) as Record<string, string> | null;
+            const legacyNotes = this.#asStringRecord(this.#load(CONFIG.STORAGE_KEYS.NOTES, null));
             if (legacyNotes) {
                 for (const [k, v] of Object.entries(legacyNotes)) {
                     if (!state.user.notes.has(k)) {
@@ -50,7 +69,7 @@ export class UserDataService {
         } else {
             state.user.favorites.add(id);
         }
-        this.#storage.setItem(CONFIG.STORAGE_KEYS.FAVORITES, JSON.stringify([...state.user.favorites]));
+        this.#persistFavorites([...state.user.favorites]);
         this.#stateManager.publish('favoritesChanged');
         if (broadcast) this.#syncService.broadcast('FAVORITE_TOGGLE', { id });
     }
@@ -58,86 +77,107 @@ export class UserDataService {
     updateFavoritesOrder(newOrderArray: string[]): void {
         const state = this.#stateManager.getState();
         state.user.favorites = new Set(newOrderArray);
-        this.#storage.setItem(CONFIG.STORAGE_KEYS.FAVORITES, JSON.stringify(newOrderArray));
+        this.#persistFavorites(newOrderArray);
     }
 
     isFavorite = (id: string): boolean => this.#stateManager.getState().user.favorites.has(id);
 
-    saveNote(id: string, text: string, broadcast = true): void {
+    async saveNote(id: string, text: string, broadcast = true): Promise<boolean> {
+        const previous = this.#noteSaveQueues.get(id) ?? Promise.resolve(true);
+        const current = previous
+            .catch(() => false)
+            .then(() => this.#saveNoteNow(id, text, broadcast));
+        this.#noteSaveQueues.set(id, current);
+        current.finally(() => {
+            if (this.#noteSaveQueues.get(id) === current) this.#noteSaveQueues.delete(id);
+        }).catch(() => undefined);
+        return current;
+    }
+
+    async #saveNoteNow(id: string, text: string, broadcast = true): Promise<boolean> {
         const state = this.#stateManager.getState();
-        if (text.trim() === '') {
-            state.user.notes.delete(id);
-            this.#dbService.delete(id).catch((e) => console.error('Delete note failed', e));
-        } else {
-            state.user.notes.set(id, text);
-            this.#dbService.put(id, text).catch((e) => console.error('Save note failed', e));
+        const hadPrevious = state.user.notes.has(id);
+        const previous = state.user.notes.get(id);
+        try {
+            if (text.trim() === '') {
+                state.user.notes.delete(id);
+                await this.#dbService.delete(id);
+            } else {
+                state.user.notes.set(id, text);
+                await this.#dbService.put(id, text);
+            }
+            if (broadcast) this.#syncService.broadcast('NOTE_UPDATE', { id, text });
+            return true;
+        } catch (e) {
+            if (hadPrevious && previous !== undefined) state.user.notes.set(id, previous);
+            else state.user.notes.delete(id);
+            console.error(text.trim() === '' ? 'Delete note failed' : 'Save note failed', e);
+            return false;
         }
-        if (broadcast) this.#syncService.broadcast('NOTE_UPDATE', { id, text });
     }
 
     getNote = (id: string): string => this.#stateManager.getState().user.notes.get(id) || '';
 
+    async #shareOrDownload(blob: Blob, fileName: string, mimeType: string, title: string): Promise<void> {
+        const file = new File([blob], fileName, { type: mimeType });
+        if (navigator.canShare?.({ files: [file] })) {
+            try {
+                await navigator.share({ files: [file], title });
+                return;
+            } catch {
+                // User cancelled or share failed; normal download is the fallback.
+            }
+        }
+
+        let url: string | null = null;
+        let anchor: HTMLAnchorElement | null = null;
+        try {
+            url = URL.createObjectURL(blob);
+            anchor = document.createElement('a');
+            anchor.href = url;
+            anchor.download = fileName;
+            document.body.appendChild(anchor);
+            anchor.click();
+        } catch (e) {
+            console.error(`${title} failed:`, e);
+            throw new Error(`${title} failed`);
+        } finally {
+            anchor?.remove();
+            if (url) URL.revokeObjectURL(url);
+        }
+    }
+
     async exportNotes(): Promise<void> {
         const notes = Object.fromEntries(this.#stateManager.getState().user.notes);
         const jsonString = JSON.stringify(notes);
+        let blob: Blob;
+        let fileName = `quickref-notes-${new Date().toISOString().split('T')[0]}.json`;
+        let mimeType = 'application/json';
 
-        const stream = new Blob([jsonString]).stream();
-        const compressedReadableStream = stream.pipeThrough(new CompressionStream('gzip'));
-        const compressedResponse = await new Response(compressedReadableStream);
-        const blob = await compressedResponse.blob();
-        const fileName = `quickref-notes-${new Date().toISOString().split('T')[0]}.json.gz`;
-
-        // #20: Try Web Share API for mobile (Safari iOS <a>.click() silently fails)
-        const file = new File([blob], fileName, { type: 'application/gzip' });
-        if (navigator.canShare?.({ files: [file] })) {
-            try {
-                await navigator.share({ files: [file], title: 'QuickRef Notes Export' });
-                return;
-            } catch { /* User cancelled or share failed — fall through to download */ }
+        if (typeof CompressionStream === 'function' && typeof Blob.prototype.stream === 'function') {
+            const stream = new Blob([jsonString]).stream();
+            const compressedReadableStream = stream.pipeThrough(new CompressionStream('gzip'));
+            const compressedResponse = await new Response(compressedReadableStream);
+            blob = await compressedResponse.blob();
+            fileName += '.gz';
+            mimeType = 'application/gzip';
+        } else {
+            blob = new Blob([jsonString], { type: mimeType });
         }
 
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        a.click();
-        URL.revokeObjectURL(url);
+        await this.#shareOrDownload(blob, fileName, mimeType, 'QuickRef Notes Export');
     }
 
-    exportFavorites(): void {
+    async exportFavorites(): Promise<void> {
         const favorites = [...this.#stateManager.getState().user.favorites];
         const jsonString = JSON.stringify(favorites, null, 2);
         const blob = new Blob([jsonString], { type: 'application/json' });
         const fileName = `quickref-favorites-${new Date().toISOString().split('T')[0]}.json`;
 
-        // Try Web Share API for mobile (Safari iOS <a>.click() silently fails)
-        const file = new File([blob], fileName, { type: 'application/json' });
-        if (navigator.canShare?.({ files: [file] })) {
-            navigator.share({ files: [file], title: 'QuickRef Favorites Export' }).catch(() => {
-                /* User cancelled or share failed — fall through handled below */
-            });
-            return;
-        }
-
-        try {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = fileName;
-            a.click();
-            URL.revokeObjectURL(url);
-        } catch (e) {
-            console.error('Export favorites failed:', e);
-        }
+        await this.#shareOrDownload(blob, fileName, 'application/json', 'QuickRef Favorites Export');
     }
 
-    // (D) Removed `g` flag: `g` + `test()` causes lastIndex drift across calls on a static regex
-    static #DANGEROUS_PATTERN = /<script[\s>]|javascript:|on\w+\s*=/i;
-    static #KEY_PATTERN = /^[\w\s]+::[\w\s\-'(),/]+$/;
-
-    #sanitizeNoteText(text: string): string {
-        return text.replace(UserDataService.#DANGEROUS_PATTERN, '');
-    }
+    static #KEY_PATTERN = /^[\w\s]+::[\w\s\-'(),/*]+$/;
 
     #validateNoteKey(key: string): boolean {
         return UserDataService.#KEY_PATTERN.test(key) && key.length < 200;
@@ -152,7 +192,9 @@ export class UserDataService {
         const maxDecompressedSize = CONFIG.IMPORT_LIMITS.MAX_FILE_SIZE_BYTES * 10; // 50MB decompressed limit
 
         if (file.name.endsWith('.gz')) {
-            // #14: Streaming size check to defend against zip bombs
+            if (typeof DecompressionStream !== 'function' || typeof file.stream !== 'function') {
+                throw new Error('Compressed note imports are not supported in this browser. Import a .json file instead.');
+            }
             let totalBytes = 0;
             const sizeGuard = new TransformStream<Uint8Array, Uint8Array>({
                 transform(chunk, controller) {
@@ -190,16 +232,14 @@ export class UserDataService {
 
             if (encoder.encode(value).byteLength > CONFIG.IMPORT_LIMITS.MAX_NOTE_SIZE_BYTES) { skipped++; continue; }
 
-            const sanitized = this.#sanitizeNoteText(value);
             const existing = state.user.notes.get(key);
 
             if (!existing || existing.trim() === '') {
-                state.user.notes.set(key, sanitized);
-                toWrite.push([key, sanitized]);
+                state.user.notes.set(key, value);
+                toWrite.push([key, value]);
             }
         }
 
-        // Batch DB writes
         for (const [key, text] of toWrite) {
             await this.#dbService.put(key, text);
         }

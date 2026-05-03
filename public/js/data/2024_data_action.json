@@ -28,29 +28,30 @@
         ]
     },
     {
-        "title": "Cast a Spell",
+        "title": "Magic",
         "optional": "Standard rule",
         "icon": "magicswirl",
-        "subtitle": "Cast time of 1 action",
-        "description": "Cast a spell with a casting time of 1 action, the most common type used in combat.",
+        "subtitle": "Cast spells or use magic",
+        "description": "Cast a spell with a casting time of one action, or use a magical feature or magic item that requires the Magic action.",
         "reference": "PHB 2024, pgs. 290, 301.",
-        "summary": "Cast a spell with a 1-action casting time. If you cast a spell as a Bonus Action on the same turn, you can only use this action to cast a cantrip.",
+        "summary": "Use the Magic action to cast a 1-action spell, activate a magical feature, or use a magic item that calls for this action. Bonus Action spellcasting still limits other spellcasting that turn to a 1-action cantrip.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "This is the primary way a spellcaster uses their magic in battle. While you can still move, this action consumes the main part of your turn and is subject to important rules regarding spellcasting frequency and concentration."
+                "content": "The 2024 rules consolidate one-action spellcasting and many magical activations under the Magic action. This keeps spell, class feature, and magic item timing consistent at the table."
             },
             {
                 "type": "list",
                 "items": [
-                    "<b>Bonus Action Spell Rule:</b> The only rule limiting the number of spells per turn is this: If you cast any spell as a Bonus Action, the only other spell you can cast that turn is a cantrip with a 1-Action casting time.",
-                    "There is no general rule against casting two leveled spells in one turn (e.g., using Action Surge).",
+                    "Cast a spell whose casting time is an action.",
+                    "Use a magical class feature or magic item that specifies the Magic action.",
+                    "<b>Bonus Action Spell Rule:</b> If you cast any spell as a Bonus Action, the only other spell you can cast on the same turn is a cantrip with a casting time of one action.",
                     "<b>Concentration:</b> Many spells require concentration. You lose concentration if you: cast another spell that requires concentration, take damage (requiring a CON save vs. DC 10 or half the damage taken), are Incapacitated, or die."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "Mastering spellcasting involves managing not just your spell slots, but also the strict action economy of these rules and the critical task of protecting your concentration."
+                "content": "Mastering the Magic action means tracking action cost, concentration, and whether another rule has already limited what spells you can cast this turn."
             }
         ]
     },
@@ -81,25 +82,25 @@
         ]
     },
     {
-        "title": "Disarm",
-        "optional": "Standard rule",
+        "title": "Disarm*",
+        "optional": "Optional rule",
         "icon": "swordbreak",
         "subtitle": "Knock item from enemy's grasp",
-        "description": "As one of your attacks, attempt to knock an item from a creature's grasp using a Strength (Athletics) check.",
-        "reference": "PHB 2024, pg. 291.",
-        "summary": "As part of the Attack action, you can make a Strength (Athletics) check contested by the target's Athletics or Acrobatics. On a success, the target drops one held item of your choice.",
+        "description": "Use an optional combat maneuver to knock an item from a creature's grasp instead of dealing damage.",
+        "reference": "DMG 2014, pg. 271.",
+        "summary": "As an optional maneuver, make a weapon attack roll contested by the target's Strength (Athletics) or Dexterity (Acrobatics). If you win, the target drops one held item.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "Now a standard combat maneuver, Disarm offers a tactical way to neutralize a threat without dealing damage by removing their weapon or focus. This is performed as part of the Attack action."
+                "content": "Disarm is not one of the standard 2024 actions. It remains useful as an optional maneuver for tables that want a direct way to separate an enemy from a weapon, focus, or other held item."
             },
             {
                 "type": "list",
                 "items": [
-                    "You use one of your attacks from the Attack action to make a special check.",
-                    "You make a <b>Strength (Athletics)</b> check contested by the target's <b>Strength (Athletics)</b> or <b>Dexterity (Acrobatics)</b> check (target's choice).",
-                    "If you win, your attack deals no damage, but the target drops one item of your choice that it is holding.",
-                    "The target has <b>advantage</b> on its check if it is holding the item with two or more hands."
+                    "Make a weapon attack roll contested by the target's <b>Strength (Athletics)</b> or <b>Dexterity (Acrobatics)</b> check.",
+                    "If you win the contest, the attack deals no damage and the target drops one held item of your choice.",
+                    "The target has <b>advantage</b> on its check if it is holding the item with two or more hands.",
+                    "The attacker has <b>disadvantage</b> if the target is larger than them."
                 ]
             },
             {
@@ -208,9 +209,9 @@
         "optional": "Standard rule",
         "icon": "grab",
         "subtitle": "Special unarmed strike",
-        "description": "As one of your attacks, attempt to seize a creature, forcing them to make a Strength save or become Grappled.",
+        "description": "As one of your attacks, attempt to seize a creature, forcing them to make a Strength or Dexterity save or become Grappled.",
         "reference": "PHB 2024, pg. 317.",
-        "summary": "As part of the Attack action, you can force a creature to make a Strength saving throw against your grapple DC. On a failure, the target gains the Grappled condition.",
+        "summary": "As part of the Attack action, you can force a creature to make a Strength or Dexterity saving throw against your grapple DC. On a failure, the target gains the Grappled condition.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -221,7 +222,7 @@
                 "items": [
                     "This replaces one of your attacks when you take the Attack action. You need at least one free hand.",
                     "The target must be no more than one size larger than you and must be within your reach.",
-                    "The target must make a <b>Strength saving throw</b> (DC = 8 + your Strength modifier + your proficiency bonus).",
+                    "The target chooses whether to make a <b>Strength or Dexterity saving throw</b> (DC = 8 + your Strength modifier + your proficiency bonus).",
                     "On a failed save, the target gains the <b>Grappled</b> condition."
                 ]
             },
@@ -264,7 +265,7 @@
         "subtitle": "Attempt to hide",
         "description": "Make a DC 15 Dexterity (Stealth) check to conceal yourself, gaining the benefits of the Invisible condition.",
         "reference": "PHB 2024, pg. 291.",
-        "summary": "If you are heavily obscured or behind 3/4 cover, you can make a DC 15 Dexterity (Stealth) check. On a success, you gain the benefits of the Invisible condition until you are found or reveal yourself.",
+        "summary": "If you are heavily obscured or behind 3/4 or Total Cover, you can make a DC 15 Dexterity (Stealth) check. On a success, you gain the benefits of the Invisible condition until you are found or reveal yourself.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -273,7 +274,7 @@
             {
                 "type": "list",
                 "items": [
-                    "You must be heavily obscured or behind at least three-quarters cover to attempt to hide. You cannot hide from a creature that can see you.",
+                    "You must be heavily obscured or behind at least three-quarters cover or Total Cover to attempt to hide. You cannot hide from a creature that can see you.",
                     "Make a <b>DC 15 Dexterity (Stealth)</b> check.",
                     "On a success, you gain the <b>Invisible</b> condition relative to other creatures. Make a note of your check's total.",
                     "A creature can use the Search action to make a Wisdom (Perception) check against your Stealth check's total to find you.",
@@ -346,11 +347,11 @@
         "subtitle": "Your one free interaction",
         "description": "You can also interact with one object or feature of the environment for free as part of your move or action.",
         "reference": "PHB 2024, pg. 294.",
-        "summary": "As part of your move or action, you can interact with one object for free (e.g., draw a weapon, open a door). A second interaction requires the Use an Object action.",
+        "summary": "As part of your move or action, you can interact with one object for free (e.g., draw a weapon, open a door). A second interaction can require the Utilize action.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "This is not a standalone Action, but a crucial part of your turn's action economy. If you need to perform a second, similar task, you must use the 'Use an Object' action instead."
+                "content": "This is not a standalone action, but a crucial part of your turn's action economy. If you need to perform a second similar task or use an item with its own activation rule, the DM can require the Utilize action."
             },
             {
                 "type": "list",
@@ -361,7 +362,7 @@
             },
             {
                 "type": "paragraph",
-                "content": "This rule is why you can draw your sword and attack, but cannot sheathe that sword and then draw a bow in the same turn without using your full action."
+                "content": "This rule is why simple handling, like drawing a weapon while moving into a fight, usually fits inside the rest of your turn."
             }
         ]
     },
@@ -398,20 +399,21 @@
         "optional": "Standard rule",
         "icon": "magnifyingglass",
         "subtitle": "Attempt to find something",
-        "description": "Devote your attention to finding something hidden or not obvious, making a Perception or Investigation check.",
+        "description": "Devote your attention to finding something hidden or otherwise not obvious, usually with a Wisdom check.",
         "reference": "PHB 2024, pg. 291.",
-        "summary": "Make a Wisdom (Perception) check to find a hidden creature or object, or an Intelligence (Investigation) check to deduce clues about a hidden object's presence.",
+        "summary": "Make a Wisdom check to discern something not obvious. Common skills include Insight, Medicine, Perception, or Survival, depending on what you are trying to find.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "While passive Perception represents your general awareness, the Search action represents a focused, deliberate effort to find something specific. The nature of your search determines which skill you use."
+                "content": "While passive awareness represents what you notice without effort, the Search action is a focused attempt to discern something hidden, unclear, or easy to overlook."
             },
             {
                 "type": "list",
                 "items": [
-                    "You make a <b>Wisdom (Perception)</b> check to find a hidden creature or object.",
-                    "You make an <b>Intelligence (Investigation)</b> check to find clues that suggest a hidden object's presence or to deduce how a trap works.",
-                    "The DM may call for other checks, such as Wisdom (Survival) to find tracks."
+                    "Use <b>Wisdom (Perception)</b> to spot a hidden creature or object.",
+                    "Use <b>Wisdom (Insight)</b> to read a creature's state or intent.",
+                    "Use <b>Wisdom (Medicine)</b> to diagnose a creature or determine cause of death.",
+                    "Use <b>Wisdom (Survival)</b> to follow tracks or signs in the environment."
                 ]
             },
             {
@@ -425,9 +427,9 @@
         "optional": "Standard rule",
         "icon": "hand",
         "subtitle": "Special unarmed strike",
-        "description": "As one of your attacks, attempt to either knock a creature prone or push it 5 feet away by forcing a Strength save.",
+        "description": "As one of your attacks, attempt to either knock a creature prone or push it 5 feet away by forcing a Strength or Dexterity save.",
         "reference": "PHB 2024, pg. 317.",
-        "summary": "As part of the Attack action, you can force a creature to make a Strength saving throw against your grapple DC. On a failure, you can either knock the target Prone or push it 5 feet away.",
+        "summary": "As part of the Attack action, you can force a creature to make a Strength or Dexterity saving throw against your grapple DC. On a failure, you can knock the target Prone or push it 5 feet away.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -437,7 +439,7 @@
                 "type": "list",
                 "items": [
                     "This replaces one of your attacks when you take the Attack action. The target must be no more than one size larger than you and within your reach.",
-                    "The target must make a <b>Strength saving throw</b> (DC = 8 + your Strength modifier + your proficiency bonus).",
+                    "The target chooses whether to make a <b>Strength or Dexterity saving throw</b> (DC = 8 + your Strength modifier + your proficiency bonus).",
                     "On a failed save, you choose one of two effects: either you knock the target <b>Prone</b>, or you push it <b>5 feet</b> directly away from you."
                 ]
             },
@@ -478,52 +480,54 @@
         "title": "Study",
         "optional": "Standard rule",
         "icon": "bookmarklet",
-        "subtitle": "Learn about a creature",
-        "description": "Use your action and an Intelligence check to learn a piece of tactical information about a creature.",
+        "subtitle": "Recall information",
+        "description": "Use your action and an Intelligence check to recall information or examine clues.",
         "reference": "PHB 2024, pg. 291.",
-        "summary": "Make an Intelligence check (DC 10 + CR) using a relevant skill (Arcana, Nature, etc.) to learn one tactical detail about a creature, such as its AC, a vulnerability, or its highest ability score.",
+        "summary": "Make an Intelligence check to study a topic or clue. Common skills include Arcana, History, Investigation, Nature, or Religion, depending on the subject.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "The Study action provides a clear mechanic for using your knowledge skills in combat, rewarding players who invest in Intelligence by revealing a creature's tactical details."
+                "content": "The Study action covers focused reasoning, research, and knowledge recall. It gives Intelligence-based skills a clear place in action economy without promising a fixed amount of tactical information."
             },
             {
                 "type": "list",
                 "items": [
-                    "Choose a creature you can see or hear and make an Intelligence check using a skill related to the creature's type (e.g., Arcana for constructs, Nature for beasts, Religion for undead).",
-                    "The DC is 10 + the creature's Challenge Rating (minimum 1).",
-                    "On a success, you learn one of the following about the target: its Armor Class, its Speed, its highest or lowest ability score, or one of its damage resistances, immunities, or vulnerabilities."
+                    "Use <b>Intelligence (Arcana)</b> for spells, magic items, and planar lore.",
+                    "Use <b>Intelligence (History)</b> for historical events, peoples, or places.",
+                    "Use <b>Intelligence (Investigation)</b> to deduce how clues or mechanisms fit together.",
+                    "Use <b>Intelligence (Nature)</b> or <b>Religion</b> for natural or divine/undead subjects."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "This action can provide a critical edge in a tough fight, allowing the party to exploit a weakness or avoid a powerful defense."
+                "content": "The DM sets the DC and the useful information learned, matching the situation and the character's approach."
             }
         ]
     },
     {
-        "title": "Use an Object",
+        "title": "Utilize",
         "optional": "Standard rule",
         "icon": "snatch",
-        "subtitle": "Use a second or complex object",
-        "description": "Use your action to interact with a second object or to use an object that requires special attention, like a potion.",
+        "subtitle": "Use an item or object",
+        "description": "Use a nonmagical item or object interaction that requires an action, as specified by the item or the DM.",
         "reference": "PHB 2024, pg. 291.",
-        "summary": "Use your action to activate a special item (like a potion) or to interact with a second object on your turn after using your free interaction.",
+        "summary": "Use the Utilize action for nonmagical equipment or object interactions that require an action, such as spreading caltrops, using tools, or manipulating a complex object.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "While you get one free object interaction on your turn, this action is for when you need to do more or when an item's use is too complex for a simple interaction."
+                "content": "The 2024 rules use the Utilize action for many concrete item interactions. The item or situation tells you what check, range, or effect applies."
             },
             {
                 "type": "list",
                 "items": [
-                    "This action is used to activate special items, such as drinking a potion, using alchemist's fire, or activating certain magic items.",
-                    "It's also used if you've already used your free Object Interaction. For example, if you opened a door (free), you would need to use this action to then pull a lever."
+                    "Use nonmagical adventuring gear that specifies the Utilize action, such as caltrops, a climber's kit, or manacles.",
+                    "Use appropriate tools when an object calls for them, such as thieves' tools for a lock or trap.",
+                    "Magic items and potions use the timing stated in their own descriptions; they are not automatically governed by Utilize."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "This is the action that governs using most consumable items in the game, making action economy a key part of their strategic use."
+                "content": "This distinction matters because some items are Bonus Actions or Magic actions instead of Utilize actions."
             }
         ]
     },
@@ -534,7 +538,7 @@
         "subtitle": "Some features use actions",
         "description": "Activate a class, species, or other feature that explicitly requires an action as detailed in its description.",
         "reference": "See class page for more information.",
-        "summary": "Activate a unique ability from your class, species, or other source that requires a full action to use, as specified in the feature's description.",
+        "summary": "Activate a unique ability from your class, species, or another source that requires an action or Magic action, as specified in the feature's description.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -543,7 +547,7 @@
             {
                 "type": "list",
                 "items": [
-                    "Examples from the 2024 PHB include a Paladin's Lay on Hands, a Cleric's Channel Divinity: Divine Spark, or a Druid's Wild Shape."
+                    "Check the feature text every time; many 2024 features moved to Bonus Action or Magic action timing."
                 ]
             },
             {
@@ -586,23 +590,23 @@
         "optional": "Homebrew rule",
         "icon": "healthpotion",
         "subtitle": "Use a potion on another",
-        "description": "A homebrew that splits the action economy of potion use between self and others.",
-        "summary": "A popular house rule where drinking a potion yourself is a bonus action, but administering a potion to another creature remains a full action.",
+        "description": "A stricter house rule that makes administering a potion cost an action instead of using 2024 bonus-action potion timing.",
+        "summary": "A house rule for tables that want helping another creature with a potion to cost a full action, even though a Potion of Healing can normally be administered as a Bonus Action in 2024.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "This popular house rule makes potions more accessible for self-use while keeping the tactical cost for aiding an ally, reflecting the difference in difficulty between drinking a potion and administering one to a fallen comrade."
+                "content": "This house rule intentionally slows down assisted potion use for grittier or more tactical tables. It should be treated as a deliberate table rule, not the 2024 default."
             },
             {
                 "type": "list",
                 "items": [
-                    "<b>Drinking a Potion (Self):</b> Use a bonus action.",
-                    "<b>Administering a Potion (Other):</b> Use a full action. This involves retrieving the potion, moving to the ally, and carefully administering it, justifying the longer time cost."
+                    "<b>2024 default:</b> A Potion of Healing can be drunk or administered to another creature within 5 feet as a Bonus Action.",
+                    "<b>House rule:</b> Drinking a potion yourself remains a Bonus Action, but administering one to another creature costs an action."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "This change can significantly improve the flow of combat and make healing potions a more viable mid-combat option for all characters, not just those with healing spells."
+                "content": "This preserves some of the old action-economy tension around rescuing a fallen ally while keeping self-use fast."
             }
         ]
     },
@@ -631,7 +635,7 @@
             },
             {
                 "type": "paragraph",
-                "content": "Using the new 2024 conditions like Dazed and Slowed makes this house rule feel fresh and integrated with the updated system."
+                "content": "Using table-defined effects like Dazed and Slowed can make this house rule feel distinct, but those effects need to be agreed on before play."
             }
         ]
     },

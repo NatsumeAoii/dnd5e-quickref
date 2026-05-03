@@ -3,8 +3,8 @@ import { DataLoadError } from '../utils/Utils.js';
 import type { StateManager } from '../state/StateManager.js';
 import type { RuleData } from '../types.js';
 
-// #15: Pattern for detecting potentially malicious content in data entries
-const DANGEROUS_DATA_RE = /<script[\s>]|onerror\s*=|javascript:/i;
+const DANGEROUS_DATA_RE = /<script[\s>]|on\w+\s*=|javascript:/i;
+const FETCH_TIMEOUT_MS = 10_000;
 
 export class DataService {
     #stateManager: StateManager;
@@ -19,8 +19,10 @@ export class DataService {
     getDataSourceKey = (key: string): string => (key.startsWith('environment_') ? 'environment' : key);
 
     async #fetchWithRetry(url: string, retries = 3, backoff = 500): Promise<Response> {
+        const controller = new AbortController();
+        const timeoutId = window.setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
         try {
-            const response = await fetch(url);
+            const response = await fetch(url, { signal: controller.signal });
             if (response.ok) return response;
             if (retries > 0 && (response.status >= 500 || response.status === 429)) {
                 throw new Error(`Server error: ${response.status}`);
@@ -28,9 +30,13 @@ export class DataService {
             return response;
         } catch (error) {
             if (retries === 0) throw error;
-            console.warn(`Fetch failed for ${url}. Retrying in ${backoff}ms... (${retries} attempts left)`);
-            await new Promise<void>((resolve) => { setTimeout(resolve, backoff); });
+            const jitter = Math.floor(Math.random() * Math.min(100, backoff * 0.2));
+            const delay = backoff + jitter;
+            console.warn(`Fetch failed for ${url}. Retrying in ${delay}ms... (${retries} attempts left)`);
+            await new Promise<void>((resolve) => { setTimeout(resolve, delay); });
             return this.#fetchWithRetry(url, retries - 1, backoff * 2);
+        } finally {
+            window.clearTimeout(timeoutId);
         }
     }
 
@@ -123,7 +129,7 @@ export class DataService {
 
     // #7: Concurrency-limited preload (batch of 4) to avoid browser connection saturation
     async preloadAllDataSilent(): Promise<void> {
-        console.log('Starting background preload of all data files...');
+        console.info('Starting background preload of all data files...');
         const tasks: (() => Promise<void>)[] = [];
         (['2014', '2024'] as const).forEach((ruleset) => {
             CONFIG.DATA_FILES.forEach((file) => tasks.push(() => this.#loadDataFile(file, ruleset)));
@@ -138,7 +144,7 @@ export class DataService {
             }
         };
         await Promise.allSettled(Array.from({ length: Math.min(concurrency, tasks.length) }, () => run()));
-        console.log('All data files preloaded.');
+        console.info('All data files preloaded.');
     }
 
     buildRuleMap(): void {
@@ -152,9 +158,15 @@ export class DataService {
             const srcKey = this.getDataSourceKey(section.dataKey);
             const src = activeRulesetData[srcKey];
             if (Array.isArray(src)) {
-                src.forEach((rule) => {
+                const rules = section.dataKey.startsWith('environment_')
+                    ? src.filter((rule) => rule.tags?.includes(section.dataKey))
+                    : src;
+                rules.forEach((rule) => {
                     if (rule.title) {
                         const id = `${section.type}::${rule.title}`;
+                        if (state.data.ruleMap.has(id)) {
+                            console.warn(`Duplicate rule id "${id}" while building rule map; later entry overwrites earlier entry.`);
+                        }
                         const titlePart = rule.title.toLowerCase();
                         const descPart = (rule.description ?? '').replace(/<[^>]*>/g, '').toLowerCase();
                         const subtitlePart = (rule.subtitle ?? '').toLowerCase();
@@ -178,12 +190,20 @@ export class DataService {
         const rulesetKey = this.#getRulesetKey(state.settings.use2024Rules);
         const titleLookup = new Map<string, string>();
         const ruleTitles: string[] = [];
+        const addTitleAlias = (title: string, key: string): void => {
+            const normalized = title.trim();
+            if (normalized.length <= 2) return;
+            ruleTitles.push(normalized);
+            const lookupKey = normalized.toLowerCase();
+            if (!titleLookup.has(lookupKey)) titleLookup.set(lookupKey, key);
+        };
 
         state.data.ruleMap.forEach((_info, key) => {
             const title = key.split('::')[1];
-            if (title && title.length > 2) {
-                ruleTitles.push(title);
-                titleLookup.set(title.toLowerCase(), key);
+            if (title) {
+                addTitleAlias(title, key);
+                const titleWithoutRuleMarker = title.replace(/\*+$/u, '').trim();
+                if (titleWithoutRuleMarker !== title) addTitleAlias(titleWithoutRuleMarker, key);
             }
         });
 

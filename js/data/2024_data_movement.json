@@ -32,16 +32,17 @@
         "subtitle": "Cost: +1ft per 1ft",
         "description": "While prone, your only movement option is to crawl, which costs 1 extra foot of movement for every foot moved.",
         "reference": "PHB 2024, pg. 292.",
-        "summary": "While you are Prone, your only movement option is to crawl. Each foot of movement spent crawling costs 1 extra foot, treating it as difficult terrain.",
+        "summary": "While you are Prone, your only movement option is to crawl. Each foot crawled costs 1 extra foot, or 2 extra feet in Difficult Terrain.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "Crawling is the slow and arduous movement you are restricted to while in the Prone condition. It costs double your normal movement, making it a highly inefficient way to get around the battlefield."
+                "content": "Crawling is the slow and arduous movement you are restricted to while in the Prone condition. It costs extra movement, and difficult terrain makes it even slower."
             },
             {
                 "type": "list",
                 "items": [
-                    "Crawling is the only way to move while you have the Prone condition (unless you use magic)."
+                    "Crawling is the only way to move while you have the Prone condition (unless you use magic).",
+                    "Each foot crawled costs 1 extra foot of movement, or 2 extra feet if the space is Difficult Terrain."
                 ]
             },
             {
@@ -134,9 +135,9 @@
         "optional": "Standard rule",
         "icon": "grab",
         "subtitle": "Modifier: Difficult Terrain",
-        "description": "When you move while grappling a creature, your movement is treated as difficult terrain unless the target is two+ sizes smaller.",
+        "description": "When you move while grappling a creature, each foot costs 1 extra foot unless the target is Tiny or at least two sizes smaller.",
         "reference": "PHB 2024, pg. 317.",
-        "summary": "When you move while grappling another creature, your movement is treated as if you are moving through difficult terrain (double movement cost).",
+        "summary": "When you move while grappling another creature, each foot costs 1 extra foot unless the creature is Tiny or at least two sizes smaller than you.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -145,7 +146,8 @@
             {
                 "type": "list",
                 "items": [
-                    "If you move while grappling another creature, your movement is through <b>Difficult Terrain</b> (each foot moved costs 1 extra foot), unless the creature is two or more sizes smaller than you."
+                    "If you move while grappling another creature, each foot of movement costs 1 extra foot.",
+                    "This extra cost does not apply if the grappled creature is Tiny or at least two sizes smaller than you."
                 ]
             },
             {
@@ -183,26 +185,27 @@
         "title": "Jump",
         "optional": "Standard rule",
         "icon": "wingfoot",
-        "subtitle": "Distance: up to STR score",
-        "description": "The rules for jumping have been simplified: your Strength score determines your horizontal jump distance as part of your move.",
+        "subtitle": "Long and high jumps",
+        "description": "Jumping uses your movement; long jumps and high jumps still work differently and can require a 10-foot run-up for their full distance.",
         "reference": "PHB 2024, pg. 292.",
-        "summary": "You can jump horizontally a number of feet up to your Strength score. To jump vertically, you make a Strength (Athletics) check to determine the height. Each foot jumped costs movement.",
+        "summary": "With a 10-foot run-up, you can long jump up to your Strength score and high jump 3 + STR mod feet. Standing jumps cover half that distance.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "The 2024 rules unify high and long jumps into a single, more intuitive system based on your Strength score and an Athletics check, removing the need for a running start."
+                "content": "The 2024 rules keep the familiar distinction between long jumps and high jumps. The jump distance still counts against your available movement."
             },
             {
                 "type": "list",
                 "items": [
-                    "You can jump a number of feet horizontally up to your Strength score (minimum 0). Each foot jumped costs one foot of movement.",
-                    "To make a high jump, you make a <b>Strength (Athletics)</b> check. The result is how many feet you can clear vertically. This also costs movement.",
-                    "A running start (moving 10 feet prior) is no longer required for a maximum distance jump."
+                    "<b>Long Jump:</b> If you move at least 10 feet immediately before the jump, you can jump horizontally up to your Strength score in feet.",
+                    "<b>High Jump:</b> If you move at least 10 feet immediately before the jump, you can jump vertically 3 + your Strength modifier feet.",
+                    "A standing long or high jump covers half the normal distance.",
+                    "The DM can require a Strength (Athletics) check for unusually difficult jumps or obstacles."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "This simplification makes jumping quicker to adjudicate at the table, allowing the game to flow more smoothly."
+                "content": "Because jumping spends movement, a creature cannot jump farther on a turn than its remaining movement allows without some other rule increasing that movement."
             }
         ]
     },

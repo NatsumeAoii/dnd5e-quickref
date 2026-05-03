@@ -12,8 +12,9 @@ const CORE_ASSETS = [
 const scopeUrl = new URL(self.registration.scope);
 const ROOT_URL = scopeUrl.pathname.endsWith('/') ? scopeUrl.pathname : `${scopeUrl.pathname}/`;
 const INDEX_URL = `${ROOT_URL}index.html`;
+const CORE_ASSET_PATHS = new Set(CORE_ASSETS.map((asset) => new URL(asset, scopeUrl).pathname));
 
-let cachingAllowed = true;
+let cachingAllowed = false;
 
 function isStaticAsset(pathname) {
   return pathname.endsWith('.html')
@@ -28,8 +29,10 @@ function isStaticAsset(pathname) {
 }
 
 function isCoreAsset(pathname) {
-  return CORE_ASSETS.some((path) => pathname.endsWith(path.substring(path.startsWith('./') ? 2 : 0)))
-    || pathname.includes('/assets/');
+  return CORE_ASSET_PATHS.has(pathname)
+    || pathname === ROOT_URL
+    || pathname === INDEX_URL
+    || (pathname.startsWith(ROOT_URL) && pathname.includes('/assets/'));
 }
 
 async function clearDataCache() {
@@ -54,9 +57,10 @@ async function tryCachePut(request, response) {
 
   const url = new URL(request.url);
   const { pathname } = url;
+  const isCore = isCoreAsset(pathname);
 
-  if (!isCoreAsset(pathname) && !cachingAllowed) return;
-  if (!isStaticAsset(pathname) && !isCoreAsset(pathname) && !cachingAllowed) return;
+  if (!isCore && !cachingAllowed) return;
+  if (!isCore && !isStaticAsset(pathname)) return;
 
   try {
     const cache = await caches.open(CACHE_NAME);
@@ -118,11 +122,18 @@ self.addEventListener('message', (event) => {
     case 'CLEAR_CACHE':
       event.waitUntil(clearDataCache());
       break;
+    case 'CLAIM':
+      event.waitUntil(self.clients.claim());
+      break;
   }
 });
 
 function isImmutableAsset(pathname) {
   return pathname.includes('/img/') || (pathname.includes('/themes/') && pathname.endsWith('.css'));
+}
+
+function getCacheMatchOptions(pathname) {
+  return { ignoreSearch: isImmutableAsset(pathname) };
 }
 
 self.addEventListener('fetch', (event) => {
@@ -154,7 +165,7 @@ self.addEventListener('fetch', (event) => {
   if (isImmutableAsset(url.pathname)) {
     event.respondWith((async () => {
       const cache = await caches.open(CACHE_NAME);
-      const cached = await cache.match(request, { ignoreSearch: true });
+      const cached = await cache.match(request, getCacheMatchOptions(url.pathname));
       if (cached) return cached;
       try {
         const response = await fetch(request);
@@ -170,7 +181,7 @@ self.addEventListener('fetch', (event) => {
   // Stale-while-revalidate for everything else (JS, CSS bundles, JSON data)
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
-    const cachedResponse = await cache.match(request, { ignoreSearch: true });
+    const cachedResponse = await cache.match(request, getCacheMatchOptions(url.pathname));
 
     const networkFetch = fetch(request).then(async (response) => {
       await tryCachePut(request, response);

@@ -1,7 +1,7 @@
 import type { SectionConfig, SettingsConfig } from './types.js';
 
 export const CONFIG = Object.freeze({
-    APP_VERSION: '1.1.4',
+    APP_VERSION: '1.1.5',
     STORAGE_KEYS: Object.freeze({
         RULES_2024: 'rules2024',
         OPTIONAL: 'optional',
@@ -55,6 +55,7 @@ export const CONFIG = Object.freeze({
         PRINT_BTN: 'print-mode-btn',
         SEARCH_INPUT: 'search-input',
         SEARCH_CLEAR_BTN: 'search-clear-btn',
+        SEARCH_STATUS: 'search-status',
         EXPORT_FAVORITES_BTN: 'export-favorites-btn',
     } as const),
     THEME_CONFIG: Object.freeze({
@@ -124,6 +125,7 @@ export const CONFIG = Object.freeze({
     UI_STRINGS: Object.freeze({
         NOTE_STATUS_SAVING: 'Saving...',
         NOTE_STATUS_SAVED: '✓ Saved',
+        NOTE_STATUS_FAILED: 'Save failed',
         RULE_NOT_FOUND: 'The requested rule could not be found.',
     } as const),
     DEBOUNCE_DELAY: { RESIZE_MS: 200, NOTE_AUTOSAVE_MS: 750 } as const,

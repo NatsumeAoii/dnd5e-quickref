@@ -1,4 +1,5 @@
 import { CONFIG } from '../config.js';
+import { trapFocusWithin } from '../utils/Utils.js';
 import type { A11yService } from './A11yService.js';
 
 interface VersionBlock {
@@ -133,6 +134,7 @@ export class ChangelogService {
             if (e.target === this.#modalEl) this.close();
         });
         this.#modalEl.addEventListener('keydown', (e: KeyboardEvent) => {
+            trapFocusWithin(e, this.#modalEl!);
             if (e.key === 'Escape') { e.stopPropagation(); this.close(); }
         });
 

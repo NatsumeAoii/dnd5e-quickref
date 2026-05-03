@@ -10,6 +10,7 @@ import {
 import {
     TemplateService, ViewRenderer, PopupFactory, WindowManager, UIController,
 } from './ui/index.js';
+import { installPrintRestoreFallback } from './utils/Utils.js';
 
 interface Services {
     domProvider: DOMProvider;
@@ -42,6 +43,7 @@ class QuickRefApplication {
     #stateManager!: StateManager;
     #services!: Services;
     #components!: Components;
+    #printInProgress = false;
 
     constructor() {
         try {
@@ -94,7 +96,6 @@ class QuickRefApplication {
             persistence: this.#services.persistence,
             a11y: this.#services.a11y,
             popupFactory,
-            viewRenderer,
             data: this.#services.data,
         });
 
@@ -162,17 +163,28 @@ class QuickRefApplication {
                 this.#components.viewRenderer.showNotification(msg, level);
             });
 
-            // Start onboarding if new user
-            setTimeout(() => {
+            const startOnboarding = (): void => {
                 if (this.#services.onboarding.shouldShow()) this.#services.onboarding.start();
-            }, 500);
+            };
+            const cookieNotice = document.getElementById(CONFIG.ELEMENT_IDS.COOKIE_NOTICE);
+            if (cookieNotice?.style.display === 'block') {
+                window.addEventListener('quickref:cookieNoticeDismissed', () => { setTimeout(startOnboarding, 250); }, { once: true });
+            } else {
+                setTimeout(startOnboarding, 500);
+            }
 
             if ('serviceWorker' in navigator) {
                 try {
                     const registration = await navigator.serviceWorker.register('./sw.js', { scope: './' });
-                    console.log('Service Worker registered with scope:', registration.scope);
-                    ServiceWorkerMessenger.ensureServiceWorkerReady().then(() => {
-                        ServiceWorkerMessenger.setCachingPolicy(window.localStorage.getItem(CONFIG.STORAGE_KEYS.COOKIES_ACCEPTED) === 'true');
+                    console.info('Service Worker registered with scope:', registration.scope);
+                    ServiceWorkerMessenger.ensureServiceWorkerReady().then((ready) => {
+                        let cachingAllowed = false;
+                        try {
+                            cachingAllowed = window.localStorage.getItem(CONFIG.STORAGE_KEYS.COOKIES_ACCEPTED) === 'true';
+                        } catch (error) {
+                            console.warn('Could not read cache consent state:', error);
+                        }
+                        if (ready) ServiceWorkerMessenger.setCachingPolicy(cachingAllowed);
                     });
                 } catch (error) {
                     console.error('Service Worker registration failed:', error);
@@ -207,20 +219,9 @@ class QuickRefApplication {
             this.#services.navigation.invalidateFocusables();
         });
 
-        // Print mode toggle
-        s.register('Ctrl+P', 'Toggle print mode', 'Tools', () => {
-            document.body.classList.toggle(CONFIG.CSS.PRINT_MODE);
-            const isPrint = document.body.classList.contains(CONFIG.CSS.PRINT_MODE);
-            this.#services.a11y.announce(isPrint ? 'Print mode enabled' : 'Print mode disabled');
-            if (isPrint) {
-                // Expand all sections for print
-                document.querySelectorAll(`.${CONFIG.CSS.SECTION_CONTAINER}.${CONFIG.CSS.IS_COLLAPSED}`).forEach((el) => {
-                    el.classList.remove(CONFIG.CSS.IS_COLLAPSED);
-                });
-                // Trigger rendering of all un-rendered sections
-                this.#components.controller.renderOpenSections();
-                this.#services.navigation.invalidateFocusables();
-            }
+        // Print
+        s.register('Ctrl+P', 'Print quick reference', 'Tools', () => {
+            void this.#printQuickReference();
         });
 
         // Scroll to top
@@ -233,6 +234,46 @@ class QuickRefApplication {
             this.#components.windowManager.closeAllPopups();
         });
 
+    }
+
+    async #printQuickReference(): Promise<void> {
+        if (this.#printInProgress) return;
+        this.#printInProgress = true;
+        const expandedForPrint: HTMLElement[] = [];
+        let restored = false;
+        const restorePrintState = (): void => {
+            if (restored) return;
+            restored = true;
+            document.body.classList.remove(CONFIG.CSS.PRINT_MODE);
+            expandedForPrint.forEach((el) => {
+                el.classList.add(CONFIG.CSS.IS_COLLAPSED);
+                el.querySelector(`.${CONFIG.CSS.SECTION_TITLE}`)?.setAttribute('aria-expanded', 'false');
+            });
+            this.#services.navigation.invalidateFocusables();
+        };
+
+        try {
+            document.body.classList.add(CONFIG.CSS.PRINT_MODE);
+            document.querySelectorAll(`.${CONFIG.CSS.SECTION_CONTAINER}.${CONFIG.CSS.IS_COLLAPSED}`).forEach((el) => {
+                const section = el as HTMLElement;
+                expandedForPrint.push(section);
+                section.classList.remove(CONFIG.CSS.IS_COLLAPSED);
+                section.querySelector(`.${CONFIG.CSS.SECTION_TITLE}`)?.setAttribute('aria-expanded', 'true');
+            });
+            await this.#components.controller.renderOpenSections();
+            this.#services.navigation.invalidateFocusables();
+            this.#services.a11y.announce('Print view ready');
+            installPrintRestoreFallback(
+                restorePrintState,
+                CONFIG.ANIMATION_DURATION.SECTION_TRANSITION_MS * 4,
+            );
+            window.print();
+        } catch (error) {
+            restorePrintState();
+            this.#services.errorService.warn(error instanceof Error ? error.message : String(error), 'Print');
+        } finally {
+            this.#printInProgress = false;
+        }
     }
 }
 

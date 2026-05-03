@@ -88,9 +88,9 @@ export interface AppState {
 
 export interface PopupState {
     id: string;
-    top: string;
-    left: string;
-    zIndex: string;
+    top?: string;
+    left?: string;
+    zIndex?: string;
     width?: string;
     height?: string;
 }

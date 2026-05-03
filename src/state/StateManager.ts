@@ -24,9 +24,10 @@ export class StateManager {
 
     getState = (): AppState => this.#state;
 
-    subscribe(event: string, callback: EventCallback): void {
+    subscribe(event: string, callback: EventCallback): () => void {
         if (!this.#listeners.has(event)) this.#listeners.set(event, []);
         this.#listeners.get(event)!.push(callback);
+        return () => this.unsubscribe(event, callback);
     }
 
     unsubscribe(event: string, callback: EventCallback): void {
@@ -34,14 +35,15 @@ export class StateManager {
         if (!listeners) return;
         const idx = listeners.indexOf(callback);
         if (idx !== -1) listeners.splice(idx, 1);
+        if (listeners.length === 0) this.#listeners.delete(event);
     }
 
     // (K) Error isolation — a throwing subscriber must not break sibling listeners
     publish(event: string, data?: unknown): void {
-        if (this.#listeners.has(event)) {
-            this.#listeners.get(event)!.forEach((cb) => {
-                try { cb(data); } catch (e) { console.error(`[StateManager] Listener error for "${event}":`, e); }
-            });
-        }
+        const listeners = this.#listeners.get(event);
+        if (!listeners) return;
+        [...listeners].forEach((cb) => {
+            try { cb(data); } catch (e) { console.error(`[StateManager] Listener error for "${event}":`, e); }
+        });
     }
 }

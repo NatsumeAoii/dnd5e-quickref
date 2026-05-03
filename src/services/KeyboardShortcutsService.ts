@@ -1,4 +1,5 @@
 import { CONFIG } from '../config.js';
+import { trapFocusWithin } from '../utils/Utils.js';
 import type { A11yService } from './A11yService.js';
 
 export interface ShortcutEntry {
@@ -54,12 +55,10 @@ export class KeyboardShortcutsService {
     }
 
     #handleKeyDown = (e: KeyboardEvent): void => {
-        // Don't trigger shortcuts when typing in inputs
         const target = e.target as HTMLElement;
         if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT') return;
         if (target.isContentEditable) return;
 
-        // ? key toggles shortcuts modal (Shift+/ on US keyboard, or literal ?)
         if ((e.key === '?' || (e.key === '/' && e.shiftKey)) && !e.ctrlKey && !e.altKey) {
             e.preventDefault();
             this.toggle();
@@ -69,10 +68,10 @@ export class KeyboardShortcutsService {
         for (const shortcut of this.#shortcuts) {
             const ctrlMatch = shortcut.ctrl ? (e.ctrlKey || e.metaKey) : (!e.ctrlKey && !e.metaKey);
             const altMatch = shortcut.alt ? e.altKey : !e.altKey;
-            // For non-modifier keys, compare case-insensitively
+            const shiftMatch = shortcut.shift ? e.shiftKey : !e.shiftKey;
             const keyMatch = e.key.toLowerCase() === shortcut.key.toLowerCase();
 
-            if (ctrlMatch && altMatch && keyMatch) {
+            if (ctrlMatch && altMatch && shiftMatch && keyMatch) {
                 e.preventDefault();
                 shortcut.action();
                 return;
@@ -100,6 +99,28 @@ export class KeyboardShortcutsService {
         this.#a11yService.announce('Keyboard shortcuts panel closed');
     }
 
+    #appendKeys(parent: HTMLElement, keys: string): void {
+        keys.split('+').forEach((key, index) => {
+            if (index > 0) parent.appendChild(document.createTextNode(' + '));
+            const keyEl = document.createElement('kbd');
+            keyEl.textContent = key.trim();
+            parent.appendChild(keyEl);
+        });
+    }
+
+    #createShortcutRow(entry: ShortcutEntry): HTMLElement {
+        const row = document.createElement('div');
+        row.className = 'shortcut-row';
+        const keys = document.createElement('span');
+        keys.className = 'shortcut-keys';
+        this.#appendKeys(keys, entry.keys);
+        const desc = document.createElement('span');
+        desc.className = 'shortcut-desc';
+        desc.textContent = entry.description;
+        row.append(keys, desc);
+        return row;
+    }
+
     #createModal(): void {
         this.#modalEl = document.createElement('div');
         this.#modalEl.id = CONFIG.ELEMENT_IDS.SHORTCUTS_MODAL;
@@ -108,12 +129,11 @@ export class KeyboardShortcutsService {
         this.#modalEl.setAttribute('aria-modal', 'true');
         this.#modalEl.setAttribute('aria-label', 'Keyboard shortcuts');
 
-        // Group by category
         const groups = new Map<string, ShortcutEntry[]>();
         const allEntries: ShortcutEntry[] = [
             { keys: '?', description: 'Toggle this shortcuts panel', category: 'General' },
-            { keys: '← →', description: 'Navigate between items in sections', category: 'General' },
-            { keys: '↑ ↓', description: 'Navigate between sections', category: 'General' },
+            { keys: 'Left Right', description: 'Navigate between items in sections', category: 'General' },
+            { keys: 'Up Down', description: 'Navigate between sections', category: 'General' },
             ...this.#shortcuts.map((s) => s.entry),
         ];
 
@@ -122,45 +142,50 @@ export class KeyboardShortcutsService {
             groups.get(entry.category)!.push(entry);
         });
 
-        let html = `
-            <div class="shortcuts-modal" tabindex="-1">
-                <div class="shortcuts-modal-header">
-                    <h2>⌨️ Keyboard Shortcuts</h2>
-                    <button class="shortcuts-close-btn" aria-label="Close shortcuts">✕</button>
-                </div>
-                <div class="shortcuts-modal-body">`;
+        const modal = document.createElement('div');
+        modal.className = 'shortcuts-modal';
+        modal.setAttribute('tabindex', '-1');
 
+        const header = document.createElement('div');
+        header.className = 'shortcuts-modal-header';
+        const title = document.createElement('h2');
+        title.textContent = 'Keyboard Shortcuts';
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'shortcuts-close-btn';
+        closeBtn.setAttribute('aria-label', 'Close shortcuts');
+        closeBtn.textContent = 'x';
+        header.append(title, closeBtn);
+
+        const body = document.createElement('div');
+        body.className = 'shortcuts-modal-body';
         groups.forEach((entries, category) => {
-            html += `<div class="shortcuts-group">
-                <h3 class="shortcuts-group-title">${category}</h3>
-                <div class="shortcuts-list">`;
-
-            entries.forEach((entry) => {
-                const keys = entry.keys.split('+').map((k) => `<kbd>${k.trim()}</kbd>`).join(' + ');
-                html += `<div class="shortcut-row">
-                    <span class="shortcut-keys">${keys}</span>
-                    <span class="shortcut-desc">${entry.description}</span>
-                </div>`;
-            });
-
-            html += `</div></div>`;
+            const group = document.createElement('div');
+            group.className = 'shortcuts-group';
+            const groupTitle = document.createElement('h3');
+            groupTitle.className = 'shortcuts-group-title';
+            groupTitle.textContent = category;
+            const list = document.createElement('div');
+            list.className = 'shortcuts-list';
+            entries.forEach((entry) => list.appendChild(this.#createShortcutRow(entry)));
+            group.append(groupTitle, list);
+            body.appendChild(group);
         });
 
-        html += `</div></div>`;
-        this.#modalEl.innerHTML = html;
+        modal.append(header, body);
+        this.#modalEl.appendChild(modal);
 
-        // Close handlers
-        this.#modalEl.querySelector('.shortcuts-close-btn')!.addEventListener('click', () => this.close());
+        closeBtn.addEventListener('click', () => this.close());
         this.#modalEl.addEventListener('click', (e) => {
             if (e.target === this.#modalEl) this.close();
         });
         this.#modalEl.addEventListener('keydown', (e: KeyboardEvent) => {
+            trapFocusWithin(e, this.#modalEl!);
             if (e.key === 'Escape') { e.stopPropagation(); this.close(); }
             if (e.key === '?' || (e.key === '/' && e.shiftKey)) { e.stopPropagation(); e.preventDefault(); this.close(); }
         });
 
         document.body.appendChild(this.#modalEl);
-        (this.#modalEl.querySelector('.shortcuts-modal') as HTMLElement).focus();
+        modal.focus();
     }
 
     getShortcuts(): ShortcutEntry[] {

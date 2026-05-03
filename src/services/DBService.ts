@@ -35,16 +35,18 @@ export class DBService {
             const store = tx.objectStore(this.#storeName);
             const req = store.openCursor();
             const results: Record<string, string> = {};
+            const fail = (): void => reject(tx.error ?? req.error ?? new Error('IndexedDB read transaction failed'));
             req.onsuccess = (e) => {
                 const cursor = (e.target as IDBRequest<IDBCursorWithValue | null>).result;
                 if (cursor) {
                     results[cursor.key as string] = cursor.value;
                     cursor.continue();
-                } else {
-                    resolve(results);
                 }
             };
-            req.onerror = () => reject(req.error);
+            req.onerror = fail;
+            tx.onerror = fail;
+            tx.onabort = fail;
+            tx.oncomplete = () => resolve(results);
         });
     }
 
@@ -54,8 +56,11 @@ export class DBService {
             const tx = db.transaction(this.#storeName, 'readwrite');
             const store = tx.objectStore(this.#storeName);
             const req = store.put(value, key);
-            req.onsuccess = () => resolve();
-            req.onerror = () => reject(req.error);
+            const fail = (): void => reject(tx.error ?? req.error ?? new Error('IndexedDB write transaction failed'));
+            req.onerror = fail;
+            tx.onerror = fail;
+            tx.onabort = fail;
+            tx.oncomplete = () => resolve();
         });
     }
 
@@ -65,8 +70,11 @@ export class DBService {
             const tx = db.transaction(this.#storeName, 'readwrite');
             const store = tx.objectStore(this.#storeName);
             const req = store.delete(key);
-            req.onsuccess = () => resolve();
-            req.onerror = () => reject(req.error);
+            const fail = (): void => reject(tx.error ?? req.error ?? new Error('IndexedDB delete transaction failed'));
+            req.onerror = fail;
+            tx.onerror = fail;
+            tx.onabort = fail;
+            tx.oncomplete = () => resolve();
         });
     }
 }

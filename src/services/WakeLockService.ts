@@ -2,10 +2,13 @@ export class WakeLockService {
     #wakeLock: WakeLockSentinel | null = null;
     #isEnabled = false;
     #pending: Promise<void> | null = null;
+    #handleRelease = (): void => {
+        this.#wakeLock = null;
+    };
 
     constructor() {
         document.addEventListener('visibilitychange', () => {
-            if (this.#isEnabled && this.#wakeLock !== null && document.visibilityState === 'visible') {
+            if (this.#isEnabled && document.visibilityState === 'visible') {
                 this.#requestLock();
             }
         });
@@ -18,10 +21,11 @@ export class WakeLockService {
     }
 
     async #requestLock(): Promise<void> {
-        if (!this.#isEnabled || !('wakeLock' in navigator) || this.#pending) return;
+        if (!this.#isEnabled || !('wakeLock' in navigator) || this.#pending || this.#wakeLock) return;
         this.#pending = (async () => {
             try {
                 this.#wakeLock = await navigator.wakeLock.request('screen');
+                this.#wakeLock.addEventListener('release', this.#handleRelease, { once: true });
             } catch (err) {
                 console.warn('Wake Lock failed:', err);
             } finally {
@@ -33,8 +37,13 @@ export class WakeLockService {
 
     async #releaseLock(): Promise<void> {
         if (this.#wakeLock) {
-            await this.#wakeLock.release();
+            const lock = this.#wakeLock;
             this.#wakeLock = null;
+            try {
+                await lock.release();
+            } catch (err) {
+                console.warn('Wake Lock release failed:', err);
+            }
         }
     }
 }

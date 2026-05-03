@@ -5,6 +5,7 @@ import type { WakeLockService } from '../services/WakeLockService.js';
 import type { SettingsService } from '../services/SettingsService.js';
 import type { UserDataService } from '../services/UserDataService.js';
 import type { DataService } from '../services/DataService.js';
+import type { NavigationService } from '../services/NavigationService.js';
 import { ServiceWorkerMessenger } from '../services/ServiceWorkerMessenger.js';
 import { debounce } from '../utils/Utils.js';
 import type { StateManager } from '../state/StateManager.js';
@@ -19,6 +20,7 @@ interface UIServices {
     settings: SettingsService;
     userData: UserDataService;
     data: DataService;
+    navigation: NavigationService;
 }
 
 interface UIComponents {
@@ -34,6 +36,8 @@ export class UIController {
     #dragDropManager: DragDropManager | null = null;
     // #2: Dirty flag to avoid redundant buildRuleMap() calls on every section expand
     #ruleMapDirty = true;
+    #searchStatusEl: HTMLElement | null = null;
+    #searchExpandedSections = new Set<HTMLElement>();
 
     constructor(domProvider: DOMProvider, stateManager: StateManager, services: UIServices, components: UIComponents) {
         this.#domProvider = domProvider;
@@ -114,21 +118,28 @@ export class UIController {
         else if (key === 'REDUCE_MOTION') this.#components.viewRenderer.applyMotionReduction(value as boolean);
         else if (key === 'WAKE_LOCK') this.#services.wakeLock.setEnabled(value as boolean);
         else this.#components.viewRenderer.filterRuleItems();
+        this.#services.navigation.invalidateFocusables();
     };
 
-    #handleExternalStateChange = ({ type, payload }: { type: string; payload: Record<string, unknown> }): void => {
+    #handleExternalStateChange = (data?: unknown): void => {
+        if (!data || typeof data !== 'object') return;
+        const { type, payload } = data as { type?: unknown; payload?: unknown };
+        if (typeof type !== 'string' || !payload || typeof payload !== 'object') return;
+        const safePayload = payload as Record<string, unknown>;
         if (type === 'SETTING_CHANGE') {
-            this.#services.settings.update(CONFIG.STORAGE_KEYS[payload.key as keyof typeof CONFIG.STORAGE_KEYS], payload.value as boolean | string, false);
-            const config = CONFIG.SETTINGS_CONFIG.find((c) => c.key === payload.key);
-            if (config) {
-                const el = this.#domProvider.get(config.id);
-                if ((el as HTMLInputElement).type === 'checkbox') (el as HTMLInputElement).checked = payload.value as boolean;
-                else (el as HTMLSelectElement).value = payload.value as string;
-            }
+            if (typeof safePayload.key !== 'string' || !(safePayload.key in CONFIG.STORAGE_KEYS)) return;
+            const config = CONFIG.SETTINGS_CONFIG.find((c) => c.key === safePayload.key);
+            if (!config) return;
+            if (config.type === 'checkbox' && typeof safePayload.value !== 'boolean') return;
+            if (config.type === 'select' && typeof safePayload.value !== 'string') return;
+            this.#services.settings.update(CONFIG.STORAGE_KEYS[safePayload.key as keyof typeof CONFIG.STORAGE_KEYS], safePayload.value as boolean | string, false);
+            const el = this.#domProvider.get(config.id);
+            if ((el as HTMLInputElement).type === 'checkbox') (el as HTMLInputElement).checked = safePayload.value as boolean;
+            else (el as HTMLSelectElement).value = safePayload.value as string;
         } else if (type === 'FAVORITE_TOGGLE') {
-            this.#services.userData.toggleFavorite(payload.id as string, false);
+            if (typeof safePayload.id === 'string') this.#services.userData.toggleFavorite(safePayload.id, false);
         } else if (type === 'NOTE_UPDATE') {
-            this.#services.userData.saveNote(payload.id as string, payload.text as string, false);
+            if (typeof safePayload.id === 'string' && typeof safePayload.text === 'string') this.#services.userData.saveNote(safePayload.id, safePayload.text, false);
         }
     };
 
@@ -151,8 +162,18 @@ export class UIController {
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const manifest = await response.json() as ThemeManifest;
             const selectEl = this.#domProvider.get(CONFIG.ELEMENT_IDS.THEME_SELECT) as HTMLSelectElement;
-            selectEl.innerHTML = '';
-            manifest.themes.forEach((theme) => {
+            const safeThemes = Array.isArray(manifest.themes)
+                ? manifest.themes.filter((theme) =>
+                    typeof theme.id === 'string' &&
+                    /^[a-z0-9_-]{1,64}$/i.test(theme.id) &&
+                    typeof theme.displayName === 'string'
+                )
+                : [];
+            const themes = safeThemes.length > 0
+                ? safeThemes
+                : [{ id: CONFIG.DEFAULTS.THEME, displayName: 'Original' }];
+            selectEl.replaceChildren();
+            themes.forEach((theme) => {
                 const option = document.createElement('option');
                 option.value = theme.id;
                 option.textContent = theme.displayName;
@@ -167,9 +188,23 @@ export class UIController {
                     document.head.appendChild(link);
                 }
             });
+            const state = this.#stateManager.getState();
+            if (!themes.some((theme) => theme.id === state.settings.theme)) {
+                state.settings.theme = CONFIG.DEFAULTS.THEME;
+                this.#components.viewRenderer.applyAppearance(state.settings);
+            }
+            selectEl.value = state.settings.theme;
         } catch (e) {
             console.error('Fatal: Could not load theme manifest.', e);
-            (this.#domProvider.get(CONFIG.ELEMENT_IDS.THEME_SELECT) as HTMLSelectElement).innerHTML = '<option value="original">Original</option>';
+            const selectEl = this.#domProvider.get(CONFIG.ELEMENT_IDS.THEME_SELECT) as HTMLSelectElement;
+            const option = document.createElement('option');
+            option.value = CONFIG.DEFAULTS.THEME;
+            option.textContent = 'Original';
+            selectEl.replaceChildren(option);
+            selectEl.value = CONFIG.DEFAULTS.THEME;
+            const state = this.#stateManager.getState();
+            state.settings.theme = CONFIG.DEFAULTS.THEME;
+            this.#components.viewRenderer.applyAppearance(state.settings);
         }
     }
 
@@ -183,7 +218,11 @@ export class UIController {
     #saveSectionState(sectionKey: string, collapsed: boolean): void {
         const states = this.#loadSectionStates();
         states[sectionKey] = collapsed;
-        localStorage.setItem(CONFIG.STORAGE_KEYS.SECTION_STATES, JSON.stringify(states));
+        try {
+            localStorage.setItem(CONFIG.STORAGE_KEYS.SECTION_STATES, JSON.stringify(states));
+        } catch (e) {
+            console.warn('Could not persist section state:', e);
+        }
     }
 
     setupCollapsibleSections = (): void => {
@@ -209,6 +248,7 @@ export class UIController {
                 this.#saveSectionState(sectionKey, collapsed);
                 if (!collapsed) await this.renderSectionContent(section as HTMLElement);
                 this.#services.a11y.announce(`${sectionKey} section ${collapsed ? 'collapsed' : 'expanded'}.`);
+                this.#services.navigation.invalidateFocusables();
             };
             header.addEventListener('click', handler);
             header.addEventListener('keydown', (e) => { if ((e as KeyboardEvent).key === 'Enter' || (e as KeyboardEvent).key === ' ') { e.preventDefault(); handler(); } });
@@ -228,7 +268,14 @@ export class UIController {
         mainArea.addEventListener('click', this.#handleMainAreaClick);
         mainArea.addEventListener('keydown', this.#handleMainAreaKeydown);
         try { this.#domProvider.get(CONFIG.ELEMENT_IDS.REPORT_RULE_BTN).addEventListener('click', this.#handleReportClick); } catch { console.warn('Report rule button not found.'); }
-        try { this.#domProvider.get(CONFIG.ELEMENT_IDS.EXPORT_NOTES_BTN).addEventListener('click', () => this.#services.userData.exportNotes()); } catch { console.warn('Export notes button not found.'); }
+        try {
+            this.#domProvider.get(CONFIG.ELEMENT_IDS.EXPORT_NOTES_BTN).addEventListener('click', () => {
+                void this.#services.userData.exportNotes().catch((e) => {
+                    console.warn('Export notes failed:', e);
+                    this.#components.viewRenderer.showNotification('Export failed. Please try again.', 'error');
+                });
+            });
+        } catch { console.warn('Export notes button not found.'); }
         try {
             const importBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.IMPORT_NOTES_BTN);
             const importInput = this.#domProvider.get(CONFIG.ELEMENT_IDS.IMPORT_NOTES_INPUT) as HTMLInputElement;
@@ -246,7 +293,14 @@ export class UIController {
                 importInput.value = '';
             });
         } catch { console.warn('Import notes elements not found.'); }
-        try { this.#domProvider.get(CONFIG.ELEMENT_IDS.EXPORT_FAVORITES_BTN).addEventListener('click', () => this.#services.userData.exportFavorites()); } catch { console.warn('Export favorites button not found.'); }
+        try {
+            this.#domProvider.get(CONFIG.ELEMENT_IDS.EXPORT_FAVORITES_BTN).addEventListener('click', () => {
+                void this.#services.userData.exportFavorites().catch((e) => {
+                    console.warn('Export favorites failed:', e);
+                    this.#components.viewRenderer.showNotification('Export failed. Please try again.', 'error');
+                });
+            });
+        } catch { console.warn('Export favorites button not found.'); }
     };
 
     setupBackToTop = (): void => {
@@ -349,24 +403,46 @@ export class UIController {
             const notice = this.#domProvider.get(CONFIG.ELEMENT_IDS.COOKIE_NOTICE);
             const acceptBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.ACCEPT_COOKIES_BTN);
             const remindBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.REMIND_COOKIES_LATER_BTN);
-            const hasAccepted = window.localStorage.getItem(CONFIG.STORAGE_KEYS.COOKIES_ACCEPTED) === 'true';
-            const hasDismissedReminder = window.sessionStorage.getItem(CONFIG.SESSION_STORAGE_KEYS.COOKIES_REMINDER_DISMISSED) === 'true';
+            let hasAccepted = false;
+            let hasDismissedReminder = false;
+            try {
+                hasAccepted = window.localStorage.getItem(CONFIG.STORAGE_KEYS.COOKIES_ACCEPTED) === 'true';
+                hasDismissedReminder = window.sessionStorage.getItem(CONFIG.SESSION_STORAGE_KEYS.COOKIES_REMINDER_DISMISSED) === 'true';
+            } catch (e) {
+                console.warn('Could not read cookie notice state:', e);
+            }
 
             if (!hasAccepted && !hasDismissedReminder) notice.style.display = 'block';
 
             const dismissNotice = (): void => {
+                let finished = false;
+                const finish = (): void => {
+                    if (finished) return;
+                    finished = true;
+                    notice.style.display = 'none';
+                    window.dispatchEvent(new CustomEvent('quickref:cookieNoticeDismissed'));
+                };
                 notice.classList.add(CONFIG.CSS.IS_CLOSING);
-                notice.addEventListener('animationend', () => { notice.style.display = 'none'; }, { once: true });
+                notice.addEventListener('animationend', finish, { once: true });
+                setTimeout(finish, CONFIG.ANIMATION_DURATION.POPUP_MS + 50);
             };
             acceptBtn.addEventListener('click', async () => {
-                window.localStorage.setItem(CONFIG.STORAGE_KEYS.COOKIES_ACCEPTED, 'true');
+                try {
+                    window.localStorage.setItem(CONFIG.STORAGE_KEYS.COOKIES_ACCEPTED, 'true');
+                } catch (e) {
+                    console.warn('Could not persist cookie consent:', e);
+                }
                 dismissNotice();
                 this.#components.viewRenderer.showNotification('Saving content for offline access…');
-                await ServiceWorkerMessenger.ensureServiceWorkerReady();
-                ServiceWorkerMessenger.setCachingPolicy(true);
+                const ready = await ServiceWorkerMessenger.ensureServiceWorkerReady();
+                if (ready) ServiceWorkerMessenger.setCachingPolicy(true);
             });
             remindBtn.addEventListener('click', () => {
-                window.sessionStorage.setItem(CONFIG.SESSION_STORAGE_KEYS.COOKIES_REMINDER_DISMISSED, 'true');
+                try {
+                    window.sessionStorage.setItem(CONFIG.SESSION_STORAGE_KEYS.COOKIES_REMINDER_DISMISSED, 'true');
+                } catch (e) {
+                    console.warn('Could not persist cookie reminder dismissal:', e);
+                }
                 dismissNotice();
             });
         } catch (e) { console.warn(`Could not set up cookie notice: ${(e as Error).message}`); }
@@ -388,72 +464,138 @@ export class UIController {
         });
     };
 
+    #ensureSearchStatus(): HTMLElement | null {
+        if (this.#searchStatusEl) return this.#searchStatusEl;
+        const searchBar = document.getElementById('search-bar');
+        if (!searchBar) return null;
+        const status = document.createElement('div');
+        status.id = CONFIG.ELEMENT_IDS.SEARCH_STATUS;
+        status.className = 'search-status hidden';
+        status.setAttribute('role', 'status');
+        status.setAttribute('aria-live', 'polite');
+        searchBar.insertAdjacentElement('afterend', status);
+        this.#searchStatusEl = status;
+        return status;
+    }
+
+    #setSearchStatus(message: string): void {
+        const status = this.#ensureSearchStatus();
+        if (!status) return;
+        status.textContent = message;
+        status.classList.toggle(CONFIG.CSS.HIDDEN, message.length === 0);
+    }
+
+    #ruleMatchesCurrentFilters(ruleType: string | undefined): boolean {
+        const { showOptional, showHomebrew } = this.#stateManager.getState().settings;
+        return (!ruleType || (ruleType !== 'Optional rule' && ruleType !== 'Homebrew rule')) ||
+            (ruleType === 'Optional rule' && showOptional) ||
+            (ruleType === 'Homebrew rule' && showHomebrew);
+    }
+
+    #getMatchingSearchIds(query: string): Set<string> {
+        const ruleMap = this.#stateManager.getState().data.ruleMap;
+        const matchingIds = new Set<string>();
+        ruleMap.forEach((info, id) => {
+            if (info.searchIndex?.includes(query) && this.#ruleMatchesCurrentFilters(info.ruleData.optional)) {
+                matchingIds.add(id);
+            }
+        });
+        return matchingIds;
+    }
+
+    #getSectionMatchCount(section: Element, matchingIds: Set<string>): number {
+        let count = 0;
+        const ruleMap = this.#stateManager.getState().data.ruleMap;
+        matchingIds.forEach((id) => {
+            const info = ruleMap.get(id);
+            const parentSection = info ? document.getElementById(info.sectionId)?.closest(`.${CONFIG.CSS.SECTION_CONTAINER}`) : null;
+            if (parentSection === section) count++;
+        });
+        return count;
+    }
+
+    #applySearchToRenderedItems(section: Element, matchingIds: Set<string>): number {
+        const items = section.querySelectorAll(`.${CONFIG.CSS.ITEM_CLASS}`);
+        let visibleCount = 0;
+        items.forEach((item) => {
+            const el = item as HTMLElement;
+            const popupId = el.getAttribute(CONFIG.ATTRIBUTES.POPUP_ID) ?? '';
+            const matches = matchingIds.has(popupId);
+            el.style.display = matches ? '' : 'none';
+            if (matches) visibleCount++;
+        });
+        return visibleCount;
+    }
+
+    #expandSectionForSearch(section: HTMLElement): void {
+        if (!section.classList.contains(CONFIG.CSS.IS_COLLAPSED)) return;
+        section.classList.remove(CONFIG.CSS.IS_COLLAPSED);
+        section.querySelector(`.${CONFIG.CSS.SECTION_TITLE}`)?.setAttribute('aria-expanded', 'true');
+        this.#searchExpandedSections.add(section);
+    }
+
+    #restoreSearchExpandedSections(): void {
+        this.#searchExpandedSections.forEach((section) => {
+            section.classList.add(CONFIG.CSS.IS_COLLAPSED);
+            section.querySelector(`.${CONFIG.CSS.SECTION_TITLE}`)?.setAttribute('aria-expanded', 'false');
+        });
+        this.#searchExpandedSections.clear();
+    }
+
+    async #performSearch(input: HTMLInputElement, clearBtn: HTMLElement): Promise<void> {
+        const query = input.value.trim().toLowerCase();
+        clearBtn.classList.toggle(CONFIG.CSS.HIDDEN, query.length === 0);
+
+        if (query.length === 0) {
+            this.#components.viewRenderer.filterRuleItems();
+            this.#restoreSearchExpandedSections();
+            this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}:not([data-section="settings"])`).forEach((section) => {
+                section.classList.remove(CONFIG.CSS.HIDDEN);
+            });
+            const favSection = document.querySelector(`[data-section="favorites"]`);
+            if (favSection) favSection.classList.toggle(CONFIG.CSS.HIDDEN, this.#stateManager.getState().user.favorites.size === 0);
+            this.#setSearchStatus('');
+            this.#services.a11y.announce('Filter cleared');
+            this.#services.navigation.invalidateFocusables();
+            return;
+        }
+
+        const matchingIds = this.#getMatchingSearchIds(query);
+        const sections = this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}:not([data-section="settings"])`);
+        for (const section of sections) {
+            const sectionKey = (section as HTMLElement).dataset.section;
+            if (sectionKey === 'favorites') {
+                section.classList.add(CONFIG.CSS.HIDDEN);
+                continue;
+            }
+
+            const sectionMatchCount = this.#getSectionMatchCount(section, matchingIds);
+            if (sectionMatchCount > 0) {
+                this.#expandSectionForSearch(section as HTMLElement);
+                const content = section.querySelector(`.${CONFIG.CSS.SECTION_CONTENT}`);
+                if (content?.getAttribute(CONFIG.ATTRIBUTES.RENDERED) !== 'true') {
+                    await this.renderSectionContent(section as HTMLElement);
+                }
+                this.#applySearchToRenderedItems(section, matchingIds);
+                section.classList.remove(CONFIG.CSS.HIDDEN);
+            } else {
+                this.#applySearchToRenderedItems(section, matchingIds);
+                section.classList.add(CONFIG.CSS.HIDDEN);
+            }
+        }
+
+        const count = matchingIds.size;
+        this.#setSearchStatus(count === 0 ? 'No matching rules' : `${count} matching rule${count === 1 ? '' : 's'}`);
+        this.#services.a11y.announce(count === 0 ? `No results for ${query}` : `${count} results for ${query}`);
+        this.#services.navigation.invalidateFocusables();
+    }
+
     #setupSearch(): void {
         try {
             const input = this.#domProvider.get(CONFIG.ELEMENT_IDS.SEARCH_INPUT) as HTMLInputElement;
             const clearBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.SEARCH_CLEAR_BTN);
 
-            const performFilter = debounce(() => {
-                const query = input.value.trim().toLowerCase();
-                clearBtn.classList.toggle(CONFIG.CSS.HIDDEN, query.length === 0);
-
-                // When clearing: restore optional/homebrew visibility before doing anything
-                if (query.length === 0) {
-                    this.#components.viewRenderer.filterRuleItems();
-                    // Re-show sections that were hidden by a previous search query
-                    this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}:not([data-section="settings"]):not([data-section="favorites"])`).forEach((section) => {
-                        // Only unhide if section is specifically search-hidden (has hidden class but has visible items)
-                        const visibleItems = section.querySelectorAll(`.${CONFIG.CSS.ITEM_CLASS}`);
-                        const anyVisible = Array.from(visibleItems).some((item) => (item as HTMLElement).style.display !== 'none');
-                        if (anyVisible) section.classList.remove(CONFIG.CSS.HIDDEN);
-                    });
-                    const favSection = document.querySelector(`[data-section="favorites"]`);
-                    if (favSection) favSection.classList.toggle(CONFIG.CSS.HIDDEN, this.#stateManager.getState().user.favorites.size === 0);
-                    this.#services.a11y.announce('Filter cleared');
-                    return;
-                }
-
-                // Build a set of matching popup IDs from the in-memory search index
-                const ruleMap = this.#stateManager.getState().data.ruleMap;
-                const matchingIds = new Set<string>();
-                ruleMap.forEach((info, id) => {
-                    if (info.searchIndex && info.searchIndex.includes(query)) {
-                        matchingIds.add(id);
-                    }
-                });
-
-                const { showOptional, showHomebrew } = this.#stateManager.getState().settings;
-                const sections = this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}:not([data-section="settings"])`);
-                sections.forEach((section) => {
-                    const sectionKey = (section as HTMLElement).dataset.section;
-                    if (sectionKey === 'favorites') {
-                        section.classList.add(CONFIG.CSS.HIDDEN);
-                        return;
-                    }
-                    const items = section.querySelectorAll(`.${CONFIG.CSS.ITEM_CLASS}`);
-                    let visibleCount = 0;
-                    items.forEach((item) => {
-                        const el = item as HTMLElement;
-                        // Skip items already hidden by optional/homebrew filter
-                        const ruleType = el.getAttribute(CONFIG.ATTRIBUTES.RULE_TYPE);
-                        const hiddenByRuleset = (ruleType === 'Optional rule' && !showOptional) ||
-                                                (ruleType === 'Homebrew rule' && !showHomebrew);
-                        if (hiddenByRuleset) return; // leave as display:none, don't count
-
-                        const popupId = el.getAttribute(CONFIG.ATTRIBUTES.POPUP_ID) ?? '';
-                        const matches = matchingIds.has(popupId);
-                        el.style.display = matches ? '' : 'none';
-                        if (matches) visibleCount++;
-                    });
-                    // Hide sections entirely if no items match
-                    if (items.length > 0 && visibleCount === 0) {
-                        section.classList.add(CONFIG.CSS.HIDDEN);
-                    } else if (visibleCount > 0) {
-                        section.classList.remove(CONFIG.CSS.HIDDEN);
-                    }
-                });
-                this.#services.a11y.announce(`Filtering by: ${query}`);
-            }, 200);
+            const performFilter = debounce(() => { void this.#performSearch(input, clearBtn); }, 200);
 
             input.addEventListener('input', performFilter);
             clearBtn.addEventListener('click', () => {

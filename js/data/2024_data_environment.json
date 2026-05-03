@@ -34,7 +34,7 @@
         "subtitle": "Normal vision",
         "description": "In bright light, such as direct sunlight or the area of a torch, most creatures can see normally without penalty.",
         "reference": "PHB 2024, pg. 183.",
-        "summary": "Normal lighting conditions where most creatures can see without penalty. Some creatures, like Drow, may suffer from Sunlight Sensitivity in these conditions.",
+        "summary": "Normal lighting conditions where most creatures can see without penalty. Some features and monsters may interact with bright light specifically.",
         "tags": ["environment_light"],
         "bullets": [
             {
@@ -118,7 +118,7 @@
         "subtitle": "Lightly obscured",
         "description": "Dim light, or shadows, creates a lightly obscured area where details are harder to make out.",
         "reference": "PHB 2024, pg. 183.",
-        "summary": "Creates a lightly obscured area. Creatures have disadvantage on Wisdom (Perception) checks that rely on sight, and attacks against targets in dim light have disadvantage.",
+        "summary": "Creates a lightly obscured area. Creatures have disadvantage on Wisdom (Perception) checks that rely on sight.",
         "tags": ["environment_light"],
         "bullets": [
             {
@@ -135,7 +135,7 @@
             },
             {
                 "type": "paragraph",
-                "content": "As a lightly obscured area, attacking a target in dim light also imposes disadvantage on the attack roll, making shadows a tactical advantage."
+                "content": "Dim light is important for exploration and hiding because it affects sight-based Perception, but it does not by itself impose disadvantage on attack rolls."
             }
         ]
     },
@@ -164,7 +164,7 @@
             },
             {
                 "type": "paragraph",
-                "content": "The instantaneous 500-foot fall rule means that even with a reaction spell like Feather Fall, a creature will fall a significant distance before the spell can be cast."
+                "content": "A long fall can resolve very quickly, so reactions and features that change falling need to be handled at the moment their trigger occurs."
             }
         ]
     },
@@ -229,24 +229,23 @@
         "subtitle": "Disadvantage on some checks",
         "description": "An area is lightly obscured if something hinders sight, such as dim light, light fog, or moderate foliage.",
         "reference": "PHB 2024, pg. 183.",
-        "summary": "An area that hinders sight, such as dim light or light fog. Creatures have disadvantage on sight-based Perception checks, and attacks against targets in the area have disadvantage.",
+        "summary": "An area that hinders sight, such as dim light or light fog. Creatures have disadvantage on sight-based Perception checks.",
         "tags": ["environment_obscurance"],
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "When vision is partially impeded, it is harder to spot things and to accurately target creatures within the area, imposing disadvantage on relevant checks."
+                "content": "When vision is partially impeded, it is harder to spot things in the area, imposing disadvantage on relevant sight-based Perception checks."
             },
             {
                 "type": "list",
                 "items": [
                     "A creature in a lightly obscured area has <b>disadvantage on Wisdom (Perception)</b> checks that rely on sight.",
-                    "When you attack a target you can't see clearly, you have disadvantage on the attack roll. This applies if your target is in a lightly obscured area.",
                     "Hiding is not possible in a lightly obscured area unless you are also behind at least three-quarters cover."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "The 2024 rules clarify that attacking a target in a lightly obscured area also imposes disadvantage on the attack roll, a significant tactical consideration."
+                "content": "Light obscurement affects seeing and noticing; attack disadvantage comes from other rules, such as being unable to see the target."
             }
         ]
     },
@@ -255,27 +254,27 @@
         "optional": "Standard rule",
         "icon": "drowning",
         "subtitle": "Holding your breath",
-        "description": "A creature deprived of air can hold its breath for a limited time before they begin to die.",
+        "description": "A creature deprived of air can hold its breath briefly before gaining Exhaustion at the end of each turn.",
         "reference": "PHB 2024, pg. 184.",
-        "summary": "You can hold your breath for 1 + CON mod minutes. After that, you survive for CON mod rounds, then drop to 0 HP and are Dying. You cannot be stabilized or healed until you can breathe.",
+        "summary": "You can hold your breath for 1 + CON mod minutes. After that, you gain 1 Exhaustion level at the end of each turn until you can breathe again.",
         "tags": ["environment_other"],
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "These rules govern how long a creature can survive without air. Once a creature's breath runs out, it quickly succumbs and begins dying, and cannot be revived until it can breathe again."
+                "content": "These rules govern how long a creature can survive without air. Once a creature's breath runs out, the danger escalates through Exhaustion until the creature can breathe again."
             },
             {
                 "type": "list",
                 "items": [
                     "A creature can hold its breath for a number of minutes equal to <b>1 + its Constitution modifier</b> (minimum of 30 seconds).",
-                    "When a creature runs out of breath, it can survive for a number of rounds equal to its <b>Constitution modifier</b> (minimum 1 round).",
-                    "At the start of its next turn after that, it drops to 0 Hit Points and is Dying.",
-                    "A suffocating creature can't regain Hit Points or be stabilized until it can breathe again."
+                    "When the breath runs out, the creature gains <b>1 Exhaustion level</b> at the end of each of its turns.",
+                    "The Exhaustion continues until the creature can breathe again.",
+                    "If Exhaustion reaches level 6, the creature dies."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "The inability to be stabilized or regain hit points makes this situation incredibly dire, as typical methods of saving a dying character will not work."
+                "content": "This makes suffocation a rapidly worsening hazard that uses the same track as other sources of Exhaustion."
             }
         ]
     },
@@ -428,6 +427,7 @@
         "description": "An optional subsystem for running exciting chases with complications and a limit on continuous Dashing.",
         "reference": "DMG 2024, pg. 232.",
         "summary": "An optional system where participants can only Dash a limited number of times before risking Exhaustion. Each round may introduce a random complication that requires a check to overcome.",
+        "tags": ["environment_other"],
         "bullets": [
             {
                 "type": "paragraph",
@@ -593,7 +593,7 @@
         "subtitle": "Risk of System Shock",
         "description": "This optional rule forces a DC 15 Constitution save when a creature takes damage equal to or greater than half its HP max from a single source.",
         "reference": "DMG 2024, pgs. 246-247.",
-        "summary": "An optional rule where taking damage equal to or greater than half your maximum HP from a single source forces a DC 15 Constitution save. On a failure, you suffer a random shock effect, like becoming Dazed.",
+        "summary": "An optional rule where taking damage equal to or greater than half your maximum HP from a single source forces a DC 15 Constitution save. On a failure, you suffer a random shock effect.",
         "tags": ["environment_other"],
         "bullets": [
             {
@@ -604,7 +604,7 @@
                 "type": "list",
                 "items": [
                     "When a creature takes damage from a single source equal to or greater than <b>half its hit point maximum</b>, it must succeed on a <b>DC 15 Constitution saving throw</b>.",
-                    "On a failure, the creature suffers a random effect from the System Shock table. Examples include becoming Dazed for 1 minute, or gaining a level of Exhaustion."
+                    "On a failure, the creature suffers a random effect from the System Shock table, such as losing reactions, dropping to 0 HP, or gaining Exhaustion."
                 ]
             },
             {
@@ -729,7 +729,8 @@
         "icon": "swordbreak",
         "subtitle": "Extreme outcomes for attacks",
         "description": "A popular house rule that adds extra effects to natural 20s (beyond damage) and natural 1s (beyond missing).",
-        "summary": "A house rule where a nat 20 can apply an extra effect (like Prone or Dazed) and a nat 1 can cause a negative consequence (like dropping your weapon or falling Prone).",
+        "summary": "A house rule where a nat 20 can apply an extra effect and a nat 1 can cause a negative consequence like dropping your weapon or falling Prone.",
+        "tags": ["environment_other"],
         "bullets": [
             {
                 "type": "paragraph",
@@ -741,7 +742,7 @@
                     "<b>Critical Hit (Nat 20):</b> In addition to maximizing one damage die, the attacker can choose an effect:",
                     "- Push the target 10 feet.",
                     "- Knock the target Prone.",
-                    "- Give the target the Dazed condition until the end of its next turn.",
+                    "- Impose a table-defined debuff until the end of the target's next turn.",
                     "<b>Fumble (Nat 1):</b> The attack automatically misses. The DM can choose one of the following:",
                     "- The attacker drops their weapon.",
                     "- The attacker falls Prone.",
@@ -750,7 +751,7 @@
             },
             {
                 "type": "paragraph",
-                "content": "Integrating the new 2024 conditions like Dazed makes these house rules feel more connected to the updated system."
+                "content": "Define the extra effects before play so critical hits and fumbles stay fast and predictable."
             }
         ]
     }

@@ -53,17 +53,16 @@
         ]
     },
     {
-        "title": "Dazed",
-        "optional": "Standard rule",
+        "title": "Dazed**",
+        "optional": "Homebrew rule",
         "icon": "internalinjury",
         "subtitle": "You have limited activity",
-        "description": "A new condition that severely limits your action economy and breaks your concentration on spells.",
-        "reference": "PHB 2024, pg. 367-368.",
+        "description": "A homebrew condition that limits your action economy and can disrupt concentration without fully stunning you.",
         "summary": "You can take either an Action or a Bonus Action on your turn (not both), and you cannot concentrate on spells or other effects. You can still move and take a Reaction.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "The Dazed condition is a less punishing alternative to being stunned. A dazed creature can still act, but their options are severely limited for a turn, disrupting their plans and spellcasting."
+                "content": "Dazed is not a final 2024 PHB condition. It is kept here as a homebrew status for tables that want a less punishing alternative to being Stunned."
             },
             {
                 "type": "list",
@@ -85,7 +84,7 @@
         "subtitle": "You can't hear",
         "description": "A deafened creature has a total inability to hear and automatically fails any checks that require hearing.",
         "reference": "PHB 2024, pg. 367-368.",
-        "summary": "You have a total inability to hear and automatically fail any d20 Test that requires hearing. You are immune to effects that rely on sound.",
+        "summary": "You can't hear and automatically fail any ability check that requires hearing.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -94,12 +93,12 @@
             {
                 "type": "list",
                 "items": [
-                    "You automatically fail any d20 Test that requires hearing."
+                    "You automatically fail any ability check that requires hearing."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "This condition also makes a creature immune to effects that rely on sound, such as a harpy's luring song or the Shatter spell."
+                "content": "This condition can prevent a creature from perceiving spoken commands, warnings, and audible spellcasting, but it does not create blanket immunity to thunder damage or every sound-based effect."
             }
         ]
     },
@@ -137,27 +136,26 @@
         "optional": "Standard rule",
         "icon": "crawl",
         "subtitle": "You are exhausted",
-        "description": "A revised condition measured in 10 levels, each giving a cumulative -1 penalty to all d20 Tests.",
+        "description": "A revised condition measured in 6 levels, each worsening your d20 Tests and Speed.",
         "reference": "PHB 2024, pg. 368.",
-        "summary": "You suffer a cumulative -1 penalty to all d20 Tests for each level of Exhaustion. At level 5 your speed is halved, at level 7 it becomes 0, and at level 10 you die.",
+        "summary": "For each level of Exhaustion, subtract 2 from d20 Tests and reduce Speed by 5 feet. At level 6, you die.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "The Exhaustion system has been revised to be a more granular and less punishing mechanic at lower levels, acting as a simple, stacking penalty to all of your d20 rolls."
+                "content": "The final 2024 Exhaustion system is shorter and sharper than the playtest version: every level directly affects both your rolls and your mobility."
             },
             {
                 "type": "list",
                 "items": [
-                    "<b>Penalty per Level:</b> You suffer a cumulative -1 penalty to all d20 Tests (attack rolls, saving throws, ability checks) for each level of Exhaustion.",
-                    "At <b>Level 5</b>, your Speed is also halved.",
-                    "At <b>Level 7</b>, your Speed also becomes 0.",
-                    "At <b>Level 10</b>, you die.",
+                    "<b>D20 Tests:</b> Subtract <b>2 times your Exhaustion level</b> from attack rolls, ability checks, and saving throws.",
+                    "<b>Speed:</b> Reduce your Speed by <b>5 feet times your Exhaustion level</b>.",
+                    "At <b>Level 6</b>, you die.",
                     "Finishing a Long Rest removes 1 level of Exhaustion."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "This new system makes the first few levels of exhaustion impactful but not debilitating, reserving the harshest penalties for higher levels."
+                "content": "Because the penalty applies to every d20 Test, even one or two levels of Exhaustion can matter quickly."
             }
         ]
     },
@@ -166,9 +164,9 @@
         "optional": "Standard rule",
         "icon": "sharpsmile",
         "subtitle": "You are frightened",
-        "description": "Gripped by terror, you have disadvantage on d20 Tests while the source of fear is visible and you cannot move closer to it.",
+        "description": "Gripped by terror, you have disadvantage on ability checks and attack rolls while the source of fear is visible and you cannot move closer to it.",
         "reference": "PHB 2024, pg. 368.",
-        "summary": "You have disadvantage on all d20 Tests as long as you can see the source of your fear. You also cannot willingly move closer to the source of your fear.",
+        "summary": "You have disadvantage on ability checks and attack rolls while you can see the source of your fear. You also cannot willingly move closer to it.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -177,7 +175,7 @@
             {
                 "type": "list",
                 "items": [
-                    "You have <b>disadvantage on d20 Tests</b> while the source of your fear is within your line of sight.",
+                    "You have <b>disadvantage on ability checks and attack rolls</b> while the source of your fear is within line of sight.",
                     "You can't willingly move closer to the source of your fear."
                 ]
             },
@@ -221,11 +219,11 @@
         "subtitle": "You can't take actions",
         "description": "An incapacitated creature is unable to take an Action, Bonus Action, or Reaction, effectively removing them from the action economy.",
         "reference": "PHB 2024, pg. 368.",
-        "summary": "You cannot take an Action, Bonus Action, or Reaction. You can still use your movement unless another condition prevents it.",
+        "summary": "You cannot take an Action, Bonus Action, or Reaction; your Concentration is broken, and you cannot speak.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "This is one of the most severe conditions, as it renders a creature completely passive. It is a component of several other conditions, such as Paralyzed, Stunned, and Unconscious. An incapacitated creature can still move unless another condition prevents it, but they cannot take actions that facilitate movement like Dash."
+                "content": "This is one of the most severe conditions, as it shuts off your action economy and immediately breaks Concentration. It is also a component of several other conditions, such as Paralyzed, Stunned, and Unconscious."
             }
         ]
     },
@@ -291,7 +289,7 @@
         "subtitle": "You are transformed into stone",
         "description": "You are transformed into an inanimate object, becoming Incapacitated and highly resistant to damage.",
         "reference": "PHB 2024, pg. 368.",
-        "summary": "You are transformed into stone, are Incapacitated, and have resistance to all damage. You automatically fail STR and DEX saves, and attacks against you have advantage.",
+        "summary": "You are transformed into an inanimate substance, are Incapacitated, your Speed is 0, and you have resistance to all damage.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -300,11 +298,12 @@
             {
                 "type": "list",
                 "items": [
-                    "You are <b>Incapacitated</b>, can't move or speak, and are unaware of your surroundings.",
+                    "You are transformed, along with nonmagical objects you are wearing and carrying, into a solid inanimate substance.",
+                    "You are <b>Incapacitated</b>, your Speed becomes 0, and your Speed can't increase.",
                     "Attack rolls against you have <b>advantage</b>.",
                     "You automatically fail Strength and Dexterity saving throws.",
                     "You have <b>resistance to all damage</b>.",
-                    "You are immune to poison and disease.",
+                    "You have immunity to the Poisoned condition.",
                     "Your weight is multiplied by ten, and you stop aging."
                 ]
             },
@@ -396,17 +395,16 @@
         ]
     },
     {
-        "title": "Slowed",
-        "optional": "Standard rule",
+        "title": "Slowed**",
+        "optional": "Homebrew rule",
         "icon": "snail",
         "subtitle": "Your movement is hindered",
-        "description": "A new condition that halves your speed, limits your actions, and imposes disadvantage on Dexterity saves.",
-        "reference": "PHB 2024, pg. 368.",
+        "description": "A homebrew condition that halves your Speed and limits your action economy.",
         "summary": "Your Speed is halved, you have disadvantage on DEX saves, and you can take either an Action or a Bonus Action (not both). You cannot take the Disengage action.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "The Slowed condition is a new addition designed to provide a powerful control effect that is less of a complete shutdown than Stunned, affecting multiple aspects of a creature's turn."
+                "content": "Slowed is not a final 2024 PHB condition. It is kept here as a homebrew control effect for tables that want a weaker alternative to hard shutdown conditions."
             },
             {
                 "type": "list",
@@ -455,26 +453,26 @@
         "optional": "Standard rule",
         "icon": "drowning",
         "subtitle": "Holding your breath",
-        "description": "Deprived of air, you can survive for a limited time before you drop to 0 hit points and begin dying.",
-        "reference": "PHB 2024, pg. 368.",
-        "summary": "You can hold your breath for 1+CON mod minutes. After that, you survive for CON mod rounds, then drop to 0 HP and are Dying. You cannot be stabilized or healed until you can breathe.",
+        "description": "Deprived of air, you can hold your breath briefly before gaining Exhaustion at the end of each turn.",
+        "reference": "PHB 2024, pg. 184.",
+        "summary": "After your held breath runs out, you gain 1 Exhaustion level at the end of each turn until you can breathe again.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "The rules for suffocation create a tense countdown when characters are underwater, in a vacuum, or in an area with unbreathable gas. Survival is measured in minutes, then rounds, before you fall."
+                "content": "The 2024 suffocation rules create a countdown from held breath into escalating Exhaustion, rather than immediately dropping the creature to 0 Hit Points after a fixed number of rounds."
             },
             {
                 "type": "list",
                 "items": [
                     "You can hold your breath for <b>1 + CON modifier</b> minutes (min 30s).",
-                    "When out of breath, you can survive for <b>CON modifier</b> rounds (min 1).",
-                    "At the start of your next turn after that, you drop to 0 HP and are dying.",
-                    "You cannot regain hit points or be stabilized until you can breathe again."
+                    "When your breath runs out, you gain <b>1 Exhaustion level</b> at the end of each of your turns.",
+                    "The Exhaustion continues until you can breathe again.",
+                    "If Exhaustion reaches level 6, you die."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "The inability to be stabilized or regain hit points makes this situation incredibly dire, as typical methods of saving a dying character will not work."
+                "content": "This makes suffocation dangerous over several turns and directly ties it to the final 2024 Exhaustion track."
             }
         ]
     },
@@ -515,7 +513,7 @@
         "subtitle": "Your mind is damaged",
         "description": "An optional rule system for representing mental trauma with short-term, long-term, and indefinite psychological effects.",
         "reference": "DMG 2024, pg. 236.",
-        "summary": "An optional rule for mental trauma from horrific events, inflicting short-term (e.g., Dazed), long-term (e.g., paranoia), or indefinite psychological flaws.",
+        "summary": "An optional rule for mental trauma from horrific events, inflicting short-term, long-term, or indefinite psychological effects.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -525,7 +523,7 @@
                 "type": "list",
                 "items": [
                     "A character might suffer madness from traumatic events, such as failing a Sanity saving throw, seeing an aberration from the Far Realm, or from spells like <i>Contact Other Plane</i>.",
-                    "<b>Short-Term Madness (1d10 minutes):</b> Effects like becoming Dazed, being paralyzed with fear, or babbling incoherently.",
+                    "<b>Short-Term Madness (1d10 minutes):</b> Effects like being overwhelmed, paralyzed with fear, or babbling incoherently.",
                     "<b>Long-Term Madness (1d10 x 10 hours):</b> Effects like developing a phobia, having hallucinations, or suffering from extreme paranoia.",
                     "<b>Indefinite Madness:</b> A permanent change to the character's personality or beliefs, curable only by powerful magic like <i>Greater Restoration</i> or <i>Wish</i>."
                 ]

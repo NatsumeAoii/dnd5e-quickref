@@ -48,9 +48,28 @@ export class ViewRenderer {
     #postRender(parent: HTMLElement): void {
         parent.querySelectorAll(`[${CONFIG.ATTRIBUTES.ICON}]`).forEach((iconEl) => {
             const iconName = iconEl.getAttribute(CONFIG.ATTRIBUTES.ICON);
-            if (iconName) iconEl.classList.add(`icon-${iconName}`);
+            if (iconName) {
+                iconEl.classList.add(`icon-${iconName}`);
+                this.#ensurePrintableIcon(iconEl as HTMLElement);
+            }
         });
-        this.filterRuleItems();
+        this.filterRuleItems(parent);
+    }
+
+    #ensurePrintableIcon(iconEl: HTMLElement): void {
+        if (iconEl.querySelector('.item-icon-print-img')) return;
+        const backgroundImage = window.getComputedStyle(iconEl).backgroundImage;
+        const match = backgroundImage.match(/^url\(["']?(.*?)["']?\)$/);
+        const src = match?.[1];
+        if (!src) return;
+
+        iconEl.setAttribute('aria-hidden', 'true');
+        const img = document.createElement('img');
+        img.className = 'item-icon-print-img';
+        img.src = src;
+        img.alt = '';
+        img.setAttribute('aria-hidden', 'true');
+        iconEl.appendChild(img);
     }
 
     #updateSectionItemCount(section: Element, count: number): void {
@@ -98,11 +117,10 @@ export class ViewRenderer {
 
     applyMotionReduction = (isEnabled: boolean): void => { document.body.classList.toggle(CONFIG.CSS.MOTION_REDUCED, isEnabled); };
 
-    filterRuleItems(): void {
+    filterRuleItems(scope?: ParentNode): void {
         const { showOptional, showHomebrew } = this.#stateManager.getState().settings;
         const sectionCounts = new Map<Element, number>();
-        // #5: Scope query to main scroll area to avoid scanning popup containers
-        const queryRoot = this.#mainScrollArea ?? document;
+        const queryRoot = scope ?? this.#mainScrollArea ?? document;
 
         queryRoot.querySelectorAll(`.${CONFIG.CSS.ITEM_SIZE_CLASS}`).forEach((item) => {
             if (item.getAttribute(CONFIG.ATTRIBUTES.FILTERABLE) === 'false') return;
@@ -131,7 +149,7 @@ export class ViewRenderer {
 
         const icon = document.createElement('div');
         icon.className = 'fatal-error-icon';
-        icon.innerHTML = '⚠️';
+        icon.textContent = '!';
 
         const title = document.createElement('h1');
         title.className = 'fatal-error-title';
@@ -253,7 +271,7 @@ export class ViewRenderer {
         this.#notificationContainer.appendChild(notification);
 
         setTimeout(() => {
-            notification.style.animation = 'slideInRight 0.3s reverse forwards';
+            notification.style.animation = 'slide-in-right 0.3s reverse forwards';
             notification.addEventListener('animationend', () => notification.remove());
         }, CONFIG.ANIMATION_DURATION.NOTIFICATION_MS);
     }

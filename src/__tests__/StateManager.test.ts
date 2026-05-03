@@ -62,6 +62,30 @@ describe('StateManager', () => {
         expect(callback).not.toHaveBeenCalled();
     });
 
+    it('should return an unsubscribe function from subscribe', () => {
+        const callback = vi.fn();
+        const unsubscribe = sm.subscribe('returnedUnsub', callback);
+
+        unsubscribe();
+        sm.publish('returnedUnsub', 'data');
+
+        expect(callback).not.toHaveBeenCalled();
+    });
+
+    it('should publish to a stable listener snapshot when listeners unsubscribe during publish', () => {
+        const second = vi.fn();
+        const first = vi.fn(() => {
+            sm.unsubscribe('snapshot', second);
+        });
+        sm.subscribe('snapshot', first);
+        sm.subscribe('snapshot', second);
+
+        sm.publish('snapshot', 'data');
+
+        expect(first).toHaveBeenCalledWith('data');
+        expect(second).toHaveBeenCalledWith('data');
+    });
+
     it('should not throw when unsubscribing a non-existent callback', () => {
         const callback = vi.fn();
         expect(() => sm.unsubscribe('nope', callback)).not.toThrow();

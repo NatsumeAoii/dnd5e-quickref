@@ -44,7 +44,7 @@
                 "items": [
                     "When you take the Attack action and attack with a weapon that has the <b>Light</b> property, you can use a Bonus Action to attack with a different <b>Light</b> weapon that you're holding in another hand.",
                     "You don't add your ability modifier to the damage of the bonus attack, unless that modifier is negative.",
-                    "The Warrior group's 'Fighting Style' feature (Two-Weapon Fighting) allows you to add your ability modifier to this bonus attack's damage.",
+                    "The Two-Weapon Fighting Fighting Style allows you to add your ability modifier to this bonus attack's damage.",
                     "The Dual Wielder feat allows you to use weapons for this that don't have the Light property."
                 ]
             },
@@ -70,7 +70,7 @@
             {
                 "type": "list",
                 "items": [
-                    "Examples: A Barbarian entering a Rage, a Rogue's Cunning Action, or a Cleric's War Priest feature. Many Channel Divinity options also use a bonus action."
+                    "Examples include a Barbarian entering a Rage, a Rogue's Cunning Action, a Paladin's Lay on Hands, or a Druid's Wild Shape."
                 ]
             },
             {
@@ -160,29 +160,30 @@
         ]
     },
     {
-        "title": "Drink a Potion**",
-        "optional": "Homebrew rule",
+        "title": "Potion of Healing",
+        "optional": "Standard rule",
         "icon": "potionball",
-        "subtitle": "Quaff a potion quickly",
-        "description": "A very common house rule to make potions more viable in combat by allowing you to drink one as a bonus action.",
-        "reference": "Based on 'Use an Object' action, PHB 2024, pg. 294.",
-        "summary": "A popular house rule that allows you to drink a potion as a bonus action. Administering a potion to another creature remains a full action.",
+        "subtitle": "Drink or administer",
+        "description": "Drink a Potion of Healing or administer it to another creature within 5 feet as a Bonus Action.",
+        "reference": "PHB 2024, pg. 228.",
+        "summary": "A Potion of Healing can be drunk or administered to another creature within 5 feet as a Bonus Action, restoring 2d4 + 2 Hit Points.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "By rule, drinking a potion requires an action. This popular homebrew speeds up self-healing, making potions a more attractive option in the heat of battle by changing the action cost."
+                "content": "The 2024 rules make the basic Potion of Healing faster to use in combat than the 2014 default. This applies to drinking it yourself or administering it to a nearby creature."
             },
             {
                 "type": "list",
                 "items": [
-                    "<b>RAW:</b> Using a magic item like a potion requires the Use an Object action.",
-                    "<b>Variant 1 (Most Common):</b> You can drink a potion yourself as a Bonus Action. Administering a potion to another creature remains an Action.",
-                    "<b>Variant 2 (Uncommon):</b> You can drink a potion as a Bonus Action to roll for healing. If you use your Action, you gain the maximum possible healing from the potion. This adds a tactical choice between speed and efficacy."
+                    "Use a Bonus Action to drink the potion yourself.",
+                    "You can also use a Bonus Action to administer it to another creature within 5 feet.",
+                    "The target regains <b>2d4 + 2 Hit Points</b>.",
+                    "Other potions use the timing in their own item descriptions."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "Adopting this rule can significantly change combat economy, allowing characters to both heal and contribute offensively in the same turn."
+                "content": "This change makes emergency healing easier to fit into a turn without consuming the main action."
             }
         ]
     },
@@ -192,7 +193,7 @@
         "icon": "liar",
         "subtitle": "Gain advantage on your attack",
         "description": "A house rule allowing a creature to use its bonus action to try and outwit an opponent, granting advantage on its own attack.",
-        "summary": "A house rule (now standard for Rogues) where you use a bonus action to make a contested Deception vs. Insight check to gain advantage on your next attack against the target.",
+        "summary": "A house rule where you use a bonus action to make a contested Deception vs. Insight check to gain advantage on your next attack against the target.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -201,7 +202,7 @@
             {
                 "type": "list",
                 "items": [
-                    "This mechanic is now officially an option for Rogues via their Cunning Action feature, but this can be a general option for all characters.",
+                    "This is not a universal standard action; it is a table option for campaigns that want social trickery to matter more in combat.",
                     "As a Bonus Action, make a Charisma (Deception) check contested by a target's Wisdom ( Insight) check.",
                     "If you succeed, you gain Advantage on your next attack roll against that creature this turn."
                 ]

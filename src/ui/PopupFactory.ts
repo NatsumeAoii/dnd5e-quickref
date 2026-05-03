@@ -8,12 +8,10 @@ import type { RuleInfo } from '../types.js';
 export class PopupFactory {
     #templateService: TemplateService;
     #userDataService: UserDataService;
-    #stateManager: StateManager;
 
-    constructor(templateService: TemplateService, userDataService: UserDataService, stateManager: StateManager) {
+    constructor(templateService: TemplateService, userDataService: UserDataService, _stateManager: StateManager) {
         this.#templateService = templateService;
         this.#userDataService = userDataService;
-        this.#stateManager = stateManager;
     }
 
     create(id: string, ruleInfo: RuleInfo, linkifyFn: (html: string) => string): HTMLElement {
@@ -28,13 +26,22 @@ export class PopupFactory {
         if (!textarea || !statusEl) return;
 
         let fadeTimeout: ReturnType<typeof setTimeout> | null = null;
+        let saveVersion = 0;
 
         const debouncedSave = debounce(() => {
-            this.#userDataService.saveNote(id, textarea.value);
-            statusEl.textContent = CONFIG.UI_STRINGS.NOTE_STATUS_SAVED;
-            fadeTimeout = setTimeout(() => {
-                if (statusEl.textContent === CONFIG.UI_STRINGS.NOTE_STATUS_SAVED) statusEl.textContent = '';
-            }, CONFIG.ANIMATION_DURATION.NOTE_FADEOUT_MS);
+            const version = ++saveVersion;
+            const text = textarea.value;
+            void this.#userDataService.saveNote(id, text).then((saved) => {
+                if (version !== saveVersion) return;
+                statusEl.textContent = saved ? CONFIG.UI_STRINGS.NOTE_STATUS_SAVED : CONFIG.UI_STRINGS.NOTE_STATUS_FAILED;
+                if (saved) {
+                    fadeTimeout = setTimeout(() => {
+                        if (statusEl.textContent === CONFIG.UI_STRINGS.NOTE_STATUS_SAVED) statusEl.textContent = '';
+                    }, CONFIG.ANIMATION_DURATION.NOTE_FADEOUT_MS);
+                }
+            }).catch(() => {
+                if (version === saveVersion) statusEl.textContent = CONFIG.UI_STRINGS.NOTE_STATUS_FAILED;
+            });
         }, CONFIG.DEBOUNCE_DELAY.NOTE_AUTOSAVE_MS);
 
         textarea.addEventListener('input', () => {

@@ -1,24 +1,56 @@
 export class ServiceWorkerMessenger {
-    static #postMessage(message: { type: string; allowed?: boolean }): void {
-        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+    static #postMessage(message: { type: string; allowed?: boolean }): boolean {
+        if (!('serviceWorker' in navigator) || !navigator.serviceWorker.controller) return false;
+        try {
             navigator.serviceWorker.controller.postMessage(message);
+            return true;
+        } catch (e) {
+            console.warn('Service worker postMessage failed:', e);
+            return false;
         }
     }
 
-    static setCachingPolicy(allowed: boolean): void { this.#postMessage({ type: 'SET_CACHING_POLICY', allowed }); }
+    static setCachingPolicy(allowed: boolean): boolean { return this.#postMessage({ type: 'SET_CACHING_POLICY', allowed }); }
 
-    static clearCache(): void { this.#postMessage({ type: 'CLEAR_CACHE' }); }
+    static clearCache(): boolean { return this.#postMessage({ type: 'CLEAR_CACHE' }); }
 
-    static async ensureServiceWorkerReady(): Promise<void> {
-        if (!('serviceWorker' in navigator)) return;
-        const reg = await navigator.serviceWorker.ready;
-        if (reg.active && !navigator.serviceWorker.controller) {
-            await reg.active.postMessage({ type: 'CLAIM' });
-            await new Promise<void>((resolve) => {
+    static async #withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T | null> {
+        let timeoutId: ReturnType<typeof setTimeout> | null = null;
+        try {
+            return await Promise.race([
+                promise,
+                new Promise<null>((resolve) => {
+                    timeoutId = setTimeout(() => resolve(null), timeoutMs);
+                }),
+            ]);
+        } finally {
+            if (timeoutId) clearTimeout(timeoutId);
+        }
+    }
+
+    static async ensureServiceWorkerReady(timeoutMs = 3000): Promise<boolean> {
+        if (!('serviceWorker' in navigator)) return false;
+        try {
+            const reg = await this.#withTimeout(navigator.serviceWorker.ready, timeoutMs);
+            if (!reg) return false;
+            if (navigator.serviceWorker.controller) return true;
+            if (!reg.active) return false;
+
+            try {
+                reg.active.postMessage({ type: 'CLAIM' });
+            } catch (e) {
+                console.warn('Service worker claim message failed:', e);
+                return false;
+            }
+
+            await this.#withTimeout(new Promise<void>((resolve) => {
                 if (navigator.serviceWorker.controller) { resolve(); return; }
                 navigator.serviceWorker.addEventListener('controllerchange', () => resolve(), { once: true });
-                setTimeout(resolve, 1000);
-            });
+            }), Math.min(timeoutMs, 1000));
+            return Boolean(navigator.serviceWorker.controller);
+        } catch (e) {
+            console.warn('Service worker readiness failed:', e);
+            return false;
         }
     }
 }

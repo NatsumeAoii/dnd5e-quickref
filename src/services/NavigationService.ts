@@ -19,7 +19,12 @@ export class NavigationService {
 
     #rebuildFocusables(): HTMLElement[] {
         this.#focusablesCache = Array.from<HTMLElement>(
-            document.querySelectorAll(`.${CONFIG.CSS.SECTION_TITLE}, .${CONFIG.CSS.SECTION_CONTAINER}:not(.${CONFIG.CSS.IS_COLLAPSED}) .item`)
+            document.querySelectorAll(
+                `.${CONFIG.CSS.SECTION_TITLE}, ` +
+                `.${CONFIG.CSS.SECTION_CONTAINER}:not(.${CONFIG.CSS.IS_COLLAPSED}) .item-content, ` +
+                `.${CONFIG.CSS.SECTION_CONTAINER}:not(.${CONFIG.CSS.IS_COLLAPSED}) button:not(.favorite-btn):not([disabled]), ` +
+                `.${CONFIG.CSS.SECTION_CONTAINER}:not(.${CONFIG.CSS.IS_COLLAPSED}) select:not([disabled])`
+            )
         ).filter((el) => el.offsetParent !== null);
         this.#focusablesDirty = false;
         return this.#focusablesCache;
