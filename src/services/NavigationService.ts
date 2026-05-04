@@ -3,6 +3,7 @@ import type { KeyboardShortcutsService } from './KeyboardShortcutsService.js';
 import type { OnboardingService } from './OnboardingService.js';
 
 const NAV_KEYS = new Set(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Enter', ' ']);
+const MODAL_SELECTORS = `#${CONFIG.ELEMENT_IDS.POPUP_CONTAINER}, #${CONFIG.ELEMENT_IDS.SHORTCUTS_MODAL}, #${CONFIG.ELEMENT_IDS.CHANGELOG_MODAL}, #${CONFIG.ELEMENT_IDS.README_MODAL}`;
 
 export class NavigationService {
     #focusablesCache: HTMLElement[] = [];
@@ -37,9 +38,12 @@ export class NavigationService {
             if (!NAV_KEYS.has(key)) return;
 
             if (this.#shortcuts.isModalOpen || this.#onboarding.isActive) return;
-            const tag = (e.target as HTMLElement).tagName;
+            const targetElement = e.target instanceof HTMLElement ? e.target : null;
+            // Skip grid navigation when focus is inside popups or modal overlays
+            if (e.target instanceof Element && e.target.closest(MODAL_SELECTORS)) return;
+            const tag = targetElement?.tagName;
             if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
-            if ((e.target as HTMLElement).isContentEditable) return;
+            if (targetElement?.isContentEditable) return;
 
             const focusables = this.#focusablesDirty ? this.#rebuildFocusables() : this.#focusablesCache;
 
@@ -83,7 +87,7 @@ export class NavigationService {
                         if (prev) { prev.focus(); prev.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
                     }
                 } else {
-                    const prevIdx = currentIdx <= 0 ? 0 : currentIdx - 1;
+                    const prevIdx = currentIdx <= 0 ? focusables.length - 1 : currentIdx - 1;
                     const target = focusables[prevIdx];
                     if (target) { target.focus(); target.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
                 }

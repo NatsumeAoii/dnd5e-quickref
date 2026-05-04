@@ -35,7 +35,8 @@ export class PerformanceOptimizer {
     }
 
     shouldReduceMotion(): boolean {
-        return this.#isLowEnd || this.#isSaveData;
+        return this.#isLowEnd || this.#isSaveData
+            || (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false);
     }
 
     destroy(): void {

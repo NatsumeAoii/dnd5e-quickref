@@ -5,7 +5,7 @@ import { StateManager } from './state/StateManager.js';
 import {
     ServiceWorkerMessenger, DOMProvider, A11yService, DBService, WakeLockService, SyncService,
     PerformanceOptimizer, GamepadService, SettingsService, UserDataService, PersistenceService, DataService,
-    ErrorService, OnboardingService, KeyboardShortcutsService, ChangelogService, NavigationService,
+    ErrorService, OnboardingService, KeyboardShortcutsService, ChangelogService, ReadmeService, NavigationService,
 } from './services/index.js';
 import {
     TemplateService, ViewRenderer, PopupFactory, WindowManager, UIController,
@@ -28,6 +28,7 @@ interface Services {
     onboarding: OnboardingService;
     shortcuts: KeyboardShortcutsService;
     changelog: ChangelogService;
+    readme: ReadmeService;
     navigation: NavigationService;
 }
 
@@ -73,11 +74,12 @@ class QuickRefApplication {
         const onboarding = new OnboardingService(window.localStorage, a11y);
         const shortcuts = new KeyboardShortcutsService(a11y);
         const changelog = new ChangelogService(a11y);
+        const readme = new ReadmeService(a11y);
         const navigation = new NavigationService(shortcuts, onboarding);
 
         this.#services = {
             domProvider, a11y, db, wakeLock, sync, optimizer, gamepad, persistence, settings, userData, data,
-            errorService, onboarding, shortcuts, changelog, navigation,
+            errorService, onboarding, shortcuts, changelog, readme, navigation,
         };
     }
 
@@ -126,7 +128,6 @@ class QuickRefApplication {
             ]);
 
             this.#services.data.buildRuleMap();
-            this.#services.data.buildLinkerData();
             this.#components.viewRenderer.renderFavoritesSection();
             this.#components.controller.setupCollapsibleSections();
             await this.#components.controller.renderOpenSections();
@@ -140,8 +141,12 @@ class QuickRefApplication {
             this.#components.windowManager.initialize();
             this.#components.viewRenderer.showApp();
 
-            // Background tasks — non-blocking
-            this.#services.data.preloadAllDataSilent();
+            // Deferred: build linker data after UI is visible (only needed for popup cross-references)
+            this.#services.data.buildLinkerData();
+
+            // Background tasks — yielded to idle time to avoid competing with user interactions
+            const idleCallback = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 200));
+            idleCallback(() => this.#services.data.preloadAllDataSilent());
 
             // Wire keyboard shortcuts
             this.#registerKeyboardShortcuts();
@@ -156,6 +161,11 @@ class QuickRefApplication {
             // Wire changelog modal to version display button
             document.getElementById(CONFIG.ELEMENT_IDS.APP_VERSION_DISPLAY)?.addEventListener('click', () => {
                 this.#services.changelog.toggle();
+            });
+
+            // Wire README modal to readme display button
+            document.getElementById('readme-display-btn')?.addEventListener('click', () => {
+                this.#services.readme.toggle();
             });
 
             // Wire ErrorService notifier

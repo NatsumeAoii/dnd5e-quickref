@@ -14,7 +14,6 @@ export class DragDropManager {
         this.#userDataService = userDataService;
         if (this.#container) {
             this.#bind();
-            this.#bindTouch();
         }
     }
 
@@ -111,8 +110,7 @@ export class DragDropManager {
     #touchOffsetX = 0;
     #touchOffsetY = 0;
 
-    // Touch binding now handled inside #bind() via shared AbortController.
-    #bindTouch(): void { /* no-op — kept for call-site compatibility */ }
+
 
     #onPointerDown = (e: PointerEvent): void => {
         if (e.pointerType !== 'touch' || !this.#container) return;
@@ -157,6 +155,9 @@ export class DragDropManager {
                 this.#touchClone.style.left = `${me.clientX - this.#touchOffsetX}px`;
                 this.#touchClone.style.top = `${me.clientY - this.#touchOffsetY}px`;
             }
+
+            // Suppress native scroll during active drag
+            if (activated) me.preventDefault();
 
             // Highlight drop target
             const targetEl = document.elementFromPoint(me.clientX, me.clientY);

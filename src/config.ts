@@ -51,6 +51,7 @@ export const CONFIG = Object.freeze({
         MINIMIZED_BAR: 'minimized-popups-bar',
         SHORTCUTS_MODAL: 'keyboard-shortcuts-modal',
         CHANGELOG_MODAL: 'changelog-modal',
+        README_MODAL: 'readme-modal',
         ONBOARDING_OVERLAY: 'onboarding-overlay',
         PRINT_BTN: 'print-mode-btn',
         SEARCH_INPUT: 'search-input',

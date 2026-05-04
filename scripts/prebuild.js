@@ -7,20 +7,24 @@ const rootDir = path.resolve(__dirname, '..');
 
 const changelogPath = path.join(rootDir, 'CHANGELOG.md');
 const publicChangelogPath = path.join(rootDir, 'public', 'CHANGELOG.md');
+const readmePath = path.join(rootDir, 'README.md');
+const publicReadmePath = path.join(rootDir, 'public', 'README.md');
 const packageJsonPath = path.join(rootDir, 'package.json');
 const packageLockPath = path.join(rootDir, 'package-lock.json');
 const configTsPath = path.join(rootDir, 'src', 'config.ts');
 const serviceWorkerPath = path.join(rootDir, 'public', 'sw.js');
 
-// 1. Sync CHANGELOG.md to public/
+// 1. Sync markdown files to public/
 try {
     if (!fs.existsSync(path.join(rootDir, 'public'))) {
         fs.mkdirSync(path.join(rootDir, 'public'));
     }
     fs.copyFileSync(changelogPath, publicChangelogPath);
     console.log('Copied CHANGELOG.md to public/CHANGELOG.md');
+    fs.copyFileSync(readmePath, publicReadmePath);
+    console.log('Copied README.md to public/README.md');
 } catch (e) {
-    console.warn('Could not copy CHANGELOG.md to public:', e.message);
+    console.warn('Could not copy markdown files to public:', e.message);
 }
 
 // 2. Extract latest version from CHANGELOG.md
