@@ -13,7 +13,7 @@ export class TemplateService {
         return `${prefix}-${encoded || 'rule'}`;
     }
 
-    #renderers: Record<string, (bullet: Bullet, linkifyFn: (html: string) => string) => HTMLElement> = {
+    #renderers: Record<string, (bullet: Bullet, linkifyFn: (html: string) => string, ruleTitle: string) => HTMLElement> = {
         paragraph: (bullet, linkifyFn) => {
             const p = document.createElement('p');
             p.innerHTML = safeHTML(linkifyFn(bullet.content || '')) as string;
@@ -28,7 +28,13 @@ export class TemplateService {
             });
             return ul;
         },
-        table: (bullet, linkifyFn) => {
+        table: (bullet, linkifyFn, ruleTitle) => {
+            const scrollRegion = document.createElement('div');
+            scrollRegion.className = 'rule-table-scroll';
+            scrollRegion.tabIndex = 0;
+            scrollRegion.setAttribute('role', 'region');
+            scrollRegion.setAttribute('aria-label', `Scrollable rule table for ${ruleTitle}`);
+
             const table = document.createElement('table');
             table.className = 'rule-table';
             if (bullet.headers?.length) {
@@ -51,16 +57,17 @@ export class TemplateService {
                     });
                 });
             }
-            return table;
+            scrollRegion.appendChild(table);
+            return scrollRegion;
         },
     };
 
-    #renderBullets(bullets: Bullet[] | undefined, linkifyFn: (html: string) => string): DocumentFragment {
+    #renderBullets(bullets: Bullet[] | undefined, linkifyFn: (html: string) => string, ruleTitle: string): DocumentFragment {
         const fragment = document.createDocumentFragment();
         if (!Array.isArray(bullets)) return fragment;
         bullets.forEach((bullet) => {
             const renderer = this.#renderers[bullet.type];
-            if (renderer) fragment.appendChild(renderer(bullet, linkifyFn));
+            if (renderer) fragment.appendChild(renderer(bullet, linkifyFn, ruleTitle));
             else {
                 console.warn(`Unknown bullet type: "${bullet.type}"`);
                 const p = document.createElement('p');
@@ -96,6 +103,7 @@ export class TemplateService {
         const popup = (tpl.content.cloneNode(true) as DocumentFragment).firstElementChild as HTMLElement;
         const sourceSection = document.getElementById(sectionId)?.closest(`.${CONFIG.CSS.SECTION_CONTAINER}`);
         const borderColor = sourceSection ? window.getComputedStyle(sourceSection).borderColor : 'var(--color-hr)';
+        const title = ruleData.title || CONFIG.DEFAULTS.TITLE;
         const titleId = this.#toDomId('popup-title', popupId);
         const notesId = this.#toDomId('notes', popupId);
 
@@ -104,13 +112,13 @@ export class TemplateService {
 
         const titleEl = popup.querySelector('.popup-title') as HTMLElement;
         titleEl.id = titleId;
-        titleEl.textContent = ruleData.title || CONFIG.DEFAULTS.TITLE;
+        titleEl.textContent = title;
 
         (popup.querySelector('.popup-header') as HTMLElement).style.backgroundColor = borderColor;
         popup.querySelector('.popup-type')!.textContent = type;
         (popup.querySelector('.popup-description') as HTMLElement).innerHTML = safeHTML(linkifyFn(ruleData.description || ruleData.subtitle || '')) as string;
         (popup.querySelector('.popup-summary') as HTMLElement).innerHTML = safeHTML(linkifyFn(ruleData.summary || '')) as string;
-        popup.querySelector('.popup-bullets')!.replaceChildren(this.#renderBullets(ruleData.bullets, linkifyFn));
+        popup.querySelector('.popup-bullets')!.replaceChildren(this.#renderBullets(ruleData.bullets, linkifyFn, title));
 
         const refContainer = popup.querySelector('.popup-reference-container') as HTMLElement;
         const referenceEl = refContainer.querySelector('.popup-reference') as HTMLElement;

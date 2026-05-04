@@ -190,9 +190,9 @@
         "optional": "Standard rule",
         "icon": "grab",
         "subtitle": "You are grappled",
-        "description": "Your Speed is 0, and you have disadvantage on attacks against any creature other than your grappler.",
+        "description": "Your Speed is 0, and you have disadvantage on attacks against any target other than your grappler.",
         "reference": "PHB 2024, pg. 368.",
-        "summary": "Your Speed is 0, and you have disadvantage on attack rolls against any target except the creature grappling you. The condition ends if the grappler is Incapacitated.",
+        "summary": "Your Speed is 0, you cannot benefit from bonuses to Speed, and attack rolls against targets other than the grappler have disadvantage. The condition ends if the grappler is Incapacitated or you are moved away.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -219,11 +219,20 @@
         "subtitle": "You can't take actions",
         "description": "An incapacitated creature is unable to take an Action, Bonus Action, or Reaction, effectively removing them from the action economy.",
         "reference": "PHB 2024, pg. 368.",
-        "summary": "You cannot take an Action, Bonus Action, or Reaction; your Concentration is broken, and you cannot speak.",
+        "summary": "You cannot take an Action, Bonus Action, or Reaction. Concentration also ends when you become Incapacitated.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "This is one of the most severe conditions, as it shuts off your action economy and immediately breaks Concentration. It is also a component of several other conditions, such as Paralyzed, Stunned, and Unconscious."
+                "content": "This condition shuts off your action economy. It is also embedded inside several harsher conditions, including Paralyzed, Stunned, and Unconscious."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "You cannot take an <b>Action</b>.",
+                    "You cannot take a <b>Bonus Action</b>.",
+                    "You cannot take a <b>Reaction</b>.",
+                    "If you are concentrating, your concentration ends when you become Incapacitated."
+                ]
             }
         ]
     },
@@ -232,25 +241,26 @@
         "optional": "Standard rule",
         "icon": "invisible",
         "subtitle": "You can't be seen",
-        "description": "You are impossible to see without magic or a special sense, granting a powerful advantage in combat and stealth.",
+        "description": "You cannot be seen without magic or a special sense, and attacks are affected unless a creature can somehow see you.",
         "reference": "PHB 2024, pg. 368.",
-        "summary": "You cannot be seen without magic or special senses. You have advantage on your attack rolls, and attack rolls against you have disadvantage.",
+        "summary": "You cannot be seen without magic or a special sense. You have advantage on attacks and attacks against you have disadvantage unless a creature can somehow see you.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "Invisibility makes you a superb ambusher and a difficult target, as enemies cannot see you to effectively attack you or defend against your attacks."
+                "content": "The Invisible condition conceals you and affects attacks, but its attack benefits do not apply against a creature that can somehow see you."
             },
             {
                 "type": "list",
                 "items": [
-                    "For the purpose of hiding, you are Heavily Obscured.",
-                    "You have <b>advantage on attack rolls</b>.",
-                    "Attack rolls against you have <b>disadvantage</b>."
+                    "You cannot be seen without magic or a special sense.",
+                    "Equipment you wear or carry is also concealed.",
+                    "You have <b>advantage on attack rolls</b>, and attack rolls against you have <b>disadvantage</b>.",
+                    "If a creature can somehow see you, you do not gain those attack benefits against that creature."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "Remember that spells which require you to see your target cannot target an invisible creature, but area-of-effect spells can still affect them."
+                "content": "Area effects and attacks against a guessed location can still affect an invisible creature if the attacker chooses the right space."
             }
         ]
     },
@@ -449,13 +459,13 @@
         ]
     },
     {
-        "title": "Suffocating",
+        "title": "Suffocation",
         "optional": "Standard rule",
         "icon": "drowning",
         "subtitle": "Holding your breath",
         "description": "Deprived of air, you can hold your breath briefly before gaining Exhaustion at the end of each turn.",
         "reference": "PHB 2024, pg. 184.",
-        "summary": "After your held breath runs out, you gain 1 Exhaustion level at the end of each turn until you can breathe again.",
+        "summary": "After your held breath runs out or you are choking, you gain 1 Exhaustion level at the end of each turn until you can breathe again. Those Exhaustion levels are removed when you breathe again.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -464,15 +474,15 @@
             {
                 "type": "list",
                 "items": [
-                    "You can hold your breath for <b>1 + CON modifier</b> minutes (min 30s).",
-                    "When your breath runs out, you gain <b>1 Exhaustion level</b> at the end of each of your turns.",
+                    "You can hold your breath for <b>1 + CON modifier</b> minutes (minimum 30 seconds).",
+                    "When your breath runs out or you are choking, you gain <b>1 Exhaustion level</b> at the end of each of your turns.",
                     "The Exhaustion continues until you can breathe again.",
-                    "If Exhaustion reaches level 6, you die."
+                    "When the suffocation ends, you remove all Exhaustion levels gained from it."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "This makes suffocation dangerous over several turns and directly ties it to the final 2024 Exhaustion track."
+                "content": "This makes suffocation dangerous over several turns while keeping its Exhaustion separate from other sources once the creature can breathe again."
             }
         ]
     },
@@ -507,30 +517,30 @@
         ]
     },
     {
-        "title": "Madness*",
+        "title": "Mental Stress*",
         "optional": "Optional rule",
         "icon": "architectmask",
         "subtitle": "Your mind is damaged",
-        "description": "An optional rule system for representing mental trauma with short-term, long-term, and indefinite psychological effects.",
+        "description": "An optional 2024 DMG framework for traumatic mental stress using Psychic damage and possible prolonged effects.",
         "reference": "DMG 2024, pg. 236.",
-        "summary": "An optional rule for mental trauma from horrific events, inflicting short-term, long-term, or indefinite psychological effects.",
+        "summary": "Use Psychic damage as the baseline for intense mental stress; prolonged effects can impose short-term conditions, long-term ability-check disadvantage, or indefinite effects until removed.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "For campaigns that delve into horror, the Madness rules provide a framework for representing the toll that traumatic events can take on a character's mind, with effects of varying duration and severity."
+                "content": "The 2024 DMG frames these effects as fear and mental stress rather than the older Madness subsystem. This keeps the row aligned with the current source language."
             },
             {
                 "type": "list",
                 "items": [
-                    "A character might suffer madness from traumatic events, such as failing a Sanity saving throw, seeing an aberration from the Far Realm, or from spells like <i>Contact Other Plane</i>.",
-                    "<b>Short-Term Madness (1d10 minutes):</b> Effects like being overwhelmed, paralyzed with fear, or babbling incoherently.",
-                    "<b>Long-Term Madness (1d10 x 10 hours):</b> Effects like developing a phobia, having hallucinations, or suffering from extreme paranoia.",
-                    "<b>Indefinite Madness:</b> A permanent change to the character's personality or beliefs, curable only by powerful magic like <i>Greater Restoration</i> or <i>Wish</i>."
+                    "Most mental stress effects use <b>Psychic damage</b>, usually resisted with a Wisdom save unless another ability is more appropriate.",
+                    "<b>Short-Term Effects:</b> Frightened, Incapacitated, or Stunned for 1d10 minutes, possibly with alarming behavior or hallucinations.",
+                    "<b>Long-Term Effects:</b> Disadvantage on some or all ability checks for 1d10 x 10 hours.",
+                    "<b>Indefinite Effects:</b> A long-term effect that lasts until removed by <i>Greater Restoration</i>; <i>Calm Emotions</i> can suppress it."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "These rules can create consequences beyond physical damage, adding a layer of psychological depth and danger to a campaign."
+                "content": "This preserves the app's optional mental-trauma card while removing older Madness wording that is not how the 2024 DMG presents the rule."
             }
         ]
     },

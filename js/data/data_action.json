@@ -409,24 +409,24 @@
         ]
     },
     {
-        "title": "Administer Potion*",
-        "optional": "Optional rule",
+        "title": "Administer Potion",
+        "optional": "Standard rule",
         "icon": "healthpotion",
         "subtitle": "Use a potion on another",
-        "description": "Use your action to administer a potion to an adjacent creature that is willing or unconscious.",
-        "reference": "DMG, pg. 141.",
-        "summary": "As a specific 'Interact with an Object' action, you can use your action to administer a potion to an adjacent willing or unconscious creature.",
+        "description": "Use your action to administer a potion to another creature.",
+        "reference": "PHB, pg. 153; DMG, pg. 139.",
+        "summary": "Drinking a potion or administering one to another creature takes an action under the 2014 rules.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "This is a specific application of the 'Interact with an Object' action, clarifying that giving a potion to someone else requires your full attention. It is a vital tactic for saving a downed ally."
+                "content": "Administering a potion is a specific use of an action, not an optional rule. It is commonly used to deliver a healing potion to a fallen ally or another creature that can receive it."
             },
             {
                 "type": "list",
                 "items": [
-                    "Administering a potion requires you to be within 5 feet of the target creature.",
+                    "The potion's item description determines the effect when administered.",
                     "This is most often used to bring a dying (0 HP) ally back to consciousness and into the fight.",
-                    "While drinking a potion yourself is also an action, many DMs use a popular house rule allowing it as a bonus action. Administering one to another always remains an action."
+                    "Many DMs use a house rule allowing a character to drink a potion as a bonus action, but the standard 2014 rule uses an action."
                 ]
             },
             {
@@ -480,7 +480,8 @@
                 "items": [
                     "The attacker makes an attack roll contested by the target's Strength (Athletics) or Dexterity (Acrobatics) check.",
                     "If the attacker wins, the attack deals no damage but forces the target to drop one held item of the attacker's choice.",
-                    "The attacker has disadvantage on the roll if the target is holding the item with two or more hands."
+                    "The attacker has disadvantage on the roll if the target is holding the item with two or more hands.",
+                    "The target has advantage on its check if it is larger than the attacker, or disadvantage if it is smaller."
                 ]
             },
             {
@@ -494,20 +495,21 @@
         "optional": "Optional rule",
         "icon": "crossmark",
         "subtitle": "Focus on one foe",
-        "description": "An optional rule that lets you single out an enemy you hit, making your opportunity attacks against them more effective.",
+        "description": "An optional rule that lets you mark the target of a melee attack, making your opportunity attacks against that target more effective.",
         "reference": "DMG, pg. 271.",
-        "summary": "When you hit a creature with a melee attack, you can mark it. Any opportunity attack you make against the marked target has advantage and doesn't expend your reaction.",
+        "summary": "When you make a melee attack, you can mark the target. Until the end of your next turn, opportunity attacks you make against that target have advantage and do not expend your reaction.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "This rule adds a tactical layer for melee fighters, allowing them to 'lock down' an opponent. This is not an action itself, but a rider effect you can apply when you hit with a melee attack."
+                "content": "This rule adds a tactical layer for melee fighters, allowing them to 'lock down' an opponent. This is not an action itself, but a rider effect you can apply when you make a melee attack."
             },
             {
                 "type": "list",
                 "items": [
-                    "When you hit a creature with a melee attack, you can <b>mark it</b> until the end of your next turn.",
+                    "When you make a melee attack, you can <b>mark the target</b> until the end of your next turn.",
                     "Any opportunity attack you make against the marked target has <b>advantage</b>.",
-                    "The opportunity attack <b>doesn't expend your reaction</b>, but you can't make another one on the same turn."
+                    "The opportunity attack <b>doesn't expend your reaction</b>, but you still can't make it if something prevents you from taking reactions.",
+                    "You are limited to one opportunity attack per turn."
                 ]
             },
             {
@@ -548,25 +550,25 @@
         "optional": "Optional rule",
         "icon": "conversation",
         "subtitle": "Negotiate mid-combat",
-        "description": "Use your action to de-escalate a fight and begin a one-minute conversation with a hostile creature.",
+        "description": "Attempt to settle or avoid a conflict through negotiation, using social interaction as the DM allows.",
         "reference": "TCE, pg. 148.",
-        "summary": "Make a contested Charisma check (Deception, Intimidation, or Persuasion vs. Insight) to make a hostile creature cease hostilities for 1 minute, allowing for negotiation.",
+        "summary": "Tasha's guidance supports parleying with monsters by improvising the encounter or using the DMG social interaction rules. It does not create a fixed combat action or fixed-duration ceasefire.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "This social action provides a formal mechanic for trying to talk your way out of a fight that's already started. Success pauses the conflict, giving you a chance to negotiate via a contested social skill check."
+                "content": "Parley is a table-facing negotiation approach rather than a fixed combat action with guaranteed timing. If characters try to talk, the DM can improvise or use the social interaction rules."
             },
             {
                 "type": "list",
                 "items": [
-                    "Make a Charisma (Deception, Intimidation, or Persuasion) check contested by the target's Wisdom (Insight) check.",
-                    "You have <b>disadvantage</b> on the check if you or your companions are fighting the creature.",
-                    "On a success, the target ceases hostilities for 1 minute. The parley ends if you or your allies do anything harmful to it."
+                    "A creature's attitude and desires matter; a suitable offering can justify advantage on checks to communicate.",
+                    "The DMG social interaction rules can use Charisma checks against DCs based on the creature's attitude.",
+                    "Whether initiative pauses, hostilities stop, or negotiation is possible remains a DM adjudication."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "A successful parley provides a crucial window to resolve the conflict without further violence. If the parley fails, the creature is immune to further attempts from you for 24 hours, so make your one chance count."
+                "content": "This keeps Parley useful as an encounter option without promising a mechanical result that the 2014 rules do not define."
             }
         ]
     },
@@ -624,6 +626,31 @@
         ]
     },
     {
+        "title": "Healing Surge*",
+        "optional": "Optional rule",
+        "icon": "firstaid",
+        "subtitle": "Spend Hit Dice in combat",
+        "description": "Use an action to spend up to half your Hit Dice and regain hit points in combat.",
+        "reference": "DMG, pg. 266.",
+        "summary": "As an action, spend up to half your Hit Dice. For each die spent, roll the die and add your Constitution modifier, regaining the total as hit points.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Healing Surges are an optional DMG rule for campaigns with little magical healing or a more heroic recovery pace. They let characters convert Hit Dice into hit points during combat."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "As an action, spend up to <b>half your Hit Dice</b>.",
+                    "For each Hit Die spent, roll the die and add your Constitution modifier, then regain hit points equal to the total.",
+                    "After using a healing surge, you can't use one again until you finish a short or long rest.",
+                    "Under this option, a long rest restores all spent Hit Dice, and a short rest restores Hit Dice equal to one quarter of your level (minimum one die).",
+                    "For a more super-heroic campaign, the DM can allow Healing Surge as a bonus action instead."
+                ]
+            }
+        ]
+    },
+    {
         "title": "Brace**",
         "optional": "Homebrew rule",
         "icon": "pikeman",
@@ -677,29 +704,29 @@
         ]
     },
     {
-        "title": "Cleave**",
-        "optional": "Homebrew rule",
+        "title": "Cleave*",
+        "optional": "Optional rule",
         "icon": "axeswing",
         "subtitle": "Carry over damage to another foe",
-        "description": "A house rule allowing excess melee damage from a killing blow to carry over to an adjacent enemy.",
-        "reference": "Common Homebrew (adapted from DMG, pg. 272)",
-        "summary": "A house rule where, if your melee attack reduces a creature to 0 HP, you can apply any excess damage to another creature within 5 feet (usually requiring a new attack roll).",
+        "description": "An optional rule allowing excess melee damage from a killing blow to carry over to another nearby creature.",
+        "reference": "DMG, pg. 272.",
+        "summary": "When a melee attack reduces an undamaged creature to 0 HP, excess damage can carry over to another creature within reach if the original attack roll would hit it.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "This popular rule makes martial characters feel more powerful when facing hordes of weak enemies, allowing a massive damage roll to feel impactful even if the initial target was nearly dead. It allows excess damage from a fatal blow to be redirected."
+                "content": "This optional rule helps speed up fights against hordes of weaker monsters by letting a strong melee hit carry excess damage into another nearby target."
             },
             {
                 "type": "list",
                 "items": [
-                    "When your melee attack reduces a creature to 0 hit points, you can apply any excess damage to another creature within 5 feet of the original target and within your reach.",
-                    "This typically requires a new attack roll against the second creature.",
-                    "This effect is usually limited to one additional target per turn to maintain game balance."
+                    "The original melee attack must reduce an <b>undamaged</b> creature to 0 hit points.",
+                    "Choose another creature within reach and apply the remaining damage if the original attack roll would hit it.",
+                    "If that creature was also undamaged and is reduced to 0 hit points, the process can repeat until there are no valid targets or the carryover fails to drop a target."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "This is an adaptation of an optional rule in the Dungeon Master's Guide and is a very popular and satisfying house rule for martial characters."
+                "content": "Because this rule only carries over through undamaged creatures and reuses the original attack roll, it is narrower than many table variants."
             }
         ]
     },

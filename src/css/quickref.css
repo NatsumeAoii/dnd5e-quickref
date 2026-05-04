@@ -671,6 +671,7 @@ dialog.popup-window[open] {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: var(--spacing-sm);
     font-family: var(--font-secondary);
     font-variant: small-caps;
     font-weight: 600;
@@ -690,13 +691,17 @@ dialog.popup-window[open] {
 
 .popup-header-right {
     display: flex;
-    align-items: baseline;
+    align-items: center;
+    flex: 0 0 auto;
     gap: var(--spacing-sm);
 }
 
 .popup-title {
+    flex: 1 1 auto;
+    min-width: 0;
     font-size: var(--font-size-lg);
-    line-height: 1;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
 }
 
 .popup-type {
@@ -704,6 +709,7 @@ dialog.popup-window[open] {
     text-transform: uppercase;
     font-weight: 400;
     opacity: 0.8;
+    white-space: nowrap;
 }
 
 .popup-close-btn,
@@ -739,6 +745,8 @@ dialog.popup-window[open] {
 .popup-content {
     padding: var(--spacing-md);
     overflow-y: auto;
+    overflow-wrap: anywhere;
+    hyphens: auto;
     line-height: 1.6;
 }
 
@@ -747,9 +755,21 @@ dialog.popup-window[open] {
     margin-bottom: var(--spacing-md);
 }
 
+.popup-content li + li {
+    margin-top: var(--spacing-xs);
+}
+
+.popup-content :where(p, li, td, th, code, a) {
+    overflow-wrap: anywhere;
+}
+
 .popup-content p:last-child,
 .popup-content ul:last-child {
     margin-bottom: 0;
+}
+
+.popup-content p:empty {
+    display: none;
 }
 
 .popup-description {
@@ -768,7 +788,8 @@ dialog.popup-window[open] {
 .popup-reference-container {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: flex-start;
+    flex-wrap: wrap;
     gap: var(--spacing-md);
     margin-top: var(--spacing-lg);
     font-style: italic;
@@ -779,6 +800,8 @@ dialog.popup-window[open] {
     margin-top: 0;
     margin-bottom: 0;
     flex-grow: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
 .popup-toggle-details-btn {
@@ -794,15 +817,29 @@ dialog.popup-window[open] {
     display: inline-flex;
     align-items: center;
     flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .popup-toggle-details-btn:hover {
     text-decoration: none;
 }
 
+.rule-table-scroll {
+    overflow-x: auto;
+    margin-bottom: var(--spacing-md);
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+
+.rule-table-scroll:focus-visible {
+    outline: 3px solid var(--color-link);
+    outline-offset: 3px;
+}
+
 .rule-table {
     width: 100%;
-    margin-bottom: var(--spacing-md);
+    min-width: 100%;
+    margin-bottom: 0;
     border-collapse: collapse;
     border: var(--border-width) solid var(--color-border);
     font-size: var(--font-size-sm);
@@ -812,7 +849,9 @@ dialog.popup-window[open] {
 .rule-table td {
     padding: var(--spacing-sm);
     text-align: start;
+    vertical-align: top;
     border: var(--border-width) solid var(--color-border);
+    overflow-wrap: break-word;
 }
 
 .rule-table th {

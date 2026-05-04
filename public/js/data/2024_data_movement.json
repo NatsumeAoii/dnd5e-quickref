@@ -82,9 +82,9 @@
         "optional": "Standard rule",
         "icon": "falling",
         "subtitle": "Cost: 0ft",
-        "description": "You can drop to the ground at any point on your turn without using any movement, an action, or a reaction.",
+        "description": "On your turn, you can give yourself the Prone condition without using an action or movement, unless your Speed is 0.",
         "reference": "PHB 2024, pg. 292.",
-        "summary": "You can drop to the ground at any time on your turn without using any movement. This gives you the Prone condition.",
+        "summary": "You can drop Prone on your turn without using an action or movement, but you cannot do so if your Speed is 0.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -93,8 +93,9 @@
             {
                 "type": "list",
                 "items": [
-                    "To move while prone, you must crawl.",
-                    "Dropping prone gives you the <i>Prone</i> condition, which has tactical advantages and disadvantages."
+                    "Dropping prone gives you the <i>Prone</i> condition.",
+                    "You cannot drop prone voluntarily if your Speed is 0.",
+                    "To move while prone, you must crawl until you stand up."
                 ]
             },
             {
@@ -216,7 +217,7 @@
         "subtitle": "Cost: 1ft per 1ft",
         "description": "On your turn, you can move a distance up to your speed, breaking this movement up before, after, or between your actions.",
         "reference": "PHB 2024, pg. 292.",
-        "summary": "You can move a distance up to your speed, breaking it up between your actions. You can move through a nonhostile creature's space, but not a hostile one (unless there is a large size difference).",
+        "summary": "You can move up to your Speed and break that movement around actions. You can pass through an ally, an Incapacitated creature, a Tiny creature, or a creature two sizes larger or smaller than you.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -225,10 +226,10 @@
             {
                 "type": "list",
                 "items": [
-                    "If you have multiple speeds (e.g., walking and flying), you can switch between them. Subtract the distance already moved from the new speed.",
-                    "You can move through a nonhostile creature's space. You can only move through a hostile creature's space if it is at least two sizes larger or smaller than you.",
-                    "Another creature's space is always difficult terrain for you.",
-                    "You can't willingly end your move in another creature's space."
+                    "You can break up your movement before and after actions, Bonus Actions, and Reactions on the same turn.",
+                    "You can pass through the space of an ally, a creature with the <i>Incapacitated</i> condition, a Tiny creature, or a creature two sizes larger or smaller than you.",
+                    "Another creature's space is Difficult Terrain unless that creature is Tiny or your ally.",
+                    "You cannot willingly end your move in another creature's space. If you somehow end a turn there, you have the Prone condition unless you are Tiny or larger than the other creature."
                 ]
             },
             {
@@ -242,9 +243,9 @@
         "optional": "Standard rule",
         "icon": "horsehead",
         "subtitle": "Cost: half movement speed",
-        "description": "Getting on or off a mount costs an amount of movement equal to half of your total speed for the turn.",
+        "description": "During your move, mount or dismount a willing creature within 5 feet by spending movement equal to half your Speed, rounded down.",
         "reference": "PHB 2024, pg. 296.",
-        "summary": "You can get on or off a mount by spending movement equal to half your speed. If your mount is moved against its will, you must make a DC 10 DEX save or fall off and land prone.",
+        "summary": "During your move, mount or dismount a willing creature within 5 feet by spending movement equal to half your Speed, rounded down. Forced movement or being knocked Prone while mounted can make you fall off on a failed DC 10 Dexterity save.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -253,9 +254,10 @@
             {
                 "type": "list",
                 "items": [
-                    "Once during your move, you can mount or dismount a creature that is within 5 feet of you and at least one size larger than you.",
-                    "If an effect moves your mount against its will while you're on it, you must succeed on a DC 10 Dexterity saving throw or fall off, landing prone.",
-                    "If your mount is knocked prone, you can use your reaction to dismount it as it falls to land on your feet. Otherwise, you are dismounted and fall prone."
+                    "During your move, you can mount a willing creature within 5 feet of you that is at least one size larger and has appropriate anatomy, or you can dismount.",
+                    "Mounting or dismounting costs movement equal to half your Speed, rounded down.",
+                    "If an effect moves your mount against its will while you are on it, you must succeed on a <b>DC 10 Dexterity saving throw</b> or fall off and land Prone in an unoccupied space within 5 feet of the mount.",
+                    "You make the same save if you are knocked Prone while mounted or if the mount is knocked Prone."
                 ]
             },
             {
@@ -265,29 +267,29 @@
         ]
     },
     {
-        "title": "Squeezing",
+        "title": "Narrow Opening",
         "optional": "Standard rule",
         "icon": "resize",
-        "subtitle": "Move through a smaller space",
-        "description": "You can squeeze through a space one size category smaller than you, but you are slow and vulnerable while doing so.",
+        "subtitle": "Difficult Terrain",
+        "description": "A narrow opening sized for a creature one size smaller than you counts as Difficult Terrain.",
         "reference": "PHB 2024, pg. 292.",
-        "summary": "Moving through a space one size smaller costs double movement. While squeezing, you have disadvantage on attacks and DEX saves, and attacks against you have advantage.",
+        "summary": "In 2024 rules, a narrow opening sized for a creature one size smaller than you is Difficult Terrain. The older 2014 squeezing penalties are not part of the 2024 movement section.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "Squeezing allows passage through tight areas at a significant cost to both your movement speed and your combat effectiveness, making you an easy target."
+                "content": "The 2024 movement rules handle narrow passages through Difficult Terrain rather than the older Squeezing rule with broad attack-roll and Dexterity-save penalties."
             },
             {
                 "type": "list",
                 "items": [
-                    "While squeezing into a smaller space, every foot of movement costs 1 extra foot (as if it were difficult terrain).",
-                    "You have <b>disadvantage on attack rolls and Dexterity saving throws</b>.",
-                    "Attack rolls against you have <b>advantage</b>."
+                    "A narrow opening sized for a creature one size smaller than you is <b>Difficult Terrain</b>.",
+                    "Every foot of movement through Difficult Terrain costs 1 extra foot.",
+                    "Multiple sources of Difficult Terrain in the same space do not add together."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "A Medium creature can squeeze through a 2.5-foot wide opening, but they will be highly vulnerable while inside it."
+                "content": "Use this entry for 2024 play; tables that prefer the older Squeezing penalties should treat them as a legacy table rule."
             }
         ]
     },
@@ -358,11 +360,31 @@
             },
             {
                 "type": "table",
-                "headers": ["Pace", "Distance per Hour", "Distance per Day", "Effect"],
+                "headers": [
+                    "Pace",
+                    "Distance per Hour",
+                    "Distance per Day",
+                    "Effect"
+                ],
                 "rows": [
-                    ["Fast", "4 miles", "30 miles", "Disadvantage on Perception checks"],
-                    ["Normal", "3 miles", "24 miles", "-"],
-                    ["Slow", "2 miles", "18 miles", "Can use Stealth"]
+                    [
+                        "Fast",
+                        "4 miles",
+                        "30 miles",
+                        "Disadvantage on Perception checks"
+                    ],
+                    [
+                        "Normal",
+                        "3 miles",
+                        "24 miles",
+                        "-"
+                    ],
+                    [
+                        "Slow",
+                        "2 miles",
+                        "18 miles",
+                        "Can use Stealth"
+                    ]
                 ]
             },
             {

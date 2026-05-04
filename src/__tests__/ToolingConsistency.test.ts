@@ -8,6 +8,10 @@ const packageJson = JSON.parse(readFileSync(new URL('../../package.json', import
     devDependencies?: Record<string, string>;
 };
 
+const readDataFile = (fileName: string) => JSON.parse(
+    readFileSync(new URL(`../../js/data/${fileName}`, import.meta.url), 'utf8'),
+) as Array<{ title: string; optional: string; reference?: string }>;
+
 describe('tooling consistency', () => {
     it('runs version sync before production builds', () => {
         expect(packageJson.scripts?.prebuild).toContain('sync-version');
@@ -18,5 +22,26 @@ describe('tooling consistency', () => {
         expect(packageJson.devDependencies).toHaveProperty('eslint');
         expect(packageJson.devDependencies).toHaveProperty('@eslint/js');
         expect(packageJson.devDependencies).toHaveProperty('typescript-eslint');
+    });
+
+    it('keeps the curated 2014 optional DMG additions source-backed and marked consistently', () => {
+        const actions = readDataFile('data_action.json');
+        const environment = readDataFile('data_environment.json');
+        const optionalRows = [
+            actions.find((row) => row.title === 'Healing Surge*'),
+            environment.find((row) => row.title === "Healer's Kit Dependency*"),
+            environment.find((row) => row.title === 'Slow Natural Healing*'),
+            environment.find((row) => row.title === 'Fear and Horror*'),
+            environment.find((row) => row.title === 'Hitting Cover*'),
+        ];
+
+        expect(optionalRows).toHaveLength(5);
+        optionalRows.forEach((row) => {
+            expect(row).toBeDefined();
+            expect(row?.optional).toBe('Optional rule');
+            expect(row?.title.endsWith('*')).toBe(true);
+            expect(row?.title.endsWith('**')).toBe(false);
+            expect(row?.reference).toContain('DMG');
+        });
     });
 });

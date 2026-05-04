@@ -155,13 +155,13 @@
             {
                 "type": "list",
                 "items": [
-                    "<b>Rate of Fall (XGE):</b> A creature falls 500 feet instantly. If still falling at the end of its turn, it descends another 500 feet.",
+                    "<b>Rate of Fall (XGE optional):</b> A creature falling from a great height instantly descends up to 500 feet. If still falling on its next turn, it descends up to 500 feet at the end of that turn.",
                     "<b>Flying Creatures:</b> If a flying creature is knocked prone, has its speed reduced to 0, or is otherwise deprived of the ability to move, it falls unless it can hover or is saved by magic."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "The instantaneous 500-foot fall rule means that even with a spell like <b>Feather Fall</b>, which has a casting time of 1 reaction, a creature will fall a significant distance before the spell can be cast."
+                "content": "Reaction timing still matters: a spell or feature that can halt a fall must be available when its trigger occurs, and only one reaction can be used before the start of your next turn."
             }
         ]
     },
@@ -272,6 +272,32 @@
             {
                 "type": "paragraph",
                 "content": "This final rule is critical: the inability to regain hit points or be stabilized while unable to breathe makes this an incredibly dangerous situation, as even powerful healing magic is useless."
+            }
+        ]
+    },
+    {
+        "title": "Food and Water",
+        "optional": "Standard rule",
+        "icon": "journey",
+        "subtitle": "Survival needs",
+        "description": "Characters who lack enough food or water suffer exhaustion that cannot be removed until they eat and drink enough.",
+        "reference": "PHB, pg. 185; DMG, pg. 111.",
+        "summary": "A character needs 1 pound of food and 1 gallon of water per day, or 2 gallons of water in hot weather. Too little food or water can cause Exhaustion.",
+        "tags": ["environment_other"],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Food and water tracking matters during wilderness travel, sieges, deserts, and other survival scenes. Exhaustion caused by lack of food or water cannot be removed until the creature eats and drinks the full required amount."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "A character needs <b>1 pound of food per day</b>. Half rations count as half a day without food.",
+                    "A character can go without food for <b>3 + Constitution modifier days</b> (minimum 1 day), then gains 1 Exhaustion level at the end of each additional day.",
+                    "A character needs <b>1 gallon of water per day</b>, or <b>2 gallons</b> in hot weather.",
+                    "Drinking only half the required water requires a <b>DC 15 Constitution saving throw</b> at the end of the day or 1 Exhaustion level. Less than half causes automatic Exhaustion.",
+                    "If the character already has Exhaustion, insufficient water causes two Exhaustion levels instead of one."
+                ]
             }
         ]
     },
@@ -408,14 +434,14 @@
         "optional": "Optional rule",
         "icon": "sun",
         "subtitle": "Risk of Exhaustion",
-        "description": "Prolonged exposure to temperatures at or above 100° F (38° C) forces Constitution saves to resist gaining levels of exhaustion.",
+        "description": "Prolonged exposure to temperatures at or above 100° F (38° C) without drinkable water forces Constitution saves to resist exhaustion.",
         "reference": "DMG, pg. 110.",
-        "summary": "In temperatures at or above 100° F, a creature must make an hourly Constitution save or gain a level of Exhaustion. The DC starts at 5 and increases by 1 each hour.",
+        "summary": "In temperatures at or above 100° F, an exposed creature without access to drinkable water must make an hourly Constitution save or gain a level of Exhaustion. The DC starts at 5 and increases by 1 each hour.",
         "tags": ["environment_other"],
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "When exposed to extreme heat, a creature must make a Constitution saving throw at the end of each hour or gain one level of <b>Exhaustion</b>. The save DC and modifiers are as follows:"
+                "content": "When exposed to extreme heat without access to drinkable water, a creature must make a Constitution saving throw at the end of each hour or gain one level of <b>Exhaustion</b>. The save DC and modifiers are as follows:"
             },
             {
                 "type": "list",
@@ -428,6 +454,31 @@
             {
                 "type": "paragraph",
                 "content": "The escalating DC makes it increasingly difficult to survive long journeys through deserts or other hot environments without adequate water and shelter."
+            }
+        ]
+    },
+    {
+        "title": "Fear and Horror*",
+        "optional": "Optional rule",
+        "icon": "terror",
+        "subtitle": "Dread and madness saves",
+        "description": "Optional rules for calling for Wisdom or Charisma saves when characters face overwhelming fear or reality-shaking horror.",
+        "reference": "DMG, pg. 266.",
+        "summary": "Fear can require a Wisdom save or impose Frightened for 1 minute. Horror can require a Charisma save or inflict short-term or long-term Madness.",
+        "tags": ["environment_other"],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Fear and Horror are optional tools for dark fantasy, cosmic horror, or scenes where ordinary courage is tested by more than hit point loss."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Fear:</b> When characters confront threats they have no hope of overcoming, the DM can call for a Wisdom saving throw. On a failure, a character is Frightened for 1 minute.",
+                    "A frightened character can repeat the saving throw at the end of each of their turns, ending the effect on a success.",
+                    "<b>Horror:</b> When characters witness something deeply unnatural or dreadful, the DM can call for a Charisma saving throw.",
+                    "On a failed Horror save, the character gains a short-term or long-term form of Madness chosen or rolled by the DM."
+                ]
             }
         ]
     },
@@ -464,9 +515,9 @@
         "optional": "Optional rule",
         "icon": "raining",
         "subtitle": "Affects perception and fire",
-        "description": "Heavy rain or snowfall lightly obscures the area, imposes disadvantage on hearing checks, and extinguishes open flames.",
+        "description": "Heavy rain or snowfall lightly obscures the area; heavy rain also hinders hearing and extinguishes open flames.",
         "reference": "DMG, pg. 110.",
-        "summary": "Heavy rain or snow creates a lightly obscured area, imposes disadvantage on hearing-based Perception checks, and extinguishes unprotected flames like torches.",
+        "summary": "Heavy rain or heavy snowfall creates a lightly obscured area and imposes disadvantage on sight-based Perception checks. Heavy rain also extinguishes open flames and hinders hearing.",
         "tags": ["environment_other"],
         "bullets": [
             {
@@ -478,7 +529,7 @@
                 "items": [
                     "It creates a <b>Lightly Obscured</b> area, imposing disadvantage on Wisdom (Perception) checks that rely on sight.",
                     "Heavy rain also imposes <b>disadvantage on Wisdom (Perception)</b> checks that rely on hearing.",
-                    "It extinguishes open flames, such as candles and torches."
+                    "Heavy rain extinguishes open flames, such as candles and torches."
                 ]
             },
             {
@@ -491,15 +542,144 @@
         "title": "High Altitude*",
         "optional": "Optional rule",
         "icon": "mountainclimbing",
-        "subtitle": "Risk of Exhaustion",
-        "description": "At altitudes of 10,000 feet or higher, creatures not acclimated must make Constitution saves to resist exhaustion.",
+        "subtitle": "Thin air slows travel",
+        "description": "At altitudes of 10,000 feet or higher, travel is more taxing for creatures that need to breathe.",
         "reference": "DMG, pg. 110.",
-        "summary": "When traveling above 10,000 feet for more than 8 hours in a day, a non-acclimated creature must make Constitution saves for each extra hour or gain a level of Exhaustion.",
+        "summary": "At 10,000 feet or higher, each hour of travel counts as 2 hours for determining how long a breathing creature can travel. Acclimation takes 30 days and is impossible above 20,000 feet unless native.",
         "tags": ["environment_other"],
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "When traveling at altitudes of 10,000 feet or higher, a creature must make a <b>DC 10 Constitution saving throw</b> for every hour of travel past 8 hours in a day. On a failure, they gain one level of <b>Exhaustion</b>. Creatures acclimated to high altitude automatically succeed on this saving throw. A creature can become acclimated by spending 30 days at that altitude."
+                "content": "Thin air makes high-altitude travel taxing for creatures that need to breathe. The 2014 rule does not call for a separate altitude saving throw; instead, it makes travel hours count faster."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "At altitudes of <b>10,000 feet or higher</b>, each hour spent traveling counts as <b>2 hours</b> for determining how long the creature can travel.",
+                    "A breathing creature becomes acclimated after spending <b>30 days or more</b> at that altitude.",
+                    "Breathing creatures cannot become acclimated to elevations above <b>20,000 feet</b> unless they are native to such environments."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Hitting Cover*",
+        "optional": "Optional rule",
+        "icon": "roundshield",
+        "subtitle": "Misses can strike cover",
+        "description": "When a ranged attack misses a target with cover, this optional rule determines whether the cover is hit instead.",
+        "reference": "DMG, pg. 272.",
+        "summary": "If a ranged attack misses a covered target but would have hit without the cover bonus, the cover is struck. A covering creature can be hit if the attack roll exceeds its AC.",
+        "tags": ["environment_other"],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Hitting Cover makes cover feel physical rather than only numerical. It is most useful when creatures, doors, pillars, or fragile obstacles are protecting the intended target."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "After a ranged attack misses a target with cover, compare the attack roll to the target's AC without the cover bonus.",
+                    "If the roll would have hit without cover, the object used for cover is struck.",
+                    "If a creature is providing the cover and the attack roll exceeds that creature's AC, the covering creature is hit."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Desecrated Ground*",
+        "optional": "Optional rule",
+        "icon": "deadhead",
+        "subtitle": "Unholy terrain",
+        "description": "Desecrated ground empowers undead and can be purified with holy water or hallow.",
+        "reference": "DMG, pg. 110.",
+        "summary": "Undead standing on desecrated ground have advantage on all saving throws. Detect evil and good reveals the ground, and holy water or hallow can purify it.",
+        "tags": ["environment_other"],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Desecrated ground represents cemeteries, catacombs, or other areas imbued with ancient evil."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Undead standing on desecrated ground have <b>advantage on all saving throws</b>.",
+                    "A <b>detect evil and good</b> spell reveals desecrated ground within range.",
+                    "A vial of <b>holy water</b> purifies a 10-foot-square area, and <b>hallow</b> purifies desecrated ground within its area."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Frigid Water*",
+        "optional": "Optional rule",
+        "icon": "thermometercold",
+        "subtitle": "Cold immersion",
+        "description": "Immersion in frigid water can quickly cause exhaustion once a creature exceeds its Constitution-based tolerance.",
+        "reference": "DMG, pg. 110.",
+        "summary": "A creature can endure frigid water for minutes equal to its Constitution score. Each additional minute requires a DC 10 Constitution save or 1 Exhaustion level.",
+        "tags": ["environment_other"],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Frigid water is more dangerous than ordinary cold because immersion drains endurance quickly."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "A creature can be immersed for a number of minutes equal to its <b>Constitution score</b> before suffering ill effects.",
+                    "Each additional minute requires a <b>DC 10 Constitution saving throw</b> or the creature gains 1 Exhaustion level.",
+                    "Creatures with resistance or immunity to cold damage automatically succeed, as do creatures naturally adapted to ice-cold water."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Quicksand*",
+        "optional": "Optional rule",
+        "icon": "imprisoned",
+        "subtitle": "Sinking hazard",
+        "description": "A quicksand pit restrains creatures and pulls them deeper until they escape or are submerged.",
+        "reference": "DMG, pg. 110.",
+        "summary": "Entering quicksand restrains a creature and sinks it 1d4 + 1 feet, then another 1d4 feet at the start of each turn. Escaping requires an action and a Strength check.",
+        "tags": ["environment_other"],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Quicksand is usually a 10-foot-square, 10-foot-deep pit that turns ordinary movement into an urgent escape problem."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "When a creature enters the area, it sinks <b>1d4 + 1 feet</b> and becomes restrained.",
+                    "At the start of each of its turns, it sinks another <b>1d4 feet</b>.",
+                    "A creature that is not completely submerged can use its action to make a Strength check with a DC equal to <b>10 + the number of feet sunk</b>.",
+                    "Another creature within reach can pull it out with an action and a Strength check with a DC equal to <b>5 + the number of feet sunk</b>.",
+                    "A fully submerged creature cannot breathe and uses the suffocation rules."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Razorvine*",
+        "optional": "Optional rule",
+        "icon": "bleedingeye",
+        "subtitle": "Bladed plant growth",
+        "description": "Razorvine damages creatures that come into direct contact with its bladelike thorns.",
+        "reference": "DMG, pg. 110.",
+        "summary": "The first time on a turn a creature directly contacts razorvine, it must succeed on a DC 10 Dexterity save or take 1d10 slashing damage.",
+        "tags": ["environment_other"],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Razorvine grows in tangles, hedges, and along structures, making it useful as a natural barrier or chase complication."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "A 10-foot-high, 10-foot-wide, 5-foot-thick wall or hedge of razorvine has <b>AC 11</b>, <b>25 hit points</b>, and immunity to bludgeoning, piercing, and psychic damage.",
+                    "The first time on a turn a creature comes into direct contact with razorvine, it must succeed on a <b>DC 10 Dexterity saving throw</b> or take <b>5 (1d10) slashing damage</b>."
+                ]
             }
         ]
     },
@@ -585,6 +765,54 @@
         ]
     },
     {
+        "title": "Healer's Kit Dependency*",
+        "optional": "Optional rule",
+        "icon": "firstaidkit",
+        "subtitle": "Short rests need treatment",
+        "description": "A character cannot spend Hit Dice after a short rest unless someone expends one use of a healer's kit.",
+        "reference": "DMG, pg. 266.",
+        "summary": "After a short rest, a character can't spend Hit Dice until someone expends one use of a healer's kit to bandage and treat the character's wounds.",
+        "tags": ["environment_other"],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Healer's Kit Dependency makes mundane treatment matter more and adds supply pressure to rests without changing the core rest structure."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "After finishing a short rest, a character cannot spend Hit Dice until someone expends one use of a <b>healer's kit</b> on them.",
+                    "The kit use represents bandaging and treating wounds during the rest.",
+                    "This option makes healer's kits more important in gritty or low-magic campaigns."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Slow Natural Healing*",
+        "optional": "Optional rule",
+        "icon": "nightsleep",
+        "subtitle": "Long rests do not heal fully",
+        "description": "Characters do not automatically regain hit points at the end of a long rest; they spend Hit Dice instead.",
+        "reference": "DMG, pg. 267.",
+        "summary": "At the end of a long rest, characters don't automatically regain hit points. Instead, they can spend Hit Dice to heal as they would after a short rest.",
+        "tags": ["environment_other"],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Slow Natural Healing supports grittier campaigns where wounds take longer to recover from without magic or extended downtime."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Characters do <b>not</b> regain all hit points automatically at the end of a long rest.",
+                    "Instead, a character can spend Hit Dice to heal at the end of the long rest, just as with a short rest.",
+                    "This option makes hit point attrition and magical healing more significant over several adventuring days."
+                ]
+            }
+        ]
+    },
+    {
         "title": "Rest Variants*",
         "optional": "Optional rule",
         "icon": "nightsleep",
@@ -639,25 +867,50 @@
         ]
     },
     {
-        "title": "Strong Wind*",
+        "title": "Thin Ice*",
         "optional": "Optional rule",
-        "icon": "windsock",
-        "subtitle": "Affects attacks and perception",
-        "description": "Strong wind imposes disadvantage on ranged weapon attacks and hearing-based Perception checks, and can hinder flight.",
-        "reference": "DMG, pg. 110.",
-        "summary": "A strong wind (21+ mph) imposes disadvantage on ranged attacks and hearing checks, and forces flying creatures to land. A gale (31+ mph) makes nonmagical flight and ranged attacks impossible.",
+        "icon": "icecube",
+        "subtitle": "Weight limit hazard",
+        "description": "Thin ice breaks when the total weight on a 10-foot-square area exceeds its random tolerance.",
+        "reference": "DMG, pg. 111.",
+        "summary": "Thin ice supports 3d10 x 10 pounds per 10-foot-square area. If total weight exceeds that tolerance, the ice breaks and creatures on it fall through.",
         "tags": ["environment_other"],
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "Wind can be a major factor in outdoor encounters, hampering ranged combatants and making the environment itself a threat. The effects of wind vary by its speed:"
+                "content": "Thin ice is a simple environmental hazard for frozen lakes, rivers, and unstable magical terrain."
             },
             {
                 "type": "list",
                 "items": [
-                    "A <b>strong wind</b> (21 to 30 mph) imposes disadvantage on ranged weapon attack rolls and on Wisdom (Perception) checks that rely on hearing. It also extinguishes open flames and disperses fog.",
+                    "A 10-foot-square area of thin ice supports <b>3d10 x 10 pounds</b>.",
+                    "When the total weight on the area exceeds that tolerance, the ice breaks.",
+                    "Creatures on broken ice fall through, often triggering frigid water or swimming rules."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Strong Wind*",
+        "optional": "Optional rule",
+        "icon": "windsock",
+        "subtitle": "Affects attacks and perception",
+        "description": "Strong wind imposes disadvantage on ranged weapon attacks and hearing-based Perception checks, extinguishes flames, disperses fog, and hinders flight.",
+        "reference": "DMG, pg. 110.",
+        "summary": "Strong wind imposes disadvantage on ranged weapon attacks and hearing-based Perception checks, extinguishes open flames, disperses fog, and forces flying creatures to land at the end of their turn or fall.",
+        "tags": ["environment_other"],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Wind can be a major factor in outdoor encounters, hampering ranged combatants and making the environment itself a threat."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Strong wind imposes <b>disadvantage on ranged weapon attack rolls</b> and on Wisdom (Perception) checks that rely on hearing.",
+                    "It extinguishes open flames and disperses fog.",
                     "A flying creature in a strong wind must land at the end of its turn or fall.",
-                    "A <b>gale</b> (31-50 mph) has the same effects, plus it makes nonmagical flight impossible. Ranged weapon attacks are impossible."
+                    "In a desert, strong wind can create a sandstorm that imposes disadvantage on Wisdom (Perception) checks that rely on sight."
                 ]
             },
             {

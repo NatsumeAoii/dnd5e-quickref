@@ -6,8 +6,10 @@
         "subtitle": "Perceive without sight",
         "description": "A creature with Blindsight can perceive its surroundings within a specific radius without relying on sight, foiling invisibility and darkness.",
         "reference": "PHB 2024, pg. 183.",
-        "summary": "Allows a creature to perceive its surroundings within a specific radius without sight. This sense penetrates normal and magical darkness, and reveals invisible creatures.",
-        "tags": ["environment_vision"],
+        "summary": "Allows a creature to perceive its surroundings within a specific radius without relying on sight, seeing anything in range that is not behind Total Cover even in darkness or while Invisible.",
+        "tags": [
+            "environment_vision"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -16,14 +18,14 @@
             {
                 "type": "list",
                 "items": [
-                    "Within its radius, the creature can effectively 'see' everything that is not behind total cover, even in magical darkness. It can also see invisible creatures.",
-                    "It is effective against visual illusions.",
-                    "A creature with Blindsight is still subject to the Blinded condition if its non-visual sense is impaired (e.g., a bat in an area of magical silence)."
+                    "Within its radius, the creature can effectively see anything that is not behind <b>Total Cover</b>, even if the creature has the Blinded condition or the target is in darkness.",
+                    "It can also see a creature that has the <b>Invisible</b> condition within that radius.",
+                    "This sense does not extend past its listed range."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "Blindsight only pinpoints location; it cannot perceive color or visual details. It is a powerful tool for detecting hidden foes."
+                "content": "Blindsight is a powerful counter to darkness and invisibility, but Total Cover still blocks it."
             }
         ]
     },
@@ -35,7 +37,9 @@
         "description": "In bright light, such as direct sunlight or the area of a torch, most creatures can see normally without penalty.",
         "reference": "PHB 2024, pg. 183.",
         "summary": "Normal lighting conditions where most creatures can see without penalty. Some features and monsters may interact with bright light specifically.",
-        "tags": ["environment_light"],
+        "tags": [
+            "environment_light"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -55,6 +59,32 @@
         ]
     },
     {
+        "title": "Burning",
+        "optional": "Standard rule",
+        "icon": "sun",
+        "subtitle": "Ongoing fire damage",
+        "description": "A burning creature or object takes Fire damage at the start of each of its turns until the fire is extinguished.",
+        "reference": "PHB 2024, pg. 361.",
+        "summary": "While burning, a creature or object takes 1d4 Fire damage at the start of each turn. Taking an action to extinguish the fire ends the hazard.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Burning is a 2024 PHB hazard for ongoing fire exposure after an effect ignites a creature or object."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "A burning creature or object takes <b>1d4 Fire damage</b> at the start of each of its turns.",
+                    "A creature can take an <b>action</b> to extinguish fire on itself or another creature or object within reach.",
+                    "The fire can also be extinguished by other means, such as immersion in water."
+                ]
+            }
+        ]
+    },
+    {
         "title": "Darkness",
         "optional": "Standard rule",
         "icon": "worriedeyes",
@@ -62,7 +92,9 @@
         "description": "Darkness creates a heavily obscured area, effectively blinding any creature trying to see within it without special senses.",
         "reference": "PHB 2024, pg. 183.",
         "summary": "Creates a heavily obscured area, effectively blinding creatures within it. Darkvision allows a creature to see in non-magical darkness as if it were dim light.",
-        "tags": ["environment_light"],
+        "tags": [
+            "environment_light"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -90,7 +122,9 @@
         "description": "This common sense allows a creature to see in dim light as if it were bright, and in darkness as if it were dim light.",
         "reference": "PHB 2024, pg. 183.",
         "summary": "Within a specified range, you can see in dim light as if it were bright light, and in darkness as if it were dim light. Seeing in darkness this way is in shades of gray and imposes disadvantage on Perception checks.",
-        "tags": ["environment_vision"],
+        "tags": [
+            "environment_vision"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -112,6 +146,33 @@
         ]
     },
     {
+        "title": "Dehydration",
+        "optional": "Standard rule",
+        "icon": "atsea",
+        "subtitle": "Too little water",
+        "description": "A creature that drinks too little water risks Exhaustion after finishing a Long Rest.",
+        "reference": "PHB 2024, pg. 365.",
+        "summary": "A creature needs 1 gallon of water per day, or 2 gallons in hot weather. Drinking half that amount requires a DC 15 Constitution save after a Long Rest or 1 Exhaustion level; drinking less causes automatic Exhaustion.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Dehydration is a 2024 PHB hazard for tracking water during travel and survival scenes."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "A creature needs <b>1 gallon of water per day</b>, or <b>2 gallons</b> in hot weather.",
+                    "If it drinks only half the required amount, it must succeed on a <b>DC 15 Constitution saving throw</b> after finishing a Long Rest or gain 1 Exhaustion level.",
+                    "If it drinks less than half the required amount, it gains 1 Exhaustion level automatically after finishing a Long Rest.",
+                    "Exhaustion caused by dehydration cannot be removed until the creature drinks the full required amount."
+                ]
+            }
+        ]
+    },
+    {
         "title": "Dim Light",
         "optional": "Standard rule",
         "icon": "semiclosedeye",
@@ -119,7 +180,9 @@
         "description": "Dim light, or shadows, creates a lightly obscured area where details are harder to make out.",
         "reference": "PHB 2024, pg. 183.",
         "summary": "Creates a lightly obscured area. Creatures have disadvantage on Wisdom (Perception) checks that rely on sight.",
-        "tags": ["environment_light"],
+        "tags": [
+            "environment_light"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -146,8 +209,10 @@
         "subtitle": "1d6 per 10 feet (max 20d6)",
         "description": "A creature takes 1d6 bludgeoning damage for every 10 feet they fall, to a maximum of 20d6, and lands prone.",
         "reference": "PHB 2024, pg. 183.",
-        "summary": "You take 1d6 bludgeoning damage for every 10 feet fallen, up to a maximum of 20d6. You land Prone unless you avoid taking damage from the fall.",
-        "tags": ["environment_other"],
+        "summary": "You take 1d6 bludgeoning damage for every 10 feet fallen, up to 20d6, and land Prone unless you avoid the damage. Falling into water can allow a DC 15 Strength or Dexterity save to halve damage.",
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -156,15 +221,15 @@
             {
                 "type": "list",
                 "items": [
-                    "A creature takes <b>1d6 bludgeoning damage for every 10 feet</b> it fell, to a maximum of <b>20d6</b>.",
-                    "The creature lands <b>Prone</b>, unless it avoids taking damage from the fall.",
-                    "<b>Rate of Falling (DMG):</b> A creature falls 500 feet instantly on the turn it begins to fall. If still falling, it descends 500 feet at the end of each of its subsequent turns.",
-                    "<b>Flying Creatures:</b> If a flying creature is knocked Prone or has its speed reduced to 0, it falls unless it can hover."
+                    "A creature takes <b>1d6 Bludgeoning damage for every 10 feet</b> it fell, to a maximum of <b>20d6</b>.",
+                    "The creature lands <b>Prone</b> unless it avoids taking damage from the fall.",
+                    "<b>Falling into Water:</b> If the falling creature can take a Reaction, it can make a <b>DC 15 Strength (Athletics) or Dexterity (Acrobatics)</b> check to hit the water cleanly and take half damage.",
+                    "<b>Rate of Falling (XGE optional):</b> A creature falling from a great height instantly descends up to 500 feet, then up to 500 feet at the end of later turns until the fall ends."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "A long fall can resolve very quickly, so reactions and features that change falling need to be handled at the moment their trigger occurs."
+                "content": "A long fall can resolve very quickly, so reactions and features that change falling need to be handled as soon as their trigger occurs."
             }
         ]
     },
@@ -176,7 +241,9 @@
         "description": "An obstacle covering at least half of your body grants you a +2 bonus to AC and Dexterity saving throws.",
         "reference": "PHB 2024, pg. 319.",
         "summary": "An obstacle that covers at least half of your body (like a low wall or another creature) grants you a +2 bonus to your Armor Class and all Dexterity saving throws.",
-        "tags": ["environment_cover"],
+        "tags": [
+            "environment_cover"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -203,7 +270,9 @@
         "description": "An area is heavily obscured if it blocks vision entirely, such as in darkness, opaque fog, or dense foliage.",
         "reference": "PHB 2024, pg. 183.",
         "summary": "An area that blocks vision entirely, such as darkness or thick fog. A creature trying to see through a heavily obscured area is effectively Blinded.",
-        "tags": ["environment_obscurance"],
+        "tags": [
+            "environment_obscurance"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -230,7 +299,9 @@
         "description": "An area is lightly obscured if something hinders sight, such as dim light, light fog, or moderate foliage.",
         "reference": "PHB 2024, pg. 183.",
         "summary": "An area that hinders sight, such as dim light or light fog. Creatures have disadvantage on sight-based Perception checks.",
-        "tags": ["environment_obscurance"],
+        "tags": [
+            "environment_obscurance"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -250,14 +321,43 @@
         ]
     },
     {
-        "title": "Suffocating",
+        "title": "Malnutrition",
+        "optional": "Standard rule",
+        "icon": "journey",
+        "subtitle": "Too little food",
+        "description": "A creature that eats too little food risks Exhaustion after finishing a Long Rest.",
+        "reference": "PHB 2024, pg. 371.",
+        "summary": "A creature needs 1 pound of food per day. After days without enough food equal to 3 + CON modifier, it gains 1 Exhaustion level after each Long Rest until it eats enough food.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Malnutrition is the 2024 PHB food-tracking hazard, separate from dehydration."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "A creature needs <b>1 pound of food per day</b>.",
+                    "It can go without enough food for a number of days equal to <b>3 + its Constitution modifier</b> (minimum 1 day).",
+                    "After that, it gains <b>1 Exhaustion level</b> after each Long Rest until it eats enough food.",
+                    "A normal day of eating resets the count of days without enough food to 0."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Suffocation",
         "optional": "Standard rule",
         "icon": "drowning",
         "subtitle": "Holding your breath",
         "description": "A creature deprived of air can hold its breath briefly before gaining Exhaustion at the end of each turn.",
         "reference": "PHB 2024, pg. 184.",
-        "summary": "You can hold your breath for 1 + CON mod minutes. After that, you gain 1 Exhaustion level at the end of each turn until you can breathe again.",
-        "tags": ["environment_other"],
+        "summary": "You can hold your breath for 1 + CON modifier minutes. After that or while choking, you gain 1 Exhaustion level at the end of each turn until you can breathe again, then remove the Exhaustion gained from suffocation.",
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -267,14 +367,14 @@
                 "type": "list",
                 "items": [
                     "A creature can hold its breath for a number of minutes equal to <b>1 + its Constitution modifier</b> (minimum of 30 seconds).",
-                    "When the breath runs out, the creature gains <b>1 Exhaustion level</b> at the end of each of its turns.",
+                    "When the breath runs out or the creature is choking, it gains <b>1 Exhaustion level</b> at the end of each of its turns.",
                     "The Exhaustion continues until the creature can breathe again.",
-                    "If Exhaustion reaches level 6, the creature dies."
+                    "When the suffocation ends, the creature removes all Exhaustion levels gained from suffocating."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "This makes suffocation a rapidly worsening hazard that uses the same track as other sources of Exhaustion."
+                "content": "This makes suffocation a rapidly worsening hazard while keeping its Exhaustion removable once air is restored."
             }
         ]
     },
@@ -286,7 +386,9 @@
         "description": "An obstacle covering about three-quarters of your body grants a significant +5 bonus to AC and Dexterity saving throws.",
         "reference": "PHB 2024, pg. 319.",
         "summary": "An obstacle that covers about three-quarters of your body (like an arrow slit) grants a +5 bonus to your Armor Class and all Dexterity saving throws.",
-        "tags": ["environment_cover"],
+        "tags": [
+            "environment_cover"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -314,7 +416,9 @@
         "description": "You are completely concealed by an obstacle, making you immune to being directly targeted by attacks or spells.",
         "reference": "PHB 2024, pg. 319.",
         "summary": "An obstacle completely conceals you, meaning you cannot be targeted directly by any attack or spell that requires line of effect. You can always attempt to Hide.",
-        "tags": ["environment_cover"],
+        "tags": [
+            "environment_cover"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -340,9 +444,11 @@
         "icon": "groundbreaker",
         "subtitle": "Sense vibrations",
         "description": "A creature with Tremorsense can detect and pinpoint the origin of vibrations in contact with the same ground or substance.",
-        "reference": "MM 2024, pg. 12.",
-        "summary": "Allows a creature to detect and pinpoint the location of anything in contact with the same ground or substance within a specific radius, ignoring invisibility.",
-        "tags": ["environment_vision"],
+        "reference": "PHB 2024, pg. 183.",
+        "summary": "Allows a creature to pinpoint creatures and moving objects within a specific range if they are in contact with the same surface or liquid. Tremorsense does not count as sight.",
+        "tags": [
+            "environment_vision"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -351,8 +457,9 @@
             {
                 "type": "list",
                 "items": [
-                    "Tremorsense can't be used to detect flying or incorporeal creatures.",
-                    "It allows a creature to locate hidden and invisible creatures that are in contact with the ground."
+                    "The sensed creature or object must be in contact with the same surface or liquid as the creature with Tremorsense.",
+                    "Tremorsense cannot detect flying or incorporeal creatures that are not in contact with that surface or liquid.",
+                    "Tremorsense pinpoints location, but it is not sight and does not reveal visual details."
                 ]
             },
             {
@@ -369,7 +476,9 @@
         "description": "A powerful and rare sense that allows a creature to see things as they actually are, bypassing most forms of deception.",
         "reference": "PHB 2024, pg. 183.",
         "summary": "Allows a creature to see in all forms of darkness, see invisible creatures, automatically detect illusions, and perceive the true form of shapechangers or transformed creatures.",
-        "tags": ["environment_vision"],
+        "tags": [
+            "environment_vision"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -396,21 +505,23 @@
         "optional": "Standard rule",
         "icon": "atsea",
         "subtitle": "Fighting in water",
-        "description": "Combat while fully submerged is difficult for creatures without a swim speed, imposing penalties on most weapon attacks.",
+        "description": "Underwater weapon attacks are hindered unless the weapon or creature is suited to fighting in water.",
         "reference": "PHB 2024, pg. 184.",
-        "summary": "Without a swim speed, melee attacks have disadvantage unless using specific weapons (daggers, spears, etc.). Ranged attacks automatically miss beyond normal range and have disadvantage within it.",
-        "tags": ["environment_other"],
+        "summary": "A creature without a Swim Speed has disadvantage on melee weapon attacks underwater unless the weapon deals Piercing damage. Ranged weapon attacks miss beyond normal range and have disadvantage within normal range.",
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "The drag and density of water make most forms of attack less effective for creatures not adapted to the environment. Specific weapons, however, are exempt from these penalties."
+                "content": "The 2024 underwater combat rules use damage type and weapon range rather than the older list of exempt weapons."
             },
             {
                 "type": "list",
                 "items": [
-                    "<b>Melee Attacks:</b> A creature without a swimming speed has <b>disadvantage</b> on melee weapon attack rolls unless the weapon is a Dagger, Javelin, Shortsword, Spear, or Trident.",
-                    "<b>Ranged Attacks:</b> Ranged weapon attacks automatically miss targets beyond the weapon's normal range. Within normal range, the attack roll has <b>disadvantage</b> unless the weapon is a Crossbow, Net, or a thrown weapon like a Javelin.",
-                    "Creatures and objects fully immersed in water have <b>resistance to Fire damage</b>."
+                    "<b>Melee Weapon Attacks:</b> A creature without a Swim Speed has <b>Disadvantage</b> unless the weapon deals <b>Piercing</b> damage.",
+                    "<b>Ranged Weapon Attacks:</b> A ranged weapon attack automatically misses beyond normal range and has <b>Disadvantage</b> within normal range.",
+                    "Anything underwater has <b>Resistance to Fire damage</b>."
                 ]
             },
             {
@@ -426,8 +537,10 @@
         "subtitle": "Resolving dynamic chases",
         "description": "An optional subsystem for running exciting chases with complications and a limit on continuous Dashing.",
         "reference": "DMG 2024, pg. 232.",
-        "summary": "An optional system where participants can only Dash a limited number of times before risking Exhaustion. Each round may introduce a random complication that requires a check to overcome.",
-        "tags": ["environment_other"],
+        "summary": "An optional system where participants can Dash 3 + CON modifier times, then each extra Dash requires a DC 10 Constitution save or 1 Exhaustion level. Chases also use escape checks and complications.",
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -436,14 +549,41 @@
             {
                 "type": "list",
                 "items": [
-                    "<b>Dash Limit:</b> A creature can Dash a number of times equal to 3 + its Constitution modifier. Each Dash after that requires a DC 10 Constitution check at the end of the turn or gains one level of Exhaustion.",
-                    "<b>Complications:</b> At the end of each round, each participant rolls a d20. On a result of 1-10, a complication occurs. The DMG provides tables with examples, such as 'A crowd blocks your path. Make a DC 10 Acrobatics or Athletics check to get through' or 'You must climb a 15-foot wall.'",
-                    "<b>Ending a Chase:</b> A chase ends when one side can no longer see the other, or when the quarry is caught."
+                    "<b>Dash Limit:</b> A chase participant can Dash a number of times equal to 3 + its Constitution modifier (minimum once). Each extra Dash requires a <b>DC 10 Constitution saving throw</b> at the end of the turn or 1 Exhaustion level.",
+                    "<b>Opportunity Attacks:</b> Chase participants normally cannot make Opportunity Attacks against one another, though nonparticipants still can.",
+                    "<b>Escape:</b> The quarry makes a Dexterity (Stealth) check on Initiative count 0 if it has a chance to break line of sight; compare it to the pursuers' Passive Perception.",
+                    "<b>Complications:</b> The DM can use chase complication tables or prepared obstacles to make the chase more dynamic."
                 ]
             },
             {
                 "type": "paragraph",
                 "content": "This system turns a chase into a dynamic mini-game of risk management and overcoming unexpected obstacles."
+            }
+        ]
+    },
+    {
+        "title": "Deep Water*",
+        "optional": "Optional rule",
+        "icon": "atsea",
+        "subtitle": "Too deep to stand",
+        "description": "Water deep enough that a creature cannot touch the bottom with its feet creates extra swimming pressure and can restrict speech.",
+        "reference": "DMG 2024, pg. 234.",
+        "summary": "Deep water forces a creature without a Swim Speed to spend 1 extra foot of movement for every foot swum and can prevent clear speech unless magic or another feature allows it.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Deep water is a 2024 DMG environmental effect for scenes where creatures are fully swimming rather than wading."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "A creature that lacks a <b>Swim Speed</b> must spend 1 extra foot of movement for every foot it moves by swimming.",
+                    "A creature in deep water usually cannot speak clearly unless it can breathe water, has a Swim Speed, or uses magic that enables speech underwater.",
+                    "Deep water often combines with the separate underwater combat and suffocation rules."
+                ]
             }
         ]
     },
@@ -455,7 +595,9 @@
         "description": "Prolonged exposure to temperatures at or below 0° F forces Constitution saves to resist gaining levels of exhaustion.",
         "reference": "DMG 2024, pgs. 234-235.",
         "summary": "When exposed to temperatures at or below 0° F, a creature must make a DC 10 Constitution save at the end of each hour or gain one level of Exhaustion.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -464,8 +606,8 @@
             {
                 "type": "list",
                 "items": [
-                    "At temperatures at or below 0° F, a creature exposed to the cold must succeed on a <b>DC 10 Constitution saving throw</b> at the end of each hour or gain one level of <b>Exhaustion</b>.",
-                    "Creatures with resistance or immunity to Cold damage automatically succeed, as do those wearing appropriate cold weather gear."
+                    "At temperatures at or below 0? F, a creature exposed to the cold must succeed on a <b>DC 10 Constitution saving throw</b> at the end of each hour or gain one level of <b>Exhaustion</b>.",
+                    "Creatures with resistance or immunity to Cold damage automatically succeed on this saving throw."
                 ]
             },
             {
@@ -482,7 +624,9 @@
         "description": "Prolonged exposure to temperatures at or above 100° F forces Constitution saves to resist gaining levels of exhaustion.",
         "reference": "DMG 2024, pgs. 234-235.",
         "summary": "In temperatures at or above 100° F, a creature must make an hourly Constitution save or gain a level of Exhaustion. The DC starts at 5 and increases by 1 each hour.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -504,14 +648,42 @@
         ]
     },
     {
+        "title": "Frigid Water*",
+        "optional": "Optional rule",
+        "icon": "thermometercold",
+        "subtitle": "Cold immersion",
+        "description": "Immersion in frigid water can quickly cause Exhaustion once a creature exceeds its Constitution-based tolerance.",
+        "reference": "DMG 2024, pg. 235.",
+        "summary": "A creature can endure frigid water for minutes equal to its Constitution score. Each additional minute requires a DC 10 Constitution save or 1 Exhaustion level.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Frigid water is more dangerous than ordinary cold because immersion drains endurance quickly."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "A creature can be immersed for a number of minutes equal to its <b>Constitution score</b> before suffering ill effects.",
+                    "Each additional minute requires a <b>DC 10 Constitution saving throw</b> or the creature gains 1 Exhaustion level.",
+                    "Creatures with resistance or immunity to Cold damage automatically succeed, as do creatures naturally adapted to ice-cold water."
+                ]
+            }
+        ]
+    },
+    {
         "title": "Heavy Precipitation*",
         "optional": "Optional rule",
         "icon": "raining",
         "subtitle": "Affects perception and fire",
-        "description": "Heavy rain or snowfall lightly obscures the area, hinders hearing, and extinguishes open flames.",
+        "description": "Heavy rain or snowfall lightly obscures the area and heavy rain extinguishes open flames.",
         "reference": "DMG 2024, pgs. 234-235.",
-        "summary": "Heavy rain or snow creates a lightly obscured area, imposes disadvantage on hearing-based Perception checks, and extinguishes unprotected flames like torches.",
-        "tags": ["environment_other"],
+        "summary": "Heavy rain or heavy snow creates a Lightly Obscured area and imposes disadvantage on Wisdom (Perception) checks. Heavy rain also extinguishes open flames.",
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -520,9 +692,9 @@
             {
                 "type": "list",
                 "items": [
-                    "Heavy precipitation creates a <b>Lightly Obscured</b> area.",
-                    "It also imposes <b>disadvantage on Wisdom (Perception)</b> checks that rely on hearing.",
-                    "It extinguishes open flames like torches and candles."
+                    "Heavy rain or heavy snow creates a <b>Lightly Obscured</b> area.",
+                    "Creatures in the area have <b>Disadvantage on Wisdom (Perception)</b> checks.",
+                    "Heavy rain extinguishes open flames."
                 ]
             },
             {
@@ -536,10 +708,12 @@
         "optional": "Optional rule",
         "icon": "mountainclimbing",
         "subtitle": "Risk of Exhaustion",
-        "description": "At altitudes of 10,000 feet or higher, creatures not acclimated must make Constitution saves to resist exhaustion during travel.",
+        "description": "At altitudes of 10,000 feet or higher, travel is more taxing for creatures that need to breathe.",
         "reference": "DMG 2024, pg. 235.",
-        "summary": "When traveling above 10,000 feet for more than 8 hours, a non-acclimated creature must make Constitution saves for each extra hour or gain a level of Exhaustion.",
-        "tags": ["environment_other"],
+        "summary": "At 10,000 feet or higher, each hour of travel counts as 2 hours for determining how long a breathing creature can travel. Acclimation takes 30 days and is impossible above 20,000 feet unless native to that environment.",
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -548,8 +722,9 @@
             {
                 "type": "list",
                 "items": [
-                    "At altitudes of 10,000 feet or higher, a creature traveling for more than 8 hours must make a <b>DC 10 Constitution saving throw</b> at the end of the day for every hour past 8. On a failure, they gain one level of <b>Exhaustion</b>.",
-                    "Creatures acclimated to high altitude automatically succeed on this save. A creature becomes acclimated after spending 30 days at that altitude."
+                    "At altitudes of <b>10,000 feet or higher</b>, each hour spent traveling counts as <b>2 hours</b> for determining how long a creature can travel.",
+                    "A breathing creature becomes acclimated after spending <b>30 days or more</b> at that altitude.",
+                    "Breathing creatures cannot become acclimated to elevations above <b>20,000 feet</b> unless they are native to such environments."
                 ]
             },
             {
@@ -564,9 +739,11 @@
         "icon": "swordbreak",
         "subtitle": "Lasting wounds from combat",
         "description": "An optional rule to add lasting mechanical consequences when a creature suffers a critical hit or drops to 0 HP.",
-        "reference": "DMG 2024, pgs. 246-247.",
+        "reference": "DMG 2014, pg. 272.",
         "summary": "An optional rule for gritty campaigns where taking a critical hit or dropping to 0 HP can inflict a lasting mechanical penalty, such as a limp or a lost eye, determined by a table roll.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -592,9 +769,11 @@
         "icon": "internalinjury",
         "subtitle": "Risk of System Shock",
         "description": "This optional rule forces a DC 15 Constitution save when a creature takes damage equal to or greater than half its HP max from a single source.",
-        "reference": "DMG 2024, pgs. 246-247.",
+        "reference": "DMG 2014, pg. 273.",
         "summary": "An optional rule where taking damage equal to or greater than half your maximum HP from a single source forces a DC 15 Constitution save. On a failure, you suffer a random shock effect.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -604,12 +783,12 @@
                 "type": "list",
                 "items": [
                     "When a creature takes damage from a single source equal to or greater than <b>half its hit point maximum</b>, it must succeed on a <b>DC 15 Constitution saving throw</b>.",
-                    "On a failure, the creature suffers a random effect from the System Shock table, such as losing reactions, dropping to 0 HP, or gaining Exhaustion."
+                    "On a failure, the creature suffers a random effect from the System Shock table, such as dropping to 0 Hit Points, becoming Stunned, or losing reactions temporarily."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "A failed save can have a devastating impact, potentially Dazing a character or reducing their speed to zero at a critical moment."
+                "content": "A failed save can have a devastating impact, but this remains a legacy optional rule rather than a 2024 DMG default."
             }
         ]
     },
@@ -619,9 +798,11 @@
         "icon": "nightsleep",
         "subtitle": "Change game pacing",
         "description": "These optional rules change the duration of short and long rests to fundamentally alter the pacing and tone of a campaign.",
-        "reference": "DMG 2024, pg. 241.",
-        "summary": "Optional rules to change campaign pacing. 'Epic Heroism' makes a short rest 10 minutes and a long rest 1 hour. 'Gritty Realism' makes a short rest 8 hours and a long rest 7 days.",
-        "tags": ["environment_other"],
+        "reference": "DMG 2014, pg. 267.",
+        "summary": "Optional rules to change campaign pacing. Epic Heroism makes a Short Rest 5 minutes and a Long Rest 1 hour. Gritty Realism makes a Short Rest 8 hours and a Long Rest 7 days.",
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -630,7 +811,7 @@
             {
                 "type": "list",
                 "items": [
-                    "<b>Epic Heroism:</b> A Short Rest is 10 minutes, and a Long Rest is 1 hour. This is for high-action, fast-paced games where resources are quickly replenished.",
+                    "<b>Epic Heroism:</b> A Short Rest is 5 minutes, and a Long Rest is 1 hour. This is for high-action, fast-paced games where resources are quickly replenished.",
                     "<b>Gritty Realism:</b> A Short Rest is 8 hours, and a Long Rest is 7 days. This makes encounters more dangerous and encourages careful resource management and downtime."
                 ]
             },
@@ -645,10 +826,12 @@
         "optional": "Optional rule",
         "icon": "icecube",
         "subtitle": "Difficult Terrain, risk of falling",
-        "description": "Slippery ice is difficult terrain and requires a DC 10 Dexterity (Acrobatics) check when moving onto it to avoid falling prone.",
+        "description": "Slippery ice is Difficult Terrain and can knock a creature Prone when it starts on or moves onto the ice.",
         "reference": "DMG 2024, pg. 235.",
-        "summary": "Slippery ice is difficult terrain. When a creature moves onto it for the first time on a turn, they must succeed on a DC 10 Dexterity (Acrobatics) check or fall Prone.",
-        "tags": ["environment_other"],
+        "summary": "Slippery ice is Difficult Terrain. When a creature moves onto it for the first time on a turn or starts its turn there, it must make a DC 10 Dexterity save or fall Prone.",
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -658,7 +841,7 @@
                 "type": "list",
                 "items": [
                     "Slippery ice is <b>Difficult Terrain</b>.",
-                    "When a creature moves onto a slippery ice surface for the first time on a turn, it must succeed on a <b>DC 10 Dexterity (Acrobatics) check</b> or fall prone."
+                    "When a creature moves onto slippery ice for the first time on a turn or starts its turn there, it must succeed on a <b>DC 10 Dexterity saving throw</b> or fall Prone."
                 ]
             },
             {
@@ -672,10 +855,12 @@
         "optional": "Optional rule",
         "icon": "windsock",
         "subtitle": "Affects attacks and perception",
-        "description": "A strong wind imposes disadvantage on ranged weapon attacks and hearing-based Perception checks, and can hinder flight.",
+        "description": "A strong wind imposes disadvantage on ranged weapon attacks, extinguishes flames, disperses fog, and can force flying creatures to land.",
         "reference": "DMG 2024, pgs. 234-235.",
-        "summary": "A strong wind (20+ mph) imposes disadvantage on ranged attacks and hearing checks, and forces flying creatures to land. A gale (50+ mph) makes nonmagical flight and ranged attacks impossible.",
-        "tags": ["environment_other"],
+        "summary": "Strong wind imposes disadvantage on ranged weapon attacks, extinguishes open flames, disperses fog, and forces flying creatures to land at the end of their turn or fall.",
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -684,15 +869,41 @@
             {
                 "type": "list",
                 "items": [
-                    "A <b>strong wind</b> (20+ mph) imposes <b>disadvantage on ranged weapon attack rolls</b> and on Wisdom (Perception) checks that rely on hearing.",
+                    "A strong wind imposes <b>Disadvantage on ranged weapon attack rolls</b>.",
                     "It extinguishes open flames and disperses fog.",
-                    "A flying creature must land at the end of its turn or fall.",
-                    "<b>Gale (50+ mph):</b> A gale has the same effects, and nonmagical flight is impossible. All ranged weapon attacks are impossible."
+                    "A flying creature in a strong wind must land at the end of its turn or fall.",
+                    "In a desert, a strong wind can create a sandstorm that imposes <b>Disadvantage on Wisdom (Perception)</b> checks that rely on sight."
                 ]
             },
             {
                 "type": "paragraph",
                 "content": "These rules make weather an important tactical consideration, potentially forcing archers and flying creatures to change their strategies."
+            }
+        ]
+    },
+    {
+        "title": "Thin Ice*",
+        "optional": "Optional rule",
+        "icon": "icecube",
+        "subtitle": "Weight limit hazard",
+        "description": "Thin ice breaks when the total weight on a 10-foot-square area exceeds its random tolerance.",
+        "reference": "DMG 2024, pg. 235.",
+        "summary": "Thin ice supports 3d10 x 10 pounds per 10-foot-square area. If total weight exceeds that tolerance, the ice breaks and creatures on it fall through.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Thin ice is a simple environmental hazard for frozen lakes, rivers, and unstable magical terrain."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "A 10-foot-square area of thin ice supports <b>3d10 x 10 pounds</b>.",
+                    "When the total weight on the area exceeds that tolerance, the ice breaks.",
+                    "Creatures on broken ice fall through, often triggering frigid water or swimming rules."
+                ]
             }
         ]
     },
@@ -704,7 +915,9 @@
         "description": "Traps are hidden hazards, either mechanical or magical, that require Perception to spot and specific skills to disable.",
         "reference": "DMG 2024, pgs. 105-115.",
         "summary": "Hidden hazards that require a Wisdom (Perception) check to spot and a relevant skill check (e.g., Thieves' Tools, Dispel Magic) to disable, with DCs set by the trap's design.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -730,7 +943,9 @@
         "subtitle": "Extreme outcomes for attacks",
         "description": "A popular house rule that adds extra effects to natural 20s (beyond damage) and natural 1s (beyond missing).",
         "summary": "A house rule where a nat 20 can apply an extra effect and a nat 1 can cause a negative consequence like dropping your weapon or falling Prone.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",

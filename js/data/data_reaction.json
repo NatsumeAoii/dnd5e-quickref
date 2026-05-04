@@ -107,22 +107,22 @@
         ]
     },
     {
-        "title": "Intercept*",
+        "title": "Interception*",
         "optional": "Optional rule",
         "icon": "shieldbash",
         "subtitle": "Reduce damage to an ally",
-        "description": "Use your reaction to reduce the damage an attacker deals to an adjacent ally.",
-        "reference": "Adapted from TCE, pg. 41.",
-        "summary": "When an attacker hits a creature within 5 feet of you, you can use your reaction to reduce the damage the target takes by 1d10 + your proficiency bonus.",
+        "description": "If you have the Interception Fighting Style, use your reaction to reduce damage dealt to a nearby target other than you.",
+        "reference": "TCE, pg. 41.",
+        "summary": "When a creature you can see hits a target other than you within 5 feet of you, the Interception Fighting Style lets you use your reaction to reduce the damage by 1d10 + your proficiency bonus.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "This reaction, adapted from the Interception Fighting Style, provides a way for martial characters to actively protect their nearby allies by deflecting part of an incoming blow."
+                "content": "Interception is an optional Fighting Style, not a general reaction available to every character. It provides a way for trained martial defenders to protect nearby allies by deflecting part of an incoming blow."
             },
             {
                 "type": "list",
                 "items": [
-                    "<b>Trigger:</b> An attacker you can see hits a creature within 5 feet of you with an attack.",
+                    "<b>Trigger:</b> A creature you can see hits a target other than you within 5 feet of you with an attack.",
                     "<b>Reaction:</b> You reduce the damage the target takes by 1d10 + your proficiency bonus.",
                     "You must be wielding a shield or a simple or martial weapon to use this reaction."
                 ]
@@ -134,17 +134,17 @@
         ]
     },
     {
-        "title": "Parry*",
-        "optional": "Optional rule",
+        "title": "Parry**",
+        "optional": "Homebrew rule",
         "icon": "shield",
         "subtitle": "Defend against a melee attack",
         "description": "As a reaction when hit by a melee attack, add a bonus to your AC which might cause the attack to miss.",
-        "reference": "Adapted from DMG/MM, pgs. 347, 349.",
+        "reference": "Adapted from monster traits",
         "summary": "When another creature hits you with a melee attack, you can use your reaction to add a bonus (e.g., your proficiency bonus) to your AC for that attack, potentially causing it to miss.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "This reaction is a common feature on monster stat blocks (like the Guard or Knight) that DMs can grant to players as a feat or house rule. It represents actively deflecting a blow with a weapon."
+                "content": "This reaction is adapted from monster stat block traits rather than a general 2014 player option. Treating it as homebrew makes that table dependency explicit."
             },
             {
                 "type": "list",

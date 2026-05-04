@@ -56,10 +56,10 @@
         "title": "Opportunity Attack",
         "optional": "Standard rule",
         "icon": "crossedswords",
-        "subtitle": "Enemy leaves your reach",
-        "description": "Use your reaction to make one melee attack against a hostile creature that moves out of your reach without Disengaging.",
+        "subtitle": "Creature leaves your reach",
+        "description": "Use your reaction to make one melee attack with a weapon or Unarmed Strike against a creature you can see that leaves your reach.",
         "reference": "PHB 2024, pg. 295.",
-        "summary": "When a hostile creature you can see moves out of your reach, use your reaction to make one melee attack roll with a weapon or Unarmed Strike. The attack occurs before it leaves your reach.",
+        "summary": "When a creature you can see leaves your reach, use your reaction to make one melee attack with a weapon or Unarmed Strike. The attack occurs right before it leaves your reach.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -68,11 +68,11 @@
             {
                 "type": "list",
                 "items": [
-                    "<b>Trigger:</b> A hostile creature you can see moves out of your reach.",
-                    "<b>Reaction:</b> You make one melee attack roll with a weapon or an Unarmed Strike against the provoking creature.",
-                    "The attack interrupts the creature's movement, occurring right before it leaves your reach.",
-                    "You don't provoke an opportunity attack when you Teleport or when someone or something moves you without using your movement or action.",
-                    "The <b>Disengage</b> action prevents you from provoking opportunity attacks for the rest of your turn."
+                    "<b>Trigger:</b> A creature you can see leaves your reach.",
+                    "<b>Reaction:</b> Make one melee attack with a weapon or an Unarmed Strike against the provoking creature.",
+                    "The attack occurs right before the creature leaves your reach.",
+                    "You do not provoke an Opportunity Attack when you teleport or when you are moved without using your movement, action, Bonus Action, or Reaction.",
+                    "The <b>Disengage</b> action prevents your movement from provoking Opportunity Attacks for the rest of your turn."
                 ]
             },
             {
@@ -109,17 +109,17 @@
         ]
     },
     {
-        "title": "Parry*",
-        "optional": "Optional rule",
+        "title": "Parry**",
+        "optional": "Homebrew rule",
         "icon": "shield",
         "subtitle": "Defend against a melee attack",
-        "description": "As a reaction when hit by a melee attack, add your proficiency bonus to your AC, potentially causing the attack to miss.",
-        "reference": "DMG 2024, pg. 247.",
-        "summary": "When another creature hits you with a melee attack, you can use your reaction to add your proficiency bonus to your AC for that attack, potentially causing it to miss.",
+        "description": "A house-rule defensive reaction that can add your proficiency bonus to AC against one melee attack.",
+        "reference": "",
+        "summary": "When another creature hits you with a melee attack, this house rule lets you use your reaction to add your proficiency bonus to AC for that attack, potentially causing it to miss.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "This optional rule gives martial characters a much-needed defensive reaction, allowing them to use their weapon skill to deflect an incoming blow at a crucial moment."
+                "content": "This is not a general 2024 DMG optional reaction. It is kept as a homebrew defensive option for tables that want a martial reaction similar to some monster Parry traits."
             },
             {
                 "type": "list",
@@ -166,9 +166,9 @@
         "optional": "Standard rule",
         "icon": "grab",
         "subtitle": "Stop an enemy from fleeing",
-        "description": "Use an Unarmed Strike as an Opportunity Attack and choose the Grapple option if it hits.",
-        "reference": "PHB (2024) pg. 295 & pg. 317.",
-        "summary": "Because a 2024 Opportunity Attack can be an Unarmed Strike, a hit can use the Grapple option and potentially stop the creature by giving it the Grappled condition.",
+        "description": "Use an Unarmed Strike as an Opportunity Attack and choose the Grapple option.",
+        "reference": "PHB 2024, pgs. 295, 317.",
+        "summary": "Because a 2024 Opportunity Attack can be an Unarmed Strike, you can choose its Grapple option and potentially stop the creature with the Grappled condition.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -177,9 +177,9 @@
             {
                 "type": "list",
                 "items": [
-                    "<b>Trigger:</b> A hostile creature you can see moves out of your reach.",
+                    "<b>Trigger:</b> A creature you can see leaves your reach.",
                     "Use your reaction to make an <b>Unarmed Strike</b> as the Opportunity Attack.",
-                    "If the Unarmed Strike hits, choose the <b>Grapple</b> option. The target then makes the required save against your grapple DC.",
+                    "Choose the <b>Grapple</b> option for that Unarmed Strike; the target makes the required save against your grapple DC.",
                     "On a failed save, the target gains the Grappled condition and its Speed becomes 0."
                 ]
             },

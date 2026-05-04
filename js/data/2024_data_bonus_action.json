@@ -4,25 +4,25 @@
         "optional": "Standard rule",
         "icon": "magicswirl",
         "subtitle": "Cast time of 1 bonus action",
-        "description": "Cast a swift spell with a casting time of 1 bonus action, but doing so restricts further spellcasting on your turn.",
+        "description": "Cast a spell whose Casting Time is a Bonus Action.",
         "reference": "PHB 2024, pg. 301.",
-        "summary": "Cast a spell with a 1-bonus-action casting time. If you do, the only other spell you can cast on the same turn is a cantrip with a 1-action casting time.",
+        "summary": "Cast a spell with a 1-Bonus-Action casting time. In 2024 rules, a spellcaster can expend only one spell slot to cast a spell on a turn.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "Bonus action spells provide incredible flexibility, but come with a very specific and important restriction on what other spells you can cast in the same turn. This rule prevents spellcasters from casting multiple powerful spells in a single round."
+                "content": "Bonus Action spells use the timing printed in the spell's Casting Time entry. The 2024 spellcasting limit is based on spell slots spent during the turn, not the older bonus-action cantrip restriction."
             },
             {
                 "type": "list",
                 "items": [
-                    "<b>Bonus Action Spell Rule:</b> If you cast any spell (cantrip or leveled) as a Bonus Action, the only other spell you can cast on the same turn is a cantrip with a casting time of 1 Action.",
-                    "You cannot cast a spell as a Bonus Action and another leveled spell as an Action in the same turn.",
-                    "Example: If you cast <i>Misty Step</i> (a bonus action), you can only use your action to cast a cantrip like <i>Fire Bolt</i> or take a non-spell action like Attack or Dodge."
+                    "Most spells use the <b>Magic</b> action, but some spells have a Casting Time of <b>Bonus Action</b>, <b>Reaction</b>, or longer.",
+                    "On a turn, you can expend only <b>one spell slot</b> to cast a spell.",
+                    "After casting a Bonus Action spell with a spell slot, you can still take a non-spell action or cast a spell that does not expend a spell slot if another rule allows it."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "This rule is a cornerstone of spellcasting action economy. Understanding it is critical to playing any spellcasting class effectively."
+                "content": "This keeps Bonus Action spells fast without preserving the obsolete 2014 wording that limited the rest of the turn to one-action cantrips."
             }
         ]
     },
@@ -80,29 +80,29 @@
         ]
     },
     {
-        "title": "Aim*",
-        "optional": "Optional rule",
+        "title": "Aim**",
+        "optional": "Homebrew rule",
         "icon": "archerytarget",
         "subtitle": "Gain advantage on an attack",
-        "description": "As a bonus action, forgo all your movement for the turn to grant yourself advantage on your next attack roll.",
-        "reference": "DMG 2024, pg. 248.",
-        "summary": "If you haven't moved this turn, you can use your bonus action to gain advantage on the next attack roll you make this turn. Your speed becomes 0 for the rest of the turn.",
+        "description": "A table rule that lets a creature spend its bonus action and movement to gain advantage on one attack.",
+        "reference": "Inspired by Steady Aim, TCE.",
+        "summary": "If you have not moved this turn, this house rule lets you use a Bonus Action to gain advantage on your next attack roll this turn, reducing your Speed to 0 until the turn ends.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "This optional rule provides a clear trade-off: sacrifice mobility for accuracy. It's a fantastic option for ranged characters or anyone with a single, high-impact attack who can afford to stand still."
+                "content": "This is not a general 2024 DMG action option. It is kept as a homebrew table rule inspired by the optional Rogue feature Steady Aim from Tasha's Cauldron of Everything."
             },
             {
                 "type": "list",
                 "items": [
-                    "This action allows you to trade all of your movement for a higher chance to hit.",
-                    "You must not have moved yet on your turn.",
-                    "Using this bonus action reduces your speed to 0 for the rest of the turn."
+                    "Use only if the table wants a general aim option available beyond the Rogue feature.",
+                    "You must not have moved yet on the turn.",
+                    "Using this Bonus Action gives advantage on the next attack roll you make this turn and reduces your Speed to 0 until the turn ends."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "This is a great way for Rogues to ensure their Sneak Attack hits, or for a Sharpshooter-feat user to offset the -5 attack penalty with advantage."
+                "content": "Because this broadens a class-specific optional feature, confirm it as a table rule before play."
             }
         ]
     },
@@ -112,7 +112,7 @@
         "icon": "shieldbash",
         "subtitle": "Run through a hostile space",
         "description": "As an action or bonus action, attempt to force your way through a hostile creature's space via a contested Athletics check.",
-        "reference": "DMG 2024, pg. 248.",
+        "reference": "DMG 2014, pg. 272.",
         "summary": "As a bonus action, make a Strength (Athletics) check contested by an enemy's Athletics. If you win, you can move through their space once this turn. You have advantage if you are larger.",
         "bullets": [
             {
@@ -139,7 +139,7 @@
         "icon": "acrobatic",
         "subtitle": "Tumble through a hostile space",
         "description": "As an action or bonus action, attempt to deftly move through a hostile creature's space with a contested Acrobatics check.",
-        "reference": "DMG 2024, pg. 248.",
+        "reference": "DMG 2014, pg. 272.",
         "summary": "As a bonus action, make a Dexterity (Acrobatics) check contested by an enemy's Acrobatics. If you win, you can move through their space once this turn.",
         "bullets": [
             {

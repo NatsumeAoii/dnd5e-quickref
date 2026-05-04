@@ -78,21 +78,22 @@
         ]
     },
     {
-        "title": "Aim*",
+        "title": "Steady Aim*",
         "optional": "Optional rule",
         "icon": "archerytarget",
         "subtitle": "Gain advantage on an attack",
-        "description": "As a bonus action, forgo your movement this turn to grant yourself advantage on your next attack roll.",
-        "reference": "TCE, pg. 46.",
-        "summary": "If you haven't moved this turn, you can use your bonus action to gain advantage on the next attack roll you make this turn. Your speed becomes 0 for the rest of the turn.",
+        "description": "As a 3rd-level rogue optional feature, use a bonus action to forgo movement and gain advantage on your next attack roll.",
+        "reference": "TCE, pg. 62.",
+        "summary": "If you are a rogue with Steady Aim and haven't moved this turn, you can use your bonus action to gain advantage on your next attack roll this turn. Your speed becomes 0 for the rest of the turn.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "This optional rule, introduced in Tasha's Cauldron of Everything, provides a clear tactical trade-off: sacrifice all mobility for a single, more accurate attack. It's a fantastic tool, especially for ranged attackers."
+                "content": "Steady Aim is an optional rogue class feature from Tasha's Cauldron of Everything. It provides a clear tactical trade-off: sacrifice mobility for one more accurate attack."
             },
             {
                 "type": "list",
                 "items": [
+                    "You must have access to the <b>3rd-level rogue optional feature</b>; this is not a general bonus action available to every character.",
                     "You can use this bonus action only if you haven't moved during this turn.",
                     "After using it, your speed is 0 until the end of the current turn.",
                     "This grants you advantage on the first attack roll you make on the current turn."
@@ -100,7 +101,7 @@
             },
             {
                 "type": "paragraph",
-                "content": "This is an excellent option for Rogues to ensure their Sneak Attack hits, or for a character with the Sharpshooter feat to help offset the -5 attack penalty."
+                "content": "This is especially relevant for rogues looking to improve the chance that a key Sneak Attack lands."
             }
         ]
     },

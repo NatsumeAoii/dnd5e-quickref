@@ -34,7 +34,7 @@
         "subtitle": "Cast spells or use magic",
         "description": "Cast a spell with a casting time of one action, or use a magical feature or magic item that requires the Magic action.",
         "reference": "PHB 2024, pgs. 290, 301.",
-        "summary": "Use the Magic action to cast a 1-action spell, activate a magical feature, or use a magic item that calls for this action. Bonus Action spellcasting still limits other spellcasting that turn to a 1-action cantrip.",
+        "summary": "Use the Magic action to cast a 1-action spell, activate a magical feature, or use a magic item that calls for this action. On a turn, you can expend only one spell slot to cast a spell.",
         "bullets": [
             {
                 "type": "paragraph",
@@ -45,13 +45,13 @@
                 "items": [
                     "Cast a spell whose casting time is an action.",
                     "Use a magical class feature or magic item that specifies the Magic action.",
-                    "<b>Bonus Action Spell Rule:</b> If you cast any spell as a Bonus Action, the only other spell you can cast on the same turn is a cantrip with a casting time of one action.",
+                    "<b>Spell Slot Limit:</b> On a turn, you can expend only one spell slot to cast a spell, regardless of whether the spell uses an action, Bonus Action, or Reaction.",
                     "<b>Concentration:</b> Many spells require concentration. You lose concentration if you: cast another spell that requires concentration, take damage (requiring a CON save vs. DC 10 or half the damage taken), are Incapacitated, or die."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "Mastering the Magic action means tracking action cost, concentration, and whether another rule has already limited what spells you can cast this turn."
+                "content": "Mastering the Magic action means tracking action cost, concentration, and whether you have already spent a spell slot to cast a spell this turn."
             }
         ]
     },
@@ -167,13 +167,13 @@
         "optional": "Standard rule",
         "icon": "roundshield",
         "subtitle": "Equip or unequip a shield",
-        "description": "Use your action to either equip a shield by strapping it on, or to unequip it.",
+        "description": "Take the Utilize action to equip or unequip a shield.",
         "reference": "PHB 2024, pg. 153.",
-        "summary": "It takes one full action to either equip (don) or unequip (doff) a shield. This is more time-consuming than drawing a weapon.",
+        "summary": "Donning or doffing a shield uses the Utilize action, making shield management more costly than a normal free object interaction.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "Unlike drawing a weapon, which is a free interaction, managing a shield requires your full action. This represents the time needed to properly secure or release the straps, forcing a choice between defense and other actions on your turn."
+                "content": "Unlike drawing or stowing many weapons, managing a shield uses the Utilize action. This represents the time needed to properly secure or release the shield before its AC bonus applies or ends."
             }
         ]
     },
@@ -454,25 +454,25 @@
         "optional": "Standard rule",
         "icon": "firstaid",
         "subtitle": "Aid a dying creature",
-        "description": "Use your action and a DC 10 Medicine check to stop a dying creature from needing to make death saving throws.",
+        "description": "Take the Help action and make a DC 10 Medicine check to stabilize a creature at 0 Hit Points.",
         "reference": "PHB 2024, pg. 341.",
-        "summary": "Make a DC 10 Wisdom (Medicine) check on a creature at 0 HP. On a success, they become stable and no longer need to make Death Saves. A Healer's Kit grants automatic success.",
+        "summary": "Take the Help action and succeed on a DC 10 Wisdom (Medicine) check to make a creature at 0 HP Stable. A Healer's Kit uses the Utilize action and one kit use to stabilize without a check.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "This is a non-magical way to save a companion who has fallen to 0 Hit Points. Success makes them stable, though they remain unconscious and at 0 HP until they regain at least one hit point."
+                "content": "This is the nonmagical way to keep a creature at 0 Hit Points from continuing to make Death Saving Throws. The creature remains Unconscious until it regains Hit Points."
             },
             {
                 "type": "list",
                 "items": [
-                    "You use your action to administer first aid to an unconscious creature at 0 hit points.",
-                    "Make a <b>DC 10 Wisdom (Medicine)</b> check. A Healer's Kit allows you to automatically succeed.",
-                    "On a success, the creature becomes stable. It is no longer dying but remains unconscious at 0 HP. A stable creature regains 1 hit point after 1d4 hours."
+                    "Without a kit, take the <b>Help</b> action and succeed on a <b>DC 10 Wisdom (Medicine)</b> check.",
+                    "With a <b>Healer's Kit</b>, take the <b>Utilize</b> action, expend one use, and stabilize the creature without a Wisdom (Medicine) check.",
+                    "A Stable creature at 0 Hit Points does not make Death Saving Throws, stops being Stable if it takes damage, and regains 1 Hit Point after 1d4 hours if not healed first."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "While healing magic is faster at returning an ally to the fight, this action is a crucial option for any character when magical resources are low."
+                "content": "Healing magic is still the faster way to return an ally to the fight, but stabilization prevents a fallen creature from sliding closer to death."
             }
         ]
     },
@@ -562,26 +562,26 @@
         "icon": "mountainclimbing",
         "subtitle": "Climb a larger foe",
         "description": "As an action, attempt to climb onto a creature at least two sizes larger than you, treating it like terrain.",
-        "reference": "DMG 2024, pg. 247.",
-        "summary": "Make a Strength (Athletics) check against a creature's Fortitude DC to climb onto it if it's at least two sizes larger. On a success, you move with it and have advantage on attacks against it.",
+        "reference": "DMG 2014, pg. 271.",
+        "summary": "Use the legacy optional action option to climb onto a creature at least two sizes larger, treating the larger creature as terrain and moving with it if the DM allows the attempt.",
         "bullets": [
             {
                 "type": "paragraph",
-                "content": "This optional rule provides a framework for cinematic encounters with massive foes, allowing smaller creatures to scale them to gain a tactical advantage or target a specific weak point."
+                "content": "This is a legacy optional combat action from the 2014 DMG, not a 2024 PHB main action. It remains useful for tables that want a framework for cinematic fights against very large creatures."
             },
             {
                 "type": "list",
                 "items": [
-                    "As an action, a creature can make a Strength (Athletics) check to climb onto a creature at least two sizes larger.",
-                    "The DC is the target creature's Fortitude DC.",
-                    "On a success, the climber moves into the target's space and clings to it. The climber moves with the target.",
-                    "The climber has Advantage on attack rolls against the creature it is climbing on.",
-                    "The larger creature can use its action to make a Strength (Athletics) check against the climber's Fortitude DC to dislodge them."
+                    "The target must be at least two sizes larger than the climber.",
+                    "The DM decides whether the circumstances require an ability check to climb onto the creature, treating the larger creature as terrain.",
+                    "On a success, the climber moves into the target's space, clings to it, and moves with it.",
+                    "The climber has <b>Advantage</b> on attack rolls against the creature it is climbing on.",
+                    "The larger creature can try to dislodge the climber, typically with a contested Strength (Athletics) check against the climber's Strength (Athletics) or Dexterity (Acrobatics)."
                 ]
             },
             {
                 "type": "paragraph",
-                "content": "This can create memorable, 'Shadow of the Colossus' style moments in your game, but it requires the DM to adjudicate the specific circumstances and potential risks."
+                "content": "Because this is a legacy optional rule, the DM should set expectations before play rather than treating it as a default 2024 action."
             }
         ]
     },
