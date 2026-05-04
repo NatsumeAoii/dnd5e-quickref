@@ -211,7 +211,13 @@ export class UIController {
     #loadSectionStates(): Record<string, boolean> {
         try {
             const raw = localStorage.getItem(CONFIG.STORAGE_KEYS.SECTION_STATES);
-            return raw ? JSON.parse(raw) : {};
+            if (!raw) return {};
+            const parsed = JSON.parse(raw) as unknown;
+            if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+            return Object.fromEntries(
+                Object.entries(parsed as Record<string, unknown>)
+                    .filter((entry): entry is [string, boolean] => typeof entry[1] === 'boolean'),
+            );
         } catch { return {}; }
     }
 

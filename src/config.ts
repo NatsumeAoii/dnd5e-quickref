@@ -1,7 +1,7 @@
 import type { SectionConfig, SettingsConfig } from './types.js';
 
 export const CONFIG = Object.freeze({
-    APP_VERSION: '1.1.5',
+    APP_VERSION: '1.1.6',
     STORAGE_KEYS: Object.freeze({
         RULES_2024: 'rules2024',
         OPTIONAL: 'optional',
@@ -112,7 +112,7 @@ export const CONFIG = Object.freeze({
         PRINT_MODE: 'print-mode',
     } as const),
     DEFAULTS: Object.freeze({
-        ICON: '', TITLE: '[Untitled Rule]', RULE_TYPE: 'Standard rule', THEME: 'original',
+        ICON: 'bookmarklet', TITLE: '[Untitled Rule]', RULE_TYPE: 'Standard rule', THEME: 'original',
     } as const),
     ATTRIBUTES: Object.freeze({
         RULE_TYPE: 'data-rule-type',

@@ -44,7 +44,7 @@ npm run lint:css
 npm run build
 ```
 
-For release/version changes, `npm run build` runs `prebuild`, which calls `npm run sync-version`. That syncs the top version in `CHANGELOG.md` into `package.json`, `package-lock.json`, `src/config.ts`, and copies `CHANGELOG.md` to `public/CHANGELOG.md`.
+For release/version changes, `npm run build` runs `prebuild`, which calls `npm run sync-version`. That syncs the top version in `CHANGELOG.md` into `package.json`, `package-lock.json`, `src/config.ts`, and `public/sw.js`, and copies `CHANGELOG.md` to `public/CHANGELOG.md`.
 
 ## Development Guidelines
 
@@ -69,9 +69,13 @@ Rules live in:
 When changing rule data:
 
 - Keep 2014 and 2024 data files consistent with the intended ruleset.
+- Mirror shipped data edits between `js/data/` and `public/js/data/`.
 - Preserve existing field names and response shapes.
 - Use existing icon names from `public/img/`.
 - Keep limited HTML markup simple. Current rule data primarily uses `<b>` and `<i>`.
+- Use the existing `paragraph`, `list`, and `table` bullet object shapes.
+- Keep `reference`, short descriptions, summaries, and bullet details source-backed.
+- Use one trailing `*` for optional rule titles and two trailing `**` for homebrew rule titles.
 - Check that linked rule titles still resolve in popups and search.
 
 ## Service Worker Changes

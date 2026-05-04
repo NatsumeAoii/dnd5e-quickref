@@ -3,6 +3,13 @@ import type { StateManager } from '../state/StateManager.js';
 import type { DBService } from './DBService.js';
 import type { SyncService } from './SyncService.js';
 
+const hasUnsafeNoteKeyChar = (key: string): boolean =>
+    [...key].some((char) => {
+        const code = char.charCodeAt(0);
+        return code < 32 || code === 127 || '<>"`'.includes(char);
+    });
+
+
 export class UserDataService {
     #storage: Storage;
     #stateManager: StateManager;
@@ -177,10 +184,13 @@ export class UserDataService {
         await this.#shareOrDownload(blob, fileName, 'application/json', 'QuickRef Favorites Export');
     }
 
-    static #KEY_PATTERN = /^[\w\s]+::[\w\s\-'(),/*]+$/;
-
     #validateNoteKey(key: string): boolean {
-        return UserDataService.#KEY_PATTERN.test(key) && key.length < 200;
+        if (key.length === 0 || key.length >= 200 || !key.includes('::')) return false;
+        if (hasUnsafeNoteKeyChar(key)) return false;
+        const separatorIndex = key.indexOf('::');
+        const type = key.slice(0, separatorIndex).trim();
+        const title = key.slice(separatorIndex + 2).trim();
+        return type.length > 0 && title.length > 0;
     }
 
     async importNotes(file: File): Promise<number> {
@@ -232,16 +242,21 @@ export class UserDataService {
 
             if (encoder.encode(value).byteLength > CONFIG.IMPORT_LIMITS.MAX_NOTE_SIZE_BYTES) { skipped++; continue; }
 
-            const existing = state.user.notes.get(key);
-
-            if (!existing || existing.trim() === '') {
-                state.user.notes.set(key, value);
-                toWrite.push([key, value]);
-            }
+            toWrite.push([key, value]);
         }
 
+        const previousValues = new Map<string, string | undefined>();
         for (const [key, text] of toWrite) {
-            await this.#dbService.put(key, text);
+            previousValues.set(key, state.user.notes.get(key));
+            state.user.notes.set(key, text);
+            try {
+                await this.#dbService.put(key, text);
+            } catch (error) {
+                const previous = previousValues.get(key);
+                if (previous === undefined) state.user.notes.delete(key);
+                else state.user.notes.set(key, previous);
+                throw error;
+            }
         }
 
         if (skipped > 0) console.warn(`Import: skipped ${skipped} invalid entries`);

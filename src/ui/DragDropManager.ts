@@ -139,7 +139,17 @@ export class DragDropManager {
                 this.#touchOffsetX = startX - rect.left;
                 this.#touchOffsetY = startY - rect.top;
                 this.#touchClone = item.cloneNode(true) as HTMLElement;
-                this.#touchClone.style.cssText = `position:fixed;top:${rect.top}px;left:${rect.left}px;width:${rect.width}px;height:${rect.height}px;opacity:0.8;z-index:99999;pointer-events:none;transition:none;`;
+                Object.assign(this.#touchClone.style, {
+                    position: 'fixed',
+                    top: `${rect.top}px`,
+                    left: `${rect.left}px`,
+                    width: `${rect.width}px`,
+                    height: `${rect.height}px`,
+                    opacity: '0.8',
+                    zIndex: '99999',
+                    pointerEvents: 'none',
+                    transition: 'none',
+                });
                 document.body.appendChild(this.#touchClone);
             }
 

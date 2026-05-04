@@ -5,6 +5,37 @@ import type { RuleData } from '../types.js';
 
 const DANGEROUS_DATA_RE = /<script[\s>]|on\w+\s*=|javascript:/i;
 const FETCH_TIMEOUT_MS = 10_000;
+const JSON_CONTENT_TYPE_RE = /\bjson\b/i;
+const ALLOWED_RULE_TYPES = new Set(['Standard rule', 'Optional rule', 'Homebrew rule']);
+const ALLOWED_BULLET_TYPES = new Set(['paragraph', 'list', 'table']);
+
+const stripMarkup = (value: string): string => value.replace(/<[^>]*>/g, ' ');
+const normalizeSearchPart = (value: string | number | null | undefined): string =>
+    stripMarkup(String(value ?? '')).toLowerCase();
+const isAbortError = (error: unknown): boolean =>
+    error instanceof DOMException && error.name === 'AbortError';
+const isStringArray = (value: unknown): value is string[] =>
+    Array.isArray(value) && value.every((item) => typeof item === 'string');
+const isTableCell = (value: unknown): value is string | number | null =>
+    value === null || typeof value === 'string' || typeof value === 'number';
+const isValidBulletShape = (bullet: unknown): boolean => {
+    if (!bullet || typeof bullet !== 'object') return false;
+    const raw = bullet as Record<string, unknown>;
+    if (typeof raw.type !== 'string' || !ALLOWED_BULLET_TYPES.has(raw.type)) return false;
+    if (raw.content !== undefined && typeof raw.content !== 'string') return false;
+    if (raw.items !== undefined && !isStringArray(raw.items)) return false;
+    if (raw.headers !== undefined && !isStringArray(raw.headers)) return false;
+    if (raw.rows !== undefined) {
+        if (!Array.isArray(raw.rows)) return false;
+        const headerCount = Array.isArray(raw.headers) ? raw.headers.length : null;
+        for (const row of raw.rows) {
+            if (!Array.isArray(row)) return false;
+            if (headerCount !== null && row.length !== headerCount) return false;
+            if (!row.every(isTableCell)) return false;
+        }
+    }
+    return true;
+};
 
 export class DataService {
     #stateManager: StateManager;
@@ -29,6 +60,7 @@ export class DataService {
             }
             return response;
         } catch (error) {
+            if (isAbortError(error)) throw error;
             if (retries === 0) throw error;
             const jitter = Math.floor(Math.random() * Math.min(100, backoff * 0.2));
             const delay = backoff + jitter;
@@ -46,6 +78,11 @@ export class DataService {
         if (!Array.isArray(data)) return [];
         return (data as RuleData[]).filter((entry) => {
             if (!entry || typeof entry !== 'object' || typeof entry.title !== 'string') return false;
+            if (entry.optional !== undefined && !ALLOWED_RULE_TYPES.has(entry.optional)) {
+                console.warn(`Stripped rule entry with invalid rule type: "${entry.title}"`);
+                return false;
+            }
+            if (entry.icon !== undefined && typeof entry.icon !== 'string') return false;
             // Check all string-valued top-level properties for dangerous patterns
             for (const val of Object.values(entry)) {
                 if (typeof val === 'string' && DANGEROUS_DATA_RE.test(val)) {
@@ -56,7 +93,10 @@ export class DataService {
             // Deep-check bullets array: content, items[], headers[], rows[][]
             if (Array.isArray(entry.bullets)) {
                 for (const bullet of entry.bullets) {
-                    if (!bullet || typeof bullet !== 'object') continue;
+                    if (!isValidBulletShape(bullet)) {
+                        console.warn(`Stripped rule entry with malformed bullet data: "${entry.title}"`);
+                        return false;
+                    }
                     const stringsToCheck: string[] = [];
                     if (typeof bullet.content === 'string') stringsToCheck.push(bullet.content);
                     if (Array.isArray(bullet.items)) stringsToCheck.push(...bullet.items.filter((s: unknown): s is string => typeof s === 'string'));
@@ -74,6 +114,23 @@ export class DataService {
             }
             return true;
         });
+    }
+
+    async #readJsonResponse(res: Response, path: string): Promise<unknown> {
+        const contentType = res.headers.get('content-type') ?? '';
+        if (contentType && !JSON_CONTENT_TYPE_RE.test(contentType)) {
+            const text = await res.text();
+            try {
+                return JSON.parse(text) as unknown;
+            } catch {
+                throw new DataLoadError(path, `Expected JSON response, received ${contentType}`);
+            }
+        }
+        try {
+            return await res.json();
+        } catch (error) {
+            throw new DataLoadError(path, error instanceof Error ? `Invalid JSON: ${error.message}` : 'Invalid JSON');
+        }
     }
 
     async #loadDataFile(dataFileName: string, rulesetKey: string): Promise<void> {
@@ -98,7 +155,7 @@ export class DataService {
             try {
                 const res = await this.#fetchWithRetry(path);
                 if (!res.ok) throw new DataLoadError(path, `HTTP ${res.status}`);
-                const raw = await res.json();
+                const raw = await this.#readJsonResponse(res, path);
                 const validated = this.#validateData(raw);
                 state.data.rulesets[rulesetKey][dataFileName] = validated;
                 this.#dataCache.set(cacheKey, validated);
@@ -167,14 +224,27 @@ export class DataService {
                         if (state.data.ruleMap.has(id)) {
                             console.warn(`Duplicate rule id "${id}" while building rule map; later entry overwrites earlier entry.`);
                         }
-                        const titlePart = rule.title.toLowerCase();
-                        const descPart = (rule.description ?? '').replace(/<[^>]*>/g, '').toLowerCase();
-                        const subtitlePart = (rule.subtitle ?? '').toLowerCase();
+                        const bulletParts: string[] = [];
+                        rule.bullets?.forEach((bullet) => {
+                            if (bullet.content) bulletParts.push(bullet.content);
+                            if (Array.isArray(bullet.items)) bulletParts.push(...bullet.items);
+                            if (Array.isArray(bullet.headers)) bulletParts.push(...bullet.headers);
+                            if (Array.isArray(bullet.rows)) {
+                                bullet.rows.forEach((row) => bulletParts.push(...row.map((cell) => String(cell ?? ''))));
+                            }
+                        });
                         state.data.ruleMap.set(id, {
                             ruleData: rule,
                             type: section.type,
                             sectionId: section.id,
-                            searchIndex: `${titlePart}\0${descPart}\0${subtitlePart}`,
+                            searchIndex: [
+                                rule.title,
+                                rule.description,
+                                rule.subtitle,
+                                rule.summary,
+                                rule.reference,
+                                ...bulletParts,
+                            ].map(normalizeSearchPart).join('\0'),
                         });
                     }
                 });
@@ -227,7 +297,7 @@ export class DataService {
         }
 
         const esc = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const regex = new RegExp(`\\b(${uniqueTitles.map(esc).join('|')})\\b`, 'gi');
+        const regex = new RegExp(`(?<![\\p{L}\\p{N}_])(${uniqueTitles.map(esc).join('|')})(?![\\p{L}\\p{N}_])`, 'giu');
         state.data.ruleLinkerRegex = regex;
         this.#linkerDataCache.set(rulesetKey, { regex, titleLookup, titleHash });
     }

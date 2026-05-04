@@ -71,7 +71,8 @@ export class TemplateService {
             else {
                 console.warn(`Unknown bullet type: "${bullet.type}"`);
                 const p = document.createElement('p');
-                p.textContent = JSON.stringify(bullet);
+                p.className = 'rule-detail-unsupported';
+                p.textContent = 'Unsupported rule detail format.';
                 fragment.appendChild(p);
             }
         });

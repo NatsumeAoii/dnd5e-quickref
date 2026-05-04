@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-const CACHE_NAME = 'dnd5e-quickref-cache-v9';
+const CACHE_VERSION = '1.1.6';
+const CACHE_NAME = `dnd5e-quickref-cache-v${CACHE_VERSION}`;
 const CORE_ASSETS = [
   './',
   './index.html',

@@ -1,6 +1,21 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-let trustedPolicy: any;
-const _win = window as any;
+interface TrustedTypesPolicyLike {
+    createHTML: (input: string) => string;
+    createScriptURL: (input: string) => string;
+}
+
+interface TrustedTypesLike {
+    createPolicy: (
+        name: string,
+        rules: {
+            createHTML: (input: string) => string;
+            createScriptURL: (input: string) => string;
+            createScript: () => string;
+        },
+    ) => TrustedTypesPolicyLike;
+}
+
+let trustedPolicy: TrustedTypesPolicyLike | undefined;
+const trustedTypes = (window as Window & { trustedTypes?: TrustedTypesLike }).trustedTypes;
 
 const sanitizeHTML = (html: string): string => {
     const safeTags = new Set([
@@ -82,9 +97,9 @@ const sanitizeHTML = (html: string): string => {
     return clean;
 };
 
-if (_win.trustedTypes?.createPolicy) {
+if (trustedTypes?.createPolicy) {
     try {
-        trustedPolicy = _win.trustedTypes.createPolicy('default', {
+        trustedPolicy = trustedTypes.createPolicy('default', {
             createHTML: (s: string) => sanitizeHTML(s),
             createScriptURL: (s: string) => {
                 const url = new URL(s, window.location.href);

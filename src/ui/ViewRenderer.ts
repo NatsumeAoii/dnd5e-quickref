@@ -59,7 +59,7 @@ export class ViewRenderer {
     #ensurePrintableIcon(iconEl: HTMLElement): void {
         if (iconEl.querySelector('.item-icon-print-img')) return;
         const backgroundImage = window.getComputedStyle(iconEl).backgroundImage;
-        const match = backgroundImage.match(/^url\(["']?(.*?)["']?\)$/);
+        const match = backgroundImage.match(/url\(["']?(.*?)["']?\)/);
         const src = match?.[1];
         if (!src) return;
 

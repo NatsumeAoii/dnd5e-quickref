@@ -14,12 +14,12 @@
   <meta name="theme-color" content="#802b1c">
   <meta name="robots" content="noindex">
 
-  <link rel="icon" type="image/png" href="/dnd5e-quickref/img/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="/dnd5e-quickref/img/favicon.svg" />
-  <link rel="shortcut icon" href="/dnd5e-quickref/favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/dnd5e-quickref/img/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png" />
   <meta name="apple-mobile-web-app-title" content="5e Quickref" />
-  <link rel="manifest" href="/dnd5e-quickref/manifest.json" />
+  <link rel="manifest" href="manifest.json" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,18 +27,40 @@
     href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
 
-  <link rel="preload" href="/dnd5e-quickref/css/quickref.css" as="style">
-  <link rel="stylesheet" href="/dnd5e-quickref/css/quickref.css">
-
   <link id="theme-stylesheet" rel="stylesheet" type="text/css" href="">
-  <link rel="stylesheet" type="text/css" href="/dnd5e-quickref/css/icons.css">
   <style>
+    :root {
+      --color-bg: #f7f2e8;
+      --color-card-bg: #fffaf0;
+      --color-border: #9f7f5f;
+      --color-movement: #802b1c;
+      --color-text: #2f241d;
+      --color-text-subtle: #5f5248;
+      --color-shadow: rgb(0 0 0 / 18%);
+      --color-shadow-strong: rgb(0 0 0 / 28%);
+      --color-item-hover-bg: rgb(128 43 28 / 10%);
+      --border-width: 1px;
+      --border-radius-md: 6px;
+      --border-radius-lg: 8px;
+      --spacing-xs: 0.25rem;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 2rem;
+      --font-secondary: Lora, Georgia, serif;
+      --font-size-sm: 0.875rem;
+      --font-size-lg: 1.125rem;
+    }
+
     body {
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
+      margin: 0;
       background-color: var(--color-bg);
+      color: var(--color-text);
+      font-family: "Noto Sans", system-ui, sans-serif;
     }
 
     .error-card {
@@ -139,21 +161,22 @@
       }
     }
   </style>
+  <script src="404.js" defer></script>
 </head>
 
 <body>
   <main class="page">
     <div class="error-card">
-      <div class="error-icon">🎲</div>
+      <div class="error-icon" aria-hidden="true">404</div>
       <h1 class="error-title">CRITICAL MISS</h1>
       <p class="error-subtitle">404 - Page Not Found</p>
       <p class="error-message">
         The page you are looking for seems to have vanished into the Ethereal Plane.
       </p>
-      <a href="/dnd5e-quickref/" class="home-link">Return to Safety</a>
+      <a href="./" class="home-link" id="home-link">Return to Safety</a>
 
       <p id="redirect-notice" class="redirect-notice hidden" aria-live="polite">
-        <span>🔍</span> Detecting a specific rule... Attempting to redirect...
+        Detecting a specific rule... Attempting to redirect...
       </p>
       <noscript>
         <p class="redirect-notice">Enable JavaScript to allow automatic redirection for rule links.</p>
@@ -161,29 +184,6 @@
     </div>
   </main>
 
-  <script>
-    (function () {
-      const theme = localStorage.getItem('theme') || 'original';
-      const mode = localStorage.getItem('mode') === 'true' ? 'dark' : 'light';
-      document.documentElement.dataset.theme = theme;
-      document.documentElement.dataset.mode = mode;
-      const themeSheet = document.getElementById('theme-stylesheet');
-      if (theme !== 'original' && themeSheet) {
-        themeSheet.href = '/dnd5e-quickref/themes/' + theme + '.css';
-      }
-
-      if (window.location.hash) {
-        const notice = document.getElementById('redirect-notice');
-        if (notice) notice.classList.remove('hidden');
-        const safe = /^#[\w\-.,~%!*'();:@&=+$/?]*$/;
-        if (safe.test(window.location.hash)) {
-          setTimeout(() => {
-            window.location.replace('/dnd5e-quickref/' + window.location.hash);
-          }, 500);
-        }
-      }
-    })();
-  </script>
 </body>
 
 </html>

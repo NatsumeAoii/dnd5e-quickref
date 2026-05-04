@@ -68,12 +68,13 @@ Built on [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref) with a 
    ```bash
    npm run build
    ```
-   This type-checks with `tsc --noEmit`, then produces an optimized bundle in `dist/`.
+   npm runs `prebuild` first, which syncs the app version from `CHANGELOG.md`, copies the changelog into `public/`, updates service-worker cache version metadata, then type-checks with `tsc --noEmit` and produces an optimized bundle in `dist/`.
 
-   To sync the app version from `CHANGELOG.md` into `package.json` and `src/config.ts`, run this explicitly before a release build:
+   For release version changes, update the top semantic-version heading in `CHANGELOG.md`, then run:
    ```bash
    npm run sync-version
    ```
+   `sync-version` also keeps the root package-lock metadata aligned.
 
 2. **Preview the build locally:**
    ```bash
@@ -98,13 +99,17 @@ For environments without Node.js:
 | Script | Command | Description |
 |--------|---------|-------------|
 | `dev` | `vite` | Start the Vite dev server with HMR |
-| `sync-version` | `node scripts/prebuild.js` | Sync version from `CHANGELOG.md` to `package.json` and `src/config.ts` |
-| `build` | `tsc --noEmit && vite build` | Type-check then produce production bundle in `dist/` |
+| `sync-version` | `node scripts/prebuild.js` | Sync version from `CHANGELOG.md` to `package.json`, `package-lock.json`, `src/config.ts`, `public/sw.js`, and copy `CHANGELOG.md` to `public/` |
+| `prebuild` | `npm run sync-version` | Automatic version/changelog sync before `npm run build` |
+| `build` | `tsc --noEmit && vite build` | Type-check then produce production bundle in `dist/`; npm runs `prebuild` first |
 | `preview` | `vite preview` | Serve the production build locally |
 | `type-check` | `tsc --noEmit` | Run TypeScript type-checking without emitting |
+| `lint` | `eslint "src/**/*.ts"` | Lint TypeScript files via ESLint |
 | `lint:css` | `stylelint "src/**/*.css"` | Lint CSS files via Stylelint |
+| `audit:data` | `node scripts/audit-data.js` | Validate rule data mirrors, icon mappings, optional markers, environment tags, and bullet/table shapes |
+| `test` | `vitest run` | Run the Vitest test suite once |
 
-> Version sync is explicit so normal build verification does not mutate tracked files.
+> `npm run build` can mutate tracked version/changelog files through `prebuild`. Check `git status` after release builds.
 
 ---
 
@@ -121,6 +126,7 @@ dnd5e-quickref/
 │
 ├── src/                      # TypeScript source (modern layer)
 │   ├── main.ts               # Application bootstrap & initialization
+│   ├── error-handler.ts      # Global error boundary module
 │   ├── config.ts             # Centralized configuration constants
 │   ├── types.ts              # Shared TypeScript interfaces
 │   ├── css/
@@ -174,8 +180,8 @@ dnd5e-quickref/
 ├── public/                   # Static assets (copied verbatim to dist/)
 │   ├── sw.js                 # Service Worker (cache-first strategy)
 │   ├── manifest.json         # PWA manifest
-│   ├── error-handler.js      # Global error boundary (CSP-compliant)
 │   ├── 404.html              # Custom 404 page
+│   ├── 404.js                # Custom 404 redirect/theme helper
 │   ├── favicon.ico
 │   ├── img/                  # Icons & rule images (WebP, PNG, SVG)
 │   ├── themes/
@@ -194,7 +200,8 @@ dnd5e-quickref/
 │   └── .stylelintignore
 │
 ├── scripts/                  # Build & automation scripts
-│   ├── prebuild.js           # Version sync: CHANGELOG → package.json + config.ts
+│   ├── prebuild.js           # Version sync: changelog, package metadata, config, and service worker
+│   └── audit-data.js         # Rule data mirror/schema/icon audit
 │   └── build.js              # Legacy build script (not wired to npm scripts)
 │
 ├── .github/workflows/
@@ -229,20 +236,35 @@ Data flows through a service-oriented architecture:
 Rules are stored in `js/data/`. To add your own:
 
 1. Open `js/data/data_*.json` (2014) or `js/data/2024_data_*.json` (2024).
+   If you are editing built-in shipped data, mirror the same change in `public/js/data/`.
 2. Insert a JSON object into the array:
 
    ```json
    {
-       "title": "My Custom Spell",
+       "title": "My Custom Rule**",
        "optional": "Homebrew rule",
-       "icon": "spell-book",
-       "subtitle": "Level 3 Evocation",
+       "icon": "magicswirl",
+       "subtitle": "Short card subtitle",
        "reference": "PHB p. 123",
-       "description": "<p>A detailed description of the spell effect.</p>",
+       "description": "One sentence shown near the top of the popup.",
+       "summary": "A concise quick-reference ruling for the popup summary box.",
        "bullets": [
-           "Range: 120 feet",
-           "Duration: Instantaneous",
-           "You can use <b>HTML tags</b> like bold or list items."
+           {
+               "type": "paragraph",
+               "content": "Use paragraph bullets for short explanatory text."
+           },
+           {
+               "type": "list",
+               "items": [
+                   "Use list bullets for compact rule steps.",
+                   "Limited inline markup such as <b>bold</b> and <i>italic</i> is supported."
+               ]
+           },
+           {
+               "type": "table",
+               "headers": ["Case", "Result"],
+               "rows": [["Example", "Outcome"]]
+           }
        ]
    }
    ```
@@ -252,6 +274,8 @@ Rules are stored in `js/data/`. To add your own:
   - `"Optional rule"` — Hidden unless "Show Optional Rules" is enabled in Settings.
   - `"Homebrew rule"` — Hidden unless "Show Homebrew Rules" is enabled in Settings.
 - **`icon`**: Corresponds to an image filename in `public/img/` (without extension).
+- **`title` markers**: Use one trailing `*` for optional rules and two trailing `**` for homebrew rules.
+- **`bullets`**: Supports `paragraph`, `list`, and `table` objects. Keep rule text concise and source-backed.
 
 ### Adding Custom Themes
 
@@ -272,7 +296,7 @@ Rules are stored in `js/data/`. To add your own:
 
 ### GitHub Pages (Automated)
 
-Pushing to `main` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`):
+Pushing to `master` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`):
 
 1. Checks out the repository.
 2. Sets up Node.js (version read from `package.json` `engines` field).
@@ -410,13 +434,15 @@ npm run dev
 - **TypeScript**: Strict mode enabled. Run `npm run type-check` before committing.
 - **ESLint**: Flat config in `eslint.config.js`. Enforces `consistent-type-imports`, `no-eval`, `eqeqeq`, and `no-console` (except `warn`/`error`/`info`).
 - **Stylelint**: CSS linting via `npm run lint:css` using config in `config/.stylelintrc.json`.
+- **Vitest**: Focused regression tests for services, state, utilities, data guardrails, and runtime behavior.
 
 ### Conventions
 
 - TypeScript source lives in `src/`. Do not add new `.js` files to `js/modules/`.
 - Rule data (JSON) lives in `js/data/`. Each category has paired files: `data_<category>.json` (2014) and `2024_data_<category>.json` (2024).
+- Public data mirrors live in `public/js/data/`; keep mirrors identical when editing shipped rules.
 - Static assets belong in `public/`. Vite copies them to `dist/` verbatim.
-- Version is single-sourced from `CHANGELOG.md`. The `sync-version` script propagates it to `package.json` and `src/config.ts`.
+- Version is single-sourced from `CHANGELOG.md`. The `sync-version` script propagates it to `package.json` and `src/config.ts`, then copies the changelog to `public/CHANGELOG.md`.
 
 ### Testing
 
@@ -428,7 +454,7 @@ npm run dev
 
 ## Known Limitations & Pitfalls
 
-- **Test coverage is incomplete**: While Vitest is configured, coverage is currently focused on core state management and utilities (`src/__tests__/`). UI components and legacy JS logic lack coverage.
+- **Test coverage is incomplete**: Vitest coverage is focused on core state, services, utilities, data guardrails, and selected runtime behaviors. Full visual regression coverage and legacy JS coverage are not present.
 - **Legacy dual-layer**: The `js/` and `css/` directories contain the original vanilla JS codebase. These are still present for backwards compatibility but are progressively being superseded by `src/`.
 - **`scripts/build.js` is a legacy artifact**: It references dependencies (`fs-extra`, `glob`, `esbuild`, `html-minifier-terser`) that are not listed in `package.json`. It is not wired to any npm script. The active build pipeline uses `vite build`.
 - **Service Worker caching**: The SW uses a stale-while-revalidate strategy. Users may see stale content until the background update completes on next navigation. Hard-refresh forces a fresh load.
@@ -450,9 +476,9 @@ npm run dev
 - **Icons** — [Game-icons.net](https://game-icons.net/)
 - **Favicon** — [IconDuck](https://iconduck.com/icons/21871/dragon)
 - **Sources**:
-  - Player Handbook 2014 & 2024 (PHB)
-  - Dungeon Master Guide 2014 & 2024 (DMG)
-  - Monster Manual 2014 & 2024 (MM)
+  - Player's Handbook 2014 & 2024 (PHB)
+  - Dungeon Master's Guide 2014 & 2024 (DMG)
+  - Monster Manual 2014 & 2025 (MM)
   - Xanathar's Guide to Everything (XGE)
   - Tasha's Cauldron of Everything (TCE)
 

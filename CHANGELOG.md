@@ -7,6 +7,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.6] - 2026-05-04
+
+### Rule Data Source Audit & Runtime Hardening
+
+A source-grounded cleanup and hardening pass focused on 2014/2024 rule data accuracy, optional-rule labeling, runtime failure bounds, build/deploy consistency, and regression coverage.
+
+#### Fixed
+- **2024 Spellcasting Action Economy**: Updated Magic and Bonus Action spellcasting summaries to use the 2024 spell-slot-per-turn rule instead of the obsolete 2014 bonus-action cantrip restriction.
+- **2024 Rule Accuracy**: Corrected several action, movement, condition, reaction, and environment entries, including shield management, stabilization with and without a Healer's Kit, Grappled targeting language, and movement/environment edge cases.
+- **Optional vs. Homebrew Labels**: Reclassified entries that were incorrectly presented as 2024 official optionals when they are legacy 2014 DMG options or homebrew table rules.
+- **Data Mirror Drift**: Synchronized matching `js/data/` and `public/js/data/` JSON files so runtime data and service-worker-cached data stay aligned.
+- **Deploy Branch Drift**: Aligned the GitHub Pages workflow and README deployment instructions with the repository's `master` branch.
+- **License Metadata Drift**: Updated package metadata to match the MIT license used by `LICENSE.md` and project documentation.
+- **Notes Import Merge Semantics**: Duplicate note imports now overwrite by rule ID as documented, while safe punctuation in rule IDs is accepted.
+- **Data Load Failure Bounds**: Timed-out data requests no longer retry repeatedly, and non-JSON responses are reported as data-load errors instead of raw parser failures.
+- **Rule Link Boundaries**: Linkification now handles titles ending in punctuation, such as parenthetical rule names.
+- **Malformed Rule Data Bounds**: Invalid bullet payloads are now rejected during data validation before they can reach popup rendering or search indexing.
+- **Section State Recovery**: Malformed persisted section-collapse state now falls back to defaults instead of crashing section setup.
+
+#### Added
+- **Curated 2014 DMG Optionals**: Added source-backed optional references for `Healing Surge*`, `Healer's Kit Dependency*`, `Slow Natural Healing*`, `Fear and Horror*`, and `Hitting Cover*`.
+- **Data Consistency Coverage**: Added a regression test that verifies the curated 2014 optional additions remain DMG-referenced and use the correct single-star optional marker.
+- **Data Audit Command**: Added `npm run audit:data` to validate data mirrors, icon mappings, optional/homebrew markers, environment tags, and bullet/table shapes.
+- **Boundary Regression Coverage**: Added tests for malformed runtime rule data and malformed stored section state.
+
+#### Improved
+- **Rule Text Quality**: Rephrased short descriptions, long summaries, and bullet details where the local book audit showed unclear, stale, or misleading wording.
+- **Popup Text Formatting**: Improved popup title/reference wrapping, long inline content handling, and rule-table overflow behavior while preserving the existing layout and renderer model.
+- **Search Coverage**: Search indexes now include summaries, bullet details, table cells, and references instead of only title/description/subtitle text.
+- **Service-Worker Versioning**: The service-worker cache version now syncs from the app version during `sync-version`.
+- **Build Warning Hygiene**: Normalized icon asset paths and moved the global error boundary into a bundled TypeScript module so production builds surface fewer unrelated warnings.
+- **404 Page Portability**: Removed hardcoded project-base asset links from the 404 page and moved its redirect logic into an external script.
+- **User-Facing Error Boundary**: The global error boundary now shows a safe generic message while logging diagnostics to the console, and destructive local reset now requires confirmation.
+- **Trusted Types/CSP Hygiene**: Replaced remaining `cssText` writes and narrowed Trusted Types helper typing.
+- **Repository Hygiene**: Expanded `.gitignore` coverage for local secrets, certificate/key material, database dumps, archives, caches, and editor backup files while keeping example env templates trackable.
+
+---
+
 ## [1.1.5] - 2026-05-03
 
 ### Robustness & Regression Hardening

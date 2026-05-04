@@ -215,13 +215,11 @@ export class OnboardingService {
         const rect = targetEl.getBoundingClientRect();
         const pad = 8;
 
-        spotlight.style.cssText = `
-            display: block;
-            top: ${rect.top - pad}px;
-            left: ${rect.left - pad}px;
-            width: ${rect.width + pad * 2}px;
-            height: ${rect.height + pad * 2}px;
-        `;
+        spotlight.style.display = 'block';
+        spotlight.style.top = `${rect.top - pad}px`;
+        spotlight.style.left = `${rect.left - pad}px`;
+        spotlight.style.width = `${rect.width + pad * 2}px`;
+        spotlight.style.height = `${rect.height + pad * 2}px`;
 
         tooltip.style.visibility = 'hidden';
         tooltip.style.display = 'block';

@@ -95,6 +95,30 @@ describe('UserDataService runtime resilience', () => {
         expect(db.put).toHaveBeenCalledWith('Bonus action::Aim*', 'optional note');
     });
 
+    it('overwrites duplicate notes by id during import to match documented merge behavior', async () => {
+        const { service, stateManager, db } = createUserDataService();
+        stateManager.getState().user.notes.set('Action::Dash', 'old note');
+        const file = new File([
+            JSON.stringify({ 'Action::Dash': 'new note' }),
+        ], 'notes.json', { type: 'application/json' });
+
+        await expect(service.importNotes(file)).resolves.toBe(1);
+
+        expect(stateManager.getState().user.notes.get('Action::Dash')).toBe('new note');
+        expect(db.put).toHaveBeenCalledWith('Action::Dash', 'new note');
+    });
+
+    it('accepts safe note ids with punctuation used by rule titles', async () => {
+        const { service, db } = createUserDataService();
+        const file = new File([
+            JSON.stringify({ 'Environment::Fear & Horror*': 'table note' }),
+        ], 'notes.json', { type: 'application/json' });
+
+        await expect(service.importNotes(file)).resolves.toBe(1);
+
+        expect(db.put).toHaveBeenCalledWith('Environment::Fear & Horror*', 'table note');
+    });
+
     it('serializes overlapping saves for the same note so the final DB write is the newest text', async () => {
         const stateManager = new StateManager();
         const pendingWrites: Array<{ text: string; resolve: () => void }> = [];
@@ -246,6 +270,45 @@ describe('PersistenceService session safety', () => {
     });
 });
 
+describe('UIController section state resilience', () => {
+    afterEach(() => {
+        window.localStorage.clear();
+        vi.restoreAllMocks();
+    });
+
+    it('ignores malformed stored section state payloads instead of failing setup', () => {
+        document.body.innerHTML = `
+            <section id="section-action" class="${CONFIG.CSS.SECTION_CONTAINER}" data-section="action">
+                <h2 class="${CONFIG.CSS.SECTION_TITLE}">Actions</h2>
+                <div class="${CONFIG.CSS.SECTION_CONTENT}"></div>
+            </section>
+        `;
+        window.localStorage.setItem(CONFIG.STORAGE_KEYS.SECTION_STATES, JSON.stringify('collapsed'));
+        const controller = new UIController(
+            {
+                get: (id: string) => document.getElementById(id) as HTMLElement,
+                queryAll: (selector: string) => document.querySelectorAll(selector),
+            } as never,
+            new StateManager(),
+            {
+                a11y: { announce: vi.fn() },
+                navigation: { invalidateFocusables: vi.fn() },
+            } as never,
+            {
+                viewRenderer: {},
+                windowManager: {},
+            } as never,
+        );
+
+        expect(() => controller.setupCollapsibleSections()).not.toThrow();
+
+        const section = document.getElementById('section-action') as HTMLElement;
+        const header = section.querySelector(`.${CONFIG.CSS.SECTION_TITLE}`) as HTMLElement;
+        expect(section.classList.contains(CONFIG.CSS.IS_COLLAPSED)).toBe(false);
+        expect(header.getAttribute('aria-expanded')).toBe('true');
+    });
+});
+
 describe('SyncService broadcast safety', () => {
     afterEach(() => {
         vi.restoreAllMocks();
@@ -283,6 +346,7 @@ describe('DataService validation and loading', () => {
     afterEach(() => {
         vi.restoreAllMocks();
         vi.unstubAllGlobals();
+        vi.useRealTimers();
     });
 
     it('passes an abort signal to data fetches and drops inline event handler data', async () => {
@@ -301,6 +365,52 @@ describe('DataService validation and loading', () => {
         expect(fetchMock.mock.calls[0]?.[1]).toMatchObject({ signal: expect.any(AbortSignal) });
         expect(stateManager.getState().data.ruleMap.has('Move::Unsafe')).toBe(false);
         expect(stateManager.getState().data.ruleMap.has('Move::Safe')).toBe(true);
+    });
+
+    it('drops malformed bullet payloads before they can reach renderers', async () => {
+        const stateManager = new StateManager();
+        stateManager.getState().settings.use2024Rules = false;
+        vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify([
+            { title: 'Malformed', bullets: [{ type: 'list', items: ['ok', 42] }] },
+            { title: 'Safe', bullets: [{ type: 'list', items: ['ok'] }] },
+        ]), { status: 200 })));
+        const data = new DataService(stateManager);
+
+        await data.ensureSectionDataLoaded('action');
+        data.buildRuleMap();
+
+        expect(stateManager.getState().data.ruleMap.has('Action::Malformed')).toBe(false);
+        expect(stateManager.getState().data.ruleMap.has('Action::Safe')).toBe(true);
+    });
+
+    it('does not retry aborted data requests after the timeout guard fires', async () => {
+        vi.useFakeTimers();
+        const stateManager = new StateManager();
+        stateManager.getState().settings.use2024Rules = false;
+        const fetchMock = vi.fn(async () => {
+            throw new DOMException('timed out', 'AbortError');
+        });
+        vi.stubGlobal('fetch', fetchMock);
+        const data = new DataService(stateManager);
+
+        const load = data.ensureSectionDataLoaded('movement');
+        const assertion = expect(load).rejects.toThrow('timed out');
+        await vi.advanceTimersByTimeAsync(10_000);
+
+        await assertion;
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+    });
+
+    it('wraps non-json data responses in a data load error', async () => {
+        const stateManager = new StateManager();
+        stateManager.getState().settings.use2024Rules = false;
+        vi.stubGlobal('fetch', vi.fn(async () => new Response('<html></html>', {
+            status: 200,
+            headers: { 'content-type': 'text/html' },
+        })));
+        const data = new DataService(stateManager);
+
+        await expect(data.ensureSectionDataLoaded('movement')).rejects.toThrow('Expected JSON');
     });
 
     it('warns before duplicate rule ids overwrite existing entries', () => {
@@ -344,6 +454,46 @@ describe('DataService validation and loading', () => {
 
         expect(state.data.titleLookup.get('administer potion')).toBe('Action::Administer Potion**');
         expect('You can Administer Potion quickly.'.match(state.data.ruleLinkerRegex!)).toEqual(['Administer Potion']);
+    });
+
+    it('indexes summaries, bullets, table cells, and references for search', () => {
+        const stateManager = new StateManager();
+        const state = stateManager.getState();
+        state.settings.use2024Rules = false;
+        state.data.rulesets['2014'].action = [{
+            title: 'Ready',
+            description: 'Hold an action',
+            summary: 'Reaction trigger summary',
+            reference: 'PHB p.193',
+            bullets: [
+                { type: 'paragraph', content: 'Choose a perceivable circumstance.' },
+                { type: 'list', items: ['Release the action after the trigger.'] },
+                { type: 'table', headers: ['Case'], rows: [['Concentration until start of next turn']] },
+            ],
+        }];
+        const data = new DataService(stateManager);
+
+        data.buildRuleMap();
+
+        const searchIndex = state.data.ruleMap.get('Action::Ready')?.searchIndex ?? '';
+        expect(searchIndex).toContain('reaction trigger summary');
+        expect(searchIndex).toContain('perceivable circumstance');
+        expect(searchIndex).toContain('release the action');
+        expect(searchIndex).toContain('concentration until start');
+        expect(searchIndex).toContain('phb p.193');
+    });
+
+    it('matches linkable rule titles that end with punctuation', () => {
+        const stateManager = new StateManager();
+        const state = stateManager.getState();
+        state.settings.use2024Rules = false;
+        state.data.rulesets['2014'].action = [{ title: 'Ready (Spell)' }];
+        const data = new DataService(stateManager);
+
+        data.buildRuleMap();
+        data.buildLinkerData();
+
+        expect('Use Ready (Spell) now.'.match(state.data.ruleLinkerRegex!)).toEqual(['Ready (Spell)']);
     });
 });
 
@@ -546,5 +696,85 @@ describe('Template and render accessibility behavior', () => {
         expect(computedStyle).toHaveBeenCalled();
         expect(printImg?.src).toBe('http://localhost/img/run.webp');
         expect(printImg?.getAttribute('aria-hidden')).toBe('true');
+    });
+
+    it('extracts print-only image fallbacks from image-set CSS backgrounds', () => {
+        document.body.innerHTML = `
+            <main id="${CONFIG.ELEMENT_IDS.MAIN_SCROLL_AREA}">
+                <div id="basic-actions"></div>
+            </main>
+            <div id="${CONFIG.ELEMENT_IDS.NOTIFICATION_CONTAINER}"></div>
+            <template id="${CONFIG.ELEMENT_IDS.RULE_ITEM_TEMPLATE}">
+                <div class="item itemsize">
+                    <div class="item-content" role="button" tabindex="0">
+                        <div class="item-icon iconsize"></div>
+                        <div class="item-text-container">
+                            <div class="item-title"></div>
+                            <div class="item-desc"></div>
+                        </div>
+                    </div>
+                    <button class="favorite-btn"></button>
+                </div>
+            </template>
+        `;
+        vi.spyOn(window, 'getComputedStyle').mockImplementation((el: Element) => {
+            if ((el as HTMLElement).classList.contains('item-icon')) {
+                return { backgroundImage: 'image-set(url("http://localhost/img/run.webp") 1x)' } as CSSStyleDeclaration;
+            }
+            return { backgroundImage: 'none' } as CSSStyleDeclaration;
+        });
+        const stateManager = new StateManager();
+        const template = new TemplateService(createDomProvider() as never);
+        const renderer = new ViewRenderer(
+            createDomProvider() as never,
+            stateManager,
+            { isFavorite: vi.fn(() => false) } as never,
+            template,
+        );
+
+        renderer.renderSection('basic-actions', [{
+            popupId: 'Action::Dash',
+            ruleInfo: { ruleData: { title: 'Dash', icon: 'run' }, type: 'Action', sectionId: 'section-action' },
+        }]);
+
+        expect((document.querySelector('.item-icon-print-img') as HTMLImageElement | null)?.src).toBe('http://localhost/img/run.webp');
+    });
+
+    it('renders an accessible fallback for unknown bullet types instead of raw JSON', () => {
+        document.body.innerHTML = `
+            <section id="section-action" class="${CONFIG.CSS.SECTION_CONTAINER}"></section>
+            <template id="${CONFIG.ELEMENT_IDS.POPUP_TEMPLATE}">
+                <dialog class="popup-window">
+                    <header class="popup-header"><span class="popup-title"></span></header>
+                    <span class="popup-type"></span>
+                    <p class="popup-description"></p>
+                    <p class="popup-summary"></p>
+                    <div class="popup-bullets"></div>
+                    <div class="popup-reference-container">
+                        <p class="popup-reference hidden"></p>
+                        <button class="popup-toggle-details-btn"></button>
+                    </div>
+                    <label class="popup-notes-label"></label>
+                    <textarea class="popup-notes-textarea"></textarea>
+                </dialog>
+            </template>
+        `;
+        const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+        const template = new TemplateService(createDomProvider() as never);
+
+        const popup = template.createPopupElement(
+            'Action::Dash',
+            {
+                ruleData: { title: 'Dash', bullets: [{ type: 'unsupported' } as never] },
+                type: 'Action',
+                sectionId: 'section-action',
+            },
+            (html) => html,
+            () => '',
+        );
+
+        expect(warn).toHaveBeenCalledWith(expect.stringContaining('Unknown bullet type'));
+        expect(popup.querySelector('.popup-bullets')?.textContent).toContain('Unsupported rule detail format.');
+        expect(popup.querySelector('.popup-bullets')?.textContent).not.toContain('"unsupported"');
     });
 });

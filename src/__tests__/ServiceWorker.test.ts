@@ -5,6 +5,10 @@ import { readFileSync } from 'node:fs';
 import { Script, createContext } from 'node:vm';
 import { describe, expect, it, vi } from 'vitest';
 
+const packageJson = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url), 'utf8')) as {
+    version: string;
+};
+
 const loadServiceWorkerInternals = () => {
     const source = readFileSync(new URL('../../public/sw.js', import.meta.url), 'utf8');
     const listeners: Record<string, (event: unknown) => void> = {};
@@ -25,9 +29,11 @@ const loadServiceWorkerInternals = () => {
         __clientsClaim: clientsClaim,
     });
 
-    new Script(`${source}\n;globalThis.__swTest = { isCoreAsset, getCacheMatchOptions: typeof getCacheMatchOptions === 'function' ? getCacheMatchOptions : undefined, get cachingAllowed() { return cachingAllowed; }, listeners: globalThis.__listeners, clientsClaim: globalThis.__clientsClaim };`).runInContext(context);
+    new Script(`${source}\n;globalThis.__swTest = { CACHE_NAME, CACHE_VERSION, isCoreAsset, getCacheMatchOptions: typeof getCacheMatchOptions === 'function' ? getCacheMatchOptions : undefined, get cachingAllowed() { return cachingAllowed; }, listeners: globalThis.__listeners, clientsClaim: globalThis.__clientsClaim };`).runInContext(context);
     return (context as {
         __swTest: {
+            CACHE_NAME: string;
+            CACHE_VERSION: string;
             isCoreAsset: (pathname: string) => boolean;
             getCacheMatchOptions?: (pathname: string) => CacheQueryOptions;
             cachingAllowed: boolean;
@@ -38,6 +44,13 @@ const loadServiceWorkerInternals = () => {
 };
 
 describe('service worker cache policy', () => {
+    it('uses the package app version for cache invalidation', () => {
+        const sw = loadServiceWorkerInternals();
+
+        expect(sw.CACHE_VERSION).toBe(packageJson.version);
+        expect(sw.CACHE_NAME).toContain(packageJson.version);
+    });
+
     it('does not treat every scoped path as a core asset', () => {
         const sw = loadServiceWorkerInternals();
 

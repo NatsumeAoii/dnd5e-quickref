@@ -91,18 +91,28 @@
         .error-actions {
             margin-top: 1rem;
         }
+
+        #error-text {
+            display: block;
+            max-width: 100%;
+            margin: 1rem 0;
+            padding: 0.5rem;
+            overflow: auto;
+            color: #fff;
+            background: #333;
+            border-radius: 4px;
+        }
     </style>
 
     <!-- #11/#12: Global error handler moved to external script for CSP compliance -->
-    <script src="error-handler.js"></script>
+    <script type="module" src="/src/error-handler.ts"></script>
 </head>
 
 <body>
     <div id="global-error-boundary" role="alert">
         <h1>Something went wrong</h1>
         <p>We encountered an unexpected error.</p>
-        <code id="error-text"
-            style="background: #333; color: #fff; padding: 0.5rem; border-radius: 4px; display: block; margin: 1rem 0; max-width: 100%; overflow: auto;"></code>
+        <code id="error-text"></code>
         <div class="error-actions">
             <button id="error-reload-btn">Reload Page</button>
             <button id="error-reset-btn">Factory
