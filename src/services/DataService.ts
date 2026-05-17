@@ -47,6 +47,13 @@ export class DataService {
 
     #getRulesetKey = (is2024: boolean): string => (is2024 ? '2024' : '2014');
 
+    #getLocaleKey = (): string => {
+        const { locale } = this.#stateManager.getState().settings;
+        return CONFIG.LOCALE_CONFIG.SUPPORTED.some((supportedLocale) => supportedLocale === locale)
+            ? locale
+            : CONFIG.DEFAULTS.LOCALE;
+    };
+
     getDataSourceKey = (key: string): string => (key.startsWith('environment_') ? 'environment' : key);
 
     async #fetchWithRetry(url: string, retries = 3, backoff = 500): Promise<Response> {
@@ -135,21 +142,21 @@ export class DataService {
 
     async #loadDataFile(dataFileName: string, rulesetKey: string): Promise<void> {
         const state = this.#stateManager.getState();
-        if (state.data.loadedRulesets[rulesetKey].has(dataFileName)) return;
+        const localeKey = this.#getLocaleKey();
+        const loadedKey = `${localeKey}:${dataFileName}`;
 
-        const cacheKey = `${rulesetKey}_${dataFileName}`;
-        if (this.#fetchPromises.has(cacheKey)) return this.#fetchPromises.get(cacheKey);
-
-        // #1: Check persistent data cache before fetching
+        const cacheKey = `${localeKey}_${rulesetKey}_${dataFileName}`;
         const cached = this.#dataCache.get(cacheKey);
         if (cached) {
             state.data.rulesets[rulesetKey][dataFileName] = cached;
-            state.data.loadedRulesets[rulesetKey].add(dataFileName);
+            state.data.loadedRulesets[rulesetKey].add(loadedKey);
             return;
         }
+        if (state.data.loadedRulesets[rulesetKey].has(loadedKey)) return;
+        if (this.#fetchPromises.has(cacheKey)) return this.#fetchPromises.get(cacheKey);
 
         const prefix = rulesetKey === '2024' ? '2024_' : '';
-        const path = `js/data/${prefix}data_${dataFileName}.json?v=${CONFIG.APP_VERSION}`;
+        const path = `${CONFIG.LOCALE_CONFIG.PATH}${localeKey}/rules/${prefix}data_${dataFileName}.json?v=${CONFIG.APP_VERSION}`;
 
         const promise = (async () => {
             try {
@@ -159,7 +166,7 @@ export class DataService {
                 const validated = this.#validateData(raw);
                 state.data.rulesets[rulesetKey][dataFileName] = validated;
                 this.#dataCache.set(cacheKey, validated);
-                state.data.loadedRulesets[rulesetKey].add(dataFileName);
+                state.data.loadedRulesets[rulesetKey].add(loadedKey);
             } catch (e) {
                 console.error(`Data load failed for ${dataFileName} (${rulesetKey}):`, e);
                 state.data.rulesets[rulesetKey][dataFileName] = [];

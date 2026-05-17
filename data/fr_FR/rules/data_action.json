@@ -1,0 +1,759 @@
+[
+    {
+        "title": "Attaquer",
+        "optional": "Standard rule",
+        "icon": "crossedswords",
+        "subtitle": "Attaque au corps à corps ou à distance",
+        "description": "Effectue une attaque au corps à corps ou à distance. Cette action peut être modifiée pour effectuer des manœuvres spéciales comme agripper ou bousculer.",
+        "reference": "PHB, p. 192, 194-195.",
+        "summary": "Effectue une seule attaque au corps à corps ou à distance. Dans le cadre de cette action, tu peux remplacer n’importe quelle attaque par une manœuvre spéciale de Agripper ou de bousculade.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L’action Attaque est la base du combat, représentant une frappe avec une arme ou un coup à mains nues. Certaines aptitudes peuvent te permettre de réaliser plusieurs attaques avec cette seule action, et tu peux toujours substituer une attaque à une manœuvre spéciale."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu peux remplacer n’importe laquelle de tes attaques par une attaque de mêlée spéciale: soit un <b>agrippement</b>, soit une <b>bousculade</b>.",
+                    "Lorsque tu attaques avec une arme légère de mêlée, tu peux utiliser une action bonus de <b>Combat à deux armes</b> pour attaquer avec une arme légère différente dans ton autre main.",
+                    "Dans le cadre de cette action, tu peux dégainer ou ranger une arme gratuitement en utilisant ton interaction avec un seul objet pour le tour."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "N’oublie pas que les manœuvres spéciales comme agripper et bousculer remplacent une seule attaque. Si tu disposes de la fonction Attaque supplémentaire, tu peux utiliser ta première attaque pour pousser un ennemi à terre, puis effectuer ton deuxième attaque contre lui avec avantage."
+            }
+        ]
+    },
+    {
+        "title": "Lancer un sort",
+        "optional": "Standard rule",
+        "icon": "magicswirl",
+        "subtitle": "Temps d’incantation de 1 action",
+        "description": "Lance un sort avec un temps d’incantation de 1 action, le type le plus courant pour la magie de combat.",
+        "reference": "PHB, p. 192, 202.",
+        "summary": "Lance un sort avec un temps d’incantation de 1 action. Si tu lances également un sort d’action bonus ce tour-ci, cette action ne peut être utilisée que pour un sort mineur. De nombreux sorts nécessitent de la concentration pour être maintenus.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette action est le principal moyen par lequel les lanceurs de sorts influencent le monde. Une utilisation efficace de la magie nécessite de comprendre les règles strictes régissant les temps d’incantation, le ciblage et le mécanisme critique de concentration."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Pour cibler une créature ou un objet, tu dois avoir un chemin clair vers celui-ci; il ne peut pas être à couvert.",
+                    "Si tu lances un sort par une action bonus, le seul autre sort que tu peux lancer au cours du même tour est un sort mineur avec un temps d’incantation de 1 action.",
+                    "De nombreux sorts puissants nécessitent une <b>concentration</b>. Tu ne peux te concentrer que sur un sort à la fois, et tu perds ta concentration si tu lances un autre sort de concentration, si tu subis des dégâts et échouez à un jet de sauvegarde de Constitution, ou si tu es frappé d'incapacité."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "La mécanique de concentration est un défi tactique crucial. Une seule flèche perdue peut perturber ta concentration, mettre fin à un puissant effet continu et potentiellement gaspiller un emplacement de sort de haut niveau."
+            }
+        ]
+    },
+    {
+        "title": "Foncer",
+        "optional": "Standard rule",
+        "icon": "sprint",
+        "subtitle": "Vitesse de déplacement doublée",
+        "description": "Gagne un mouvement supplémentaire pour le tour en cours égal à ta vitesse.",
+        "reference": "PHB, p. 192.",
+        "summary": "Gagne une quantité de mouvement supplémentaire pour le tour en cours égale à ta vitesse. Cela double efficacement ta distance de mouvement totale mais provoque toujours des attaques d’opportunité.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L’action Foncer est essentielle à la mobilité, te permettant de parcourir rapidement de grandes distances. C'est uniquement pour le mouvement et n'offre aucun avantage défensif. Lorsque tu effectues l’action Foncer, tu gagnes un mouvement supplémentaire pour le tour en cours égal à ta vitesse après avoir appliqué les modificateurs."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Par exemple, un personnage avec une vitesse de 9 m gagne 9 m de mouvement supplémentaire, pour un total de 18 m.",
+                    "Si ta vitesse est modifiée (par exemple, réduite de moitié à 4,50 m en raison d’un terrain difficile), l’action Foncer te donne 4,50 m supplémentaires de mouvement.",
+                    "Ce n'est pas une téléportation; tu dois te déplacer dans chaque espace, et tu provoqueras des attaques d’opportunité si tu quittes la portée d’un ennemi sans tu désengager."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Un Foncer au bon moment peut faire la différence entre atteindre un objectif critique, sauver un allié abattu ou être pris hors de position."
+            }
+        ]
+    },
+    {
+        "title": "Se désengager",
+        "optional": "Standard rule",
+        "icon": "journey",
+        "subtitle": "Prévenir les attaques d’opportunité",
+        "description": "Pour le reste de ton tour, ton mouvement ne provoque pas d’attaques d’opportunité.",
+        "reference": "PHB, p. 192.",
+        "summary": "Ton mouvement pour le reste du tour en cours ne provoque aucune attaque d’opportunité, te permettant de t’éloigner en toute sécurité des ennemis sans être attaqué.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Le désengagement est une action tactique cruciale pour s’éloigner des ennemis en toute sécurité. Il n'accorde aucun mouvement ou défense supplémentaire; son seul but est de toi permettre de déménager sans crainte de représailles. Ceci est vital pour les personnages à distance et les lanceurs de sorts qui ont besoin de créer de la distance, ou pour quiconque doit échapper à un ennemi dangereux sans subir de dégâts supplémentaires."
+            }
+        ]
+    },
+    {
+        "title": "Esquiver",
+        "optional": "Standard rule",
+        "icon": "dodging",
+        "subtitle": "Concentre-toi sur la défense",
+        "description": "Concentre-toi entièrement sur l'évitement des attaques, en accordant un désavantage aux attaquants contre toi et en te donnant un avantage sur les jets de sauvegarde de Dextérité.",
+        "reference": "PHB, p. 192.",
+        "summary": "Jusqu'au début de ton prochain tour, tout jet d’attaque contre toi est désavantageux si tu peux voir l’attaquant, et tu effectues des jets de sauvegarde de Dextérité avec avantage.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L’action Esquive est un outil défensif puissant, mieux utilisé pour anticiper un grand volume d’attaques ou un sort dangereux à zone d'effet. Ses bénéfices durent jusqu'au début de ton prochain tour, mais peuvent être perdus prématurément."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Jusqu'au début de ton prochain tour, tout jet d’attaque contre toi est désavantagé si tu peux voir l’attaquant.",
+                    "Tu effectues tous les jets de sauvegarde de Dextérité avec avantage.",
+                    "Tu perds ces avantages si tu deviens incapable ou si ta vitesse est réduite à 0."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "L’obligation de voir ton agresseur est importante; tu ne peux pas esquiver efficacement une attaque provenant d’une source invisible. C'est un excellent choix pour un personnage qui tient un point d'étranglement ou qui tente de survivre jusqu'à ce que la guérison arrive."
+            }
+        ]
+    },
+    {
+        "title": "Mettre/retirer un bouclier",
+        "optional": "Standard rule",
+        "icon": "shield",
+        "subtitle": "Équiper ou déséquiper un bouclier",
+        "description": "Utilise ton action pour équiper un bouclier en l'attachant à ton bras, ou pour l'enlever.",
+        "reference": "PHB, p. 146.",
+        "summary": "Il faut une action complète pour équiper (enfiler) ou déséquiper (enlever) un bouclier. Cela prend plus de temps que de dessiner une arme.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Contrairement à dessiner une arme, gérer un bouclier est un processus complexe qui consomme ton action. Cela représente le temps nécessaire pour le sécuriser ou le retirer correctement, obligeant à choisir entre la défense et d’autres actions pour le tour."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Il faut 1 action pour enfiler (équiper) un bouclier.",
+                    "Il faut 1 action pour retirer (déséquiper) un bouclier.",
+                    "En revanche, enfiler ou retirer une armure prend plusieurs minutes et n’est pas pratique au combat."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ce coût d’action est une considération tactique cruciale pour les personnages qui ont besoin d’avoir les mains libres pour lancer des sorts ou combattre à deux armes."
+            }
+        ]
+    },
+    {
+        "title": "S’échapper",
+        "optional": "Standard rule",
+        "icon": "manacles",
+        "subtitle": "Se libérer d’un agrippement",
+        "description": "Essaie de te libérer d’un agrippement ou d’une contrainte non magique avec un test de capacité contesté.",
+        "reference": "PHB, p. 290.",
+        "summary": "Pour échapper à un agrippement, effectue un test de Force (Athlétisme) ou de Dextérité (Acrobatie) contesté par le test de Force (Athlétisme) du personnage qui t’agrippe.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Lorsqu'une autre créature te tient aux prises, ta vitesse devient 0. Utiliser ton action pour t’échapper oppose directement tes prouesses physiques à celles de ton ravisseur et constitue le moyen le plus direct de retrouver ta mobilité."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Pour échapper à la <b>condition d’agrippement</b>, tu dois réussir un test de Force (Athlétisme) ou de Dextérité (Acrobatie) contesté par le test de Force (Athlétisme) du personnage qui t’agrippe.",
+                    "S'échapper d’autres contraintes, comme des menottes ou des toiles, peut nécessiter un test de Force ou de Dextérité comme détaillé dans la description de l'effet."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Le choix entre utiliser la Force (Athlétisme) pour la force brute ou la Dextérité (Acrobatie) pour la glissade agile permet à différents personnages de s'échapper efficacement. Un mouvement forcé provenant d’une autre source peut également mettre fin à un agrippement en te mettant hors de portée de l’agrippement."
+            }
+        ]
+    },
+    {
+        "title": "Agripper",
+        "optional": "Standard rule",
+        "icon": "grab",
+        "subtitle": "Attaque spéciale au corps à corps",
+        "description": "Au lieu d’une attaque, tente de saisir une créature et de lui donner l'état agrippé, réduisant ainsi sa vitesse à 0.",
+        "reference": "PHB, p. 195.",
+        "summary": "Remplace une de tes attaques pour effectuer un test de Force (Athlétisme) contesté par l'Athlétisme ou l'Acrobatie de la cible. En cas de réussite, la cible est agrippée et sa vitesse devient 0.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Agripper est une attaque spéciale de mêlée qui remplace l'une des attaques que tu pourrais normalement effectuer dans le cadre de l’action d’Attaque. Il s'agit d’un concours de prouesses physiques, pas d’un jet d’attaque, et n'inflige aucun dégât."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Si tu effectues l’action Attaque, tu peux remplacer une de tes attaques par une tentative d’agripper.",
+                    "La cible doit être à ta portée et pas plus d’une catégorie de taille plus grande que toi.",
+                    "Effectue un test de Force (Athlétisme) contesté par le choix de la cible entre un test de Force (Athlétisme) ou de Dextérité (Acrobatie). En cas de réussite, la cible est <b>agrippée</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Le succès impose l’état Agrippé, qui réduit simplement la vitesse de la cible à 0. Une lutte réussie est un excellent moyen de contrôler un seul ennemi, l'empêchant d'atteindre tes alliés les plus vulnérables."
+            }
+        ]
+    },
+    {
+        "title": "Aider",
+        "optional": "Standard rule",
+        "icon": "allforone",
+        "subtitle": "Accorder un avantage à un allié",
+        "description": "Aidez un allié en lui donnant un avantage lors de son prochain test de capacité ou lors de son premier jet d’attaque contre un ennemi proche.",
+        "reference": "PHB, p. 192.",
+        "summary": "Tu peux soit accorder un avantage à ton allié lors de son prochain test de capacité, soit accorder un avantage à ton allié lors de son prochain jet d’attaque contre une créature à moins de 1,50 m de toi.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L’action Aide représente une collaboration directe, soit en distrayant un ennemi pour créer une ouverture, soit en travaillant ensemble sur une tâche. L’action peut être utilisée de deux manières distinctes: pour aider à une tâche ou pour aider au combat."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Aide à un test de capacité:</b> ton allié gagne un avantage lors du prochain test qu'il effectue pour cette tâche, à condition qu'il la tente avant le début de ton prochain tour.",
+                    "<b>Aidez une attaque:</b> Tu dois être à moins de 1,50 m d’un ennemi. Un allié qui attaque cet ennemi avant le début de ton prochain tour bénéficie d’un avantage lors de son premier jet d’attaque contre lui."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Utiliser l'aide pour accorder un avantage lors d’une attaque est un mouvement tactique puissant, car il augmente considérablement les chances de toucher et d'obtenir un coup critique. C'est un choix fantastique pour garantir qu'une attaque critique atterrisse, comme l’attaque sournoise d’un voleur ou le châtiment divin d’un paladin."
+            }
+        ]
+    },
+    {
+        "title": "Se cacher",
+        "optional": "Standard rule",
+        "icon": "hood",
+        "subtitle": "Tentative de devenir invisible",
+        "description": "Fais un test de Dextérité (Discrétion) pour te cacher. Tu ne peux pas te cacher d’une créature qui peut te voir clairement.",
+        "reference": "PHB, p. 177, 192.",
+        "summary": "Si tu es fortement obscurci ou à couvert, tu peux effectuer un test de Dextérité (Discrétion) pour te cacher. Ton test est contesté par la Perception passive des créatures proches.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Pour réussir à te cacher, tu dois d’abord être invisible. Cela nécessite d'être fortement obscurci (par exemple, dans l'obscurité ou dans le brouillard) ou derrière une couverture totale. Ton succès est alors contesté par la Perception passive de toute créature susceptible de toi remarquer."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu ne peux pas te cacher d’une créature qui peut te voir. Tu dois avoir une couverture totale ou te trouver dans une zone très obscurcie pour le tenter.",
+                    "Ton test de Dextérité (Discrétion) est contesté par le test de Sagesse (Perception) de toute personne en recherche active, ou par son score passif de Sagesse (Perception) si ce n'est pas le cas.",
+                    "Tu révèles ta position si tu effectues une attaque, si tu sors de ton abri ou si tu crées un bruit fort."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Être caché est un état puissant, car il empêche les ennemis de toi cibler directement et te donne généralement un avantage lors de ton prochain jet d’attaque, faisant de toi un attaquant invisible."
+            }
+        ]
+    },
+    {
+        "title": "Improviser",
+        "optional": "Standard rule",
+        "icon": "juggler",
+        "subtitle": "Toute action ne figurant pas sur cette liste",
+        "description": "Effectue toute action que tu peux imaginer et qui n'est pas couverte par d’autres règles. Le DM détermine le résultat et les éventuelles vérifications nécessaires.",
+        "reference": "PHB, p. 193.",
+        "summary": "Effectue toute action non couverte par les règles. Le DM détermine si c'est possible et quel test de capacité, le cas échéant, est requis pour réussir.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette action est un fourre-tout pour la créativité. Lorsque tu veux faire quelque chose d’unique comme tirer une tapisserie sur un ennemi, lui jeter du sable dans les yeux ou tenter de raisonner un monstre en plein combat, tu improvises. Le MJ est l'arbitre final de ce qui est possible et du type de test de capacité, le cas échéant, requis."
+            }
+        ]
+    },
+    {
+        "title": "Interagir avec un objet",
+        "optional": "Standard rule",
+        "icon": "snatch",
+        "subtitle": "Utiliser un deuxième objet",
+        "description": "Utilise ton action pour interagir avec un deuxième objet à ton tour, ou pour une interaction plus complexe.",
+        "reference": "PHB, p. 193.",
+        "summary": "Utilise ton action pour une interaction d'objet complexe (comme administrer une potion) ou pour interagir avec un deuxième objet après avoir utilisé ta seule interaction gratuite pour le tour.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ton tour s'accompagne d’une interaction d'objet gratuite. Si une tâche nécessite une manipulation plus complexe, ou si tu dois interagir avec un deuxième objet, tu dois utiliser ton action. Comprendre cette distinction est essentiel pour gérer l'économie de ton tour."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu peux interagir gratuitement avec un objet pendant ton tour (par exemple, tirer une épée, ouvrir une porte déverrouillée, récupérer un objet dans une pochette).",
+                    "Si tu souhaites interagir avec un <b>deuxième objet</b>, tu dois utiliser ton action.",
+                    "Des <b>interactions plus complexes</b> nécessitent également une action, comme administrer une potion à un allié, utiliser le feu de l'alchimiste ou tirer un levier complexe."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Par exemple, tirer une épée dans le cadre de ton mouvement est gratuit. Cependant, rengainer cette épée puis dégainer une deuxième arme au même tour nécessiterait d'utiliser cette action."
+            }
+        ]
+    },
+    {
+        "title": "Préparer",
+        "optional": "Standard rule",
+        "icon": "stopwatch",
+        "subtitle": "Définir un déclencheur et une action",
+        "description": "Prépare-toi à agir plus tard dans le tour en définissant un déclencheur perceptible et en choisissant une action ou un mouvement à effectuer avec ta réaction.",
+        "reference": "PHB, p. 193.",
+        "summary": "Utilise ton action pour spécifier un déclencheur perceptible et choisis une action ou un mouvement. Lorsque le déclencheur se produit, tu peux utiliser ta réaction pour effectuer l'activité que tu as choisie.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L’action Prêt te permet d'interrompre l'ordre d'initiative normal. Tu utilises ton action maintenant pour définir les conditions, puis utilise ta réaction pour exécuter le plan lorsque ces conditions sont remplies."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tout d'abord, tu décides d’une <b>circonstance perceptible</b> comme déclencheur (par exemple, « Quand le gobelin franchit la porte »).",
+                    "Deuxièmement, tu choisis l'<b>action ou le mouvement</b> unique que tu effectueras en réponse. Lorsque le déclencheur se produit, tu peux utiliser ta réaction pour l'exécuter.",
+                    "Lorsque tu prépares un sort, tu le lances à ton tour mais conservez son énergie, ce qui nécessite une <b>concentration</b>. Si ta concentration est brisée avant le déclenchement, l’emplacement de sort est perdu."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Il s’agit d’une option tactique puissante pour tendre des embuscades ou contrer des manœuvres spécifiques. Attention: si le déclencheur spécifié ne se produit jamais, tu perds à la fois ton action et ta réaction pour le tour."
+            }
+        ]
+    },
+    {
+        "title": "Chercher",
+        "optional": "Standard rule",
+        "icon": "magnifyingglass",
+        "subtitle": "Rechercher activement quelque chose",
+        "description": "Utilise ton action pour concentrer ton attention sur la recherche de quelque chose de caché, comme un piège, une porte secrète ou une créature furtive.",
+        "reference": "PHB, p. 193.",
+        "summary": "Fais un test de Sagesse (Perception) pour trouver des créatures ou des objets cachés, ou un test d'Intelligence (Enquête) pour déduire des indices à partir de preuves physiques.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Alors que ton score de perception passive reflète ton conscience générale, l’action Rechercher représente un effort ciblé et délibéré. Lorsque tu effectues cette action, le MD demandera généralement un test de Sagesse (Perception) pour trouver des objets ou des créatures cachés, ou un test d'Intelligence (Enquête) pour déduire des indices à partir de preuves physiques."
+            }
+        ]
+    },
+    {
+        "title": "bousculer",
+        "optional": "Standard rule",
+        "icon": "hand",
+        "subtitle": "Attaque spéciale au corps à corps",
+        "description": "Au lieu d’une attaque, essayez soit de mettre une créature à terre, soit de la pousser à 1,50 m de toi.",
+        "reference": "PHB, p. 195.",
+        "summary": "Remplace une de tes attaques pour effectuer un test de Force (Athlétisme) contesté par l'Athlétisme ou l'Acrobatie de la cible. En cas de réussite, tu peux soit mettre la cible à terre, soit la repousser à 1,50 m.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Comme agripper, bousculer est une attaque spéciale de mêlée qui remplace l’une de tes attaques régulières. Il s'agit d’un combat de force qui n'inflige aucun dégât mais peut repositionner ton ennemi ou le rendre vulnérable."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Si tu effectues l’action Attaque, tu peux remplacer une de tes attaques par une tentative de bousculade.",
+                    "La cible doit être à ta portée et pas plus d’une catégorie de taille plus grande que toi.",
+                    "Effectue un test de Force (Athlétisme) contesté par le choix de la cible entre un test de Force (Athlétisme) ou de Dextérité (Acrobatie). Si tu gagnes, tu peux soit frapper la cible <b>à plat ventre</b>, soit la pousser à <b>1,50 m</b> directement loin de toi."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Les deux résultats constituent de puissantes formes de contrôle du champ de bataille. Pousser un ennemi à terre est un excellent moyen de préparer tes alliés en mêlée, car cela leur donne un avantage lors de leurs jets d’attaque ultérieurs contre la cible."
+            }
+        ]
+    },
+    {
+        "title": "Stabiliser une créature",
+        "optional": "Standard rule",
+        "icon": "firstaidkit",
+        "subtitle": "Aidez une créature mourante",
+        "description": "Administrer les premiers soins à une créature à 0 point de vie, la rendant stable afin qu'elle n'ait plus besoin d'effectuer de jets de sauvegarde contre la mort.",
+        "reference": "PHB, p. 197.",
+        "summary": "Effectue un test de Sagesse (Médecine) DD 10 sur une créature à 0 PV. En cas de réussite, ils deviennent stables et n’ont plus besoin d’effectuer de Death Saves. Un kit de guérisseur accorde un succès automatique.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Lorsqu’un allié est en train de mourir, cette action est un moyen non magique de lui sauver la vie. Une créature stabilisée n'est plus en danger immédiat de mort, même si elle reste inconsciente et à 0 point de vie. Cela peut être fait via un test de compétence ou avec un kit de guérisseur."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu utilises ton action pour effectuer un test de Sagesse (Médecine) DD 10. En cas de réussite, la créature est stabilisée.",
+                    "Une créature stable ne fait pas de jet de sauvegarde contre la mort mais reste inconsciente. Il regagne 1 point de vie après 1d4 heures.",
+                    "Utiliser un <b>Kit de guérisseur</b> sur une créature réussit automatiquement cette action, dépensant une utilisation du kit."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Le Kit du guérisseur est un outil inestimable, car il élimine le risque d'échec associé au test de médecine. Bien que la magie de guérison soit souvent plus rapide, cette action est une option cruciale lorsque les ressources magiques sont épuisées."
+            }
+        ]
+    },
+    {
+        "title": "Utiliser une aptitude de classe",
+        "optional": "Standard rule",
+        "icon": "embrassedenergy",
+        "subtitle": "Certaines aptitudes utilisent des actions",
+        "description": "Active une classe ou une caractéristique raciale qui nécessite explicitement une action, comme détaillé dans sa description.",
+        "reference": "Voir la page de classe pour plus d’infos.",
+        "summary": "Active une capacité unique de ton classe, race ou autre source dont l'utilisation nécessite une action complète, comme spécifié dans la description de la aptitude.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "De nombreuses capacités uniques de la classe d’un personnage sont activées par cette action. Vérifiez toujours le libellé spécifique d’une aptitude pour voir si elle nécessite une action, une action bonus ou une réaction. Les exemples incluent l'imposition des mains d’un paladin, la forme sauvage d’un druide ou le second souffle d’un combattant."
+            }
+        ]
+    },
+    {
+        "title": "Administrer une potion",
+        "optional": "Standard rule",
+        "icon": "healthpotion",
+        "subtitle": "Utiliser une potion sur un autre",
+        "description": "Utilise ton action pour administrer une potion à une autre créature.",
+        "reference": "PHB, p. 153; DMG, p. 139.",
+        "summary": "Boire une potion ou en administrer une à une autre créature implique une action selon les règles de 2014.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Administrer une potion est une utilisation spécifique d’une action, et non une règle facultative. Il est couramment utilisé pour délivrer une potion de guérison à un allié tombé au combat ou à une autre créature pouvant la recevoir."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "La description de l'objet de la potion détermine l'effet une fois administrée.",
+                    "Ceci est le plus souvent utilisé pour ramener un allié mourant (0 PV) à la conscience et dans le combat.",
+                    "De nombreux DM utilisent une règle maison permettant à un personnage de boire une potion comme action bonus, mais la règle standard de 2014 utilise une action."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cette action est une bouée de sauvetage essentielle, étant souvent le moyen le plus rapide pour un personnage non magique de ramener un camarade tombé au bord de la mort."
+            }
+        ]
+    },
+    {
+        "title": "Grimper sur une créature plus grande*",
+        "optional": "Optional rule",
+        "icon": "mountainclimbing",
+        "subtitle": "Grimpe sur un ennemi plus gros",
+        "description": "Essaie d'agrandir une créature d'au moins deux tailles plus grande, en traitant son corps comme un terrain pour obtenir une position avantageuse.",
+        "reference": "DMG, p. 271.",
+        "summary": "Effectue un test d'Athlétisme ou d'Acrobatie contesté pour grimper sur une créature d'au moins deux tailles plus grande. En cas de réussite, tu te déplaces avec elle et gagnes un avantage sur les attaques contre lui.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette règle cinématique facultative permet des rencontres dynamiques avec des ennemis colossaux. Le succès te permet de te déplacer dans l'espace de la créature et de toi y accrocher, obtenant ainsi des avantages significatifs."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "La cible doit être au moins <b>deux tailles plus grandes</b> que toi.",
+                    "Effectue un test de Force (Athlétisme) ou de Dextérité (Acrobatie) contesté par le test de Dextérité (Acrobatie) de la cible.",
+                    "En cas de réussite, tu te déplaces dans l'espace de la cible, traites son espace comme un terrain difficile et gagnez un <b>avantage aux jets d’attaque</b> contre elle."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Une fois attaché, tu te déplaces avec la créature. La cible peut utiliser son action pour tenter de te déloger avec un autre échec contesté, ce qui en fait une manœuvre risquée mais enrichissante."
+            }
+        ]
+    },
+    {
+        "title": "Désarmer*",
+        "optional": "Optional rule",
+        "icon": "swordbreak",
+        "subtitle": "Faire tomber un objet de la portée de l’ennemi",
+        "description": "Utilise une attaque avec une arme pour faire tomber un objet, comme une arme ou un focus, de la main d’un ennemi.",
+        "reference": "DMG, p. 271.",
+        "summary": "Effectue un jet d’attaque contesté par le test d'Athlétisme ou d'Acrobatie de la cible. Si tu gagnes, l’attaque n'inflige aucun dégât mais force la cible à lâcher un objet qu'elle tenait.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette règle facultative fournit une manœuvre de combat très efficace. Au lieu d'infliger des dégâts, une attaque réussie oblige le défenseur à lâcher un objet de ton choix en opposant ton jet d’attaque à ses compétences physiques."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "L'attaquant effectue un jet d’attaque contesté par le test de Force (Athlétisme) ou de Dextérité (Acrobatie) de la cible.",
+                    "Si l’attaquant gagne, l’attaque n'inflige aucun dégât mais oblige la cible à lâcher un objet au choix de l’attaquant.",
+                    "L'attaquant est désavantagé au jet si la cible tient l'objet à deux mains ou plus.",
+                    "La cible a un avantage à son test si elle est plus grande que l’attaquant, ou un désavantage si elle est plus petite."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cette manœuvre peut radicalement changer le cours de la bataille en supprimant une arme clé ou un lanceur de sorts, neutralisant ainsi efficacement la principale menace d’un ennemi."
+            }
+        ]
+    },
+    {
+        "title": "Marquer*",
+        "optional": "Optional rule",
+        "icon": "crossmark",
+        "subtitle": "Concentre-toi sur un ennemi",
+        "description": "Une règle facultative qui te permet de marquer la cible d’une attaque de mêlée, rendant ainsi tes attaques d’opportunité contre cette cible plus efficaces.",
+        "reference": "DMG, p. 271.",
+        "summary": "Lorsque tu effectues une attaque au corps à corps, tu peux marquer la cible. Jusqu'à la fin de ton prochain tour, les attaques d’opportunité que tu effectues contre cette cible ont un avantage et ne dépensent pas ta réaction.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette règle ajoute une couche tactique pour les combattants de mêlée, leur permettant de « verrouiller » un adversaire. Il ne s'agit pas d’une action en soi, mais d’un effet de cavalier que tu peux appliquer lorsque tu effectues une attaque au corps à corps."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Lorsque tu effectues une attaque au corps à corps, tu peux <b>marquer la cible</b> jusqu'à la fin de ton prochain tour.",
+                    "Toute attaque d’opportunité que tu effectues contre la cible marquée a un <b>avantage</b>.",
+                    "L'attaque d’opportunité <b>ne dépense pas ta réaction</b>, mais tu ne peux toujours pas la réaliser si quelque chose t’empêche de réagir.",
+                    "Tu es limité à une attaque d’opportunité par tour."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "L'aspect le plus puissant de cette règle est que l’attaque d’opportunité n'utilise pas ta réaction, la libérant ainsi pour d’autres utilisations comme lancer un <b>Bouclier</b> ou lancer une autre attaque d’opportunité contre un ennemi non marqué."
+            }
+        ]
+    },
+    {
+        "title": "Forcer le passage*",
+        "optional": "Optional rule",
+        "icon": "shieldbash",
+        "subtitle": "Courez à travers un espace hostile",
+        "description": "En tant qu’action ou action bonus, fraye-toi un chemin à travers l'espace ennemi avec un test de Force contesté.",
+        "reference": "DMG, p. 272.",
+        "summary": "En tant qu’action ou action bonus, effectue un test de Force (Athlétisme) contesté par l'Athlétisme d’un ennemi. Si tu gagnes, tu pourras te déplacer dans son espace une fois ce tour-ci. Tu as un avantage si tu es plus grand.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette manœuvre te permet de toi précipiter devant un ennemi qui bloque ton chemin. Il s'agit d’un combat de force brute qui est modifié par la taille relative des deux créatures."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "En tant qu’action ou action bonus, effectue un test de Force (Athlétisme) contesté par le test de Force (Athlétisme) de l’ennemi.",
+                    "Tu as un <b>avantage</b> à ce test si tu es plus grand que l’ennemi, et un <b>désavantage</b> si tu es plus petit.",
+                    "Si tu gagnes, tu peux te déplacer dans l'espace ennemi une fois ce tour."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Le succès permet de traverser son espace, qui est encore un terrain difficile, mais il ne déplace pas l’ennemi. C’est un excellent moyen de franchir une ligne défensive pour atteindre une cible hautement prioritaire."
+            }
+        ]
+    },
+    {
+        "title": "Négocier*",
+        "optional": "Optional rule",
+        "icon": "conversation",
+        "subtitle": "Négocier au milieu du combat",
+        "description": "Essaie de régler ou d'éviter un conflit par la négociation, en utilisant l'interaction sociale comme le permet le DM.",
+        "reference": "TCE, p. 148.",
+        "summary": "Les conseils de Tasha soutiennent le dialogue avec les monstres en improvisant la rencontre ou en utilisant les règles d'interaction sociale du DMG. Cela ne crée pas d’action de combat fixe ni de cessez-le-feu d’une durée fixe.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Le Parley est une approche de négociation autour d’une table plutôt qu’une action de combat fixe avec un timing garanti. Si les personnages essaient de parler, le MD peut improviser ou utiliser les règles d'interaction sociale."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "L'attitude et les désirs d’une créature comptent; une offre adaptée peut justifier un avantage sur les chèques à communiquer.",
+                    "Les règles d'interaction sociale DMG peuvent utiliser des tests de Charisme contre les DD en fonction de l'attitude de la créature.",
+                    "Que l'initiative soit interrompue, que les hostilités s'arrêtent ou que la négociation soit possible reste une décision du DM."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cela maintient Parley utile comme option de rencontre sans promettre un résultat mécanique que les règles de 2014 ne définissent pas."
+            }
+        ]
+    },
+    {
+        "title": "Pousser sur le côté*",
+        "optional": "Optional rule",
+        "icon": "push",
+        "subtitle": "Variante d’attaque spéciale en mêlée",
+        "description": "Une variante de l’attaque bousculade qui pousse une créature à 1,50 m vers un espace adjacent au lieu de s'éloigner de toi.",
+        "reference": "DMG, p. 272.",
+        "summary": "Comme variante de l’action bousculade, tu peux effectuer ton test de Force (Athlétisme) en position désavantageuse. Si tu réussis, tu déplaces la cible de 1,50 m vers un autre espace inoccupé à ta portée.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette règle facultative ajoute plus de profondeur tactique à l’action bousculade, permettant un repositionnement précis des ennemis. La manœuvre est plus difficile, imposant un désavantage à ton test."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Lorsque tu effectues l’action bousculade, tu peux déclarer que tu repousses la cible.",
+                    "Tu as un <b>désavantage</b> lors de ton test de Force (Athlétisme) lorsque tu le fais.",
+                    "Si tu réussis, tu déplaces la cible de 1,50 m vers un autre espace inoccupé à ta portée."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Contrairement à une bousculade standard, cela te permet de déplacer un ennemi de ton côté, de le contourner ou de le déplacer vers un danger sans le pousser hors de portée de mêlée."
+            }
+        ]
+    },
+    {
+        "title": "Se faufiler*",
+        "optional": "Optional rule",
+        "icon": "acrobatic",
+        "subtitle": "Traversez un espace hostile",
+        "description": "En tant qu’action ou action bonus, déplacez-toi adroitement dans l'espace d’un ennemi avec un test de Dextérité contesté.",
+        "reference": "DMG, p. 272.",
+        "summary": "En tant qu’action ou action bonus, effectue un test de Dextérité (Acrobaties) contesté par l'Acrobatie d’un ennemi. Si tu gagnes, tu pourras te déplacer dans son espace une fois ce tour-ci.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Alternative au dépassement basé sur la force, cette manœuvre permet à un personnage agile de passer devant un adversaire en utilisant un concours d'agilité."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "En tant qu’action ou action bonus, effectue un test de Dextérité (Acrobaties) contesté par le test de Dextérité (Acrobaties) de la créature hostile.",
+                    "Si tu gagnes le concours, tu peux te déplacer dans l'espace de la créature hostile une fois ce tour."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "C'est une manœuvre idéale pour les personnages agiles comme les voleurs ou les moines qui ont besoin de se repositionner sur un champ de bataille bondé. Comme Overrun, l’espace ennemi reste un terrain difficile."
+            }
+        ]
+    },
+    {
+        "title": "Sursaut de guérison*",
+        "optional": "Optional rule",
+        "icon": "firstaid",
+        "subtitle": "Dépenser des dés de vie en combat",
+        "description": "Utilise une action pour dépenser jusqu'à la moitié de tes dés de vie et regagner des points de vie en combat.",
+        "reference": "DMG, p. 266.",
+        "summary": "Par une action, dépensez jusqu’à la moitié de tes dés de vie. Pour chaque dé dépensé, lancez le dé et ajoutez ton modificateur de Constitution, récupérant le total sous forme de points de vie.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les surtensions de guérison sont une règle DMG facultative pour les campagnes avec peu de soins magiques ou un rythme de récupération plus héroïque. Ils permettent aux personnages de convertir les dés de vie en points de vie pendant le combat."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "En tant qu’action, dépensez jusqu'à <b>la moitié de tes dés de vie</b>.",
+                    "Pour chaque dé de vie dépensé, lancez le dé et ajoutez ton modificateur de Constitution, puis récupérez des points de vie égaux au total.",
+                    "Après avoir utilisé une vague de guérison, tu ne peux plus en utiliser une avant d'avoir terminé un repos court ou long.",
+                    "Avec cette option, un repos long restaure tous les dés de vie dépensés, et un repos court restaure des dés de vie égaux à un quart de ton niveau (minimum un dé).",
+                    "Pour une campagne plus super-héroïque, le DM peut autoriser Healing Surge comme action bonus à la place."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Faire front**",
+        "optional": "Homebrew rule",
+        "icon": "pikeman",
+        "subtitle": "Prépare-toi à une facturation entrante",
+        "description": "Une action homebrew pour placer ton arme contre un ennemi en charge, permettant une puissante contre-attaque en réaction.",
+        "reference": "Homebrew courant",
+        "summary": "Utilise ton action pour préparer une attaque. En réaction, tu peux attaquer une créature qui se déplace d'au moins 3 m vers toi, infligeant un dé de dégâts d'arme supplémentaire en cas de coup.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette action imite le trope classique consistant à placer une arme d'hast contre un ennemi en charge. Il échange ton action contre une réaction puissante et augmentant les dégâts contre un ennemi qui se déplace d'au moins 3 m vers toi."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "En tant qu’action, tu prends la position Brace. Si une créature hostile se déplace d'au moins 3 m en ligne droite vers toi et entre à portée de ton arme, tu peux utiliser ta réaction pour effectuer une attaque au corps à corps contre elle.",
+                    "Si cette attaque réussit, elle inflige un dé de dégâts d'arme supplémentaire.",
+                    "Tu perds les bénéfices du Brace si tu te déplaces avant de lancer l’attaque."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Il s’agit d’une action à haut risque et à fort potentiel qui nécessite de prédire les mouvements de l’ennemi. Si aucun ennemi ne te charge, tu as effectivement gaspillé ton action pour le tour."
+            }
+        ]
+    },
+    {
+        "title": "Tir ciblé**",
+        "optional": "Homebrew rule",
+        "icon": "archerytarget",
+        "subtitle": "Cibler une partie spécifique du corps",
+        "description": "Une règle maison permettant à un attaquant de subir une pénalité sur son jet d’attaque pour avoir une chance d'infliger un effet débilitant spécifique.",
+        "reference": "Homebrew courant",
+        "summary": "Une règle maison selon laquelle tu subis une pénalité sur ton jet d’attaque (généralement -5) pour cibler une partie spécifique du corps et appliquer un effet débilitant sur un coup, comme désarmer un coup de bras.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les tirs appelés introduisent une complexité tactique, permettant aux joueurs de viser des effets au-delà des simples dégâts. Les détails des pénalités et des effets sont déterminés par le MD, mais impliquent généralement de prendre une pénalité de précision pour un effet débilitant."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "L'attaquant déclare sa cible (par exemple, un bras, une jambe ou une tête) et subit une pénalité à son jet d’attaque, généralement -5.",
+                    "En cas de coup réussi, l’attaque peut conférer un effet spécial, comme forcer la cible à laisser tomber un objet (bras), réduire sa vitesse (jambe) ou lui donner un désavantage lors de sa prochaine attaque (tête)."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ce système offre davantage d'options tactiques, permettant aux personnages de désactiver stratégiquement leurs adversaires plutôt que de simplement épuiser leurs points de vie. Cela peut ralentir le combat, c'est pourquoi des graphiques prédéfinis sont recommandés."
+            }
+        ]
+    },
+    {
+        "title": "Enchaînement*",
+        "optional": "Optional rule",
+        "icon": "axeswing",
+        "subtitle": "Transférer les dégâts à un autre ennemi",
+        "description": "Une règle facultative permettant de transférer les dégâts de mêlée excédentaires d’un coup fatal à une autre créature proche.",
+        "reference": "DMG, p. 272.",
+        "summary": "Lorsqu'une attaque de mêlée réduit une créature intacte à 0 PV, les dégâts excédentaires peuvent être transférés à une autre créature à portée si le jet d’attaque initial la touchait.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette règle facultative permet d'accélérer les combats contre des hordes de monstres plus faibles en permettant à un puissant coup de mêlée d'infliger des dégâts supplémentaires à une autre cible proche."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "L'attaque de mêlée originale doit réduire une créature <b>en bon état</b> à 0 point de vie.",
+                    "Choisis une autre créature à portée et appliquez les dégâts restants si le jet d’attaque d’origine devait la toucher.",
+                    "Si cette créature n'est pas non plus endommagée et est réduite à 0 point de vie, le processus peut se répéter jusqu'à ce qu'il n'y ait plus de cibles valides ou que le report ne parvienne pas à laisser tomber une cible."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Parce que cette règle ne s'applique qu'aux créatures intactes et réutilise le jet d’attaque d’origine, elle est plus étroite que de nombreuses variantes de table."
+            }
+        ]
+    },
+    {
+        "title": "Présence intimidante**",
+        "optional": "Homebrew rule",
+        "icon": "sharpsmile",
+        "subtitle": "Effrayer un ennemi sans arme",
+        "description": "Une règle maison permettant à un personnage d'utiliser son action pour effrayer une créature avec un test de Charisme contesté.",
+        "reference": "Homebrew courant",
+        "summary": "Utilise ton action pour effectuer un test de Charisme (Intimidation) contesté par la Sagesse (Perspicacité) d’une cible. En cas de réussite, la cible est effrayée par toi jusqu'à la fin de ton prochain tour.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cela fournit un moyen non magique aux personnages charismatiques ou terrifiants d'imposer la condition Effrayé, en utilisant la force de leur personnalité comme une arme. Cela oppose ton force de personnalité à la détermination mentale d’une cible."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Par une action, choisis une créature que tu peux voir dans un rayon de 9 m. Effectue un test de Charisme (Intimidation) contesté par le test de Sagesse (Perspicacité) de la cible.",
+                    "Si tu gagnes le concours, la cible a <b>effrayée</b> de toi jusqu'à la fin de ton prochain tour."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Le succès impose la condition Effrayée, donnant à la cible un désavantage aux jets d’attaque et aux tests de caractéristiques tant qu'elle peut te voir, et l'empêchant de se rapprocher. Cela peut être une option de contrôle puissante, en particulier pour les classes n'ayant pas accès aux effets de peur magiques."
+            }
+        ]
+    }
+]

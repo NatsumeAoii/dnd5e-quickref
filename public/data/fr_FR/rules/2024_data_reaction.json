@@ -1,0 +1,192 @@
+[
+    {
+        "title": "Lancer un sort",
+        "optional": "Standard rule",
+        "icon": "magicswirl",
+        "subtitle": "Temps d’incantation d’une réaction",
+        "description": "Lance un sort instantané en réponse à un déclencheur spécifique tel que défini dans la description du sort.",
+        "reference": "PHB 2024, p. 301.",
+        "summary": "Utilise ta réaction pour lancer un sort dont le temps d’incantation est de 1 réaction. La description du sort précise le déclencheur, comme être touché par une attaque (pour Bouclier) ou voir un sort lancé (pour Contresort).",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les sorts de réaction font partie des outils défensifs et perturbateurs les plus puissants du jeu, te permettant d'agir en dehors de ton tour pour contrecarrer les plans d’un ennemi ou te sauver du danger. Chacun est lié à un déclencheur spécifique."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Déclencheur:</b> Comme spécifié dans la description du sort.",
+                    "Exemples: <i>Bouclier</i> se déclenche lorsque tu es touché par une attaque, <i>Contre-sort</i> se déclenche lorsque tu vois une créature lancer un sort, et <i>Chute de plumes</i> se déclenche lorsque tu ou une créature à moins de 18 m de toi tombes."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Puisque tu n’obtiens qu’une seule réaction par tour, tu dois choisir judicieusement quand l’utiliser. Utiliser Bouclier pour bloquer une attaque peut signifier que tu ne pourrez pas utiliser Contresort plus tard dans le tour."
+            }
+        ]
+    },
+    {
+        "title": "Identifier un sort*",
+        "optional": "Optional rule",
+        "icon": "eyeball",
+        "subtitle": "Identifier un sort lancé",
+        "description": "Utilise la règle facultative de Xanathar pour identifier un sort tel qu'il est lancé ou pour identifier un effet de sort existant.",
+        "reference": "XGE, p. 85.",
+        "summary": "En réaction lorsque tu perçois un sort lancé, effectue un test d'Intelligence (Arcanes) (DD 15 + niveau du sort) pour l'identifier. Utiliser cette réaction signifie que tu ne peux pas également l'utiliser pour contre-sort.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette règle facultative donne aux personnages avertis un mécanisme clair pour reconnaître les menaces magiques. Il prend en charge les décisions tactiques telles que l'opportunité de dépenser une réaction sur le Contre-sort ou la manière de gérer un effet magique en cours."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Déclencheur:</b> Une créature que tu peux voir lance un sort ou tu rencontres un effet magique.",
+                    "<b>réaction ou action:</b> Effectue un test d'Intelligence (Arcanes). Le DD est égal à 15 + le niveau du sort.",
+                    "En cas de réussite, tu identifies le sort si tu réagis à son lancement, ou tu apprends les propriétés d’un effet magique si tu l'étudiez par une action."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Note le coût de l'économie d’action: utiliser ta réaction pour identifier un sort signifie que tu ne peux pas également utiliser cette même réaction pour lancer un Contre-sort."
+            }
+        ]
+    },
+    {
+        "title": "Attaque d’opportunité",
+        "optional": "Standard rule",
+        "icon": "crossedswords",
+        "subtitle": "La créature quitte ta portée",
+        "description": "Utilise ta réaction pour effectuer une attaque au corps à corps avec une arme ou une attaque à mains nues contre une créature que tu peux voir et qui quitte ta portée.",
+        "reference": "PHB 2024, p. 295.",
+        "summary": "Lorsqu'une créature que tu peux voir quitte ta portée, utilise ta réaction pour effectuer une attaque de mêlée avec une arme ou une attaque à mains nues. L’attaque se produit juste avant qu’elle ne quitte ta portée.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "C’est la réaction la plus courante et la pierre angulaire du combat tactique. Cela rend le positionnement critique, car les créatures ne peuvent pas simplement s'éloigner d’une menace de mêlée sans risquer de subir des dégâts."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Déclencheur:</b> une créature que tu peux voir quitte ta portée.",
+                    "<b>Réaction:</b> Effectue une attaque au corps à corps avec une arme ou une attaque à mains nues contre la créature qui la provoque.",
+                    "L'attaque se produit juste avant que la créature ne quitte ta portée.",
+                    "Tu ne provoquez pas d’attaque d’opportunité lorsque tu te téléportes ou lorsque tu es déplacé sans utiliser ton mouvement, ton action, ton action bonus ou ton réaction.",
+                    "L’action <b>Désengager</b> empêche ton mouvement de provoquer des attaques d’opportunité pour le reste de ton tour."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Les créatures dotées d'armes à portée peuvent lancer des attaques d’opportunité lorsqu'un ennemi quitte leur portée étendue, contrôlant ainsi une plus grande zone du champ de bataille."
+            }
+        ]
+    },
+    {
+        "title": "Action préparée",
+        "optional": "Standard rule",
+        "icon": "stopwatch",
+        "subtitle": "Une partie de ton action Ready",
+        "description": "Utilise ta réaction pour effectuer l’action que tu as préparée à ton tour lorsque le déclencheur spécifié se produit.",
+        "reference": "PHB 2024, p. 291.",
+        "summary": "Après avoir utilisé l’action Prêt à ton tour pour définir un déclencheur, tu peux utiliser ta réaction pour effectuer l'activité que tu as choisie lorsque ce déclencheur se produit. Si le déclencheur ne se produit jamais, tu perds ta réaction.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Il s'agit de la phase d'exécution de l’action Prêt. Après avoir consacré ton action à te préparer, tu utilises ta réaction pour réagir à l'évolution d’un champ de bataille exactement au moment que tu avais prévu."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Déclencheur:</b> la circonstance perceptible que tu as définie lorsque tu as effectué l’action Prêt à ton tour.",
+                    "<b>Réaction:</b> tu effectues l’action, l’action bonus ou le mouvement que tu as choisi pour être prêt. Cela se produit immédiatement après la fin du déclenchement.",
+                    "Si tu prépares un sort, tu le lances à ton tour mais utilise ta réaction pour le libérer. Cela nécessite une Concentration, qui peut être brisée."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Si le déclencheur ne se produit jamais, tu perds à la fois ton action et ta réaction, ce qui en fait un risque tactique calculé."
+            }
+        ]
+    },
+    {
+        "title": "Parade**",
+        "optional": "Homebrew rule",
+        "icon": "shield",
+        "subtitle": "Se défendre contre une attaque au corps à corps",
+        "description": "Une réaction défensive selon les règles de la maison qui peut ajouter ton bonus de maîtrise à la CA contre une attaque de mêlée.",
+        "reference": "",
+        "summary": "Lorsqu'une autre créature te frappe avec une attaque au corps à corps, cette règle maison te permet d'utiliser ta réaction pour ajouter ton bonus de maîtrise à la CA pour cette attaque, la faisant potentiellement rater.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Il ne s’agit pas d’une réaction facultative générale du DMG 2024. Il est conservé comme option défensive homebrew pour les tables qui souhaitent une réaction martiale similaire à certains traits de parade de monstres."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Déclencheur:</b> Une autre créature te frappe avec une attaque de mêlée.",
+                    "<b>Réaction:</b> Tu dois être capable de voir l’attaquant et de manier une arme de mêlée.",
+                    "Tu ajoutes ton bonus de maîtrise à ta CA pour cette attaque, ce qui peut potentiellement faire rater l’attaque."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Contrairement au sort Bouclier, Parry ne fonctionne que contre une seule attaque de mêlée et ne nécessite pas d'emplacements de sorts, ce qui en fait un outil précieux pour les combattants de première ligne."
+            }
+        ]
+    },
+    {
+        "title": "Se jeter à couvert**",
+        "optional": "Homebrew rule",
+        "icon": "falling",
+        "subtitle": "Esquiver un effet de zone",
+        "description": "Une règle maison permettant à une créature d'utiliser sa réaction pour obtenir un avantage lors d’un jet de Dextérité au prix de tomber à terre.",
+        "summary": "Une règle maison où tu peux utiliser ta réaction lorsque tu es soumis à une sauvegarde DEX pour obtenir un avantage au lancer. Si tu le fais, tu tombes immédiatement à terre après la sauvegarde.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cet homebrew cinématographique offre aux personnages une option désespérée pour atténuer les dégâts causés par les effets de zone comme le souffle d’un dragon ou un sort Boule de feu. C'est un compromis: une meilleure défense contre l'effet pour une pire position sur le champ de bataille."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Déclencheur:</b> Tu es soumis à un effet qui t’oblige à effectuer un jet de sauvegarde de Dextérité (comme une <i>Boule de Feu</i>).",
+                    "<b>Réaction:</b> tu peux utiliser ta réaction pour plonger pour te mettre à couvert.",
+                    "<b>Effet:</b> Tu gagnes l'Avantage au jet de sauvegarde de Dextérité. Après la sauvegarde, tu atterris à plat ventre."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cela récompense une réflexion rapide avec une chance de survie plus élevée, mais l’état à terre laisse le personnage vulnérable aux attaques de mêlée ultérieures."
+            }
+        ]
+    },
+    {
+        "title": "Attaque d’opportunité pour agripper",
+        "optional": "Standard rule",
+        "icon": "grab",
+        "subtitle": "Empêcher un ennemi de fuir",
+        "description": "Utilise une attaque à mains nues comme attaque d’opportunité et choisis l’option agripper.",
+        "reference": "PHB 2024, p. 295, 317.",
+        "summary": "Parce qu'une attaque d’opportunité de 2024 peut être une attaque à mains nues, tu peux choisir son option Agripper et potentiellement arrêter la créature avec l’état Agrippé.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "En 2024, une attaque d’opportunité peut être réalisée avec une attaque à mains nues. Puisque le Agripper est l'un des effets qu'une Attaque à mains nues peut appliquer, il s'agit d’une option tactique standard plutôt que d’une règle maison distincte."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Déclencheur:</b> une créature que tu peux voir quitte ta portée.",
+                    "Utilise ta réaction pour effectuer une <b>attaque à mains nues</b> comme attaque d’opportunité.",
+                    "Choisis l'option <b>Agripper</b> pour cette attaque à mains nues; la cible effectue la sauvegarde requise contre ton DD d’agrippement.",
+                    "En cas d'échec, la cible devient Agrippée et sa Vitesse devient 0."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Le succès arrêterait complètement le mouvement de la créature, ce qui en ferait un outil de verrouillage extrêmement puissant pour les personnages basés sur la Force."
+            }
+        ]
+    }
+]

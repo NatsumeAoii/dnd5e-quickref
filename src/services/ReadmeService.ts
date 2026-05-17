@@ -1,4 +1,5 @@
 import { CONFIG } from '../config.js';
+import { trapFocusWithin } from '../utils/Utils.js';
 import type { A11yService } from './A11yService.js';
 
 interface ReadmeSection {
@@ -12,6 +13,7 @@ export class ReadmeService {
     #modalEl: HTMLElement | null = null;
     #isOpen = false;
     #cachedSections: ReadmeSection[] | null = null;
+    #returnFocusEl: HTMLElement | null = null;
 
     constructor(a11yService: A11yService) {
         this.#a11yService = a11yService;
@@ -25,6 +27,7 @@ export class ReadmeService {
     async open(): Promise<void> {
         if (this.#isOpen) return;
         this.#isOpen = true;
+        this.#returnFocusEl = document.activeElement instanceof HTMLElement ? document.activeElement : null;
         await this.#createModal();
         if (!this.#isOpen) return;
         this.#a11yService.announce('README panel opened');
@@ -35,6 +38,8 @@ export class ReadmeService {
         this.#isOpen = false;
         this.#modalEl?.remove();
         this.#modalEl = null;
+        if (this.#returnFocusEl?.isConnected) this.#returnFocusEl.focus();
+        this.#returnFocusEl = null;
         this.#a11yService.announce('README panel closed');
     }
 
@@ -136,6 +141,7 @@ export class ReadmeService {
             if (e.target === this.#modalEl) this.close();
         });
         this.#modalEl.addEventListener('keydown', (e: KeyboardEvent) => {
+            trapFocusWithin(e, this.#modalEl!);
             if (e.key === 'Escape') { e.stopPropagation(); this.close(); }
         });
 
@@ -161,14 +167,54 @@ export class ReadmeService {
         const content = document.createElement('div');
         content.className = 'readme-section-content';
 
-        let currentList: HTMLUListElement | null = null;
+        let currentList: HTMLUListElement | HTMLOListElement | null = null;
+        let currentListType: 'ul' | 'ol' | null = null;
+        let currentListItem: HTMLLIElement | null = null;
+        let currentNestedList: HTMLUListElement | null = null;
         let inCodeBlock = false;
         let codeLines: string[] = [];
+        let codeBlockParent: HTMLElement | null = null;
+        let codeFenceIndent = '';
         let inDetailsBlock = false;
         let detailsEl: HTMLDetailsElement | null = null;
         let detailsContent: HTMLDivElement | null = null;
         let inTable = false;
         let tableRows: string[] = [];
+        let tableParent: HTMLElement | null = null;
+
+        const getTarget = (): HTMLElement => (inDetailsBlock && detailsContent ? detailsContent : content);
+        const getIndent = (value: string): string => value.match(/^\s*/)?.[0] ?? '';
+        const isIndented = (value: string): boolean => /^(?: {2,}|\t)/.test(value);
+        const resetList = (): void => {
+            currentList = null;
+            currentListType = null;
+            currentListItem = null;
+            currentNestedList = null;
+        };
+        const ensureList = (type: 'ul' | 'ol'): HTMLUListElement | HTMLOListElement => {
+            if (!currentList || currentListType !== type) {
+                currentList = document.createElement(type);
+                currentList.className = type === 'ol' ? 'readme-list readme-ordered-list' : 'readme-list';
+                getTarget().appendChild(currentList);
+                currentListType = type;
+                currentListItem = null;
+                currentNestedList = null;
+            }
+            return currentList;
+        };
+        const appendBlock = (el: HTMLElement, lineSource: string): void => {
+            if (currentListItem && isIndented(lineSource)) {
+                currentListItem.appendChild(el);
+                return;
+            }
+            if (currentListItem) resetList();
+            getTarget().appendChild(el);
+        };
+        const stripCodeIndent = (value: string): string => (
+            codeFenceIndent && value.startsWith(codeFenceIndent)
+                ? value.slice(codeFenceIndent.length)
+                : value
+        );
 
         for (let i = 0; i < section.body.length; i++) {
             const line = section.body[i];
@@ -179,7 +225,9 @@ export class ReadmeService {
                 if (!inCodeBlock) {
                     inCodeBlock = true;
                     codeLines = [];
-                    currentList = null;
+                    codeFenceIndent = getIndent(line);
+                    codeBlockParent = currentListItem && isIndented(line) ? currentListItem : getTarget();
+                    if (!isIndented(line) && currentListItem) resetList();
                     continue;
                 }
                 // End of code block
@@ -189,11 +237,13 @@ export class ReadmeService {
                 const code = document.createElement('code');
                 code.textContent = codeLines.join('\n');
                 pre.appendChild(code);
-                (inDetailsBlock && detailsContent ? detailsContent : content).appendChild(pre);
+                (codeBlockParent ?? getTarget()).appendChild(pre);
+                codeBlockParent = null;
+                codeFenceIndent = '';
                 continue;
             }
             if (inCodeBlock) {
-                codeLines.push(line);
+                codeLines.push(stripCodeIndent(line));
                 continue;
             }
 
@@ -204,7 +254,7 @@ export class ReadmeService {
                 detailsEl.className = 'readme-details';
                 detailsContent = document.createElement('div');
                 detailsContent.className = 'readme-details-content';
-                currentList = null;
+                resetList();
                 continue;
             }
             if (trimmed.startsWith('</details>')) {
@@ -215,11 +265,14 @@ export class ReadmeService {
                 inDetailsBlock = false;
                 detailsEl = null;
                 detailsContent = null;
-                currentList = null;
+                resetList();
                 continue;
             }
             if (inDetailsBlock && trimmed.startsWith('<summary>')) {
-                const summaryText = trimmed.replace(/<\/?summary>/g, '').replace(/<\/?b>/g, '').trim();
+                const summaryText = trimmed
+                    .replace(/<\/?summary>/g, '')
+                    .replace(/<\/?(?:b|strong)>/g, '')
+                    .trim();
                 const summary = document.createElement('summary');
                 summary.className = 'readme-details-summary';
                 const strong = document.createElement('strong');
@@ -234,6 +287,8 @@ export class ReadmeService {
                 if (!inTable) {
                     inTable = true;
                     tableRows = [];
+                    tableParent = currentListItem && isIndented(line) ? currentListItem : getTarget();
+                    if (!isIndented(line) && currentListItem) resetList();
                 }
                 // Skip separator rows
                 if (/^\|[\s\-:|]+\|$/.test(trimmed)) {
@@ -245,79 +300,79 @@ export class ReadmeService {
             if (inTable) {
                 inTable = false;
                 const table = this.#buildTable(tableRows);
-                (inDetailsBlock && detailsContent ? detailsContent : content).appendChild(table);
+                (tableParent ?? getTarget()).appendChild(table);
                 tableRows = [];
+                tableParent = null;
                 // Fall through to process current line normally
             }
 
-            const target = inDetailsBlock && detailsContent ? detailsContent : content;
-
             if (trimmed === '') {
-                currentList = null;
                 continue;
             }
 
             // Sub-headings within body (shouldn't typically happen, but just in case)
             if (/^#{1,4} /.test(line)) {
-                currentList = null;
+                resetList();
                 const sub = document.createElement('h4');
                 sub.className = 'readme-subheading';
                 sub.textContent = line.replace(/^#{1,4} /, '').trim();
-                target.appendChild(sub);
+                getTarget().appendChild(sub);
                 continue;
             }
 
             // Blockquotes: > text
             if (/^\s*> /.test(line)) {
-                currentList = null;
                 const bq = document.createElement('blockquote');
                 bq.className = 'readme-blockquote';
                 this.#renderFormattedText(bq, trimmed.replace(/^>\s*/, ''));
-                target.appendChild(bq);
+                appendBlock(bq, line);
                 continue;
             }
 
             // List items
             if (/^\s*[-*] /.test(line)) {
-                if (!currentList) {
-                    currentList = document.createElement('ul');
-                    currentList.className = 'readme-list';
-                    target.appendChild(currentList);
-                }
                 const li = document.createElement('li');
                 const text = trimmed.replace(/^[-*] /, '');
                 this.#renderFormattedText(li, text);
 
-                // Detect indented sub-items
-                if (/^ {2,}[-*] /.test(line) || /^\t[-*] /.test(line)) {
-                    li.className = 'readme-list-sub';
+                if (currentListItem && isIndented(line)) {
+                    if (!currentNestedList) {
+                        currentNestedList = document.createElement('ul');
+                        currentNestedList.className = 'readme-list readme-list-nested';
+                        currentListItem.appendChild(currentNestedList);
+                    }
+                    currentNestedList.appendChild(li);
+                } else {
+                    const list = ensureList('ul');
+                    list.appendChild(li);
+                    currentListItem = li;
+                    currentNestedList = null;
                 }
-                currentList.appendChild(li);
                 continue;
             }
 
             // Ordered list items: 1. text
             if (/^\s*\d+\. /.test(line)) {
-                currentList = null;
-                const p = document.createElement('p');
-                p.className = 'readme-paragraph readme-ordered-item';
-                this.#renderFormattedText(p, trimmed);
-                target.appendChild(p);
+                const list = ensureList('ol');
+                const li = document.createElement('li');
+                this.#renderFormattedText(li, trimmed.replace(/^\d+\. /, ''));
+                list.appendChild(li);
+                currentListItem = li;
+                currentNestedList = null;
                 continue;
             }
 
             // Plain paragraph
-            currentList = null;
             const p = document.createElement('p');
             p.className = 'readme-paragraph';
             this.#renderFormattedText(p, trimmed);
-            target.appendChild(p);
+            appendBlock(p, line);
         }
 
         // Flush remaining table
         if (inTable && tableRows.length > 0) {
             const table = this.#buildTable(tableRows);
-            (inDetailsBlock && detailsContent ? detailsContent : content).appendChild(table);
+            (tableParent ?? getTarget()).appendChild(table);
         }
 
         block.appendChild(content);
@@ -356,18 +411,25 @@ export class ReadmeService {
         return wrapper;
     }
 
+    #appendLink(parent: HTMLElement, label: string, href: string): void {
+        const a = document.createElement('a');
+        a.textContent = label;
+        a.href = href;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        parent.appendChild(a);
+    }
+
     /**
      * Renders text with **bold**, `code`, and [links](url) into a parent element.
      * Uses textContent/createElement for CSP safety.
      */
     #renderFormattedText(parent: HTMLElement, text: string): void {
-        // Split on **bold**, `code`, and [text](url) patterns
         const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g);
-
         for (const part of parts) {
             if (part.startsWith('**') && part.endsWith('**')) {
                 const strong = document.createElement('strong');
-                strong.textContent = part.slice(2, -2);
+                this.#renderFormattedText(strong, part.slice(2, -2));
                 parent.appendChild(strong);
             } else if (part.startsWith('`') && part.endsWith('`')) {
                 const code = document.createElement('code');
@@ -376,12 +438,7 @@ export class ReadmeService {
             } else if (part.startsWith('[')) {
                 const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
                 if (linkMatch) {
-                    const a = document.createElement('a');
-                    a.textContent = linkMatch[1];
-                    a.href = linkMatch[2];
-                    a.target = '_blank';
-                    a.rel = 'noopener noreferrer';
-                    parent.appendChild(a);
+                    this.#appendLink(parent, linkMatch[1], linkMatch[2]);
                 } else {
                     parent.appendChild(document.createTextNode(part));
                 }

@@ -7,7 +7,7 @@ html[data-theme='cyberpunk'][data-mode='light'] {
     --color-shadow: rgb(13 2 33 / 20%);
     --color-shadow-strong: rgb(13 2 33 / 30%);
     --color-hr: #c0c0c0;
-    --color-link: #f0f;
+    --color-link: #ba00ba;
     --color-item-hover-bg: rgb(0 240 255 / 15%);
     --color-movement: #d9006c;
     --color-action: #0077b6;
@@ -18,6 +18,9 @@ html[data-theme='cyberpunk'][data-mode='light'] {
     --color-settings: #0d0221;
     --color-accept: #009e73;
     --color-favorite: #f8f162;
+    --color-reaction-text: #000;
+    --color-condition-text: #000;
+    --color-favorite-text: #000;
 }
 
 html[data-theme='cyberpunk'][data-mode='dark'] {

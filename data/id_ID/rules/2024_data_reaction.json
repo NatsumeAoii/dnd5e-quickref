@@ -1,0 +1,192 @@
+[
+    {
+        "title": "Rapalkan Spell",
+        "optional": "Standard rule",
+        "icon": "magicswirl",
+        "subtitle": "Waktu casting 1 reaction",
+        "description": "Rapalkan spell seketika sebagai respons terhadap trigger spesifik seperti yang ditentukan dalam deskripsi spell.",
+        "reference": "PHB 2024, hlm. 301.",
+        "summary": "Gunakan reaction-mu untuk merapalkan spell yang memiliki waktu casting 1 reaction. Deskripsi spell menentukan triggernya, seperti kena serangan (untuk Shield) atau melihat spell dirapalkan (untuk Counterspell).",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Spell Reaction adalah salah satu alat pertahanan dan pengganggu paling kuat dalam game, memungkinkan kamu bertindak di luar giliran untuk menggagalkan rencana musuh atau menyelamatkan diri dari bahaya. Masing-masing terikat pada trigger tertentu."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> Sebagaimana ditentukan oleh deskripsi spell.",
+                    "Contoh: <i>Shield</i> terpicu saat kamu kena serangan, <i>Counterspell</i> terpicu saat kamu melihat makhluk merapalkan spell, dan <i>Feather Fall</i> terpicu saat kamu atau makhluk dalam jarak 60 feet dari kamu terjatuh."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Karena kamu hanya mendapatkan satu reaction per round, kamu harus memilih dengan bijak kapan akan menggunakannya. Menggunakan Shield untuk memblokir satu serangan mungkin berarti kamu tidak bisa menggunakan Counterspell di ronde berikutnya."
+            }
+        ]
+    },
+    {
+        "title": "Identifikasi Spell*",
+        "optional": "Optional rule",
+        "icon": "eyeball",
+        "subtitle": "Identifikasi spell yang sedang dirapalkan",
+        "description": "Gunakan aturan Xanathar opsional untuk mengidentifikasi spell saat dirapalkan, atau untuk mengidentifikasi efek spell yang ada.",
+        "reference": "XGE, hlm. 85.",
+        "summary": "Sebagai reaction ketika kamu melihat spell sedang dirapalkan, lakukan check Intelligence (Arcana) (tingkat DC 15 + spell) untuk mengidentifikasinya. Menggunakan reaction ini berarti kamu juga tidak bisa menggunakannya untuk Counterspell.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Optional rule ini memberi karakter berpengetahuan mekanisme yang jelas untuk mengenali ancaman magis. Ini mendukung keputusan taktis seperti apakah akan menggunakan reaction di Counterspell atau cara menangani efek magis yang sedang berlangsung."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> Makhluk yang kamu lihat akan merapalkan spell atau kamu akan kena efek magis.",
+                    "<b>Reaction atau Action:</b> Lakukan check Intelligence (Arcana). DC sama dengan 15 + level spell.",
+                    "Jika berhasil, kamu mengidentifikasi spell jika kamu bereaksi terhadap castingnya, atau kamu mempelajari properti efek magis jika kamu mempelajarinya dengan action."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Perhatikan butuh action economy: menggunakan reaction untuk mengidentifikasi spell berarti kamu juga tidak bisa menggunakan reaction yang sama untuk merapalkan Counterspell."
+            }
+        ]
+    },
+    {
+        "title": "Opportunity Attack",
+        "optional": "Standard rule",
+        "icon": "crossedswords",
+        "subtitle": "Makhluk meninggalkan jangkauanmu",
+        "description": "Gunakan reaction-mu untuk melakukan satu serangan jarak dekat dengan senjata atau Unarmed Strike terhadap makhluk yang kamu lihat keluar dari jangkauanmu.",
+        "reference": "PHB 2024, hlm. 295.",
+        "summary": "Ketika makhluk yang kamu lihat meninggalkan jangkauanmu, gunakan reaction-mu untuk melakukan satu serangan jarak dekat dengan senjata atau Unarmed Strike. Serangan itu terjadi tepat sebelum ia meninggalkan jangkauanmu.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini adalah reaction yang paling umum dan merupakan landasan pertempuran taktis. Ini membuat penentuan posisi menjadi penting, karena makhluk tidak bisa begitu saja menjauh dari ancaman jarak dekat tanpa risiko mendapat damage."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> Makhluk yang kamu lihat meninggalkan jangkauanmu.",
+                    "<b>Reaction:</b> Lakukan satu serangan jarak dekat dengan senjata atau Unarmed Strike terhadap makhluk yang memicu.",
+                    "Serangan itu terjadi tepat sebelum makhluk itu meninggalkan jangkauanmu.",
+                    "Kamu tidak memicu Opportunity Attack saat kamu berteleportasi atau saat kamu dipindahkan tanpa menggunakan movement-mu, action, Bonus Action, atau Reaction.",
+                    "<b>Disengage</b> Action mencegah movement-mu memicu Opportunity Attack selama sisa giliranmu."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Makhluk dengan senjata jangkauan bisa melakukan opportunity attack ketika musuh meninggalkan jangkauannya, mengendalikan area yang lebih luas di medan perang."
+            }
+        ]
+    },
+    {
+        "title": "Action Siaga",
+        "optional": "Standard rule",
+        "icon": "stopwatch",
+        "subtitle": "Bagian dari Ready action-mu",
+        "description": "Gunakan reaction-mu untuk melakukan action yang kamu siapkan pada giliranmu ketika trigger yang ditentukan terjadi.",
+        "reference": "PHB 2024, hlm. 291.",
+        "summary": "Setelah menggunakan Ready action pada giliranmu untuk menentukan trigger, kamu bisa menggunakan reaction untuk melakukan aktivitas pilihanmu saat trigger tersebut terjadi. Jika triggernya tidak pernah terjadi, kamu kehilangan reaction-mu.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini adalah tahap eksekusi Ready action. Setelah menghabiskan action untuk bersiap, kamu menggunakan reaction untuk merespons perkembangan medan perang tepat pada waktu yang kamu rencanakan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> Keadaan yang kamu tentukan saat mengambil Ready action pada giliranmu.",
+                    "<b>Reaction:</b> Kamu melakukan action, bonus action, atau gerakan yang kamu pilih ke siap. Ini terjadi segera setelah trigger selesai.",
+                    "Jika kamu menyiapkan spell, kamu melemparkannya pada giliranmu tetapi gunakan reaction-mu untuk melepaskannya. Ini memerlukan Concentration, yang bisa dipatahkan."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Jika triggernya tidak pernah terjadi, kamu kehilangan action dan reaction-mu, membuatnya risiko taktis yang diperhitungkan."
+            }
+        ]
+    },
+    {
+        "title": "Parry**",
+        "optional": "Homebrew rule",
+        "icon": "shield",
+        "subtitle": "Bertahan dari serangan jarak dekat",
+        "description": "Reaction defensif yang bisa menambahkan proficiency bonus kamu ke AC melawan satu serangan jarak dekat.",
+        "reference": "",
+        "summary": "Saat makhluk lain menyerangmu dengan serangan jarak dekat, house rule ini memungkinkan kamu menggunakan reaction untuk menambahkan proficiency bonus ke AC untuk serangan tersebut, yang berpotensi menyebabkannya meleset.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini bukan reaction opsional 2024 umum. Itu disimpan sebagai opsi pertahanan buatan sendiri untuk table yang menginginkan reaction martial yang mirip dengan beberapa ciri monster Parry."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> Makhluk lain menyerangmu dengan serangan jarak dekat.",
+                    "<b>Reaction:</b> Kamu harus bisa melihat penyerang dan menggunakan senjata jarak dekat.",
+                    "Kamu menambahkan proficiency bonus ke AC untuk serangan tersebut, yang berpotensi menyebabkan serangan meleset."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Berbeda dengan Shield spell, Parry hanya bekerja melawan satu serangan jarak dekat dan tidak memerlukan spell slot, membuatnya alat yang berharga bagi pejuang garis depan."
+            }
+        ]
+    },
+    {
+        "title": "Dive for Cover**",
+        "optional": "Homebrew rule",
+        "icon": "falling",
+        "subtitle": "Menghindari efek area",
+        "description": "House rule yang mengizinkan makhluk menggunakan reaction miliknya untuk mendapatkan advantage pada Dexterity saving throw dengan mengorbankan jatuh Prone.",
+        "summary": "House rule di mana kamu bisa menggunakan reaction saat melakukan DEX saving throw untuk mendapatkan advantage saat bermain. Jika ya, kamu akan langsung langsung jatuh Prone setelah saving throw.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Homebrew sinematik ini memberikan karakter pilihan putus asa untuk mengurangi damage akibat efek area seperti nafas naga atau Fireball spell. Ini adalah trade-off: pertahanan yang lebih baik terhadap efek posisi yang lebih buruk di medan perang."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> Kamu kena efek yang mengharuskan kamu membuat Dexterity saving throw (seperti <i>Fireball</i>).",
+                    "<b>Reaction:</b> Kamu bisa menggunakan reaction untuk menyelam mencari cover.",
+                    "<b>Efek:</b> Kamu mendapatkan Advantage di Dexterity saving throw. Setelah disimpan, kamu mendapatkan Prone."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini memberi penghargaan pada pemikiran cepat dengan peluang bertahan hidup yang lebih tinggi, namun kondisi Prone membuat karakter rentan terhadap serangan jarak dekat lanjutan."
+            }
+        ]
+    },
+    {
+        "title": "Grapple Opportunity Attack",
+        "optional": "Standard rule",
+        "icon": "grab",
+        "subtitle": "Hentikan musuh agar tidak melarikan diri",
+        "description": "Gunakan Unarmed Strike sebagai Opportunity Attack dan pilih opsi Grapple.",
+        "reference": "PHB 2024, hlm. 295, 317.",
+        "summary": "Karena Opportunity Attack 2024 bisa menjadi Unarmed Strike, kamu bisa memilih opsi Grapple dan berpotensi menghentikan makhluk dengan kondisi Grappled.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Pada tahun 2024, Opportunity Attack bisa dibuat dengan Unarmed Strike. Karena Grapple adalah salah satu efek yang bisa diterapkan oleh Unarmed Strike, ini adalah opsi taktis standar dan bukan house rule yang terpisah."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> Makhluk yang kamu lihat meninggalkan jangkauanmu.",
+                    "Gunakan reaction-mu untuk melakukan <b>Unarmed Strike</b> sebagai Opportunity Attack.",
+                    "Pilih opsi <b>Grapple</b> untuk Unarmed Strike itu; target melakukan saving throw yang diperlukan terhadap grapple DC kamu.",
+                    "Jika saving throw gagal, target memperoleh kondisi Grappled dan Kecepatannya menjadi 0."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Keberhasilan akan menghentikan pergerakan makhluk itu sepenuhnya, membuatnya alat penguncian yang sangat kuat untuk karakter berbasis Strength."
+            }
+        ]
+    }
+]

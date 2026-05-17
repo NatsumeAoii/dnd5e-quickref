@@ -1,0 +1,242 @@
+[
+    {
+        "title": "Rapalkan Spell",
+        "optional": "Standard rule",
+        "icon": "magicswirl",
+        "subtitle": "Waktu casting 1 bonus action",
+        "description": "Rapalkan spell yang Waktu Castingnya adalah Bonus Action.",
+        "reference": "PHB 2024, hlm. 301.",
+        "summary": "Rapalkan spell dengan waktu casting 1-Bonus-Action. Dalam aturan tahun 2024, seorang spellcaster hanya bisa menghabiskan satu spell slot untuk merapalkan spell dalam satu giliran.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Spell Bonus Action menggunakan pengaturan waktu yang tercetak di entri Waktu Casting spell. Batas perapalan ejaan tahun 2024 didasarkan pada spell slot yang dihabiskan selama giliran, bukan batasan bonus-action cantrip yang lebih lama."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Sebagian besar spell menggunakan <b>Sihir</b> Action, namun beberapa spell memiliki Waktu Casting <b>Bonus Action</b>, <b>Reaction</b>, atau lebih lama.",
+                    "Pada gilirannya, kamu hanya bisa memakai <b>satu spell slot</b> untuk merapalkan spell.",
+                    "Setelah merapalkan Bonus Action spell dengan spell slot, kamu masih bisa menggunakan spell action atau merapalkan spell yang tidak memakai spell slot kalau aturan lain mengizinkannya."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini membuat spell Bonus Action tetap cepat tanpa mempertahankan kata-kata usang tahun 2014 yang membatasi sisa giliran menjadi satu cantrip action."
+            }
+        ]
+    },
+    {
+        "title": "Two-Weapon Fighting",
+        "optional": "Standard rule",
+        "icon": "crossedswords",
+        "subtitle": "Gunakan dengan Attack action",
+        "description": "Saat mengambil Attack action dengan senjata Ringan, gunakan bonus action-mu untuk melakukan satu serangan dengan senjata Ringan kedua.",
+        "reference": "PHB 2024, hlm. 291.",
+        "summary": "Setelah mengambil Attack action dengan senjata Light, kamu bisa menggunakan bonus action-mu untuk melakukan satu serangan dengan senjata Light yang berbeda. Kamu tidak menambahkan pengubah kemampuanmu ke damage serangan bonus.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini adalah aturan dual-wielding klasik, yang memungkinkan kamu menukar bonus action dengan serangan tambahan. Ini meningkatkan hasil ofensif kamu dengan mengorbankan penggunaan perisai atau senjata dua tangan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Saat kamu mengambil Attack action dan menyerang dengan senjata yang memiliki properti <b>Light</b>, kamu bisa menggunakan Bonus Action untuk menyerang dengan senjata <b>Light</b> lain yang kamu pegang di tangan lain.",
+                    "Kamu tidak menambahkan pengubah kemampuanmu ke damage serangan bonus, kecuali pengubah tersebut negatif.",
+                    "Two-Weapon Fighting Style memungkinkan kamu menambahkan pengubah kemampuanmu ke damage serangan bonus ini.",
+                    "Feat Dual Wielder memungkinkan kamu menggunakan senjata yang tidak memiliki properti Light."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Perhatikan bahwa beberapa senjata dengan properti <i>Nick</i> baru memungkinkan serangan ekstra tanpa menggunakan bonus action sama sekali, membuatnya sangat diinginkan oleh pengguna ganda dan membebaskan bonus action untuk penggunaan lain."
+            }
+        ]
+    },
+    {
+        "title": "Pakai Class Feature",
+        "optional": "Standard rule",
+        "icon": "embrassedenergy",
+        "subtitle": "Beberapa fitur menggunakan bonus action",
+        "description": "Aktifkan kelas, spesies, atau feature lainnya yang menggunakan bonus action, sebagaimana ditentukan dalam deskripsinya.",
+        "reference": "Lihat deskripsi class di PHB 2024.",
+        "summary": "Aktifkan kemampuan unik dari kelas, spesies, atau sumber lain kamu yang memerlukan bonus action untuk digunakan, seperti yang ditentukan dalam deskripsi feature.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Banyak kemampuan kelas paling ikonik yang diaktifkan sebagai bonus action, memungkinkan karakter melakukan gerakan khasnya sambil tetap menggunakan action utama seperti menyerang atau menggunakan spell."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Contohnya termasuk Barbarian memasuki Rage, Rogue's Cunning Action, Paladin's Lay on Hands, atau Druid's Wild Shape."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Mengelola bonus action-mu adalah bagian penting dalam menguasai kelas-kelas ini, karena sering kali bersaing dengan opsi lain seperti pertarungan dua senjata atau spell bonus action."
+            }
+        ]
+    },
+    {
+        "title": "Aim**",
+        "optional": "Homebrew rule",
+        "icon": "archerytarget",
+        "subtitle": "Dapatkan advantage dalam serangan",
+        "description": "Aturan table yang memungkinkan makhluk menghabiskan bonus action dan pergerakannya untuk mendapatkan advantage dalam satu serangan.",
+        "reference": "Terinspirasi dari Steady Aim, TCE.",
+        "summary": "Jika kamu belum berpindah pada giliran ini, house rule ini mengizinkanmu menggunakan Bonus Action untuk mendapatkan advantage pada attack roll berikutnya pada giliran ini, mengurangi Speed-mu menjadi 0 hingga giliran berakhir.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini bukan opsi DMG action 2024 yang umum. Itu disimpan sebagai aturan table homebrew yang terinspirasi oleh Rogue feature Steady Aim opsional dari Tasha's Cauldron of Everything."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Gunakan hanya jika table menginginkan opsi tujuan umum tersedia di luar Rogue feature.",
+                    "Kamu pasti belum bergerak di tikungan.",
+                    "Menggunakan Bonus Action ini memberikan advantage pada attack roll berikutnya yang kamu lakukan pada giliran ini dan mengurangi Speed-mu menjadi 0 hingga giliran berakhir."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Karena ini memperluas feature opsional khusus kelas, konfirmasikan itu sebagai table rule sebelum bermain."
+            }
+        ]
+    },
+    {
+        "title": "Overrun*",
+        "optional": "Optional rule",
+        "icon": "shieldbash",
+        "subtitle": "Jalankan melalui ruang yang tidak bersahabat",
+        "description": "Sebagai action atau bonus action, cobalah menerobos ruang makhluk bermusuhan melalui check Athletics yang diperebutkan.",
+        "reference": "DMG 2014, hlm. 272.",
+        "summary": "Sebagai bonus action, lakukan check Strength (Athletics) yang dilawan oleh Athletics musuh. Jika menang, kamu bisa melewati ruang mereka pada giliran ini. Kamu memiliki advantage jika lebih besar.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Optional rule ini memungkinkan karakter kuat menggunakan kekerasan untuk menerobos garis musuh dengan memulai adu kekuatan. Ini bisa digunakan sebagai action atau, lebih fleksibel, bonus action."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Sebagai action atau bonus action, penggerak membuat check Strength (Athletics) yang dilawan oleh check Strength (Athletics) makhluk musuh.",
+                    "Penggerak memiliki tanda <b>advantage</b> jika lebih besar dari makhluk musuh, atau <b>disadvantage</b> jika lebih kecil.",
+                    "Jika penggerak memenangkan contest, ia bisa bergerak melalui ruang makhluk musuh pada giliran ini."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Memiliki ini sebagai opsi bonus action membuatnya lebih cocok untuk karakter yang juga ingin menyerang pada giliran yang sama ketika mereka mengubah posisinya."
+            }
+        ]
+    },
+    {
+        "title": "Tumble*",
+        "optional": "Optional rule",
+        "icon": "acrobatic",
+        "subtitle": "Jatuh melalui ruang yang tidak bersahabat",
+        "description": "Sebagai action atau bonus action, cobalah dengan cekatan bergerak melalui ruang makhluk bermusuhan dengan check Acrobatics yang diperebutkan.",
+        "reference": "DMG 2014, hlm. 272.",
+        "summary": "Sebagai bonus action, lakukan check Dexterity (Acrobatics) yang dilawan oleh Acrobatics musuh. Jika menang, kamu bisa melewati ruang mereka pada giliran ini.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Sebagai alternatif yang lincah untuk Overrun, Tumble memungkinkan karakter yang tangkas melewati lawan, mengandalkan akrobatik alih-alih kekuatan mentah. Ini bisa digunakan sebagai action atau bonus action."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Sebagai action atau bonus action, tumbler membuat check Dexterity (Acrobatics) yang dilawan oleh check Dexterity (Acrobatics) makhluk musuh.",
+                    "Jika tumbler memenangkan contest, ia bisa bergerak melewati ruang makhluk musuh pada giliran ini."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini adalah bonus action yang luar biasa untuk karakter seluler seperti Monks atau Rogues untuk menavigasi medan perang yang ramai tanpa mengorbankan action utama mereka."
+            }
+        ]
+    },
+    {
+        "title": "Potion of Healing",
+        "optional": "Standard rule",
+        "icon": "potionball",
+        "subtitle": "Minum atau berikan",
+        "description": "Minum Potion of Healing atau berikan ke makhluk lain dalam jarak 5 feet sebagai Bonus Action.",
+        "reference": "PHB 2024, hlm. 228.",
+        "summary": "Potion of Healing bisa diminum atau diberikan kepada makhluk lain dalam jarak 5 feet sebagai Bonus Action, memulihkan 2d4 + 2 Hit Points.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Aturan tahun 2024 membuat Potion of Healing dasar lebih cepat digunakan dalam pertempuran dibandingkan default tahun 2014. Ini berlaku untuk meminumnya sendiri atau memberikannya kepada makhluk terdekat."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Gunakan Bonus Action untuk meminum ramuannya sendiri.",
+                    "Kamu juga bisa menggunakan Bonus Action untuk memberikannya ke makhluk lain dalam jarak 5 feet.",
+                    "Target memperoleh kembali <b>2d4 + 2 Hit Points</b>.",
+                    "Potion lain menggunakan waktu dalam deskripsi itemnya sendiri."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Perubahan ini membuat penyembuhan darurat lebih mudah untuk dilakukan di tikungan tanpa menghabiskan action utama."
+            }
+        ]
+    },
+    {
+        "title": "Feint**",
+        "optional": "Homebrew rule",
+        "icon": "liar",
+        "subtitle": "Dapatkan advantage pada seranganmu",
+        "description": "House rule yang mengizinkan makhluk menggunakan bonus action untuk mencoba mengecoh lawan, memberikan advantage pada serangannya sendiri.",
+        "summary": "House rule di mana kamu menggunakan bonus action untuk membuat check Deception vs. Insight yang diperebutkan untuk mendapatkan advantage pada seranganmu berikutnya terhadap target.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Meskipun Rogue 2024 mendapatkan kemampuan serupa melalui Cunning Action, homebrew ini menyediakan opsi untuk semua karakter, memberikan cara non-ajaib untuk mendapatkan advantage melalui tipu daya, bukan kekerasan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Ini bukan standar universal action; ini adalah pilihan yang tepat untuk kampanye yang menginginkan tipu daya sosial menjadi lebih penting dalam pertempuran.",
+                    "Sebagai Bonus Action, lakukan check Charisma (Deception) yang diperebutkan dengan check Wisdom (Insight) target.",
+                    "Jika berhasil, kamu mendapatkan Advantage di attack roll berikutnya melawan makhluk itu pada giliran ini."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini adalah tema yang cocok untuk Swashbuckler atau karakter apa pun yang mengandalkan kelicikan dan kecakapan tempur."
+            }
+        ]
+    },
+    {
+        "title": "Ganti Senjata**",
+        "optional": "Homebrew rule",
+        "icon": "switchweapon",
+        "subtitle": "Selubungkan yang satu, gambar yang lain",
+        "description": "House rule untuk menyederhanakan pertarungan dengan mengizinkan karakter sheathe satu senjata dan draw senjata lainnya sebagai bonus action.",
+        "reference": "Berdasarkan 'Interact with an Object', PHB 2024, hlm. 294.",
+        "summary": "House rule yang memungkinkan kamu menggunakan bonus action untuk sheathe senjata yang kamu pegang dan draw senjata lain, melewati biaya action normal untuk interaksi objek kedua.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Homebrew berkualitas hidup ini menghaluskan pertarungan untuk karakter yang sering beralih antara senjata jarak dekat dan jarak jauh, yang sulit dilakukan berdasarkan aturan standar untuk interaksi objek."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>MENTAH:</b> Kamu mendapatkan satu Object Interaction gratis pada giliranmu (misalnya, draw pedang). Untuk sheathe pedang itu dan menarik pedang lainnya akan membutuhkan Action-mu untuk interaksi kedua.",
+                    "<b>Homebrew:</b> Sebagai Bonus Action, kamu bisa sheathe senjata yang kamu pegang dan draw senjata lain. Ini membuat peralihan senjata lebih lancar untuk karakter martial."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini sangat berguna untuk karakter dengan gaya Thrown Weapon Fighting atau mereka yang perlu beralih dari senjata dua tangan ke tangan bebas untuk merapal spell."
+            }
+        ]
+    }
+]

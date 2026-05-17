@@ -1,0 +1,396 @@
+[
+    {
+        "title": "Grimper",
+        "optional": "Standard rule",
+        "icon": "crags",
+        "subtitle": "Coût: +1 pied par pied",
+        "description": "L'escalade est un terrain difficile, coûtant 1 pied supplémentaire de mouvement pour chaque pied gravi, à moins que tu n’ayez une vitesse de montée.",
+        "reference": "PHB 2024, p. 292.",
+        "summary": "Chaque pied de mouvement consacré à l'escalade coûte 1 pied supplémentaire, le considérant comme un terrain difficile. Une créature avec une vitesse d'escalade ignore ce coût supplémentaire.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L'escalade représente l'effort supplémentaire requis pour escalader une surface verticale. Pour la plupart des créatures, cela réduit de moitié leur vitesse de déplacement lors de l'escalade, considérant chaque pied grimpé comme deux pieds de mouvement."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Une créature avec une vitesse d'escalade ignore ce coût supplémentaire.",
+                    "Le MD peut exiger un test de Force (Athlétisme) pour une surface particulièrement difficile ou glissante."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Avec une vitesse de 9 m, tu peux grimper un maximum de 4,50 m dans un tour sans Foncer."
+            }
+        ]
+    },
+    {
+        "title": "Ramper",
+        "optional": "Standard rule",
+        "icon": "crawl",
+        "subtitle": "Coût: +1 pied par pied",
+        "description": "Lorsque tu es couché, ta seule option de mouvement est de ramper, ce qui coûte 1 pied supplémentaire de mouvement pour chaque pied déplacé.",
+        "reference": "PHB 2024, p. 292.",
+        "summary": "Lorsque tu es à plat ventre, ta seule option de mouvement est de ramper. Chaque pied rampé coûte 1 pied supplémentaire, ou 2 pieds supplémentaires en terrain difficile.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ramper est le mouvement lent et ardu auquel tu es limité lorsque tu es en position à terre. Cela coûte plus de mouvement et le terrain difficile le rend encore plus lent."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Ramper est le seul moyen de se déplacer lorsque tu es à terre (sauf si tu utilises la magie).",
+                    "Chaque pied rampé coûte 1 pied supplémentaire de mouvement, ou 2 pieds supplémentaires si l'espace est un terrain difficile."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Pour te déplacer à toute ta vitesse, tu dois d'abord consacrer la moitié de ton mouvement à te relever, ce qui est généralement une option plus efficace si possible."
+            }
+        ]
+    },
+    {
+        "title": "Terrain difficile",
+        "optional": "Standard rule",
+        "icon": "stonepile",
+        "subtitle": "Coût: +1 pied par pied",
+        "reference": "PHB 2024, p. 292.",
+        "description": "Se déplacer à travers des zones comme les décombres, la neige ou les sous-bois coûte le double du mouvement, réduisant ainsi de moitié ta vitesse.",
+        "summary": "Chaque pied de mouvement sur un terrain difficile coûte 1 pied supplémentaire de ta vitesse. Cet effet n'est pas cumulatif; soit un espace est un terrain difficile, soit il ne l'est pas.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Le terrain difficile est l’un des facteurs environnementaux les plus courants, faisant du positionnement et du mouvement un défi tactique. Chaque pied de mouvement sur un tel terrain coûte un pied supplémentaire de ta vitesse."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Chaque pied de mouvement coûte 1 pied supplémentaire (par exemple, se déplacer de 1,50 m sur un terrain difficile coûte 3 m de vitesse).",
+                    "Les terrains difficiles ne sont pas cumulatifs; soit un espace est un terrain difficile, soit il ne l'est pas."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Les sorts qui créent un terrain difficile constituent une forme puissante de contrôle du champ de bataille, entravant l’avancée de l’ennemi sans nécessiter de concentration."
+            }
+        ]
+    },
+    {
+        "title": "Se jeter à terre",
+        "optional": "Standard rule",
+        "icon": "falling",
+        "subtitle": "Coût: 0 m",
+        "description": "À ton tour, tu peux te mettre à terre sans utiliser d’action ou de mouvement, sauf si ta vitesse est de 0.",
+        "reference": "PHB 2024, p. 292.",
+        "summary": "Tu peux tomber à terre pendant ton tour sans utiliser d’action ou de mouvement, mais tu ne peux pas le faire si ta vitesse est de 0.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "C'est un moyen gratuit et instantané de changer de position. Il est souvent utilisé de manière défensive pour devenir une cible plus difficile pour les attaques à distance, bien qu'il présente des inconvénients importants."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tomber sujet te donne la condition <i>à terre</i>.",
+                    "Tu ne peux pas tomber volontairement à terre si ta vitesse est de 0.",
+                    "Pour te déplacer en position à terre, tu dois ramper jusqu'à te relever."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Bien qu'être à terre impose un désavantage aux attaquants à distance, cela confère un avantage aux attaquants de mêlée à moins de 1,50 m, alors utilise cette tactique à bon escient."
+            }
+        ]
+    },
+    {
+        "title": "Voler",
+        "optional": "Standard rule",
+        "icon": "angelwings",
+        "subtitle": "Coût: 1 pied par 1 pied",
+        "description": "Voler te permet de te déplacer dans trois dimensions, mais comporte un risque de chute si tu es frappé d'incapacité ou si tu es renversé.",
+        "reference": "PHB 2024, p. 293.",
+        "summary": "Tu peux te déplacer en trois dimensions jusqu'à ta vitesse de vol. Tu tombes si tu es frappé d'incapacité, à plat ventre ou si ta vitesse de vol devient 0, à moins que tu ne puissiez planer.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Le vol offre une mobilité tactique incroyable, te permettant de contourner entièrement les obstacles et les ennemis au sol. Cependant, cette liberté s’accompagne d’un risque important de chute."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tant que tu disposes d’une vitesse de vol, tu peux rester en l'air jusqu'à ce que tu atterrisses, tombes ou meures.",
+                    "Pendant le vol, tu tombes si tu es dans la condition <i>Incapacité</i> ou <i>Suspendu</i> ou si ta vitesse de vol est réduite à 0.",
+                    "Tu peux rester en l’air dans ces circonstances si tu peux planer."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Le risque de chute rend les effets qui peuvent te mettre à terre ou tu neutraliser particulièrement dangereux pour les créatures volantes."
+            }
+        ]
+    },
+    {
+        "title": "Se déplacer en agrippant",
+        "optional": "Standard rule",
+        "icon": "grab",
+        "subtitle": "Modificateur: Terrain difficile",
+        "description": "Lorsque tu te déplaces tout en agrippant une créature, chaque pied coûte 1 pied supplémentaire, sauf si la cible est minuscule ou au moins deux tailles plus petite.",
+        "reference": "PHB 2024, p. 317.",
+        "summary": "Lorsque tu te déplaces tout en agrippant une autre créature, chaque pied coûte 1 pied supplémentaire, sauf si la créature est minuscule ou au moins deux tailles plus petite que toi.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les règles de 2024 simplifient le déplacement d’une créature agrippée en la traitant comme un terrain difficile au lieu de réduire de moitié ta vitesse. Cela rend le calcul plus simple tout en représentant l'effort nécessaire pour entraîner un ennemi."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Si tu te déplaces tout en agrippant une autre créature, chaque pied de mouvement coûte 1 pied supplémentaire.",
+                    "Ce coût supplémentaire ne s'applique pas si la créature agrippée est minuscule ou au moins deux tailles plus petite que toi."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Il s'agit d’un moyen puissant d'entraîner un ennemi dans un danger environnemental ou de l'éloigner de tes alliés vulnérables."
+            }
+        ]
+    },
+    {
+        "title": "Improviser",
+        "optional": "Standard rule",
+        "icon": "juggler",
+        "subtitle": "Toute cascade ne figurant pas sur cette liste",
+        "description": "Effectue n’importe quel mouvement ou cascade cinématographique que tu peux imaginer, comme te balancer sur un lustre ou glisser sur une rampe.",
+        "reference": "PHB 2024, p. 289.",
+        "summary": "Tu peux tenter n’importe quel mouvement créatif non couvert par les règles. Le DM détermine si c'est possible et quel test d20, le cas échéant, est requis.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette règle couvre tous les mouvements créatifs qui ne sont pas explicitement définis, permettant au MD de récompenser l'ingéniosité du joueur avec des tests de capacité appropriés pour déterminer le résultat de sa cascade."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Lorsque tu décris un type de mouvement non détaillé ailleurs dans les règles, le MD t’indique si cela est possible et quel type de jet tu dois effectuer, le cas échéant, pour déterminer le succès ou l'échec."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "C'est le mécanisme qui permet de créer des moments de film d’action mémorables dans le cadre du jeu."
+            }
+        ]
+    },
+    {
+        "title": "Sauter",
+        "optional": "Standard rule",
+        "icon": "wingfoot",
+        "subtitle": "Sauts longs et hauts",
+        "description": "Sauter utilise ton mouvement; les sauts en longueur et les sauts en hauteur fonctionnent toujours différemment et peuvent nécessiter un élan de 3 m sur toute la distance.",
+        "reference": "PHB 2024, p. 292.",
+        "summary": "Avec une course de 3 m, tu peux sauter en longueur jusqu'à ton score de force et sauter en hauteur 3 pieds mod STR +. Les sauts debout couvrent la moitié de cette distance.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Le règlement 2024 conserve la distinction familière entre sauts en longueur et sauts en hauteur. La distance de saut compte toujours dans ton mouvement disponible."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Saut en longueur:</b> Si tu te déplaces d'au moins 3 m immédiatement avant le saut, tu peux sauter horizontalement jusqu'à ton score de force en pieds.",
+                    "<b>Saut en hauteur:</b> Si tu te déplaces d'au moins 3 m immédiatement avant le saut, tu peux sauter verticalement de 3 + tes pieds modificateurs de Force.",
+                    "Un saut en longueur ou en hauteur debout couvre la moitié de la distance normale.",
+                    "Le MD peut exiger un test de Force (Athlétisme) pour des sauts ou des obstacles inhabituellement difficiles."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Parce que sauter dépense du mouvement, une créature ne peut pas sauter plus loin au cours d’un tour que son mouvement restant ne le permet sans qu'une autre règle n'augmente ce mouvement."
+            }
+        ]
+    },
+    {
+        "title": "Se déplacer",
+        "optional": "Standard rule",
+        "icon": "run",
+        "subtitle": "Coût: 1 pied par 1 pied",
+        "description": "À ton tour, tu peux te déplacer sur une distance correspondant à ta vitesse, en interrompant ce mouvement avant, après ou entre tes actions.",
+        "reference": "PHB 2024, p. 292.",
+        "summary": "Tu peux augmenter ta vitesse et interrompre ce mouvement autour des actions. Tu peux traverser un allié, une créature incapable d'agir, une créature minuscule ou une créature de deux tailles plus grande ou plus petite que toi.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ta vitesse est une ressource que tu peux dépenser pendant ton tour. Cette flexibilité permet un positionnement fluide et tactique au combat, mais il existe des règles importantes régissant la manière dont tu peux te déplacer dans les espaces des autres créatures."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu peux diviser ton mouvement avant et après les actions, les actions bonus et les réactions au cours du même tour.",
+                    "Tu peux traverser l'espace d’un allié, d’une créature avec la condition <i>Incapacité</i>, d’une créature minuscule ou d’une créature de deux tailles plus grande ou plus petite que toi.",
+                    "L'espace d’une autre créature est un terrain difficile à moins que cette créature ne soit minuscule ou ton allié.",
+                    "Tu ne peux pas volontairement terminer ton déplacement dans l'espace d’une autre créature. Si tu termines un tour là-bas d’une manière ou d’une autre, tu es à terre, sauf si tu es minuscule ou plus grand que l'autre créature."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "La capacité d'interrompre ton mouvement est la clé des tactiques telles que sortir d’un abri, attaquer, puis revenir à l'abri."
+            }
+        ]
+    },
+    {
+        "title": "Monter/descendre",
+        "optional": "Standard rule",
+        "icon": "horsehead",
+        "subtitle": "Coût: moitié de la vitesse de déplacement",
+        "description": "Pendant ton mouvement, monte ou descends d’une créature consentante dans un rayon de 1,50 m en dépensant un mouvement égal à la moitié de ta vitesse, arrondie à l'inférieur.",
+        "reference": "PHB 2024, p. 296.",
+        "summary": "Pendant ton mouvement, monte ou descends d’une créature consentante dans un rayon de 1,50 m en dépensant un mouvement égal à la moitié de ta vitesse, arrondie à l'inférieur. Un mouvement forcé ou le fait d'être mis à terre alors que tu es monté peut te faire tomber lors d’un échec de jet de sauvegarde de Dextérité DD 10.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Monter ou descendre d’une créature t’oblige à dépenser une partie de ton mouvement disponible pour le tour. Il existe également des risques si ton monture est déplacée contre sa volonté ou si elle est mise à terre."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Pendant ton déplacement, tu peux monter une créature consentante à moins de 1,50 m de toi, d'au moins une taille de plus et possédant une anatomie appropriée, ou tu peux descendre de cheval.",
+                    "Monter ou descendre coûte un mouvement égal à la moitié de ta vitesse, arrondie à l’inférieur.",
+                    "Si un effet déplace ton monture contre sa volonté pendant que tu es dessus, tu dois réussir un <b>jet de sauvegarde de Dextérité DD 10</b> ou tomber et atterrir à plat ventre dans un espace inoccupé à moins de 1,50 m de la monture.",
+                    "Tu effectues la même sauvegarde si tu es mis à terre alors que tu es monté ou si la monture est mise à terre."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Si tu as une vitesse de 9 m, tu dois effectuer 4,50 m de mouvement pour monter sur ton cheval, ce qui te laisse 4,50 m restants pour te déplacer."
+            }
+        ]
+    },
+    {
+        "title": "Ouverture étroite",
+        "optional": "Standard rule",
+        "icon": "resize",
+        "subtitle": "terrain difficile",
+        "description": "Une ouverture étroite dimensionnée pour une créature d’une taille inférieure à la vôtre compte comme un terrain difficile.",
+        "reference": "PHB 2024, p. 292.",
+        "summary": "Dans les règles de 2024, une ouverture étroite dimensionnée pour une créature d’une taille plus petite que toi est un terrain difficile. Les anciennes pénalités de compression de 2014 ne font pas partie de la section relative aux mouvements de 2024.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les règles de mouvement de 2024 traitent les passages étroits à travers un terrain difficile plutôt que l'ancienne règle de compression avec de larges pénalités de jet d’attaque et de sauvegarde de dextérité."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Une ouverture étroite dimensionnée pour une créature d’une taille plus petite que toi est un <b>Terrain difficile</b>.",
+                    "Chaque pied parcouru en terrain difficile coûte 1 pied supplémentaire.",
+                    "Plusieurs sources de terrain difficile dans le même espace ne s’additionnent pas."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Utilise cette entrée pour le jeu 2024; les tables qui préfèrent les anciennes pénalités de Squeezing devraient les traiter comme une règle de table héritée."
+            }
+        ]
+    },
+    {
+        "title": "Se relever",
+        "optional": "Standard rule",
+        "icon": "strong",
+        "subtitle": "Coût: moitié de la vitesse de déplacement",
+        "description": "Se relever de l’état à terre coûte une quantité de mouvement égale à la moitié de ta vitesse totale.",
+        "reference": "PHB 2024, p. 292.",
+        "summary": "Tu peux te relever depuis la position à terre en dépensant une quantité de mouvement égale à la moitié de ta vitesse. Tu ne peux pas te relever si ta vitesse est nulle ou si tu n’as pas suffisamment de mouvement.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Reprendre pied après avoir été mis à terre nécessite une partie importante de ton mouvement pour le tour, t’empêchant potentiellement d'aller plus loin."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu ne peux pas te relever s'il ne te reste plus assez de mouvement ou si ta vitesse est 0.",
+                    "Par exemple, si ta vitesse est de 9 m, tu dois effectuer 4,50 m de mouvement pour te relever."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ce coût fixe signifie que même s'il ne te reste qu'un pied de mouvement, tu ne peux pas te relever si ta vitesse est de 30, car le coût est de 15."
+            }
+        ]
+    },
+    {
+        "title": "Nager",
+        "optional": "Standard rule",
+        "icon": "atsea",
+        "subtitle": "Coût: +1 pied par pied",
+        "description": "La natation est un terrain difficile, coûtant 1 pied supplémentaire de mouvement pour chaque pied nagé, à moins que tu n’ayez une vitesse de nage.",
+        "reference": "PHB 2024, p. 292.",
+        "summary": "Chaque pied de mouvement consacré à la nage coûte 1 pied supplémentaire, le considérant comme un terrain difficile. Une créature dotée d’une vitesse de nage ignore ce coût supplémentaire.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Pour les créatures non adaptées aux environnements aquatiques, la nage est lente et fatigante, réduisant de moitié leur vitesse en traitant l'eau comme un terrain difficile."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Une créature dotée d’une vitesse de nage ignore ce coût supplémentaire.",
+                    "Le DM peut exiger un test de Force (Athlétisme) pour une eau agitée ou des courants forts."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cette règle, combinée aux règles du combat sous-marin, fait du combat dans l’eau un défi tactique distinct."
+            }
+        ]
+    },
+    {
+        "title": "Rythme de voyage",
+        "optional": "Standard rule",
+        "icon": "trail",
+        "subtitle": "Voyager pendant une heure ou plus",
+        "description": "Lorsque tu voyages par voie terrestre, le rythme de ton groupe détermine la distance que tu parcours et ton conscience de ton environnement.",
+        "reference": "PHB 2024, p. 183.",
+        "summary": "Détermine la vitesse et la conscience des déplacements terrestres. Un rythme rapide donne un désavantage en Perception, tandis qu'un rythme lent permet la Furtivité. Voyager plus de 8 heures par jour risque d’être épuisé.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ces règles régissent les voyages sur de longues distances, créant un compromis entre la vitesse, la perception et la capacité de voyager furtivement. Voyager pendant de longues périodes risque également d’être épuisé."
+            },
+            {
+                "type": "table",
+                "headers": [
+                    "Rythme",
+                    "Distance par heure",
+                    "Distance par jour",
+                    "Effet"
+                ],
+                "rows": [
+                    [
+                        "Rapide",
+                        "4 milles",
+                        "30 milles",
+                        "Inconvénient lors des tests de perception"
+                    ],
+                    [
+                        "Normale",
+                        "3 milles",
+                        "24 milles",
+                        "-"
+                    ],
+                    [
+                        "Lent",
+                        "2 milles",
+                        "18 milles",
+                        "Peut utiliser la furtivité"
+                    ]
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "<b>Marche forcée:</b> Pour chaque heure de voyage au-delà de 8 heures, les personnages effectuent un jet de sauvegarde de Constitution (DD 10 + 1 par heure après 8 heures). En cas d'échec, ils gagnent un niveau d'épuisement."
+            }
+        ]
+    }
+]

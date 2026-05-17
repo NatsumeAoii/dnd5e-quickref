@@ -6,11 +6,12 @@ import {
     ServiceWorkerMessenger, DOMProvider, A11yService, DBService, WakeLockService, SyncService,
     PerformanceOptimizer, GamepadService, SettingsService, UserDataService, PersistenceService, DataService,
     ErrorService, OnboardingService, KeyboardShortcutsService, ChangelogService, ReadmeService, NavigationService,
+    LocalizationService,
 } from './services/index.js';
 import {
     TemplateService, ViewRenderer, PopupFactory, WindowManager, UIController,
 } from './ui/index.js';
-import { installPrintRestoreFallback } from './utils/Utils.js';
+import { getMotionSafeScrollBehavior, installPrintRestoreFallback } from './utils/Utils.js';
 
 interface Services {
     domProvider: DOMProvider;
@@ -22,6 +23,7 @@ interface Services {
     gamepad: GamepadService;
     persistence: PersistenceService;
     settings: SettingsService;
+    localization: LocalizationService;
     userData: UserDataService;
     data: DataService;
     errorService: ErrorService;
@@ -68,6 +70,7 @@ class QuickRefApplication {
         const gamepad = new GamepadService(domProvider);
         const persistence = new PersistenceService(window.sessionStorage, this.#stateManager);
         const settings = new SettingsService(window.localStorage, this.#stateManager, sync, optimizer);
+        const localization = new LocalizationService();
         const userData = new UserDataService(window.localStorage, this.#stateManager, db, sync);
         const data = new DataService(this.#stateManager);
         const errorService = new ErrorService();
@@ -79,7 +82,7 @@ class QuickRefApplication {
 
         this.#services = {
             domProvider, a11y, db, wakeLock, sync, optimizer, gamepad, persistence, settings, userData, data,
-            errorService, onboarding, shortcuts, changelog, readme, navigation,
+            errorService, onboarding, shortcuts, changelog, readme, navigation, localization,
         };
     }
 
@@ -118,6 +121,7 @@ class QuickRefApplication {
     async start(): Promise<void> {
         try {
             this.#services.settings.initialize();
+            await this.#services.localization.loadAndApply(this.#stateManager.getState().settings.locale);
             await this.#services.userData.initialize();
             this.#components.controller.applyInitialSettings();
 
@@ -206,6 +210,12 @@ class QuickRefApplication {
         }
     }
 
+    #setSectionDisclosureExpanded(section: Element, expanded: boolean): void {
+        const control = section.querySelector('.section-toggle')
+            ?? section.querySelector(`.${CONFIG.CSS.SECTION_TITLE}`);
+        control?.setAttribute('aria-expanded', String(expanded));
+    }
+
     #registerKeyboardShortcuts(): void {
         const s = this.#services.shortcuts;
 
@@ -221,7 +231,7 @@ class QuickRefApplication {
             const allCollapsed = Array.from(sections).every((el) => el.classList.contains(CONFIG.CSS.IS_COLLAPSED));
             sections.forEach((el) => {
                 el.classList.toggle(CONFIG.CSS.IS_COLLAPSED, !allCollapsed);
-                el.querySelector(`.${CONFIG.CSS.SECTION_TITLE}`)?.setAttribute('aria-expanded', String(allCollapsed));
+                this.#setSectionDisclosureExpanded(el, allCollapsed);
             });
             // Persist all states and trigger lazy-render if expanding
             this.#components.controller.persistAllSectionStates();
@@ -236,7 +246,7 @@ class QuickRefApplication {
 
         // Scroll to top
         s.register('t', 'Scroll to top', 'Navigation', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: getMotionSafeScrollBehavior() });
         });
 
         // Close all popups
@@ -257,7 +267,7 @@ class QuickRefApplication {
             document.body.classList.remove(CONFIG.CSS.PRINT_MODE);
             expandedForPrint.forEach((el) => {
                 el.classList.add(CONFIG.CSS.IS_COLLAPSED);
-                el.querySelector(`.${CONFIG.CSS.SECTION_TITLE}`)?.setAttribute('aria-expanded', 'false');
+                this.#setSectionDisclosureExpanded(el, false);
             });
             this.#services.navigation.invalidateFocusables();
         };
@@ -268,7 +278,7 @@ class QuickRefApplication {
                 const section = el as HTMLElement;
                 expandedForPrint.push(section);
                 section.classList.remove(CONFIG.CSS.IS_COLLAPSED);
-                section.querySelector(`.${CONFIG.CSS.SECTION_TITLE}`)?.setAttribute('aria-expanded', 'true');
+                this.#setSectionDisclosureExpanded(section, true);
             });
             await this.#components.controller.renderOpenSections();
             this.#services.navigation.invalidateFocusables();

@@ -121,10 +121,17 @@ export const safeHTML = (html: string): string =>
 export const safeScriptURL = (url: string): string =>
     trustedPolicy ? trustedPolicy.createScriptURL(url) : url;
 
+export const prefersReducedMotion = (): boolean =>
+    document.body.classList.contains('motion-reduced') ||
+    (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false);
+
+export const getMotionSafeScrollBehavior = (): ScrollBehavior =>
+    prefersReducedMotion() ? 'auto' : 'smooth';
+
 const FOCUSABLE_SELECTOR = [
     'a[href]',
     'button:not([disabled])',
-    'input:not([disabled])',
+    'input:not([disabled]):not([type="hidden"])',
     'select:not([disabled])',
     'textarea:not([disabled])',
     '[tabindex]:not([tabindex="-1"])',
@@ -132,7 +139,8 @@ const FOCUSABLE_SELECTOR = [
 
 export const getFocusableElements = (root: ParentNode): HTMLElement[] =>
     Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter((el) =>
-        !el.hidden && el.getAttribute('aria-hidden') !== 'true'
+        el.tabIndex >= 0 &&
+        !el.closest('[hidden], [aria-hidden="true"], [inert]')
     );
 
 export const trapFocusWithin = (event: KeyboardEvent, root: ParentNode): void => {

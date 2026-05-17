@@ -1,0 +1,380 @@
+[
+    {
+        "title": "Grimper",
+        "optional": "Standard rule",
+        "icon": "crags",
+        "subtitle": "Coût: +1 pied par pied",
+        "description": "L'escalade est un terrain difficile, coûtant 1 pied supplémentaire de mouvement pour chaque pied gravi, à moins que tu n’ayez une vitesse de montée.",
+        "reference": "PHB, p. 182.",
+        "summary": "Chaque pied de mouvement consacré à l'escalade coûte 1 pied supplémentaire, le considérant comme un terrain difficile. Une créature avec une vitesse d'escalade ignore ce coût supplémentaire.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Le mouvement vertical est un élément clé de l’exploration. À moins qu'une créature ne soit un grimpeur naturel, cela est lent et fonctionne comme un terrain difficile, ce qui coûte effectivement le double du mouvement."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Chaque pied de mouvement passé à grimper coûte 1 pied supplémentaire. Ainsi, se déplacer de 1,50 m sur un mur coûte 3 m de ta vitesse.",
+                    "Une créature avec une vitesse d'escalade ignore ce coût supplémentaire.",
+                    "Le MD peut exiger un test de Force (Athlétisme) pour une surface particulièrement difficile ou glissante."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "N’oublie pas ce coût, car cela signifie qu'une créature avec une vitesse de 9 m peut grimper un maximum de 4,50 m dans un tour sans effectuer l’action Foncer."
+            }
+        ]
+    },
+    {
+        "title": "Ramper",
+        "optional": "Standard rule",
+        "icon": "crawl",
+        "subtitle": "Coût: +1 pied par pied",
+        "description": "Lorsque tu es couché, ta seule option de mouvement est de ramper, ce qui coûte 1 pied supplémentaire de mouvement pour chaque pied déplacé.",
+        "reference": "PHB, p. 182.",
+        "summary": "Lorsque tu es à plat ventre, ta seule option de mouvement est de ramper. Chaque pied de mouvement dépensé en rampant coûte 1 pied supplémentaire, le considérant comme un terrain difficile.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ramper est le mouvement lent auquel tu es limité lorsque tu es en position à terre. Il fonctionne comme un terrain difficile, représentant la lutte pour se déplacer sur le terrain."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Chaque pied de mouvement passé à ramper coûte 1 pied supplémentaire.",
+                    "Ramper est le seul moyen de se déplacer lorsque tu es en position à terre, à moins que tu n’utilisiez d'abord la moitié de ton mouvement pour te relever."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Pour retrouver ta pleine vitesse, tu dois d'abord consacrer la moitié de ton mouvement total à te relever, ce qui met fin à l’état à terre et constitue généralement une option plus efficace."
+            }
+        ]
+    },
+    {
+        "title": "Terrain difficile",
+        "optional": "Standard rule",
+        "icon": "stonepile",
+        "subtitle": "Modificateur de coût: +1 pied par pied",
+        "reference": "PHB, p. 182.",
+        "description": "Se déplacer à travers des zones comme les décombres, la neige ou les sous-bois coûte le double du mouvement, réduisant ainsi de moitié ta vitesse.",
+        "summary": "Chaque pied de mouvement sur un terrain difficile coûte 1 pied supplémentaire de ta vitesse. Cet effet s'applique à tous les types de mouvement et inclut les espaces des autres créatures.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Le terrain difficile est l’un des facteurs environnementaux les plus courants en combat, faisant du positionnement et du mouvement un défi tactique. Pour chaque pied que tu te déplaces sur un terrain difficile, tu dois dépenser 1 pied supplémentaire de mouvement."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Les exemples incluent les meubles bas, les décombres, les sous-bois, les escaliers raides, la neige et les tourbières peu profondes.",
+                    "L'espace d’une autre créature, qu'elle soit hostile ou non, est également un terrain difficile.",
+                    "Certaines aptitudes, comme l'Explorateur Naturel du Ranger, te permettent d'ignorer les effets d’un terrain difficile non magique."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cela signifie qu’un pas de 1,50 m dans les décombres coûte 3 m de ton mouvement. Ce coût supplémentaire s'applique à tous les types de mouvements, y compris la marche, l'escalade et la natation."
+            }
+        ]
+    },
+    {
+        "title": "Se jeter à terre",
+        "optional": "Standard rule",
+        "icon": "falling",
+        "subtitle": "Coût: 0 m",
+        "description": "Tu peux tomber au sol à tout moment de ton tour sans utiliser ta vitesse.",
+        "reference": "PHB, p. 190-191.",
+        "summary": "Tu peux tomber au sol à tout moment pendant ton tour sans utiliser aucun mouvement. Cela te donne l’état à terre.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "C'est un moyen gratuit et instantané de changer de position. Il est souvent utilisé de manière défensive pour devenir une cible plus difficile pour les attaques à distance, bien qu'il implique des compromis tactiques."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Se laisser tomber ne coûte rien à ta vitesse, à ton action ou à ta réaction.",
+                    "Cela peut être fait à tout moment pendant ton tour.",
+                    "Cela te donne la condition <i>à terre</i>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Bien qu'être à terre impose un désavantage aux attaquants à distance, cela confère un avantage aux attaquants de mêlée à moins de 1,50 m, alors utilise cette tactique à bon escient."
+            }
+        ]
+    },
+    {
+        "title": "Se déplacer en agrippant",
+        "optional": "Standard rule",
+        "icon": "grab",
+        "subtitle": "Modificateur: vitesse réduite de moitié",
+        "description": "Lorsque tu te déplaces tout en agrippant une autre créature, ta vitesse est réduite de moitié, sauf si la créature est inférieure de deux tailles ou plus.",
+        "reference": "PHB, p. 195.",
+        "summary": "Lorsque tu te déplaces, tu peux entraîner une créature agrippée avec toi, mais ta vitesse est réduite de moitié pour le tour. Cette pénalité se cumule avec les terrains difficiles.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Une fois que tu as saisi une créature, tu peux la déplacer de force. Cela a un coût en termes de vitesse, ce qui représente la difficulté d'entraîner un ennemi réticent."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Lorsque tu te déplaces, tu peux traîner ou transporter la créature agrippée avec toi.",
+                    "Ta vitesse est <b>réduite de moitié</b> pour le tour, à moins que la créature soit deux fois ou plus plus petite que toi.",
+                    "Cette pénalité s'applique à ta vitesse totale pour le tour et se cumule avec un terrain difficile."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Par exemple, avec une vitesse de 9 m, l’agrippement la réduit de moitié à 4,50 m. Se déplacer de 1,50 m sur un terrain difficile coûterait alors 3 m de cette réserve de 4,50 m, te laissant seulement 1,50 m de mouvement."
+            }
+        ]
+    },
+    {
+        "title": "Saut en hauteur",
+        "optional": "Standard rule",
+        "icon": "wingfoot",
+        "subtitle": "Hauteur: 3 pieds + STR MOD",
+        "description": "Après avoir parcouru au moins 3 m, tu peux sauter verticalement d’un nombre de pieds égal à 3 + ton modificateur de Force.",
+        "reference": "PHB, p. 182.",
+        "summary": "Avec un départ en courant de 3 m, tu peux sauter verticalement d’un nombre de pieds égal à 3 + ton modificateur de Force. Un saut en hauteur debout représente la moitié de cette distance.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ta capacité de saut en hauteur détermine la hauteur maximale que tu peux franchir, et chaque pied sauté coûte un pied de mouvement. La distance dépend si tu prends un départ en courant."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Un <b>saut en hauteur en courant</b>, qui nécessite de bouger d'au moins 3 m à pied juste avant, te permet de sauter d’une hauteur de 3 + ton modificateur de Force en pieds.",
+                    "Un <b>saut en hauteur debout</b> ne représente que la moitié de cette distance.",
+                    "Tu peux étendre tes bras à mi-hauteur au-dessus de toi pendant le saut pour atteindre des rebords plus élevés.",
+                    "Chaque pied dégagé coûte un pied de mouvement."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Par exemple, un personnage avec 16 Force (+3 mod) peut faire un saut en hauteur de 6 pieds, lui permettant de sauter sur une caisse ou par-dessus un muret."
+            }
+        ]
+    },
+    {
+        "title": "Saut en longueur",
+        "optional": "Standard rule",
+        "icon": "wingfoot",
+        "subtitle": "Distance: score STR en pieds",
+        "description": "Après avoir parcouru au moins 3 m, tu peux sauter horizontalement d’un certain nombre de pieds jusqu'à ton score de Force.",
+        "reference": "PHB, p. 182.",
+        "summary": "Avec un départ en course de 3 m, tu peux sauter horizontalement d’un certain nombre de pieds jusqu'à ton score de force. Un saut en longueur debout correspond à la moitié de cette distance.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ta capacité de saut en longueur détermine la distance maximale que tu peux parcourir sur un espace, et chaque pied sauté coûte un pied de mouvement. La distance dépend si tu prends un départ en courant."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Un <b>saut en longueur en courant</b>, qui nécessite de bouger d'au moins 3 m à pied immédiatement avant, te permet de sauter sur une distance allant jusqu'à ton score de Force en pieds.",
+                    "Un <b>saut en longueur debout</b> ne représente que la moitié de cette distance.",
+                    "Chaque pied dégagé coûte un pied de mouvement.",
+                    "Le MD peut exiger un test de Force (Athlétisme) DD 10 pour franchir un obstacle bas pendant le saut."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Un personnage avec un score de Force de 14 peut effectuer un saut en longueur jusqu'à 14 pieds pour traverser un gouffre, à condition qu'il dispose de 14 pieds de mouvement à dépenser."
+            }
+        ]
+    },
+    {
+        "title": "Monter/descendre",
+        "optional": "Standard rule",
+        "icon": "horsehead",
+        "subtitle": "Coût: moitié de la vitesse de déplacement",
+        "description": "Une fois à ton tour, tu peux monter ou descendre d’une créature en dépensant un mouvement égal à la moitié de ta vitesse.",
+        "reference": "PHB, p. 198.",
+        "summary": "Tu peux monter ou descendre d’une monture en dépensant un mouvement égal à la moitié de ta vitesse. Si ton monture est déplacée contre sa volonté, tu dois effectuer une sauvegarde DEX DD 10 ou tomber et atterrir à plat ventre.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Monter une créature consentante d'au moins une taille plus grande que la vôtre est un moyen courant d'augmenter la vitesse de déplacement. Le coût de cette opération fait partie de ton déplacement, et il existe des risques si ton monture est déplacée de force ou renversée."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Monter ou descendre coûte une quantité de mouvement égale à la moitié de ta vitesse. Par exemple, si ta vitesse est de 9 m, tu dois effectuer 4,50 m de mouvement.",
+                    "Si un effet déplace ton monture contre sa volonté, tu dois réussir un <b>jet de sauvegarde de Dextérité DD 10</b> ou tomber et atterrir à terre à moins de 1,50 m d'elle.",
+                    "Si ton monture est mise à terre, tu peux utiliser ta réaction pour descendre de ton monture lorsqu'elle tombe. Sinon, tu es démonté et sujet aux chutes."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ce coût est forfaitaire. Avec une vitesse de 9 m, tu dois dépenser 4,50 m de mouvement pour monter à cheval, ce qui te laisse 4,50 m restants pour te déplacer seul ce tour-là si tu le souhaitez."
+            }
+        ]
+    },
+    {
+        "title": "Se déplacer",
+        "optional": "Standard rule",
+        "icon": "run",
+        "subtitle": "Coût: 1 pied par 1 pied",
+        "description": "À ton tour, tu peux te déplacer sur une distance correspondant à ta vitesse, en interrompant ce mouvement comme bon te semble.",
+        "reference": "PHB, p. 182, 190.",
+        "summary": "Tu peux parcourir une distance correspondant à ta vitesse, en la divisant avant et après tes actions. Tu peux te déplacer dans l'espace d’une créature non hostile, mais pas dans un espace hostile (sauf s'il y a une grande différence de taille).",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Le mouvement est une ressource, pas une action. Tu disposes d’une réserve de mouvement à ton tour égale à ta vitesse, que tu peux dépenser à n’importe quel incrément. Tu peux également interagir avec les espaces d’autres créatures de manière spécifique."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu peux interrompre ton mouvement pendant ton tour, en utilisant une partie de ta vitesse avant et après ton action.",
+                    "Tu peux te déplacer dans l'espace d’une créature non hostile. Tu ne peux te déplacer dans l'espace d’une créature hostile que si elle est au moins deux fois plus grande ou plus petite que toi.",
+                    "L'espace d’une autre créature est toujours un terrain difficile pour tu.",
+                    "Tu ne peux pas volontairement terminer ton déplacement dans l'espace d’une autre créature."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cette flexibilité est essentielle au combat, te permettant de sortir d’un abri, d’attaquer, puis de revenir à couvert, le tout dans le même tour."
+            }
+        ]
+    },
+    {
+        "title": "Se faufiler dans un espace étroit",
+        "optional": "Standard rule",
+        "icon": "resize",
+        "subtitle": "Se déplacer dans un espace plus petit",
+        "description": "Tu peux te déplacer dans un espace d’une catégorie de taille plus petite que toi, mais tu subis des pénalités importantes en le faisant.",
+        "reference": "PHB, p. 192.",
+        "summary": "Se déplacer dans un espace d’une taille plus petite coûte le double du mouvement. Pendant la compression, tu as un désavantage sur les attaques et les sauvegardes DEX, et les attaques contre toi ont un avantage.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "La compression permet de traverser des zones restreintes, mais cela a un coût important à la fois en termes de mouvement et d'efficacité au combat, te rendant lent et vulnérable."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Lors de la compression, chaque pied de mouvement coûte 1 pied supplémentaire (comme sur un terrain difficile).",
+                    "Tu as <b>un désavantage aux jets d’attaque et aux jets de sauvegarde de Dextérité</b>.",
+                    "Les jets d’attaque contre toi ont un <b>avantage</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Par exemple, une créature de taille moyenne peut se faufiler dans un passage étroit destiné à une créature de taille petite, mais elle sera une cible facile pour tous les ennemis qui attendent de l'autre côté."
+            }
+        ]
+    },
+    {
+        "title": "Se relever",
+        "optional": "Standard rule",
+        "icon": "strong",
+        "subtitle": "Coût: moitié de la vitesse de déplacement",
+        "description": "En position à terre, tu peux te relever en effectuant un mouvement égal à la moitié de ta vitesse.",
+        "reference": "PHB, p. 190-191.",
+        "summary": "Tu peux te relever depuis la position à terre en dépensant une quantité de mouvement égale à la moitié de ta vitesse. Tu ne peux pas te relever si ta vitesse est nulle ou si tu n’as pas suffisamment de mouvement.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Se relever d’une position à terre est une étape coûteuse mais nécessaire pour récupérer lors d’un combat. Le coût correspond à la moitié de ta vitesse totale, et non à ta vitesse restante pour le tour."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Se lever coûte la moitié de ta vitesse totale. Pour une créature avec 9 m de vitesse, cela coûte 4,50 m de mouvement.",
+                    "Ce coût est déduit de ton mouvement disponible pour le tour.",
+                    "Tu ne peux pas te relever s'il ne te reste plus assez de mouvement ou si ta vitesse est 0."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ce coût fixe signifie que même s'il ne te reste qu'un pied de mouvement, tu ne peux pas te relever si ta vitesse est de 30, car le coût est de 4,50 m."
+            }
+        ]
+    },
+    {
+        "title": "Nager",
+        "optional": "Standard rule",
+        "icon": "atsea",
+        "subtitle": "Coût: +1 pied par pied",
+        "description": "La natation est un terrain difficile, coûtant 1 pied supplémentaire de mouvement pour chaque pied nagé, à moins que tu n’ayez une vitesse de nage.",
+        "reference": "PHB, p. 182.",
+        "summary": "Chaque pied de mouvement consacré à la nage coûte 1 pied supplémentaire, le considérant comme un terrain difficile. Une créature dotée d’une vitesse de nage ignore ce coût supplémentaire.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Se déplacer dans l’eau peut être lent et difficile pour les créatures terrestres. À moins qu'une créature ne soit naturellement aquatique, la nage coûte le double du mouvement car elle est traitée comme un terrain difficile."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Chaque pied de mouvement passé à nager coûte 1 pied supplémentaire. Ainsi, se déplacer de 1,50 m dans l’eau coûte 3 m de ta vitesse.",
+                    "Une créature dotée d’une vitesse de nage ignore ce coût supplémentaire.",
+                    "Le DM peut exiger un test de Force (Athlétisme) pour une eau agitée ou des courants forts."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cette règle, combinée aux règles du combat sous-marin, fait du combat dans l’eau un défi tactique distinct et dangereux."
+            }
+        ]
+    },
+    {
+        "title": "Rythme de voyage",
+        "optional": "Standard rule",
+        "icon": "trail",
+        "subtitle": "Voyager pendant une heure ou plus",
+        "description": "Lorsque tu voyages par voie terrestre, le rythme de ton groupe détermine la distance que tu parcours et ton conscience de ton environnement.",
+        "reference": "PHB, p. 181-182.",
+        "summary": "Détermine la vitesse et la conscience des déplacements terrestres. Un rythme rapide pénalise la Perception passive de 5, tandis qu'un rythme lent permet au groupe d'utiliser la Discrétion. Voyager plus de 8 heures par jour risque d’être épuisé.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ces règles régissent les voyages longue distance, résumant le mouvement en heures et en jours. Le rythme que tu choisis crée un compromis entre vitesse et conscience."
+            },
+            {
+                "type": "table",
+                "headers": [
+                    "Rythme",
+                    "Distance par heure",
+                    "Distance par jour",
+                    "Effet"
+                ],
+                "rows": [
+                    [
+                        "Rapide",
+                        "4 milles",
+                        "30 milles",
+                        "-5 de pénalité à la Sagesse passive (Perception)"
+                    ],
+                    [
+                        "Normale",
+                        "3 milles",
+                        "24 milles",
+                        "—"
+                    ],
+                    [
+                        "Lent",
+                        "2 milles",
+                        "18 milles",
+                        "Capable d'utiliser la furtivité"
+                    ]
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "<b>Marche Forcée:</b> Pour chaque heure supplémentaire de voyage au-delà de 8 heures dans une journée, un personnage doit réussir un jet de sauvegarde de Constitution à la fin de l'heure. Le DD est de 10 + 1 pour chaque heure après 8 heures. En cas d'échec de sauvegarde, un personnage subit un niveau d'épuisement."
+            },
+            {
+                "type": "paragraph",
+                "content": "Ces distances supposent un terrain relativement simple comme des plaines ou des routes. Le DM peut réduire de moitié ces distances pour les terrains difficiles comme les forêts denses ou les montagnes."
+            }
+        ]
+    }
+]

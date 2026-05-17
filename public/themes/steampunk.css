@@ -1,7 +1,7 @@
 html[data-theme='steampunk'][data-mode='light'] {
     --color-bg: #f4e8d5;
     --color-text: #5a452d;
-    --color-text-subtle: #8b745b;
+    --color-text-subtle: #816c55;
     --color-card-bg: #faf3e9;
     --color-header-text: #fff;
     --color-shadow: rgb(90 69 45 / 15%);
@@ -18,12 +18,16 @@ html[data-theme='steampunk'][data-mode='light'] {
     --color-settings: #5a452d;
     --color-accept: #4a9c8c;
     --color-favorite: #b87333;
+    --color-reaction-text: #000;
+    --color-condition-text: #000;
+    --color-environment-text: #000;
+    --color-favorite-text: #000;
 }
 
 html[data-theme='steampunk'][data-mode='dark'] {
     --color-bg: #3d2b1f;
     --color-text: #e4d9c7;
-    --color-text-subtle: #a89d8b;
+    --color-text-subtle: #bfb6a9;
     --color-card-bg: #5a452d;
     --color-header-text: #fff;
     --color-shadow: rgb(0 0 0 / 40%);
@@ -40,4 +44,12 @@ html[data-theme='steampunk'][data-mode='dark'] {
     --color-settings: #e4d9c7;
     --color-accept: #62c7b5;
     --color-favorite: #e09c6c;
+    --color-movement-text: #000;
+    --color-action-text: #000;
+    --color-bonus-action-text: #000;
+    --color-reaction-text: #000;
+    --color-condition-text: #000;
+    --color-environment-text: #000;
+    --color-settings-text: #000;
+    --color-favorite-text: #000;
 }

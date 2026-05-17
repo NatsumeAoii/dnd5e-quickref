@@ -1,0 +1,668 @@
+[
+    {
+        "title": "Serang",
+        "optional": "Standard rule",
+        "icon": "crossedswords",
+        "subtitle": "Serangan jarak dekat atau jarak jauh",
+        "description": "Lakukan serangan jarak dekat atau jarak jauh, Unarmed Strike, atau manuver tempur khusus seperti Grapple atau Shove.",
+        "reference": "PHB 2024, hlm. 290, 317.",
+        "summary": "Lakukan satu atau lebih serangan senjata atau Unarmed Strike. Kamu bisa mengganti serangan dengan mencoba Grapple atau Shove. Beberapa senjata dengan properti Nick memungkinkan serangan ekstra tanpa menggunakan bonus action.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Attack action adalah fondasi pertarungan martial. Ini memungkinkan kamu melakukan satu atau lebih serangan senjata atau Unarmed Strike, dan berfungsi sebagai pintu gerbang menuju manuver taktis yang mengendalikan medan perang."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Fitur tertentu, seperti <i>Extra Attack</i> Warrior, memungkinkan kamu melakukan lebih dari satu serangan dengan action tunggal ini. Setiap serangan adalah serangan yang terpisah dan bisa menargetkan makhluk yang berbeda. Kamu juga bisa berpindah di antara serangan-serangan ini.",
+                    "<b>Unarmed Strike:</b> Kamu bisa melakukan serangan jarak dekat khusus untuk Grapple, Shove, atau memberi damage. Untuk memberi damage, lakukan melee attack roll. Saat kena, serangan itu memberi bludgeoning damage sebesar 1 + modifier Strength kamu.",
+                    "<b>Weapon Mastery:</b> Saat menyerang dengan senjata, kamu bisa menerapkan properti Mastery khusus (seperti Dorong, Lambat, atau Jatuhkan) jika kamu seorang Warrior atau memiliki feat Weapon Master.",
+                    "<b>Pertarungan Dua Senjata:</b> Properti senjata <i>Nick</i> (pada Pedang, Palu Ringan, dll.) memungkinkan kamu melakukan serangan ekstra dengan senjata tersebut sebagai bagian dari action ini (tidak diperlukan bonus action), tetapi kamu tidak menambahkan pengubah kemampuanmu ke damage."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ingatlah bahwa berbagai kondisi bisa memberikan Advantage atau Disadvantage pada seranganmu, membuat penentuan posisi dan kesadaran di medan perang sangat penting bagi penyerang mana pun."
+            }
+        ]
+    },
+    {
+        "title": "Sihir",
+        "optional": "Standard rule",
+        "icon": "magicswirl",
+        "subtitle": "Rapalkan spell atau pakai sihir",
+        "description": "Rapalkan spell dengan waktu casting satu action, atau gunakan feature ajaib atau item ajaib yang memerlukan Magic action.",
+        "reference": "PHB 2024, hlm. 290, 301.",
+        "summary": "Gunakan Magic action untuk merapalkan spell 1-action, mengaktifkan feature magis, atau menggunakan item ajaib yang memerlukan action ini. Pada gilirannya, kamu hanya bisa menghabiskan satu spell slot untuk merapalkan spell.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Aturan tahun 2024 menggabungkan satu perapalan spell action dan banyak aktivasi magis di bawah Magic action. Ini membuat spell, class feature, dan timing item sihir tetap konsisten di table."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Rapalkan spell yang waktu castingnya adalah action.",
+                    "Gunakan class feature ajaib atau item ajaib yang menentukan Magic action.",
+                    "<b>Batas Spell Slot:</b> Pada satu giliran, kamu hanya bisa menghabiskan satu spell slot untuk merapalkan spell, terlepas dari apakah spell menggunakan action, Bonus Action, atau Reaction.",
+                    "<b>Concentration:</b> Banyak spell yang memerlukan concentration. Kamu kehilangan concentration jika kamu: merapalkan spell lain yang membutuhkan concentration, mendapat damage (memerlukan saving throw CON vs. DC 10 atau setengah dari damage yang diterima), Incapacitated, atau mati."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Menguasai Magic action berarti melacak butuh action, concentration, dan apakah kamu telah memakai spell slot untuk merapalkan spell pada giliran ini."
+            }
+        ]
+    },
+    {
+        "title": "Dash",
+        "optional": "Standard rule",
+        "icon": "sprint",
+        "subtitle": "Speed gerakan ganda",
+        "description": "Dapatkan gerakan ekstra untuk giliran yang setara dengan speed-mu, yang secara efektif menggandakan potensi movement-mu.",
+        "reference": "PHB 2024, hlm. 291.",
+        "summary": "Dapatkan jumlah gerakan ekstra untuk giliran saat ini yang setara dengan speed-mu. Ini secara efektif menggandakan total jarak movement-mu untuk giliran.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Dash action adalah pilihan terbaikmu untuk menempuh jarak jauh dengan cepat, baik saat kamu menyerang musuh atau mundur ke posisi yang lebih aman. Ini memberikan peningkatan sederhana namun signifikan pada mobilitasmu saat giliran."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Misalnya, jika speed-mu 30 feet, menggunakan Dash action memberi kamu tambahan gerakan sejauh 30 feet untuk giliran, sehingga totalnya menjadi 60 feet.",
+                    "Pergerakan ini tunduk pada semua aturan normal dan bisa memicu opportunity attack."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Action ini tidak memberikan manfaat defensif; untuk melewati area terancam dengan aman, kamu harus menggunakan Disengage action sebagai gantinya."
+            }
+        ]
+    },
+    {
+        "title": "Lucuti*",
+        "optional": "Optional rule",
+        "icon": "swordbreak",
+        "subtitle": "Jatuhkan item dari genggaman musuh",
+        "description": "Gunakan manuver tempur opsional untuk menjatuhkan satu item dari genggaman makhluk alih-alih memberi damage.",
+        "reference": "DMG 2014, hlm. 271.",
+        "summary": "Sebagai manuver opsional, buat weapon attack roll dilawan oleh Strength (Athletics) atau Dexterity (Acrobatics) target. Jika menang, target akan menjatuhkan satu item yang dipegang.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Melucuti senjata bukanlah salah satu action standar tahun 2024. Ini tetap berguna sebagai manuver opsional untuk table yang menginginkan cara langsung untuk memisahkan musuh dari senjata, fokus, atau benda lain yang dipegang."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Buat weapon attack roll dilawan oleh <b>Strength (Athletics)</b> atau <b>Dexterity (Acrobatics)</b> target.",
+                    "Jika kamu memenangkan contest, serangan tersebut tidak memberi damage dan target menjatuhkan satu item pilihanmu.",
+                    "Target memiliki <b>advantage</b> pada check-nya jika ia memegang benda tersebut dengan dua tangan atau lebih.",
+                    "Penyerang memiliki <b>disadvantage</b> jika targetnya lebih besar dari mereka."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini sangat efektif melawan musuh yang mengandalkan satu senjata ampuh, namun kurang efektif terhadap musuh yang memiliki senjata alami atau banyak pilihan."
+            }
+        ]
+    },
+    {
+        "title": "Disengage",
+        "optional": "Standard rule",
+        "icon": "journey",
+        "subtitle": "Mencegah opportunity attack",
+        "description": "Selama sisa giliranmu, movement-mu tidak memicu opportunity attack, sehingga memungkinkan kamu mundur dengan aman.",
+        "reference": "PHB 2024, hlm. 291.",
+        "summary": "Movement-mu selama sisa giliran saat ini tidak memicu opportunity attack apa pun, sehingga kamu bisa menjauh dengan aman dari musuh.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini adalah action murni taktis yang berfokus pada reposisi. Ini memungkinkan kamu untuk menjauh dari satu atau lebih musuh tanpa takut mendapat damage, membuatnya alat penting untuk mengontrol posisimu di medan perang."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Ini adalah cara utama untuk keluar dari jangkauan musuh dengan aman dalam jarak dekat.",
+                    "Manfaatnya hanya bertahan hingga akhir giliran saat ini."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini adalah opsi penting untuk karakter jarak jauh atau spellcaster yang perlu menciptakan jarak, atau untuk karakter apa pun yang perlu melarikan diri dari musuh berbahaya."
+            }
+        ]
+    },
+    {
+        "title": "Dodge",
+        "optional": "Standard rule",
+        "icon": "dodging",
+        "subtitle": "Tingkatkan pertahanan",
+        "description": "Fokus sepenuhnya untuk menghindari serangan, menerapkan disadvantage pada penyerang dan memberikan advantage pada Dexterity saving throw.",
+        "reference": "PHB 2024, hlm. 291.",
+        "summary": "Hingga awal giliranmu berikutnya, attack roll mana pun yang melawanmu memiliki disadvantage jika kamu bisa melihat penyerangnya, dan kamu melakukan saving throw Dexterity dengan advantage.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Saat kamu mengantisipasi serangan gencar atau area-of-effect spell yang berbahaya, Dodge action adalah manuver pertahanan terbaik kamu. Manfaatnya bertahan hingga awal giliranmu berikutnya, memberi kamu cover sepanjang round pertarungan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Hingga awal giliranmu berikutnya, attack roll apa pun yang dibuat melawanmu memiliki <b>disadvantage</b> jika kamu bisa melihat penyerangnya.",
+                    "Kamu juga melakukan <b>Dexterity saving throw dengan advantage</b>.",
+                    "Kamu kehilangan manfaat ini jika kamu <i>Incapacitated</i> atau jika speed-mu turun ke 0."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini adalah pilihan yang sangat baik ketika menahan chokepoint, melindungi ally, atau sekadar mencoba bertahan hingga giliran berikutnya."
+            }
+        ]
+    },
+    {
+        "title": "Pakai/Lepas Perisai",
+        "optional": "Standard rule",
+        "icon": "roundshield",
+        "subtitle": "Melengkapi atau melepaskan perisai",
+        "description": "Gunakan Utilize action untuk melengkapi atau melepas perisai.",
+        "reference": "PHB 2024, hlm. 153.",
+        "summary": "Mengenakan atau melepas perisai menggunakan Utilize action, membuat pengelolaan perisai lebih mahal dibandingkan interaksi objek bebas normal.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Berbeda dengan menarik atau menyimpan banyak senjata, mengelola perisai menggunakan Utilize action. Ini mewakili waktu yang diperlukan untuk mengamankan atau melepaskan perisai dengan benar sebelum bonus AC berlaku atau berakhir."
+            }
+        ]
+    },
+    {
+        "title": "Lepas",
+        "optional": "Standard rule",
+        "icon": "manacles",
+        "subtitle": "Melarikan diri dari pergulatan atau pengekangan",
+        "description": "Gunakan action-mu untuk mencoba membebaskan diri dari grapple atau efek serupa dengan melakukan check terhadap DC yang sudah diperbaiki.",
+        "reference": "PHB 2024, hlm. 291.",
+        "summary": "Lakukan check Strength (Athletics) atau Dexterity (Acrobatics) terhadap efek escape DC. Untuk grapple makhluk, DC adalah grapple DC (8 + STR mod + Prof Bonus).",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Saat digenggam atau Restrained, Escape action adalah jalan langsung kamu menuju kebebasan. Aturan tahun 2024 menyederhanakan ini dengan meminta kamu melawan DC statis yang ditetapkan oleh efeknya, bukan check yang diperebutkan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Untuk lolos dari grapple, gunakan action untuk membuat <b>Strength (Athletics)</b> atau <b>Dexterity (Acrobatics)</b> (pilihanmu) terhadap escape efek DC.",
+                    "Untuk grapple yang diprakarsai oleh makhluk, DC adalah grapple makhluk tersebut DC (8 + STR mod + Prof Bonus).",
+                    "Action ini juga bisa digunakan untuk efek lain yang menentukan pelarian, seperti terjebak dalam jaring."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Perubahan ini membuat pelarian menjadi lebih bisa diprediksi dan tidak terlalu bergantung pada lemparan lawan, sehingga memungkinkan perencanaan taktis yang lebih andal."
+            }
+        ]
+    },
+    {
+        "title": "Grapple",
+        "optional": "Standard rule",
+        "icon": "grab",
+        "subtitle": "Serangan khusus tanpa senjata",
+        "description": "Sebagai salah satu seranganmu, cobalah untuk menangkap makhluk, memaksa mereka untuk melakukan Strength atau Dexterity saving throw atau menjadi Grappled.",
+        "reference": "PHB 2024, hlm. 317.",
+        "summary": "Sebagai bagian dari Attack action, kamu bisa memaksa makhluk untuk membuat Strength atau Dexterity saving throw melawan grapple DC kamu. Jika gagal, target memperoleh kondisi Grappled.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Grappling kini lebih cepat dan konsisten, menggunakan saving throw dari target, bukan check yang diperebutkan. Ini membuatnya taktik kontrol yang lebih andal untuk karakter kuat, yang dimulai sebagai bagian dari Attack action."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Ini menggantikan salah satu seranganmu saat kamu menggunakan Attack action. Kamu memerlukan setidaknya satu tangan bebas.",
+                    "Targetnya tidak boleh lebih dari satu ukuran lebih besar dari kamu dan harus berada dalam jangkauanmu.",
+                    "Target memilih apakah akan membuat <b>Strength atau Dexterity saving throw</b> (DC = 8 + pengubah Strength kamu + proficiency bonus kamu).",
+                    "Jika saving throw gagal, target memperoleh kondisi <b>Grappled</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Grapple yang berhasil adalah cara terbaik untuk mengunci satu musuh, mencegah mereka menjangkau ally-mu yang lebih rentan."
+            }
+        ]
+    },
+    {
+        "title": "Bantu",
+        "optional": "Standard rule",
+        "icon": "allforone",
+        "subtitle": "Beri advantage ke ally",
+        "description": "Gunakan action-mu untuk membantu ally, berikan mereka advantage di ability check atau attack roll.",
+        "reference": "PHB 2024, hlm. 291.",
+        "summary": "Kamu bisa memberi advantage ke ally pada ability check berikutnya, atau memberi advantage ke ally pada attack roll berikutnya terhadap makhluk dalam jarak 5 feet dari kamu.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Help action memungkinkan kamu membantu ally secara langsung, baik dengan mengalihkan perhatian musuh untuk membuat celah atau dengan berkolaborasi dalam suatu tugas. Kamu bisa memilih salah satu dari dua cara berbeda untuk membantu makhluk lain."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Membantu Ability check:</b> Kamu membantu makhluk lain dengan d20 Test. Mereka memperoleh <b>advantage</b> pada ability check berikutnya yang mereka buat, asalkan mereka berhasil sebelum dimulainya giliran berikutnya.",
+                    "<b>Mengalihkan perhatian Musuh:</b> Alternatifnya, kamu bisa membantu ally menyerang makhluk dalam jarak 5 feet dari kamu. attack roll berikutnya dari ally yang melawan target tersebut memiliki <b>advantage</b>, asalkan serangan terjadi sebelum dimulainya giliranmu berikutnya."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini adalah cara fantastis untuk meningkatkan peluang serangan kritis, seperti Sneak Attack Rogue atau Divine Smite Paladin, membuat kerja tim sebagai mekanisme yang nyata."
+            }
+        ]
+    },
+    {
+        "title": "Sembunyi",
+        "optional": "Standard rule",
+        "icon": "hood",
+        "subtitle": "Mencoba bersembunyi",
+        "description": "Buatlah check DC 15 Dexterity (Stealth) untuk menyembunyikan dirimu, mendapatkan manfaat dari kondisi Invisible.",
+        "reference": "PHB 2024, hlm. 291.",
+        "summary": "Jika kamu heavily obscured atau di balik Three-Quarters Cover atau Total Cover, kamu bisa melakukan check DC 15 Dexterity (Stealth). Jika berhasil, kamu memperoleh manfaat dari kondisi Invisible hingga kamu ditemukan atau mengungkapkan dirimu.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Aturan persembunyian telah diperjelas agar lebih konsisten. Keberhasilan dalam check terhadap DC yang diperbaiki membuat kamu Invisible secara efektif hingga kamu mengungkapkan diri atau ditemukan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Kamu harus sangat tertutup atau berada di balik setidaknya tiga perempat cover atau Total Cover untuk mencoba bersembunyi. Kamu tidak bisa bersembunyi dari makhluk yang bisa melihat kamu.",
+                    "Lakukan check <b>DC 15 Dexterity (Stealth)</b>.",
+                    "Jika berhasil, kamu memperoleh kondisi <b>Invisible</b> dibandingkan dengan makhluk lain. Catat total check kamu.",
+                    "Makhluk bisa menggunakan Search action untuk membuat check Wisdom (Perception) terhadap total check Stealth untuk menemukan kamu.",
+                    "Kondisi Invisible berakhir jika kamu membuat suara lebih keras dari bisikan, membuat attack roll, merapalkan spell dengan komponen verbal, atau tidak lagi dikaburkan/di belakang penutup."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "DC standar baru ini membuat siluman sebagai opsi taktis yang lebih andal, dengan kondisi yang jelas untuk keberhasilan dan kegagalan."
+            }
+        ]
+    },
+    {
+        "title": "Improvisasi",
+        "optional": "Standard rule",
+        "icon": "juggler",
+        "subtitle": "Action apa pun yang tidak ada dalam daftar ini",
+        "description": "Lakukan action apa pun yang bisa kamu bayangkan yang tidak tercakup dalam action standar lainnya, tergantung persetujuan DM.",
+        "reference": "PHB 2024, hlm. 291.",
+        "summary": "Lakukan action apa pun yang tidak tercakup dalam aturan. DM menentukan apakah hal itu mungkin dan apa, jika ada, d20 Test yang diperlukan agar berhasil.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Saat kamu ingin mencoba sesuatu yang kreatif dan tidak konvensional, kamu menggunakan Improvisasi action. DM berhak memutuskan apa yang mungkin dilakukan dan check apa, jika ada, yang diperlukan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Saat kamu mendeskripsikan action yang tidak dirinci di tempat lain, DM memberi tahu kamu apakah hal itu mungkin dan jenis d20 Test apa, jika ada, yang perlu kamu buat untuk menentukan keberhasilan atau kegagalan."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Action ini menyusun 'aturan keren', memastikan selalu ada ruang dalam aturan untuk kecerdikan dan ide spontan pemain."
+            }
+        ]
+    },
+    {
+        "title": "Pengaruhi",
+        "optional": "Standard rule",
+        "icon": "conversation",
+        "subtitle": "Secara sosial mempengaruhi suatu makhluk",
+        "description": "Gunakan action-mu untuk membujuk, menipu, atau mengintimidasi makhluk, yang berpotensi mengubah perilaku mereka di tengah pertempuran.",
+        "reference": "PHB 2024, hlm. 291.",
+        "summary": "Lakukan check Charisma (Persuasion, Deception, atau Intimidation) untuk mempengaruhi makhluk secara sosial. Kesuksesan bisa mengubah perilaku mereka untuk sementara, namun tidak memaksakan suatu kondisi.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Influence action memberikan kerangka mekanis untuk interaksi sosial dalam urutan inisiatif, memungkinkan hasil yang lebih dari sekadar bertarung sampai mati. Ia bergantung pada check Charisma untuk mempengaruhi sikap makhluk."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Sebagai action, kamu bisa mencoba memengaruhi makhluk yang bisa berkomunikasi dengan kamu.",
+                    "Lakukan check Charisma menggunakan Deception, Intimidation, atau Persuasi. DM mungkin membuat kamu menantang ini dengan check Wisdom (Insight) makhluk itu.",
+                    "Sikap makhluk tersebut (Ramah, Biasa Saja, Bermusuhan) bisa mempengaruhi DC.",
+                    "Keberhasilan bisa menyebabkan perubahan perilaku sementara, seperti membuat makhluk bermusuhan berhenti sejenak dan mendengarkan, namun ini tidak memaksakan kondisi seperti Charmed atau Frightened."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini adalah alat yang hebat bagi karakter karismatik untuk meredakan perkelahian, menciptakan gangguan, atau mencapai tujuan tanpa pertumpahan darah."
+            }
+        ]
+    },
+    {
+        "title": "Interaksi dengan Objek",
+        "optional": "Standard rule",
+        "icon": "snatch",
+        "subtitle": "Satu-satunya interaksi gratis kamu",
+        "description": "Kamu juga bisa berinteraksi dengan satu objek atau feature lingkungan secara gratis sebagai bagian dari movement-mu atau action.",
+        "reference": "PHB 2024, hlm. 294.",
+        "summary": "Sebagai bagian dari movement-mu atau action, kamu bisa berinteraksi dengan satu objek secara gratis (misalnya, draw senjata, membuka pintu). Interaksi kedua memerlukan penggunaan action.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini bukan action yang berdiri sendiri, namun merupakan bagian penting dari action economy giliranmu. Jika kamu perlu melakukan tugas kedua yang serupa atau menggunakan item dengan aturan aktivasinya sendiri, DM bisa memerlukan Utilize action."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Kamu bisa melakukan interaksi ini selama perpindahan atau action-mu.",
+                    "Contohnya meliputi: draw atau sheathe pedang, membuka atau menutup pintu, mengeluarkan potion dari ransel, mengambil barang yang terjatuh, atau mengambil perhiasan dari table."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Aturan inilah yang menyebabkan penanganan sederhana, seperti draw senjata saat bergerak ke pertarungan, biasanya sesuai dengan sisa giliranmu."
+            }
+        ]
+    },
+    {
+        "title": "Siaga",
+        "optional": "Standard rule",
+        "icon": "stopwatch",
+        "subtitle": "Pilih trigger dan action",
+        "description": "Gunakan action-mu untuk menyiapkan reaction. Kamu menetapkan trigger yang bisa dipahami dan memilih action untuk dijalankan ketika hal itu terjadi.",
+        "reference": "PHB 2024, hlm. 291.",
+        "summary": "Gunakan action-mu untuk menentukan trigger yang bisa dirasakan dan pilih action, bonus action, atau pindahkan. Saat trigger terjadi, kamu bisa menggunakan reaction untuk melakukan aktivitas pilihanmu.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ready action memungkinkan kamu bertindak di luar giliranmu, mengganggu aliran pertempuran normal. Prosesnya terdiri dari dua bagian: Kamu menggunakan action untuk mengatur ketentuan, dan reaction untuk menjalankan rencana."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Pertama, tentukan trigger yang bisa dirasakan (misalnya, 'Saat musuh membuka pintu').",
+                    "Kemudian, pilih action yang akan kamu terima sebagai respons (misalnya, 'Saya akan menggunakan Fire Bolt') atau pilih untuk meningkatkan speed-mu.",
+                    "Ketika trigger terjadi, kamu bisa menggunakan reaction untuk menjalankan action yang telah disiapkan. Ini terjadi segera setelah triggernya selesai.",
+                    "Jika kamu menyiapkan spell, kamu melemparkannya pada giliranmu tetapi tetap mempertahankan energinya, yang memerlukan <b>concentration</b>. Jika concentration kamu rusak, spell dan spell slot hilang."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini adalah pilihan taktis yang kuat, namun jika triggernya tidak pernah terjadi, kamu kehilangan action dan reaction-mu selama ronde tersebut."
+            }
+        ]
+    },
+    {
+        "title": "Cari",
+        "optional": "Standard rule",
+        "icon": "magnifyingglass",
+        "subtitle": "Mencoba menemukan sesuatu",
+        "description": "Curahkan perhatianmu untuk menemukan sesuatu yang tersembunyi atau Invisible, biasanya dengan check Wisdom.",
+        "reference": "PHB 2024, hlm. 291.",
+        "summary": "Lakukan check Wisdom untuk melihat sesuatu yang tidak jelas. Skill umum mencakup Insight, Medicine, Perception, atau Survival, bergantung pada apa yang ingin kamu temukan.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Meskipun kesadaran pasif mewakili apa yang kamu perhatikan tanpa usaha, Search action adalah upaya terfokus untuk membedakan sesuatu yang tersembunyi, tidak jelas, atau mudah diabaikan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Gunakan <b>Wisdom (Perception)</b> untuk menemukan makhluk atau objek tersembunyi.",
+                    "Gunakan <b>Wisdom (Insight)</b> untuk membaca keadaan atau niat makhluk.",
+                    "Gunakan <b>Wisdom (Medicine)</b> untuk mendiagnosis makhluk atau menentukan penyebab kematian.",
+                    "Gunakan <b>Wisdom (Survival)</b> untuk mengikuti jejak atau rambu di lingkungan."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini adalah action yang bisa digunakan ketika kamu mengetahui ada sesuatu yang tidak beres dan kamu perlu meluangkan waktu sejenak untuk memeriksa sekitarmu dengan cermat."
+            }
+        ]
+    },
+    {
+        "title": "Dorong",
+        "optional": "Standard rule",
+        "icon": "hand",
+        "subtitle": "Serangan khusus tanpa senjata",
+        "description": "Sebagai salah satu seranganmu, cobalah menjatuhkan makhluk yang tengkurap atau mendorongnya sejauh 5 feet dengan memaksa Strength atau Dexterity saving throw.",
+        "reference": "PHB 2024, hlm. 317.",
+        "summary": "Sebagai bagian dari Attack action, kamu bisa memaksa makhluk untuk membuat Strength atau Dexterity saving throw melawan grapple DC kamu. Jika gagal, kamu bisa menjatuhkan target Prone atau mendorongnya sejauh 5 feet.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Seperti Grapple, Shove kini diselesaikan dengan saving throw alih-alih check yang diperebutkan, membuatnya manuver kontrol medan perang yang lebih cepat dan lebih andal. Ini menggantikan salah satu seranganmu dari Attack action."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Ini menggantikan salah satu seranganmu saat kamu menggunakan Attack action. Targetnya tidak boleh lebih dari satu ukuran lebih besar dari kamu dan berada dalam jangkauanmu.",
+                    "Target memilih apakah akan membuat <b>Strength atau Dexterity saving throw</b> (DC = 8 + pengubah Strength kamu + proficiency bonus kamu).",
+                    "Pada saving throw yang gagal, kamu memilih salah satu dari dua efek: Kamu menjatuhkan target <b>Prone</b>, atau kamu mendorongnya <b>5 feet</b> langsung menjauhi kamu."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Mengetuk musuh yang Prone adalah cara terbaik untuk memberi ally jarak dekatmu advantage, sementara mendorong bisa menciptakan ruang atau membuat musuh berada dalam bahaya."
+            }
+        ]
+    },
+    {
+        "title": "Stabilkan Makhluk",
+        "optional": "Standard rule",
+        "icon": "firstaid",
+        "subtitle": "Membantu makhluk yang sekarat",
+        "description": "Ambil Help action dan lakukan check DC 10 Medicine untuk menstabilkan makhluk pada 0 Hit Points.",
+        "reference": "PHB 2024, hlm. 341.",
+        "summary": "Ambil Help action dan berhasil pada check DC 10 Wisdom (Medicine) untuk membuat makhluk di 0 HP Stabil. Kit Penyembuh menggunakan Utilize action dan satu kit digunakan untuk menstabilkan tanpa check.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini adalah cara non-ajaib untuk mencegah makhluk pada 0 Hit Points agar tidak terus melakukan Death Saving Throws. Makhluk itu tetap Unconscious hingga mendapatkan kembali Hit Points."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tanpa kit, gunakan <b>Help</b> Action dan berhasil pada check <b>DC 10 Wisdom (Medicine)</b>.",
+                    "Dengan <b>Healer's Kit</b>, ambil <b>Utilize</b> Action, gunakan sekali pakai, dan stabilkan makhluk tersebut tanpa check Wisdom (Medicine).",
+                    "Makhluk Stabil pada 0 Hit Points tidak melakukan Death Saving Throws, berhenti menjadi Stabil jika mendapat damage, dan mendapatkan kembali 1 Hit Point setelah 1d4 jam jika tidak disembuhkan terlebih dahulu."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Sihir penyembuhan masih merupakan cara tercepat untuk mengembalikan ally ke pertarungan, tetapi stabilisasi mencegah makhluk yang jatuh mendekati kematian."
+            }
+        ]
+    },
+    {
+        "title": "Pelajari",
+        "optional": "Standard rule",
+        "icon": "bookmarklet",
+        "subtitle": "Ingat informasi",
+        "description": "Gunakan check action dan Intelligence kamu untuk mengingat informasi atau memeriksa petunjuk.",
+        "reference": "PHB 2024, hlm. 291.",
+        "summary": "Lakukan check Intelligence untuk mempelajari suatu topik atau petunjuk. Skill umum meliputi Arcana, History, Investigation, Nature, atau Religion, tergantung subjeknya.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Study action mencakup penalaran terfokus, penelitian, dan penarikan kembali pengetahuan. Ini memberikan skill berbasis Intelligence tempat yang jelas dalam action economy tanpa menjanjikan sejumlah informasi taktis yang tetap."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Gunakan <b>Intelligence (Arcana)</b> untuk spell, item sihir, dan pengetahuan planar.",
+                    "Gunakan <b>Intelligence (History)</b> untuk peristiwa bersejarah, masyarakat, atau tempat.",
+                    "Gunakan <b>Intelligence (Investigation)</b> untuk menyimpulkan bagaimana petunjuk atau mekanisme cocok satu sama lain.",
+                    "Gunakan <b>Intelligence (Nature)</b> atau <b>Religion</b> untuk subjek alami atau ilahi/mayat hidup."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "DM menetapkan DC dan informasi berguna yang dipelajari, sesuai dengan situasi dan pendekatan karakter."
+            }
+        ]
+    },
+    {
+        "title": "Gunakan",
+        "optional": "Standard rule",
+        "icon": "snatch",
+        "subtitle": "Gunakan item atau objek",
+        "description": "Gunakan interaksi item atau objek non-magis yang memerlukan action, seperti yang ditentukan oleh item atau DM.",
+        "reference": "PHB 2024, hlm. 291.",
+        "summary": "Gunakan Utilize action untuk peralatan non-magis atau interaksi objek yang memerlukan action, seperti menyebarkan caltrop, menggunakan alat, atau memanipulasi objek kompleks.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Aturan tahun 2024 menggunakan Utilize action untuk banyak interaksi item konkret. Item atau situasi memberi tahu kamu check, rentang, atau efek apa yang berlaku."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Gunakan perlengkapan petualangan non-magis yang ditentukan dalam Utilize action, seperti caltrop, perlengkapan pemanjat, atau borgol.",
+                    "Gunakan alat yang sesuai ketika ada benda yang membutuhkannya, seperti alat pencuri untuk mengunci atau menjebak.",
+                    "Item dan potion sihir menggunakan waktu yang disebutkan dalam deskripsinya sendiri; mereka tidak secara otomatis diatur oleh Utilize."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Perbedaan ini penting karena beberapa item merupakan Bonus Action atau action Ajaib, bukan action Memanfaatkan."
+            }
+        ]
+    },
+    {
+        "title": "Pakai Class Feature",
+        "optional": "Standard rule",
+        "icon": "embrassedenergy",
+        "subtitle": "Beberapa fitur menggunakan action",
+        "description": "Aktifkan kelas, spesies, atau feature lainnya yang secara eksplisit memerlukan action sebagaimana dirinci dalam deskripsinya.",
+        "reference": "Lihat halaman class untuk info lebih lanjut.",
+        "summary": "Aktifkan kemampuan unik dari kelas kamu, spesies, atau sumber lain yang memerlukan action atau Magic action, seperti yang ditentukan dalam deskripsi feature.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini mencakup semua kemampuan unik yang diberikan oleh pilihan karaktermu. Selalu periksa deskripsi feature untuk mengetahui jenis action yang diperlukan, karena deskripsi ini bisa sangat bervariasi."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Periksa teks feature setiap saat; banyak fitur 2024 dipindahkan ke pengaturan waktu Bonus Action atau Magic action."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Fitur-fitur ini sering kali merupakan kemampuan paling kuat dan menentukan yang dimiliki karaktermu, sehingga membuatnya landasan bagi giliranmu."
+            }
+        ]
+    },
+    {
+        "title": "Naik ke Makhluk yang Lebih Besar*",
+        "optional": "Optional rule",
+        "icon": "mountainclimbing",
+        "subtitle": "Naiki musuh yang lebih besar",
+        "description": "Sebagai action, cobalah memanjat makhluk yang setidaknya dua ukuran lebih besar dari kamu, perlakukan itu seperti medan.",
+        "reference": "DMG 2014, hlm. 271.",
+        "summary": "Gunakan opsi action opsional lama untuk naik ke makhluk yang setidaknya dua ukuran lebih besar, perlakukan makhluk yang lebih besar sebagai medan dan bergerak bersamanya jika DM mengizinkan upaya tersebut.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini adalah action tempur opsional warisan dari DMG 2014, bukan action utama 2024. Ini tetap berguna untuk table yang menginginkan kerangka pertarungan sinematik melawan makhluk yang sangat besar."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Targetnya setidaknya harus dua ukuran lebih besar dari pemanjat.",
+                    "DM memutuskan apakah keadaan memerlukan ability check untuk naik ke atas makhluk tersebut, memperlakukan makhluk yang lebih besar sebagai medan.",
+                    "Jika berhasil, pemanjat bergerak ke ruang target, menempel padanya, dan bergerak bersamanya.",
+                    "Pemanjat memiliki <b>Advantage</b> saat melakukan attack roll terhadap makhluk yang dipanjatnya.",
+                    "Makhluk yang lebih besar bisa mencoba mengusir pemanjat, biasanya dengan check Strength (Athletics) yang diperebutkan terhadap Strength (Athletics) atau Dexterity (Acrobatics) pemanjat."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Karena ini adalah optional rule lama, DM harus menetapkan ekspektasi sebelum bermain, bukan memperlakukannya sebagai action 2024 default."
+            }
+        ]
+    },
+    {
+        "title": "Berikan Potion**",
+        "optional": "Homebrew rule",
+        "icon": "healthpotion",
+        "subtitle": "Gunakan potion lain",
+        "description": "House rule yang lebih ketat yang membuat pemberian potion memerlukan butuh action daripada menggunakan waktu potion bonus-action 2024.",
+        "summary": "House rule untuk table yang ingin membantu makhluk lain dengan potion akan dikenakan butuh action penuh, meskipun Potion of Healing biasanya bisa diberikan sebagai Bonus Action pada tahun 2024.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "House rule ini sengaja memperlambat penggunaan potion berbantuan untuk table yang lebih grittier atau taktis. Ini harus diperlakukan sebagai aturan table yang disengaja, bukan default tahun 2024."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Default 2024:</b> Potion of Healing bisa diminum atau diberikan kepada makhluk lain dalam jarak 5 feet sebagai Bonus Action.",
+                    "<b>House rule:</b> Meminum potion sendiri tetap memerlukan Bonus Action, tetapi memberikan potion ke makhluk lain akan dikenakan butuh action."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini menjaga ketegangan action economy yang lama dalam menyelamatkan ally yang jatuh sambil menjaga penggunaan mandiri dengan cepat."
+            }
+        ]
+    },
+    {
+        "title": "Called Shot**",
+        "optional": "Homebrew rule",
+        "icon": "archerytarget",
+        "subtitle": "Targetkan bagian tubuh tertentu",
+        "description": "House rule yang mengizinkan penyerang mengambil penalti atas peluangnya untuk memberi efek melemahkan tertentu.",
+        "summary": "House rule di mana kamu mengambil penalti pada attack roll kamu (biasanya -5) untuk memberikan kondisi tertentu pada sebuah hit, seperti membuat target Dazed dengan tembakan di kepala atau Slowed mereka dengan tembakan kaki.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Homebrew ini menambahkan bakat sinematik pada pertarungan, memungkinkan efek yang lebih dari sekadar damage sederhana. Ini menghargai pemikiran taktis tetapi bisa memperlambat gameplay jika tidak dikelola dengan seperangkat aturan yang jelas dan sederhana."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Sebagai action, nyatakan 'called shot' dan berikan penalti pada attack roll kamu (biasanya -5).",
+                    "Saat kena, kamu menerapkan efek tambahan berdasarkan lokasi yang ditargetkan:",
+                    "<b>Kepala:</b> Menerapkan kondisi Dazed hingga akhir giliran berikutnya.",
+                    "<b>Lengan/Tangan:</b> Memaksa target untuk menjatuhkan satu item yang dipegang.",
+                    "<b>Kaki:</b> Menerapkan kondisi Slowed hingga akhir giliran berikutnya.",
+                    "<b>Mata:</b> Terapkan kondisi Blinded untuk 1 round (seringkali memerlukan penalti yang lebih tinggi, seperti -10)."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Menggunakan efek yang ditentukan table seperti Dazed dan Slowed bisa membuat house rule ini terasa berbeda, namun efek tersebut harus disepakati sebelum dimainkan."
+            }
+        ]
+    },
+    {
+        "title": "Penjaga**",
+        "optional": "Homebrew rule",
+        "icon": "shield",
+        "subtitle": "Lindungi ally yang berdekatan",
+        "description": "Homebrew action yang memungkinkan karakter untuk secara aktif membela ally, menerapkan disadvantage pada serangan terhadap mereka.",
+        "summary": "Gunakan action-mu untuk melindungi ally yang berdekatan. Serangan terhadap mereka memiliki disadvantage, tetapi serangan apa pun yang tidak mengenai mereka bisa dialihkan untuk mengenai kamu. Speed-mu menjadi 0.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Homebrew action ini menyediakan mekanisme 'tanking' khusus, menciptakan risiko/imbalan yang jelas untuk karakter yang berfokus pada melindungi orang lain. Ini memungkinkan pembela untuk secara aktif menempatkan diri mereka sendiri."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Sebagai action, pilih satu ally dalam jarak 5 feet dari kamu. Hingga dimulainya giliranmu berikutnya, attack roll apa pun yang dibuat melawan ally tersebut memiliki disadvantage selama kamu berada dalam jarak 5 feet dari mereka.",
+                    "Namun, hingga giliran berikutnya dimulai, serangan apa pun yang tidak mengenai ally yang dilindungi bisa dialihkan ke kamu. Penyerang menggunakan attack roll asli untuk melihat apakah itu mengenai AC kamu.",
+                    "Saat menggunakan action ini, speed-mu 0."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Action ini adalah alat yang ampuh untuk bertahan, tetapi mekanisme pengalihan membuatnya manuver berisiko melawan musuh yang akurat atau banyak."
+            }
+        ]
+    }
+]

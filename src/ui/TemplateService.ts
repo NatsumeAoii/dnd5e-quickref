@@ -44,6 +44,7 @@ export class TemplateService {
                     const th = document.createElement('th');
                     // #4: Headers are plain text — skip sanitization/linkification
                     th.textContent = headerText;
+                    th.scope = 'col';
                     headerRow.appendChild(th);
                 });
             }
@@ -95,7 +96,12 @@ export class TemplateService {
 
         item.querySelector('.item-title')!.textContent = title;
         item.querySelector('.item-desc')!.textContent = ruleData.subtitle || '';
-        item.querySelector('.favorite-btn')!.classList.toggle(CONFIG.CSS.IS_FAVORITED, isFavorite);
+        const favoriteBtn = item.querySelector('.favorite-btn') as HTMLButtonElement;
+        const favoriteLabel = `${isFavorite ? 'Remove' : 'Add'} ${title} ${isFavorite ? 'from' : 'to'} favorites`;
+        favoriteBtn.classList.toggle(CONFIG.CSS.IS_FAVORITED, isFavorite);
+        favoriteBtn.setAttribute('aria-pressed', String(isFavorite));
+        favoriteBtn.setAttribute('aria-label', favoriteLabel);
+        favoriteBtn.title = favoriteLabel;
         return item;
     }
 
@@ -103,13 +109,17 @@ export class TemplateService {
         const tpl = this.#domProvider.getTemplate(CONFIG.ELEMENT_IDS.POPUP_TEMPLATE);
         const popup = (tpl.content.cloneNode(true) as DocumentFragment).firstElementChild as HTMLElement;
         const sourceSection = document.getElementById(sectionId)?.closest(`.${CONFIG.CSS.SECTION_CONTAINER}`);
-        const borderColor = sourceSection ? window.getComputedStyle(sourceSection).borderColor : 'var(--color-hr)';
+        const sourceStyle = sourceSection ? window.getComputedStyle(sourceSection) : null;
+        const borderColor = sourceStyle?.borderColor || 'var(--color-hr)';
+        const headerTextColor = sourceStyle?.getPropertyValue('--section-header-text').trim() || 'var(--color-header-text)';
         const title = ruleData.title || CONFIG.DEFAULTS.TITLE;
         const titleId = this.#toDomId('popup-title', popupId);
         const notesId = this.#toDomId('notes', popupId);
+        const detailsId = this.#toDomId('popup-details', popupId);
 
         popup.setAttribute('aria-labelledby', titleId);
         popup.style.setProperty('--section-color', borderColor);
+        popup.style.setProperty('--section-header-text', headerTextColor);
 
         const titleEl = popup.querySelector('.popup-title') as HTMLElement;
         titleEl.id = titleId;
@@ -119,11 +129,14 @@ export class TemplateService {
         popup.querySelector('.popup-type')!.textContent = type;
         (popup.querySelector('.popup-description') as HTMLElement).innerHTML = safeHTML(linkifyFn(ruleData.description || ruleData.subtitle || '')) as string;
         (popup.querySelector('.popup-summary') as HTMLElement).innerHTML = safeHTML(linkifyFn(ruleData.summary || '')) as string;
-        popup.querySelector('.popup-bullets')!.replaceChildren(this.#renderBullets(ruleData.bullets, linkifyFn, title));
+        const bulletsEl = popup.querySelector('.popup-bullets') as HTMLElement;
+        bulletsEl.id = detailsId;
+        bulletsEl.replaceChildren(this.#renderBullets(ruleData.bullets, linkifyFn, title));
 
         const refContainer = popup.querySelector('.popup-reference-container') as HTMLElement;
         const referenceEl = refContainer.querySelector('.popup-reference') as HTMLElement;
         const toggleBtn = refContainer.querySelector('.popup-toggle-details-btn') as HTMLElement;
+        toggleBtn.setAttribute('aria-controls', detailsId);
 
         if (ruleData.reference) {
             referenceEl.textContent = ruleData.reference;

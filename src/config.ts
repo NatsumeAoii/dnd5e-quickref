@@ -1,12 +1,13 @@
 import type { SectionConfig, SettingsConfig } from './types.js';
 
 export const CONFIG = Object.freeze({
-    APP_VERSION: '1.1.6',
+    APP_VERSION: '1.1.7',
     STORAGE_KEYS: Object.freeze({
         RULES_2024: 'rules2024',
         OPTIONAL: 'optional',
         HOMEBREW: 'homebrew',
         THEME: 'theme',
+        LOCALE: 'locale',
         MODE: 'mode',
         REDUCE_MOTION: 'reduceMotion',
         WAKE_LOCK: 'wakeLock',
@@ -38,6 +39,7 @@ export const CONFIG = Object.freeze({
         RULE_ITEM_TEMPLATE: 'rule-item-template',
         POPUP_TEMPLATE: 'popup-template',
         THEME_SELECT: 'theme-select',
+        LOCALE_SELECT: 'locale-select',
         THEME_STYLESHEET: 'theme-stylesheet',
         SKELETON_LOADER: 'skeleton-loader',
         APP_CONTAINER: 'app-container',
@@ -63,6 +65,11 @@ export const CONFIG = Object.freeze({
         PATH: 'themes/',
         MANIFEST: 'themes/themes.json',
     } as const),
+    LOCALE_CONFIG: Object.freeze({
+        PATH: 'data/',
+        DEFAULT: 'en_US',
+        SUPPORTED: ['en_US', 'id_ID', 'fr_FR'],
+    } as const),
     DATA_FILES: Object.freeze(['movement', 'action', 'bonus_action', 'reaction', 'condition', 'environment'] as const),
     SECTION_CONFIG: Object.freeze([
         { id: 'basic-movement', dataKey: 'movement', type: 'Move' },
@@ -82,6 +89,7 @@ export const CONFIG = Object.freeze({
         { id: 'rules2024-switch', key: 'RULES_2024', stateProp: 'use2024Rules', type: 'checkbox' },
         { id: 'reduce-motion-switch', key: 'REDUCE_MOTION', stateProp: 'reduceMotion', type: 'checkbox' },
         { id: 'wakelock-switch', key: 'WAKE_LOCK', stateProp: 'keepScreenOn', type: 'checkbox' },
+        { id: 'locale-select', key: 'LOCALE', stateProp: 'locale', type: 'select' },
         { id: 'theme-select', key: 'THEME', stateProp: 'theme', type: 'select' },
         { id: 'mode-switch', key: 'MODE', stateProp: 'darkMode', type: 'checkbox' },
         { id: 'density-select', key: 'DENSITY', stateProp: 'density', type: 'select' },
@@ -113,7 +121,7 @@ export const CONFIG = Object.freeze({
         PRINT_MODE: 'print-mode',
     } as const),
     DEFAULTS: Object.freeze({
-        ICON: 'bookmarklet', TITLE: '[Untitled Rule]', RULE_TYPE: 'Standard rule', THEME: 'original',
+        ICON: 'bookmarklet', TITLE: '[Untitled Rule]', RULE_TYPE: 'Standard rule', THEME: 'original', LOCALE: 'en_US',
     } as const),
     ATTRIBUTES: Object.freeze({
         RULE_TYPE: 'data-rule-type',

@@ -16,6 +16,20 @@
         content="A quick, searchable reference guide for Dungeons & Dragons 5th Edition (D&D 5e) rulesets." />
     <meta name="author" content="Natsumee" />
     <meta name="theme-color" content="#802b1c" />
+    <link rel="canonical" href="https://natsumeaoii.github.io/dnd5e-quickref/" />
+    <meta property="og:title" content="D&D5e QuickRef" />
+    <meta property="og:description"
+        content="A quick, searchable reference guide for Dungeons & Dragons 5th Edition (D&D 5e) rulesets." />
+    <meta property="og:image"
+        content="https://natsumeaoii.github.io/dnd5e-quickref/img/web-app-manifest-512x512.png" />
+    <meta property="og:url" content="https://natsumeaoii.github.io/dnd5e-quickref/" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="D&D5e QuickRef" />
+    <meta name="twitter:description"
+        content="A quick, searchable reference guide for Dungeons & Dragons 5th Edition (D&D 5e) rulesets." />
+    <meta name="twitter:image"
+        content="https://natsumeaoii.github.io/dnd5e-quickref/img/web-app-manifest-512x512.png" />
 
     <link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
@@ -114,13 +128,13 @@
         <p>We encountered an unexpected error.</p>
         <code id="error-text"></code>
         <div class="error-actions">
-            <button id="error-reload-btn">Reload Page</button>
-            <button id="error-reset-btn">Factory
+            <button type="button" id="error-reload-btn">Reload Page</button>
+            <button type="button" id="error-reset-btn">Factory
                 Reset</button>
         </div>
     </div>
 
-    <div id="notification-container"></div>
+    <div id="notification-container" role="status" aria-live="polite" aria-atomic="false"></div>
     <div id="aria-announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
 
     <div id="skeleton-loader" class="skeleton-loader" aria-hidden="true">
@@ -157,19 +171,19 @@
     <div id="app-container" class="app-container hidden" style="opacity:0">
         <main class="page" id="main-scroll-area">
             <div class="search-bar" id="search-bar">
-                <input type="search" id="search-input" class="search-input" placeholder="Search rules..." autocomplete="off" aria-label="Search rules" />
-                <button type="button" id="search-clear-btn" class="search-clear-btn hidden" aria-label="Clear search">&times;</button>
+                <input type="search" id="search-input" class="search-input" placeholder="Search rules..." autocomplete="off" aria-label="Search rules" data-i18n-placeholder="search.placeholder" data-i18n-aria-label="search.label" />
+                <button type="button" id="search-clear-btn" class="search-clear-btn hidden" aria-label="Clear search" data-i18n-aria-label="search.clear">&times;</button>
             </div>
             <section id="section-favorites" class="section-container hidden" data-section="favorites">
-                <h2 class="section-title">
-                    <span>Favorites</span>
-                    <span class="section-title-subtitle">Your quick access rules (Drag to reorder)</span>
+                <h2 class="section-title section-title-static">
+                    <span data-i18n="sections.favorites.title">Favorites</span>
+                    <span class="section-title-subtitle" data-i18n="sections.favorites.subtitle">Your quick access rules (Drag or Shift+Arrow to reorder)</span>
                 </h2>
                 <div class="section-content">
                     <div class="section-collapse-inner">
                         <div class="section-row" id="favorites-container"></div>
                         <p class="section-subtitle" id="favorites-placeholder">
-                            Click the star icon on any rule to add it to your favorites.
+                            <span data-i18n="sections.favorites.empty">Click the star icon on any rule to add it to your favorites.</span>
                         </p>
                     </div>
                 </div>
@@ -177,13 +191,15 @@
 
             <section id="section-movement" class="section-container" data-section="movement">
                 <h2 class="section-title">
-                    <span>Movement</span>
-                    <span class="section-title-subtitle">limited by movement speed</span>
+                    <button type="button" class="section-toggle" aria-controls="section-movement-content" aria-expanded="true">
+                        <span data-i18n="sections.movement.title">Movement</span>
+                        <span class="section-title-subtitle" data-i18n="sections.movement.subtitle">limited by movement speed</span>
+                    </button>
                 </h2>
-                <div class="section-content" data-rendered="false">
+                <div id="section-movement-content" class="section-content" data-rendered="false">
                     <div class="section-collapse-inner">
                         <p class="section-subtitle">
-                            You can move at any time during your turn (before, after, or during actions).
+                            <span data-i18n="sections.movement.description">You can move at any time during your turn (before, after, or during actions).</span>
                         </p>
                         <div class="section-row" id="basic-movement"></div>
                     </div>
@@ -192,13 +208,15 @@
 
             <section id="section-action" class="section-container" data-section="action">
                 <h2 class="section-title">
-                    <span>Action</span>
-                    <span class="section-title-subtitle">1/turn</span>
+                    <button type="button" class="section-toggle" aria-controls="section-action-content" aria-expanded="true">
+                        <span data-i18n="sections.action.title">Action</span>
+                        <span class="section-title-subtitle" data-i18n="sections.action.subtitle">1/turn</span>
+                    </button>
                 </h2>
-                <div class="section-content" data-rendered="false">
+                <div id="section-action-content" class="section-content" data-rendered="false">
                     <div class="section-collapse-inner">
                         <p class="section-subtitle">
-                            You can also interact with one object or feature of the environment for free.
+                            <span data-i18n="sections.action.description">You can also interact with one object or feature of the environment for free.</span>
                         </p>
                         <div class="section-row" id="basic-actions"></div>
                     </div>
@@ -207,15 +225,17 @@
 
             <section id="section-bonus-action" class="section-container" data-section="bonus-action">
                 <h2 class="section-title">
-                    <span>Bonus action</span>
-                    <span class="section-title-subtitle">max. 1/turn</span>
+                    <button type="button" class="section-toggle" aria-controls="section-bonus-action-content" aria-expanded="true">
+                        <span data-i18n="sections.bonusAction.title">Bonus action</span>
+                        <span class="section-title-subtitle" data-i18n="sections.bonusAction.subtitle">max. 1/turn</span>
+                    </button>
                 </h2>
-                <div class="section-content" data-rendered="false">
+                <div id="section-bonus-action-content" class="section-content" data-rendered="false">
                     <div class="section-collapse-inner">
                         <p class="section-subtitle">
-                            You can take a bonus action only when a special ability, spell, or feature states that you
+                            <span data-i18n="sections.bonusAction.description">You can take a bonus action only when a special ability, spell, or feature states that you
                             can
-                            do something as a bonus action.
+                            do something as a bonus action.</span>
                         </p>
                         <div class="section-row" id="basic-bonus-actions"></div>
                     </div>
@@ -224,15 +244,17 @@
 
             <section id="section-reaction" class="section-container" data-section="reaction">
                 <h2 class="section-title">
-                    <span>Reaction</span>
-                    <span class="section-title-subtitle">max. 1/round</span>
+                    <button type="button" class="section-toggle" aria-controls="section-reaction-content" aria-expanded="true">
+                        <span data-i18n="sections.reaction.title">Reaction</span>
+                        <span class="section-title-subtitle" data-i18n="sections.reaction.subtitle">max. 1/round</span>
+                    </button>
                 </h2>
-                <div class="section-content" data-rendered="false">
+                <div id="section-reaction-content" class="section-content" data-rendered="false">
                     <div class="section-collapse-inner">
                         <p class="section-subtitle">
-                            A reaction is an instant response to a trigger of some kind, which can occur on your turn or
+                            <span data-i18n="sections.reaction.description">A reaction is an instant response to a trigger of some kind, which can occur on your turn or
                             on
-                            someone else's.
+                            someone else's.</span>
                         </p>
                         <div class="section-row" id="basic-reactions"></div>
                     </div>
@@ -241,14 +263,16 @@
 
             <section id="section-condition" class="section-container" data-section="condition">
                 <h2 class="section-title">
-                    <span>Condition</span>
+                    <button type="button" class="section-toggle" aria-controls="section-condition-content" aria-expanded="true">
+                        <span data-i18n="sections.condition.title">Condition</span>
+                    </button>
                 </h2>
-                <div class="section-content" data-rendered="false">
+                <div id="section-condition-content" class="section-content" data-rendered="false">
                     <div class="section-collapse-inner">
                         <p class="section-subtitle">
-                            Conditions alter your capabilities in a variety of ways, and can arise as a result of a
+                            <span data-i18n="sections.condition.description">Conditions alter your capabilities in a variety of ways, and can arise as a result of a
                             spell, a
-                            class feature, a monster's attack, or other effect.
+                            class feature, a monster's attack, or other effect.</span>
                         </p>
                         <div class="section-row" id="basic-conditions"></div>
                     </div>
@@ -257,28 +281,30 @@
 
             <section id="section-environment" class="section-container" data-section="environment">
                 <h2 class="section-title">
-                    <span>Environmental Effects</span>
+                    <button type="button" class="section-toggle" aria-controls="section-environment-content" aria-expanded="true">
+                        <span data-i18n="sections.environment.title">Environmental Effects</span>
+                    </button>
                 </h2>
-                <div class="section-content" data-rendered="false">
+                <div id="section-environment-content" class="section-content" data-rendered="false">
                     <div class="section-collapse-inner">
                         <p class="section-subtitle">
-                            Effects that obscure vision can prove a significant hindrance to most adventuring tasks.
+                            <span data-i18n="sections.environment.obscurance">Effects that obscure vision can prove a significant hindrance to most adventuring tasks.</span>
                         </p>
                         <div class="section-row" id="environment-obscurance"></div>
                         <p class="section-subtitle">
-                            The presence or absence of light in an environment creates three categories of illumination.
+                            <span data-i18n="sections.environment.light">The presence or absence of light in an environment creates three categories of illumination.</span>
                         </p>
                         <div class="section-row" id="environment-light"></div>
                         <p class="section-subtitle">
-                            Some creatures have extraordinary senses that allow them to perceive their environment.
+                            <span data-i18n="sections.environment.vision">Some creatures have extraordinary senses that allow them to perceive their environment.</span>
                         </p>
                         <div class="section-row" id="environment-vision"></div>
                         <p class="section-subtitle">
-                            Obstacles can provide cover during combat, making a target more difficult to harm.
+                            <span data-i18n="sections.environment.cover">Obstacles can provide cover during combat, making a target more difficult to harm.</span>
                         </p>
                         <div class="section-row" id="environment-cover"></div>
                         <p class="section-subtitle">
-                            Adventurers may also face a variety of environmental hazards and hidden dangers.
+                            <span data-i18n="sections.environment.other">Adventurers may also face a variety of environmental hazards and hidden dangers.</span>
                         </p>
                         <div class="section-row" id="environment-other"></div>
                     </div>
@@ -286,18 +312,19 @@
             </section>
 
             <section id="section-settings" class="section-container" data-section="settings">
-                <h2 class="section-title">
-                    <span>Settings & Accessibility</span>
+                <h2 class="section-title section-title-static">
+                    <span data-i18n="settings.title">Settings & Accessibility</span>
                 </h2>
                 <div class="section-content">
-                    <h3 class="settings-row-title">Content Rulesets</h3>
-                    <p class="section-subtitle">Control which rule sets are displayed throughout the application.</p>
+                    <h3 class="settings-row-title" data-i18n="settings.content.title">Content Rulesets</h3>
+                    <p class="section-subtitle" data-i18n="settings.content.description">Control which rule sets are displayed throughout the application.</p>
                     <div class="section-row">
                         <label class="item itemsize" for="optional-switch" title="Include Optional Rules"
+                            data-i18n-title="settings.optional.title"
                             data-filterable="false">
                             <div class="item-text-container">
-                                <div class="item-title">Include Optional Rules (*)</div>
-                                <div class="item-desc">Show/hide optional rules from DMG.</div>
+                                <div class="item-title" data-i18n="settings.optional.title">Include Optional Rules (*)</div>
+                                <div class="item-desc" data-i18n="settings.optional.description">Show/hide optional rules from DMG.</div>
                             </div>
                             <div class="item-control-container">
                                 <span class="switch">
@@ -307,10 +334,11 @@
                             </div>
                         </label>
                         <label class="item itemsize" for="homebrew-switch" title="Include Homebrew Rules"
+                            data-i18n-title="settings.homebrew.title"
                             data-filterable="false">
                             <div class="item-text-container">
-                                <div class="item-title">Include Homebrew Rules (**)</div>
-                                <div class="item-desc">Show/hide most common Homebrew rules.</div>
+                                <div class="item-title" data-i18n="settings.homebrew.title">Include Homebrew Rules (**)</div>
+                                <div class="item-desc" data-i18n="settings.homebrew.description">Show/hide most common Homebrew rules.</div>
                             </div>
                             <div class="item-control-container">
                                 <span class="switch">
@@ -320,10 +348,11 @@
                             </div>
                         </label>
                         <label class="item itemsize" for="rules2024-switch" title="Switch to 2024 Rules"
+                            data-i18n-title="settings.rules2024.title"
                             data-filterable="false">
                             <div class="item-text-container">
-                                <div class="item-title">Use 2024 Rules</div>
-                                <div class="item-desc">Enable D&D 2024 Rules (reloads page).</div>
+                                <div class="item-title" data-i18n="settings.rules2024.title">Use 2024 Rules</div>
+                                <div class="item-desc" data-i18n="settings.rules2024.description">Enable D&D 2024 Rules.</div>
                             </div>
                             <div class="item-control-container">
                                 <span class="switch">
@@ -334,22 +363,35 @@
                         </label>
                     </div>
                     <hr>
-                    <h3 class="settings-row-title">Appearance & Accessibility</h3>
-                    <p class="section-subtitle">Customize the application's look, feel, and behavior.</p>
+                    <h3 class="settings-row-title" data-i18n="settings.appearance.title">Appearance & Accessibility</h3>
+                    <p class="section-subtitle" data-i18n="settings.appearance.description">Customize the application's look, feel, and behavior.</p>
                     <div class="section-row">
                         <div class="item itemsize" data-filterable="false">
                             <div class="item-text-container">
-                                <label for="theme-select" class="item-title" id="theme-label">Color Theme</label>
-                                <div class="item-desc">Change the application's appearance.</div>
+                                <label for="locale-select" class="item-title" id="locale-label" data-i18n="settings.language.title">Language</label>
+                                <div class="item-desc" data-i18n="settings.language.description">Choose menu and rule data language.</div>
+                            </div>
+                            <div class="item-control-container">
+                                <select id="locale-select" aria-labelledby="locale-label">
+                                    <option value="en_US">English (US)</option>
+                                    <option value="id_ID">Bahasa Indonesia</option>
+                                    <option value="fr_FR">Français</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="item itemsize" data-filterable="false">
+                            <div class="item-text-container">
+                                <label for="theme-select" class="item-title" id="theme-label" data-i18n="settings.theme.title">Color Theme</label>
+                                <div class="item-desc" data-i18n="settings.theme.description">Change the application's appearance.</div>
                             </div>
                             <div class="item-control-container">
                                 <select id="theme-select" aria-labelledby="theme-label"></select>
                             </div>
                         </div>
-                        <label class="item itemsize" for="mode-switch" title="Toggle Dark Mode" data-filterable="false">
+                        <label class="item itemsize" for="mode-switch" title="Toggle Dark Mode" data-i18n-title="settings.darkMode.title" data-filterable="false">
                             <div class="item-text-container">
-                                <div class="item-title">Dark Mode</div>
-                                <div class="item-desc">Switch between light and dark modes.</div>
+                                <div class="item-title" data-i18n="settings.darkMode.title">Dark Mode</div>
+                                <div class="item-desc" data-i18n="settings.darkMode.description">Switch between light and dark modes.</div>
                             </div>
                             <div class="item-control-container">
                                 <span class="switch">
@@ -359,10 +401,11 @@
                             </div>
                         </label>
                         <label class="item itemsize" for="reduce-motion-switch" title="Reduce Motion"
+                            data-i18n-title="settings.reduceMotion.title"
                             data-filterable="false">
                             <div class="item-text-container">
-                                <div class="item-title">Reduce Motion</div>
-                                <div class="item-desc">Disable animations and transitions.</div>
+                                <div class="item-title" data-i18n="settings.reduceMotion.title">Reduce Motion</div>
+                                <div class="item-desc" data-i18n="settings.reduceMotion.description">Disable animations and transitions.</div>
                             </div>
                             <div class="item-control-container">
                                 <span class="switch">
@@ -372,10 +415,11 @@
                             </div>
                         </label>
                         <label class="item itemsize" for="wakelock-switch" title="Keep Screen On"
+                            data-i18n-title="settings.wakeLock.title"
                             data-filterable="false">
                             <div class="item-text-container">
-                                <div class="item-title">Keep Screen On</div>
-                                <div class="item-desc">Prevent screen from sleeping while active.</div>
+                                <div class="item-title" data-i18n="settings.wakeLock.title">Keep Screen On</div>
+                                <div class="item-desc" data-i18n="settings.wakeLock.description">Prevent screen from sleeping while active.</div>
                             </div>
                             <div class="item-control-container">
                                 <span class="switch">
@@ -386,9 +430,9 @@
                         </label>
                         <div class="item itemsize" data-filterable="false">
                             <div class="item-text-container">
-                                <label for="density-select" class="item-title" id="density-label">Display
+                                <label for="density-select" class="item-title" id="density-label" data-i18n="settings.density.title">Display
                                     Density</label>
-                                <div class="item-desc">Adjust spacing and sizing of items.</div>
+                                <div class="item-desc" data-i18n="settings.density.description">Adjust spacing and sizing of items.</div>
                             </div>
                             <div class="item-control-container">
                                 <select id="density-select" aria-labelledby="density-label">
@@ -400,27 +444,27 @@
                         </div>
                     </div>
                     <hr>
-                    <h3 class="settings-row-title">Data Management</h3>
+                    <h3 class="settings-row-title" data-i18n="settings.data.title">Data Management</h3>
                     <div class="section-row">
-                        <div class="item itemsize" role="button" tabindex="0" id="export-notes-btn">
+                        <button type="button" class="item itemsize" id="export-notes-btn">
                             <div class="item-text-container">
-                                <div class="item-title">Export Notes</div>
-                                <div class="item-desc">Download your notes (Compressed JSON).</div>
+                                <div class="item-title" data-i18n="settings.exportNotes.title">Export Notes</div>
+                                <div class="item-desc" data-i18n="settings.exportNotes.description">Download your notes (Compressed JSON).</div>
                             </div>
-                        </div>
-                        <div class="item itemsize" role="button" tabindex="0" id="import-notes-btn">
+                        </button>
+                        <button type="button" class="item itemsize" id="import-notes-btn">
                             <div class="item-text-container">
-                                <div class="item-title">Import Notes</div>
-                                <div class="item-desc">Restore notes from a previous export file.</div>
+                                <div class="item-title" data-i18n="settings.importNotes.title">Import Notes</div>
+                                <div class="item-desc" data-i18n="settings.importNotes.description">Restore notes from a previous export file.</div>
                             </div>
-                        </div>
-                        <input type="file" id="import-notes-input" accept=".json,.gz,.json.gz" class="visually-hidden">
-                        <div class="item itemsize" role="button" tabindex="0" id="export-favorites-btn">
+                        </button>
+                        <input type="file" id="import-notes-input" accept=".json,.gz,.json.gz" class="visually-hidden" tabindex="-1" aria-label="Import notes file" data-i18n-aria-label="settings.importNotes.fileLabel">
+                        <button type="button" class="item itemsize" id="export-favorites-btn">
                             <div class="item-text-container">
-                                <div class="item-title">Export Favorites</div>
-                                <div class="item-desc">Download your favorites list (JSON).</div>
+                                <div class="item-title" data-i18n="settings.exportFavorites.title">Export Favorites</div>
+                                <div class="item-desc" data-i18n="settings.exportFavorites.description">Download your favorites list (JSON).</div>
                             </div>
-                        </div>
+                        </button>
                     </div>
                 </div>
             </section>
@@ -430,9 +474,9 @@
                     <div class="footer-column footer-column-left">
                         <p>
                             <a href="https://github.com/NatsumeAoii/dnd5e-quickref" target="_blank"
-                                rel="noopener noreferrer" class="github-link">View on GitHub</a>
+                                rel="noopener noreferrer" class="github-link" data-i18n="footer.github">View on GitHub</a>
                         </p>
-                        <p class="footer-message">A quick reference tool for Dungeons & Dragons 5th Edition players and
+                        <p class="footer-message" data-i18n="footer.message">A quick reference tool for Dungeons & Dragons 5th Edition players and
                             Dungeon Masters.</p>
                         <p class="copyright">
                             &copy; <span id="copyright-year"></span> D&D 5e Quick Ref contributors
@@ -440,18 +484,18 @@
                         <p>
                             <button type="button" class="changelog-version-btn" id="app-version-display"></button>
                             &bull;
-                            <button type="button" class="changelog-version-btn readme-btn" id="readme-display-btn">README</button>
+                            <button type="button" class="changelog-version-btn readme-btn" id="readme-display-btn" data-i18n="footer.readme">README</button>
                         </p>
                         <p>
-                            <button id="report-rule-btn" class="footer-report-btn">Report missing or incorrect rules</button>
+                            <button type="button" id="report-rule-btn" class="footer-report-btn" data-i18n="footer.reportRule">Report missing or incorrect rules</button>
                         </p>
                     </div>
 
                     <div class="footer-column footer-column-right">
-                        <h4 class="footer-links-title">Other Tools</h4>
+                        <h4 class="footer-links-title" data-i18n="footer.otherTools">Other Tools</h4>
                         <div class="footer-links-container">
                             <div class="footer-links-group">
-                                <h5>GM/DM Related</h5>
+                                <h5 data-i18n="footer.gmTools">GM/DM Related</h5>
                                 <ul class="footer-links-list">
                                     <li><a href="https://5e.tools/" target="_blank"
                                             rel="noopener noreferrer">5e.tools</a></li>
@@ -460,7 +504,7 @@
                                 </ul>
                             </div>
                             <div class="footer-links-group">
-                                <h5>Map Makers</h5>
+                                <h5 data-i18n="footer.mapMakers">Map Makers</h5>
                                 <ul class="footer-links-list">
                                     <li><a href="https://dungeonscrawl.com/" target="_blank"
                                             rel="noopener noreferrer">Dungeon Scrawl (Free)</a></li>
@@ -469,7 +513,7 @@
                                 </ul>
                             </div>
                             <div class="footer-links-group">
-                                <h5>For Playing</h5>
+                                <h5 data-i18n="footer.forPlaying">For Playing</h5>
                                 <ul class="footer-links-list">
                                     <li><a href="https://www.dndbeyond.com/" target="_blank"
                                             rel="noopener noreferrer">D&D Beyond</a></li>
@@ -491,39 +535,39 @@
     <div id="cookie-notice" class="cookie-notice" role="dialog" aria-labelledby="cookie-notice-title"
         aria-describedby="cookie-notice-text">
         <div class="cookie-notice-content">
-            <h3 id="cookie-notice-title" class="cookie-notice-title">Your Privacy</h3>
-            <p id="cookie-notice-text" class="cookie-notice-text">
+            <h3 id="cookie-notice-title" class="cookie-notice-title" data-i18n="cookie.title">Your Privacy</h3>
+            <p id="cookie-notice-text" class="cookie-notice-text" data-i18n="cookie.text">
                 This website uses local storage to save your preferences and settings. By clicking "Accept", you agree
                 to this practice.
             </p>
             <div class="cookie-notice-actions">
-                <button id="remind-cookies-later" class="cookie-notice-secondary-btn">Remind Me Later</button>
-                <button id="accept-cookies">Accept</button>
+                <button type="button" id="remind-cookies-later" class="cookie-notice-secondary-btn" data-i18n="cookie.remindLater">Remind Me Later</button>
+                <button type="button" id="accept-cookies" data-i18n="cookie.accept">Accept</button>
             </div>
         </div>
     </div>
 
-    <button id="close-all-popups-btn" title="Close All Popups" aria-label="Close All Popups">
+    <button type="button" id="close-all-popups-btn" title="Close All Popups" aria-label="Close All Popups" data-i18n-title="buttons.closeAllPopups" data-i18n-aria-label="buttons.closeAllPopups">
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" viewBox="0 0 24 24">
             <path
                 d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
         </svg>
     </button>
 
-    <button id="shortcuts-fab-btn" title="Keyboard Shortcuts (?)" aria-label="Keyboard Shortcuts">?</button>
+    <button type="button" id="shortcuts-fab-btn" title="Keyboard Shortcuts (?)" aria-label="Keyboard Shortcuts" data-i18n-title="buttons.shortcuts" data-i18n-aria-label="buttons.shortcuts">?</button>
 
-    <button id="back-to-top-btn" title="Back to Top" aria-label="Back to Top">▲</button>
+    <button type="button" id="back-to-top-btn" title="Back to Top" aria-label="Back to Top" data-i18n-title="buttons.backToTop" data-i18n-aria-label="buttons.backToTop">▲</button>
 
     <template id="rule-item-template">
         <div class="item itemsize">
-            <div class="item-content" role="button" tabindex="0">
+            <button type="button" class="item-content">
                 <div class="item-icon iconsize"></div>
                 <div class="item-text-container">
                     <div class="item-title"></div>
                     <div class="item-desc"></div>
                 </div>
-            </div>
-            <button class="favorite-btn" aria-label="Toggle Favorite" title="Toggle Favorite">
+            </button>
+            <button type="button" class="favorite-btn">
                 <span aria-hidden="true">&#9733;</span>
             </button>
         </div>
@@ -532,18 +576,18 @@
     <template id="popup-template">
         <dialog class="popup-window">
             <header class="popup-header">
-                <span class="popup-title"></span>
+                <h2 class="popup-title"></h2>
                 <div class="popup-header-right">
                     <span class="popup-type"></span>
-                    <button class="popup-copy-link-btn" title="Copy link" aria-label="Copy link to this rule">
+                    <button type="button" class="popup-copy-link-btn" title="Copy link" aria-label="Copy link to this rule">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20"
                             height="20">
                             <path
                                 d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z" />
                         </svg>
                     </button>
-                    <button class="popup-minimize-btn" title="Minimize" aria-label="Minimize popup">▬</button>
-                    <button class="popup-close-btn" title="Close" aria-label="Close">&times;</button>
+                    <button type="button" class="popup-minimize-btn" title="Minimize" aria-label="Minimize popup">▬</button>
+                    <button type="button" class="popup-close-btn" title="Close" aria-label="Close">&times;</button>
                 </div>
             </header>
             <div class="popup-content" tabindex="-1">
@@ -552,7 +596,7 @@
                 <div class="popup-bullets hidden"></div>
                 <div class="popup-reference-container">
                     <p class="popup-reference hidden"></p>
-                    <button class="popup-toggle-details-btn" aria-expanded="false">Tell Me More</button>
+                    <button type="button" class="popup-toggle-details-btn" aria-expanded="false">Tell Me More</button>
                 </div>
                 <div class="popup-notes-container">
                     <hr>

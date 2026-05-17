@@ -1,0 +1,1051 @@
+[
+    {
+        "title": "Vision aveugle",
+        "optional": "Standard rule",
+        "icon": "echoripples",
+        "subtitle": "Percevoir sans la vue",
+        "description": "Une créature aveugle perçoit son environnement dans un rayon spécifique sans compter sur la vue, annulant ainsi l'invisibilité et l'obscurité.",
+        "reference": "PHB, p. 183, MM, p. 8.",
+        "summary": "Permet à une créature de percevoir son environnement dans un rayon spécifique sans vue. Ce sens pénètre les ténèbres normales et magiques et révèle des créatures invisibles.",
+        "tags": [
+            "environment_vision"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ce sens particulier s'appuie sur des moyens non visuels comme l'écholocation ou des sens accrus. Il permet à une créature de « voir » son environnement immédiat, même les yeux fermés ou dans l'obscurité totale, et possède les traits spécifiques suivants:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Il est courant chez les créatures sans yeux (limons) ou celles dotées de sens accrus (chauves-souris, vrais dragons).",
+                    "Il fonctionne dans toutes les formes d'obscurité, y compris magiques, et pénètre l'invisibilité et les illusions visuelles.",
+                    "Une créature aveugle peut toujours être aveuglée si ses sens précis sont altérés (par exemple, une chauve-souris dans une zone de silence magique)."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Malgré son efficacité, la vision aveugle ne perçoit ni la couleur ni l’écriture visuelle. Il indique uniquement l’emplacement, la taille et la forme générale des créatures et des objets."
+            }
+        ]
+    },
+    {
+        "title": "Lumière vive",
+        "optional": "Standard rule",
+        "icon": "starpupil",
+        "subtitle": "Vision normale",
+        "description": "Sous une lumière vive, comme la lumière directe du soleil ou à proximité d’une torche, la plupart des créatures peuvent voir normalement.",
+        "reference": "PHB, p. 183.",
+        "summary": "Conditions d'éclairage normales où la plupart des créatures peuvent voir sans pénalité. Certaines créatures, comme Drow, peuvent souffrir de sensibilité à la lumière du soleil dans ces conditions.",
+        "tags": [
+            "environment_light"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Il s'agit de la condition d'éclairage par défaut pour la plupart des rencontres diurnes et des intérieurs bien éclairés. Sous une lumière vive, la vision n’est pas gênée, même si elle peut affecter négativement certaines créatures."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Les sources courantes incluent la lumière directe du soleil, le rayon d’un sort <b>Lumière du jour</b> ou la zone immédiate des torches et des lanternes.",
+                    "Certaines créatures, comme les drows et les kobolds, ont le trait <b>Sensibilité à la lumière du soleil</b>, ce qui leur confère un désavantage aux jets d’attaque et aux tests de perception basés sur la vue lorsqu'elles sont exposées à la lumière directe du soleil."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "La transition d’une lumière vive à une lumière faible ou à l’obscurité est une considération tactique importante, créant des zones d’ombre pouvant être utilisées à des fins de dissimulation."
+            }
+        ]
+    },
+    {
+        "title": "Ténèbres",
+        "optional": "Standard rule",
+        "icon": "worriedeyes",
+        "subtitle": "Heavily obscured",
+        "description": "L'obscurité crée une zone très obscurcie, aveuglant efficacement toute créature essayant de voir à l'intérieur ou à travers celle-ci sans sens particuliers.",
+        "reference": "PHB, p. 183.",
+        "summary": "Crée une zone très obscurcie, aveuglant efficacement les créatures qui s'y trouvent. La vision dans le noir permet à une créature de voir dans des ténèbres non magiques comme s'il s'agissait d’une faible lumière.",
+        "tags": [
+            "environment_light"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L'obscurité totale bloque complètement la vision, imposant l'état d'aveuglement aux créatures essayant de voir dans la zone. Naviguer dans l’obscurité nécessite souvent des sens ou de la magie particuliers."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Les exemples incluent les donjons non éclairés, les nuits sans lune ou les zones d'obscurité magique créées par des sorts comme <b>Ténèbres</b>.",
+                    "Les créatures dotées de la <b>Vision dans le noir</b> peuvent voir dans l'obscurité non magique comme s'il s'agissait d’une faible lumière, mais elles le font dans des nuances de gris.",
+                    "L'obscurité magique bloque même la vision dans le noir."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "La distinction entre les ténèbres magiques et non magiques est cruciale, car seuls les sens les plus puissants, comme Truesight, peuvent percer les ténèbres magiques."
+            }
+        ]
+    },
+    {
+        "title": "Vision dans le noir",
+        "optional": "Standard rule",
+        "icon": "semiclosedeye",
+        "subtitle": "Vision limitée dans l'obscurité",
+        "description": "Ce trait commun permet à une créature de voir dans l’obscurité comme s’il s’agissait d’une faible lumière, et dans une faible lumière comme s’il s’agissait d’une lumière vive.",
+        "reference": "PHB, p. 183.",
+        "summary": "Dans une plage spécifiée, tu peux voir dans une lumière faible comme s’il s’agissait d’une lumière vive, et dans l’obscurité comme s’il s’agissait d’une lumière faible. Voir dans l'obscurité de cette façon est en nuances de gris et impose un désavantage aux tests de Perception.",
+        "tags": [
+            "environment_vision"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "La vision dans le noir n’est pas une vision parfaite dans l’obscurité. Il permet à une créature de naviguer et de se battre, mais avec une pénalité majeure en termes de perception dans l'obscurité totale. Darkvision fonctionne comme suit:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Dans sa portée spécifiée, une créature traite la <b>lumière faible comme s'il s'agissait d’une lumière vive</b>, et les <b>obscurités comme s'il s'agissait d’une lumière faible</b>.",
+                    "Parce que l'obscurité est traitée comme une faible lumière, une créature s'appuyant sur la vision dans le noir dans l'obscurité totale a toujours un désavantage aux tests de Sagesse (Perception) qui reposent sur la vue.",
+                    "Une créature dotée de la vision dans le noir ne peut pas discerner les couleurs dans l'obscurité, seulement les nuances de gris."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cela signifie qu'un personnage doté d’une vision dans le noir est toujours moins susceptible de repérer un piège caché ou une créature cachée dans l'obscurité totale que s'il était sous une lumière vive."
+            }
+        ]
+    },
+    {
+        "title": "Lumière faible",
+        "optional": "Standard rule",
+        "icon": "semiclosedeye",
+        "subtitle": "Lightly obscured",
+        "description": "Une lumière tamisée, également appelée ombres, crée une zone légèrement obscurcie où les créatures sont désavantagées lors des tests de Perception basés sur la vue.",
+        "reference": "PHB, p. 183.",
+        "summary": "Crée une zone légèrement obscurcie, comme au crépuscule ou au clair de lune. Les créatures dans une lumière faible ont un désavantage aux tests de Sagesse (Perception) qui reposent sur la vue.",
+        "tags": [
+            "environment_light"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Une lumière faible représente des zones d'ombre partielle, comme au crépuscule, par une nuit de pleine lune ou au bord du rayon d’une torche. La vision est gênée mais pas bloquée, et son principal effet est d’avoir un impact sur la perception."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Toute créature exposée à une faible lumière est désavantagée aux tests de Sagesse (Perception) qui reposent sur la vue.",
+                    "Les sources courantes incluent le crépuscule, l’aube ou la lumière de la pleine lune.",
+                    "Les créatures dotées de la <b>Vision dans le noir</b> peuvent voir dans une lumière faible comme s'il s'agissait d’une lumière vive, supprimant ainsi ce désavantage."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Bien que tu ne puisses pas te cacher d’une créature qui peut te voir dans une faible lumière, cela te donne la possibilité de tenter de te cacher si tu parviens à briser la ligne de vue."
+            }
+        ]
+    },
+    {
+        "title": "Chute",
+        "optional": "Standard rule",
+        "icon": "falling",
+        "subtitle": "1d6 tous les 3 m (max 20d6)",
+        "description": "Une créature subit 1d6 dégâts contondants tous les 3 m de chute, jusqu'à un maximum de 20d6, et atterrit à terre.",
+        "reference": "PHB, p. 183; XGE, p. 77.",
+        "summary": "Tu subis 1d6 dégâts contondants tous les 3 m de chute, jusqu'à un maximum de 20d6. Tu atterris à terre à moins que tu n’évitiez de subir des dégâts dus à la chute.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "La chute est un danger important où les dégâts sont limités à 20d6, ce qui représente la vitesse terminale. Les règles de chute incluent également des détails sur les créatures volantes et la vitesse de descente."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Taux de chute (XGE facultatif):</b> Une créature tombant d’une grande hauteur descend instantanément jusqu'à 150 m. S'il continue de tomber lors de son prochain tour, il descend jusqu'à 150 m à la fin de ce tour.",
+                    "<b>Créatures volantes:</b> Si une créature volante est mise à terre, voit sa vitesse réduite à 0 ou est privée de la capacité de se déplacer, elle tombe à moins qu'elle ne puisse planer ou qu'elle soit sauvée par magie."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Le timing de réaction est toujours important: un sort ou une aptitude capable d'arrêter une chute doit être disponible lorsque son déclenchement se produit, et une seule réaction peut être utilisée avant le début de ton prochain tour."
+            }
+        ]
+    },
+    {
+        "title": "Demi-abri",
+        "optional": "Standard rule",
+        "icon": "brokenshield",
+        "subtitle": "+2 sauvegardes CA et Dex",
+        "description": "Un obstacle couvrant au moins la moitié de ton corps confère un bonus de +2 aux jets de sauvegarde de CA et de Dextérité.",
+        "reference": "PHB, p. 196.",
+        "summary": "Un obstacle qui couvre au moins la moitié de ton corps (comme un muret ou une autre créature) te donne un bonus de +2 à ta Classe d’Armure et à tous les jets de sauvegarde de Dextérité.",
+        "tags": [
+            "environment_cover"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "La demi-abri est le type de abri le plus courant, représentant le fait de s'abriter derrière un muret, un arbre ou même une autre créature. Les avantages sont simples et efficaces:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Il confère un <b>bonus de +2 aux jets de sauvegarde de CA et de Dextérité</b>.",
+                    "Les exemples incluent un muret, un grand meuble, un tronc d'arbre étroit ou une autre créature (qu'elle soit amicale ou hostile)."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ce bonus fait de toi une cible plus difficile à la fois pour les attaques directes et les effets de zone qui nécessitent que tu sois agile, comme le souffle d’un dragon."
+            }
+        ]
+    },
+    {
+        "title": "Zone fortement obscurcie",
+        "optional": "Standard rule",
+        "icon": "fog",
+        "subtitle": "Effectivement aveuglé",
+        "description": "Une zone est fortement obscurcie si elle bloque entièrement la vision, par exemple dans l'obscurité, dans un brouillard opaque ou dans un feuillage dense.",
+        "reference": "PHB, p. 183.",
+        "summary": "Une zone qui bloque complètement la vision, comme l'obscurité ou un épais brouillard. Une créature essayant de voir à travers une zone très obscurcie est effectivement aveuglée.",
+        "tags": [
+            "environment_obscurance"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Une créature essayant de voir quelque chose dans une zone très obscurcie souffre effectivement de l'état Aveugle. Cela a de graves implications pour le combat:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Une créature dans une zone très obscurcie est effectivement <b>aveuglée</b> lorsqu'elle essaie de voir quoi que ce soit dans cette zone.",
+                    "Cela signifie qu'il échoue automatiquement à tout test de capacité nécessitant la vue.",
+                    "Les jets d’attaque contre la créature ont un avantage, et les propres jets d’attaque de la créature ont un désavantage."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "C'est une condition clé pour la furtivité, car tu dois être fortement caché d’une créature pour tenter de te cacher."
+            }
+        ]
+    },
+    {
+        "title": "Zone légèrement obscurcie",
+        "optional": "Standard rule",
+        "icon": "dustcloud",
+        "subtitle": "Inconvénient sur la perception",
+        "description": "Une zone est légèrement obscurcie si quelque chose gêne la vue, comme une lumière tamisée, un léger brouillard ou un feuillage modéré.",
+        "reference": "PHB, p. 183.",
+        "summary": "Une zone qui gêne la vue, comme une faible lumière ou un léger brouillard. Les créatures de la zone sont désavantagées aux tests de Sagesse (Perception) qui reposent sur la vue.",
+        "tags": [
+            "environment_obscurance"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les zones légèrement obscurcies rendent plus difficile la perception des détails, mais n'empêchent pas le ciblage ou la ligne de vue. Le principal effet mécanique est une pénalité pour la perception:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Les créatures de la zone ont un <b>désavantage aux tests de Sagesse (Perception)</b> qui dépendent de la vue.",
+                    "Tu ne peux pas tenter de te cacher alors que tu n’êtes que légèrement caché d’une créature; tu dois être fortement obscurci."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "L'effet principal de cette condition est de permettre aux pièges ou aux créatures cachées de passer plus facilement inaperçus."
+            }
+        ]
+    },
+    {
+        "title": "Suffocation",
+        "optional": "Standard rule",
+        "icon": "drowning",
+        "subtitle": "Retenir ton souffle",
+        "description": "Privé d'air, tu peux survivre pendant un temps limité avant de tomber à 0 point de vie et de commencer à mourir.",
+        "reference": "PHB, p. 183.",
+        "summary": "Tu peux retenir ton souffle pendant 1+CON mod minutes. Après cela, tu survis pendant les tours de mod CON, puis tombes à 0 PV et mourez. Tu ne peux pas être stabilisé ou guéri tant que tu ne peux pas respirer.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Une créature peut retenir sa respiration pendant un nombre de minutes égal à 1 + son modificateur de Constitution (minimum 30 secondes). Lorsqu’il s’essouffle, il entre dans un compte à rebours mortel:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Après avoir été essoufflé, tu peux survivre pendant un nombre de rounds égal à ton modificateur de Constitution (minimum 1 round).",
+                    "Au début de ton prochain tour, tu tombes à 0 point de vie et commencez à mourir.",
+                    "Une créature suffocante ne peut pas regagner de points de vie ni être stabilisée jusqu'à ce qu'elle puisse à nouveau respirer."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cette dernière règle est essentielle: l'incapacité de regagner des points de vie ou d'être stabilisé alors que l'on est incapable de respirer rend cette situation incroyablement dangereuse, car même une magie de guérison puissante est inutile."
+            }
+        ]
+    },
+    {
+        "title": "Nourriture et eau",
+        "optional": "Standard rule",
+        "icon": "journey",
+        "subtitle": "Besoins de survie",
+        "description": "Les personnages qui manquent de nourriture ou d'eau souffrent d’un épuisement qui ne peut être éliminé tant qu'ils n'ont pas mangé et bu suffisamment.",
+        "reference": "PHB, p. 185; DMG, p. 111.",
+        "summary": "Un personnage a besoin de 1 livre de nourriture et de 1 gallon d'eau par jour, ou de 2 gallons d'eau par temps chaud. Trop peu de nourriture ou d’eau peut provoquer un épuisement.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Le suivi de la nourriture et de l’eau est important lors des voyages en pleine nature, des sièges, des déserts et d’autres scènes de survie. L'épuisement causé par le manque de nourriture ou d'eau ne peut être éliminé que lorsque la créature a mangé et bu la quantité totale requise."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Un personnage a besoin de <b>1 livre de nourriture par jour</b>. Les demi-rations comptent comme une demi-journée sans nourriture.",
+                    "Un personnage peut se passer de nourriture pendant <b>3 jours + modificateur de Constitution</b> (minimum 1 jour), puis gagne 1 niveau d'épuisement à la fin de chaque jour supplémentaire.",
+                    "Un personnage a besoin de <b>1 gallon d'eau par jour</b>, ou <b>2 gallons</b> par temps chaud.",
+                    "Boire seulement la moitié de l'eau nécessaire nécessite un <b>jet de sauvegarde de Constitution DD 15</b> en fin de journée ou un niveau d'épuisement de 1. Moins de la moitié provoque un épuisement automatique.",
+                    "Si le personnage est déjà épuisé, un manque d’eau provoque deux niveaux d’épuisement au lieu d’un."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Abri aux trois quarts",
+        "optional": "Standard rule",
+        "icon": "crackedshield",
+        "subtitle": "+5 sauvegardes CA et Dex",
+        "description": "Un obstacle couvrant environ les trois quarts de ton corps confère un bonus significatif de +5 aux jets de sauvegarde de CA et de Dextérité.",
+        "reference": "PHB, p. 196.",
+        "summary": "Un obstacle qui couvre environ les trois quarts de ton corps (comme une fente de flèche) confère un bonus de +5 à ton classe d’armure et à tous les jets de sauvegarde de Dextérité.",
+        "tags": [
+            "environment_cover"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ce niveau de couverture signifie être en grande partie dissimulé, ne laissant qu'une petite partie de toi exposée. Il offre un avantage défensif majeur, offrant un énorme coup de pouce défensif:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Il offre un <b>bonus de +5 aux jets de sauvegarde de CA et de Dextérité</b>.",
+                    "Les exemples incluent une herse, une fente de flèche ou un tronc d'arbre épais."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Un bonus de +5 équivaut au meilleur bouclier non magique et à l'armure lourde combinés. Rechercher une couverture aux trois quarts est une tactique défensive très efficace."
+            }
+        ]
+    },
+    {
+        "title": "Abri total",
+        "optional": "Standard rule",
+        "icon": "shield",
+        "subtitle": "Ne peut pas être ciblé directement",
+        "description": "Tu es complètement caché par un obstacle, ce qui te rend immunisé contre les attaques ou les sorts directs.",
+        "reference": "PHB, p. 196.",
+        "summary": "Un obstacle te cache complètement, ce qui signifie que tu ne peux être ciblé directement par aucune attaque ou sort. Tu peux toujours être affecté par les effets de zone qui se propagent autour de la couverture.",
+        "tags": [
+            "environment_cover"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Une couverture totale signifie qu’il n’y a pas de chemin clair entre toi et ton attaquant. C'est la forme ultime de protection contre les effets qui nécessitent une ligne de vue ou un chemin direct."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Une cible avec une couverture totale <b>ne peut pas être ciblée directement</b> par une attaque ou un sort.",
+                    "Une attaque ou un sort peut toujours affecter une cible avec une couverture totale à travers une zone d'effet si l'effet peut se propager autour de l'obstacle (par exemple, l'explosion d’une <b>Boule de feu</b>)."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cela oblige les ennemis à se repositionner ou à utiliser des capacités de zone d'effet pour tu nuire, ce qui en fait un outil tactique puissant."
+            }
+        ]
+    },
+    {
+        "title": "Vision véritable",
+        "optional": "Standard rule",
+        "icon": "eyeshield",
+        "subtitle": "Voir les vraies formes",
+        "description": "Ce sens puissant permet à une créature de voir à travers les ténèbres, l’invisibilité, les illusions et les transformations pour percevoir la réalité telle qu’elle est.",
+        "reference": "PHB, p. 184, MM p. 9.",
+        "summary": "Permet à une créature de voir dans toutes les formes d'obscurité, de voir les créatures invisibles, de détecter automatiquement les illusions et de percevoir la véritable forme des changeurs de forme ou des créatures transformées.",
+        "tags": [
+            "environment_vision"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Truesight est la forme ultime de perception, traversant presque toutes les formes de dissimulation magique et non magique dans sa plage spécifiée. Une créature dotée d’une vraie vision a les capacités suivantes:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Il voit normalement dans les ténèbres magiques et non magiques.",
+                    "Il voit les créatures et les objets invisibles comme s'ils étaient visibles.",
+                    "Il détecte automatiquement les illusions visuelles et réussit ses jets de sauvegarde contre elles.",
+                    "Il perçoit la véritable forme des changeurs de forme ou des créatures transformées par magie.",
+                    "Il peut voir dans le plan Éthéré depuis le plan Matériel."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Une créature dotée d’une vision vraie est un ennemi incroyablement dangereux pour les groupes qui s'appuient sur la furtivité, les illusions ou l'obscurité magique."
+            }
+        ]
+    },
+    {
+        "title": "Combat sous l’eau",
+        "optional": "Standard rule",
+        "icon": "atsea",
+        "subtitle": "Se battre dans l'eau",
+        "description": "Le combat en pleine immersion est difficile pour les créatures sans vitesse de nage, imposant des pénalités sur la plupart des attaques avec des armes.",
+        "reference": "PHB, p. 198.",
+        "summary": "Sans vitesse de nage, les attaques au corps à corps sont désavantagées à moins d'utiliser des armes spécifiques (poignards, lances, etc.). Les attaques à distance échouent automatiquement au-delà de la portée normale et présentent un désavantage à l'intérieur.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L'eau gêne le mouvement et la force des coups. Toute créature entièrement immergée qui n'a pas de vitesse de nage naturelle est soumise aux règles suivantes:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Attaques de mêlée:</b> une créature sans vitesse de nage a un <b>désavantage</b> aux jets d’attaque avec une arme de mêlée, à moins que l'arme ne soit un poignard, un javelot, une épée courte, une lance ou un trident.",
+                    "<b>Attaques à distance:</b> les attaques avec des armes à distance ratent automatiquement les cibles au-delà de la portée normale de l'arme. À portée normale, l’attaque présente un <b>désavantage</b>, sauf s'il s'agit d’une arbalète, d’un filet ou d’une arme de lancer comme un javelot.",
+                    "<b>Résistance au feu:</b> toute créature ou objet entièrement immergé dans l'eau a une résistance aux dégâts de feu."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ces règles font du combat aquatique un défi spécialisé où le choix des armes et les mouvements sont d’une importance cruciale."
+            }
+        ]
+    },
+    {
+        "title": "Froid extrême*",
+        "optional": "Optional rule",
+        "icon": "thermometercold",
+        "subtitle": "Risque d'épuisement",
+        "description": "Une exposition prolongée à des températures égales ou inférieures à 0° F (-18° C) oblige les sauvegardes de Constitution à résister à des niveaux d'épuisement croissants.",
+        "reference": "DMG, p. 110.",
+        "summary": "Lorsqu'elle est exposée à des températures égales ou inférieures à 0° F, une créature doit effectuer un jet de Constitution DD 10 à la fin de chaque heure ou acquérir un niveau d'épuisement.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Lorsqu'elle est exposée à un froid extrême, une créature doit réussir un <b>jet de sauvegarde de Constitution DD 10</b> à la fin de chaque heure ou gagner un niveau d'<b>Épuisement</b>. Les créatures résistantes ou immunisées aux dégâts du froid réussissent automatiquement, tout comme celles qui portent un équipement approprié pour temps froid ou celles qui sont naturellement adaptées aux climats froids."
+            }
+        ]
+    },
+    {
+        "title": "Chaleur extrême*",
+        "optional": "Optional rule",
+        "icon": "sun",
+        "subtitle": "Risque d'épuisement",
+        "description": "Une exposition prolongée à des températures égales ou supérieures à 100° F (38° C) sans eau potable oblige la Constitution à résister à l'épuisement.",
+        "reference": "DMG, p. 110.",
+        "summary": "À des températures égales ou supérieures à 100° F, une créature exposée sans accès à l'eau potable doit effectuer un jet de sauvegarde de Constitution toutes les heures ou acquérir un niveau d'épuisement. Le DD commence à 5 et augmente de 1 chaque heure.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Lorsqu'elle est exposée à une chaleur extrême sans accès à l'eau potable, une créature doit réussir un jet de sauvegarde de Constitution à la fin de chaque heure ou gagner un niveau d'<b>Épuisement</b>. Le DD de sauvegarde et les modificateurs sont les suivants:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Le DD est de <b>5 pour la première heure et augmente de 1</b> pour chaque heure supplémentaire.",
+                    "Les créatures portant une armure moyenne, une armure lourde ou des vêtements lourds ont un <b>désavantage</b> à la sauvegarde.",
+                    "Les créatures résistantes ou immunisées aux dégâts de feu réussissent automatiquement, tout comme celles naturellement adaptées aux climats chauds."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "L’escalade des DD rend de plus en plus difficile la survie de longs voyages à travers les déserts ou d’autres environnements chauds sans eau ni abri adéquats."
+            }
+        ]
+    },
+    {
+        "title": "Peur et horreur*",
+        "optional": "Optional rule",
+        "icon": "terror",
+        "subtitle": "L'effroi et la folie sauvent",
+        "description": "Les règles facultatives pour appeler à la Sagesse ou au Charisme sont sauvegardées lorsque les personnages sont confrontés à une peur écrasante ou à une horreur bouleversante.",
+        "reference": "DMG, p. 266.",
+        "summary": "La peur peut nécessiter une sauvegarde de Sagesse ou imposer Effrayé pendant 1 minute. L'horreur peut nécessiter une sauvegarde de Charisme ou infliger une folie à court ou à long terme.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "La peur et l'horreur sont des outils optionnels pour la dark fantasy, l'horreur cosmique ou les scènes où le courage ordinaire est mis à l'épreuve par plus que la perte de points de vie."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Peur:</b> Lorsque les personnages sont confrontés à des menaces qu'ils n'ont aucun espoir de surmonter, le MD peut demander un jet de sauvegarde de Sagesse. En cas d'échec, un personnage est effrayé pendant 1 minute.",
+                    "Un personnage effrayé peut répéter le jet de sauvegarde à la fin de chacun de ses tours, mettant ainsi fin à l'effet en cas de réussite.",
+                    "<b>Horreur:</b> Lorsque les personnages sont témoins de quelque chose de profondément contre nature ou horrible, le MD peut demander un jet de sauvegarde de Charisme.",
+                    "En cas d'échec d’une sauvegarde d'Horreur, le personnage gagne une forme de folie à court ou à long terme choisie ou lancée par le MD."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Prise en tenaille*",
+        "optional": "Optional rule",
+        "icon": "confrontation",
+        "subtitle": "Bénéficiez d’un avantage pour le positionnement",
+        "description": "Une règle facultative populaire selon laquelle deux alliés situés dans des camps opposés d’un ennemi obtiennent un avantage lors de leurs attaques au corps à corps contre celui-ci.",
+        "reference": "DMG, p. 251.",
+        "summary": "Une règle facultative selon laquelle, si toi et un allié êtes du côté opposé d’un ennemi, tu bénéficies tous les deux d’un avantage aux jets d’attaque en mêlée contre cet ennemi.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Le flanc encourage fortement les mouvements tactiques et le travail d’équipe au combat, ce qui rend le positionnement encore plus critique. La règle est la suivante:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Lorsqu'une créature et au moins un de ses alliés sont adjacents à un ennemi et sur des côtés ou des coins opposés de l'espace de l’ennemi, ils flanquent cet ennemi, et chacun d'eux a <b>un avantage aux jets d’attaque en mêlée</b> contre lui.",
+                    "Une créature ne peut pas être flanquée si elle est sans forme ou si elle possède une caractéristique indiquant qu'elle ne peut pas être flanquée.",
+                    "Une variante courante accorde un bonus de +2 aux jets d’attaque au lieu d’un avantage pour réduire la fréquence de l'avantage."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cette règle peut rendre le combat beaucoup plus rapide et plus meurtrier, car l'avantage devient beaucoup plus courant pour les joueurs et les monstres."
+            }
+        ]
+    },
+    {
+        "title": "Fortes précipitations*",
+        "optional": "Optional rule",
+        "icon": "raining",
+        "subtitle": "Affecte la perception et le feu",
+        "description": "De fortes pluies ou chutes de neige obscurcissent légèrement la zone; les fortes pluies gênent également l'audition et éteignent les flammes nues.",
+        "reference": "DMG, p. 110.",
+        "summary": "De fortes pluies ou de fortes chutes de neige créent une zone légèrement obscurcie et imposent un désavantage aux tests de perception basés sur la vue. Les fortes pluies éteignent également les flammes nues et gênent l’audition.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les fortes précipitations ajoutent des défis atmosphériques et mécaniques à un environnement, rendant les déplacements et la perception plus difficiles. Il a les effets suivants:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Cela crée une zone <b>Légèrement obscurcie</b>, imposant un désavantage aux tests de Sagesse (Perception) qui reposent sur la vue.",
+                    "Les fortes pluies imposent également un <b>désavantage aux tests de Sagesse (Perception)</b> qui reposent sur l'audition.",
+                    "Les fortes pluies éteignent les flammes nues, comme les bougies et les torches."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ces effets peuvent neutraliser les sources de lumière courantes et rendre plus difficile la détection ou l’audition d’un danger imminent, ajoutant ainsi de la tension aux rencontres en extérieur."
+            }
+        ]
+    },
+    {
+        "title": "Haute altitude*",
+        "optional": "Optional rule",
+        "icon": "mountainclimbing",
+        "subtitle": "L'air raréfié ralentit les déplacements",
+        "description": "À des altitudes de 3 000 m ou plus, les déplacements sont plus éprouvants pour les créatures qui ont besoin de respirer.",
+        "reference": "DMG, p. 110.",
+        "summary": "À 3 000 m ou plus, chaque heure de voyage compte pour 2 heures pour déterminer la durée pendant laquelle une créature respirante peut voyager. L'acclimatation prend 30 jours et est impossible au-dessus de 6 000 m à moins d'être indigène.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L’air raréfié rend les voyages à haute altitude éprouvants pour les créatures qui ont besoin de respirer. La règle de 2014 n'exige pas de jet de sauvegarde d'altitude distinct; au lieu de cela, les heures de trajet comptent plus rapidement."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "À des altitudes de <b>3 000 m ou plus</b>, chaque heure passée à voyager compte pour <b>2 heures</b> pour déterminer la durée pendant laquelle la créature peut voyager.",
+                    "Une créature respirante s'acclimate après avoir passé <b>30 jours ou plus</b> à cette altitude.",
+                    "Les créatures respirantes ne peuvent pas s'acclimater à des altitudes supérieures à <b>6 000 m</b> à moins qu'elles ne soient originaires de tels environnements."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Toucher l’abri*",
+        "optional": "Optional rule",
+        "icon": "roundshield",
+        "subtitle": "Les ratés peuvent se mettre à couvert",
+        "description": "Lorsqu'une attaque à distance manque une cible couverte, cette règle facultative détermine si la couverture est touchée à la place.",
+        "reference": "DMG, p. 272.",
+        "summary": "Si une attaque à distance manque une cible couverte mais aurait touché sans le bonus de couverture, la couverture est touchée. Une créature couvrante peut être touchée si le jet d’attaque dépasse sa CA.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Toucher l’abri donne l’impression que la couverture est physique plutôt que numérique. C'est particulièrement utile lorsque des créatures, des portes, des piliers ou des obstacles fragiles protègent la cible visée."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Après qu'une attaque à distance manque une cible à couvert, comparez le jet d’attaque à la CA de la cible sans le bonus de couverture.",
+                    "Si le jet devait toucher sans couverture, l'objet utilisé pour la couverture est frappé.",
+                    "Si une créature fournit la couverture et que le jet d’attaque dépasse la CA de cette créature, la créature qui la couvre est touchée."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Sol profané*",
+        "optional": "Optional rule",
+        "icon": "deadhead",
+        "subtitle": "Terrain impie",
+        "description": "Le sol profané donne du pouvoir aux morts-vivants et peut être purifié avec de l'eau bénite ou de la sainteté.",
+        "reference": "DMG, p. 110.",
+        "summary": "Les morts-vivants se trouvant sur un sol profané ont un avantage à tous les jets de sauvegarde. Détecter le mal et le bien révèle le sol, et l'eau bénite ou la sainteté peuvent le purifier.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les sols profanés représentent des cimetières, des catacombes ou d’autres zones imprégnées d’un mal ancien."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Les morts-vivants se trouvant sur un sol profané ont <b>un avantage à tous les jets de sauvegarde</b>.",
+                    "Un sort de <b>détection du bien et du mal</b> révèle un sol profané à portée.",
+                    "Une fiole d'<b>eau bénite</b> purifie une zone de 3 m carrés, et <b>sanctifiée</b> purifie le sol profané dans sa zone."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Eau glaciale*",
+        "optional": "Optional rule",
+        "icon": "thermometercold",
+        "subtitle": "Immersion à froid",
+        "description": "L'immersion dans l'eau glaciale peut rapidement provoquer un épuisement une fois qu'une créature dépasse sa tolérance basée sur la Constitution.",
+        "reference": "DMG, p. 110.",
+        "summary": "Une créature peut supporter de l'eau glaciale pendant un nombre de minutes égal à son score de Constitution. Chaque minute supplémentaire nécessite un jet de sauvegarde de Constitution DD 10 ou un niveau d'épuisement de 1.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L’eau glaciale est plus dangereuse que l’eau froide ordinaire, car l’immersion épuise rapidement l’endurance."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Une créature peut être immergée pendant un nombre de minutes égal à son <b>score de Constitution</b> avant de subir des effets néfastes.",
+                    "Chaque minute supplémentaire nécessite un <b>jet de sauvegarde de Constitution DD 10</b> ou la créature gagne 1 niveau d'épuisement.",
+                    "Les créatures résistantes ou immunisées aux dégâts du froid réussissent automatiquement, tout comme les créatures naturellement adaptées à l'eau glacée."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Sables mouvants*",
+        "optional": "Optional rule",
+        "icon": "imprisoned",
+        "subtitle": "Risque de naufrage",
+        "description": "Une fosse de sables mouvants retient les créatures et les entraîne plus profondément jusqu'à ce qu'elles s'échappent ou soient submergées.",
+        "reference": "DMG, p. 110.",
+        "summary": "Entrer dans des sables mouvants retient une créature et la coule de 1d4 + 1 pied, puis de 1d4 pieds supplémentaires au début de chaque tour. S'échapper nécessite une action et un test de Force.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les sables mouvants sont généralement une fosse de 3 m carrés et 3 m de profondeur qui transforme un mouvement ordinaire en un problème d’évasion urgent."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Lorsqu'une créature entre dans la zone, elle coule <b>1d4 + 1 pied</b> et est retenue.",
+                    "Au début de chacun de ses tours, il coule encore <b>1d4 pieds</b>.",
+                    "Une créature qui n'est pas complètement submergée peut utiliser son action pour effectuer un test de Force avec un DD égal à <b>10 + le nombre de pieds coulés</b>.",
+                    "Une autre créature à portée peut le retirer avec une action et un test de Force avec un DD égal à <b>5 + le nombre de pieds coulés</b>.",
+                    "Une créature entièrement immergée ne peut pas respirer et utilise les règles d'étouffement."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Vigne-rasoir*",
+        "optional": "Optional rule",
+        "icon": "bleedingeye",
+        "subtitle": "Croissance des plantes à lames",
+        "description": "Razorvine endommage les créatures qui entrent en contact direct avec ses épines en forme de lame.",
+        "reference": "DMG, p. 110.",
+        "summary": "La première fois au cours d’un tour, une créature entre directement en contact avec le rasoir, elle doit réussir un jet de Dextérité DD 10 ou subir 1d10 dégâts tranchants.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Razorvine pousse dans les enchevêtrements, les haies et le long des structures, ce qui la rend utile comme barrière naturelle ou complication de chasse."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Un mur ou une haie de vigne rasoir de 3 m de haut, 3 m de large et 1,50 m d'épaisseur a une <b>CA 11</b>, <b>25 points de vie</b> et une immunité aux dégâts contondants, perforants et psychiques.",
+                    "La première fois au cours d’un tour, une créature entre en contact direct avec la vigne-rasoir, elle doit réussir un <b>jet de sauvegarde de Dextérité DD 10</b> ou subir <b>5 (1d10) dégâts tranchants</b>."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Blessures persistantes*",
+        "optional": "Optional rule",
+        "icon": "swordbreak",
+        "subtitle": "Blessures durables du combat",
+        "description": "Une règle facultative pour ajouter des conséquences mécaniques durables lorsqu'une créature subit un coup critique ou tombe à 0 PV.",
+        "reference": "DMG, p. 272.",
+        "summary": "Une règle facultative pour les campagnes difficiles où subir un coup critique ou tomber à 0 PV peut infliger une pénalité mécanique durable, comme une claudication ou un œil perdu, déterminée par un jet de table.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette règle s'adresse aux campagnes qui souhaitent une sensation plus dure et plus dangereuse, où les cicatrices de la bataille sont plus que de simples points de vie perdus. Lorsqu'une blessure persistante est déclenchée, le DM peut demander au joueur de lancer un jet sur une table pour un effet aléatoire."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Exemples: <b>Perdre un œil</b> (désavantage pour les attaques à distance et la perception basée sur la vue), <b>Boitage</b> (vitesse réduite de 1,50 m) ou <b>Cicatrice horrible</b> (désavantage pour la persuasion, avantage pour l'intimidation)."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ces blessures nécessitent souvent une magie puissante comme <b>Régénération</b> ou un temps d'arrêt important pour guérir, créant de nouveaux défis et opportunités de jeu de rôle."
+            }
+        ]
+    },
+    {
+        "title": "Dégâts massifs*",
+        "optional": "Optional rule",
+        "icon": "internalinjury",
+        "subtitle": "Risque de choc du système",
+        "description": "Cette règle facultative force un jet de sauvegarde de Constitution DD 15 lorsqu'une créature subit des dégâts égaux ou supérieurs à la moitié de ses PV maximum provenant d’une seule source.",
+        "reference": "DMG, p. 273.",
+        "summary": "Une règle facultative selon laquelle subir des dégâts égaux ou supérieurs à la moitié de tes PV maximum à partir d’une seule source force un jet de sauvegarde de Constitution DD 15. En cas de panne, tu subis un effet de choc aléatoire.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette règle rend le combat plus imprévisible, car même un personnage en bonne santé peut être mis hors combat par un seul coup puissant. Lorsqu'une créature subit des dégâts massifs, elle doit effectuer un jet de sauvegarde ou subir un effet aléatoire."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Lorsqu'une créature subit des dégâts d’une source unique égaux ou supérieurs à <b>la moitié de son maximum de points de vie</b>, elle doit réussir un <b>jet de sauvegarde de Constitution DD 15</b>.",
+                    "En cas d'échec, la créature subit un effet aléatoire du tableau System Shock, comme chanceler, chuter sa vitesse à 0 ou être étourdie."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Une sauvegarde ratée peut avoir un impact dévastateur, potentiellement étourdissant un personnage ou réduisant sa vitesse à zéro à un moment critique."
+            }
+        ]
+    },
+    {
+        "title": "Moral*",
+        "optional": "Optional rule",
+        "icon": "terror",
+        "subtitle": "Les ennemis fuiront-ils ou se rendront-ils?",
+        "description": "Une règle facultative fournissant un mécanisme permettant de déterminer si les PNJ fuient ou se rendent lorsqu'un combat se retourne contre eux.",
+        "reference": "DMG, p. 273.",
+        "summary": "Une règle facultative permettant au MD d'effectuer une sauvegarde de Sagesse DD 10 pour un groupe de PNJ lorsque le combat se retourne contre eux (par exemple, leur chef tombe). En cas d'échec, le groupe se brise et s'enfuit.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les règles de moral aident à créer des rencontres plus réalistes où tous les combats ne sont pas à mort. Le DM peut demander une vérification du moral lorsque certains événements se produisent:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Déclencheurs d’un contrôle de moral:</b> Le groupe ennemi est surpris, réduit de moitié en effectif, ou son chef est vaincu.",
+                    "Le MD peut demander au chef du groupe de faire un jet de sauvegarde de Sagesse DD 10. En cas d'échec, le groupe se brise.",
+                    "Le DD peut être modifié selon la situation (par exemple, plus élevé si les PJ sont terrifiants, plus faible si les monstres défendent leur antre)."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cela peut conduire à des résultats plus dynamiques, tels que des poursuites, des prises d'otages ou des ennemis qui reviennent plus tard avec des renforts."
+            }
+        ]
+    },
+    {
+        "title": "Dépendance au kit de soins*",
+        "optional": "Optional rule",
+        "icon": "firstaidkit",
+        "subtitle": "Les repos courts nécessitent un traitement",
+        "description": "Un personnage ne peut pas dépenser de dés de vie après un court repos, à moins que quelqu'un n'utilise un kit de guérisseur.",
+        "reference": "DMG, p. 266.",
+        "summary": "Après un court repos, un personnage ne peut pas dépenser de dés de vie jusqu'à ce que quelqu'un utilise un kit de guérisseur pour panser et soigner ses blessures.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "La dépendance du kit du guérisseur donne plus d'importance au traitement banal et ajoute une pression d'alimentation aux repos sans modifier la structure de base du repos."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Après avoir terminé un court repos, un personnage ne peut pas dépenser de dés de vie jusqu'à ce que quelqu'un dépense une utilisation d’un <b>kit de guérisseur</b> sur lui.",
+                    "L'utilisation du kit consiste à panser et à traiter les plaies pendant le reste.",
+                    "Cette option rend les kits de guérisseur plus importants dans les campagnes difficiles ou à faible magie."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Guérison naturelle lente*",
+        "optional": "Optional rule",
+        "icon": "nightsleep",
+        "subtitle": "Les longs repos ne guérissent pas complètement",
+        "description": "Les personnages ne récupèrent pas automatiquement leurs points de vie à la fin d’un long repos; ils dépensent des dés de vie à la place.",
+        "reference": "DMG, p. 267.",
+        "summary": "A la fin d’un long repos, les personnages ne récupèrent pas automatiquement de points de vie. Au lieu de cela, ils peuvent dépenser des dés de vie pour guérir comme ils le feraient après un court repos.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "La guérison naturelle lente prend en charge les campagnes plus difficiles où les blessures mettent plus de temps à se rétablir sans magie ni temps d'arrêt prolongé."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Les personnages <b>ne</b> récupèrent pas automatiquement tous leurs points de vie à la fin d’un long repos.",
+                    "Au lieu de cela, un personnage peut dépenser des dés de vie pour soigner à la fin du repos long, tout comme lors d’un repos court.",
+                    "Cette option rend l'attrition des points de vie et les soins magiques plus importants sur plusieurs jours d'aventure."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Variantes de repos*",
+        "optional": "Optional rule",
+        "icon": "nightsleep",
+        "subtitle": "Changer le rythme du jeu",
+        "description": "Ces règles facultatives modifient la durée des repos courts et longs pour modifier fondamentalement le rythme d’une campagne.",
+        "reference": "DMG, p. 267.",
+        "summary": "Règles facultatives pour modifier le rythme de la campagne. 'Epic Heroism' fait un repos court de 5 minutes et un repos long d’une heure. 'Gritty Realism' fait un repos court de 8 heures et un repos long de 7 jours.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les règles de repos standard créent un certain rythme d'aventure. En modifiant le temps requis pour les repos, tu peux créer une expérience de jeu très différente. Les deux variantes principales sont l'héroïsme épique et le réalisme graveleux."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Héroïsme épique:</b> Un repos court dure 5 minutes et un repos long dure 1 heure. Ceci est destiné aux jeux d’action et au rythme rapide où les ressources se reconstituent rapidement.",
+                    "<b>Réalisme réaliste:</b> Un repos court dure 8 heures et un repos long dure 7 jours. Cela rend les rencontres plus dangereuses et encourage une gestion prudente des ressources."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Le choix d’une variante de repos est une décision majeure qui devrait être discutée lors d’une session zéro, car elle a un impact profond sur la façon dont toutes les classes gèrent leurs capacités."
+            }
+        ]
+    },
+    {
+        "title": "Glace glissante*",
+        "optional": "Optional rule",
+        "icon": "icecube",
+        "subtitle": "Terrain difficile, risque de chute",
+        "description": "La glace glissante est un terrain difficile et nécessite un test de Dextérité (Acrobaties) DD 10 pour traverser sans tomber à terre.",
+        "reference": "DMG, p. 110.",
+        "summary": "La glace glissante est un terrain difficile. Lorsqu'une créature s'y déplace pour la première fois au cours d’un tour, elle doit réussir un test de Dextérité (Acrobaties) DD 10 ou tomber à terre.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette règle simple peut transformer un lac gelé ou une caverne glacée en un champ de bataille dangereux et comique. Les règles pour la glace glissante sont les suivantes:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "La glace glissante est un <b>terrain difficile</b>, ce qui signifie que chaque pied de mouvement coûte un pied de vitesse supplémentaire.",
+                    "Lorsqu'une créature se déplace sur une surface de glace glissante pour la première fois au cours d’un tour, elle doit réussir un <b>test de Dextérité (Acrobaties) DD 10</b> ou tomber à terre."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Les personnages dotés de compétences acrobatiques élevées brilleront dans ces environnements, tandis que ceux en armure lourde auront du mal à garder pied."
+            }
+        ]
+    },
+    {
+        "title": "Glace fine*",
+        "optional": "Optional rule",
+        "icon": "icecube",
+        "subtitle": "Risque lié à la limite de poids",
+        "description": "Une fine glace se brise lorsque le poids total sur une surface de 3 m carrés dépasse sa tolérance aléatoire.",
+        "reference": "DMG, p. 111.",
+        "summary": "La glace mince supporte 3d10 x 10 livres par surface de 3 m carrés. Si le poids total dépasse cette tolérance, la glace se brise et les créatures qui s'y trouvent tombent.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "La glace mince constitue un simple danger environnemental pour les lacs gelés, les rivières et les terrains magiques instables."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Une zone de 3 m carrés de glace mince supporte <b>3d10 x 10 livres</b>.",
+                    "Lorsque le poids total sur la zone dépasse cette tolérance, la glace se brise.",
+                    "Les créatures sur la glace brisée tombent, déclenchant souvent des eaux glaciales ou des règles de natation."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Vent fort*",
+        "optional": "Optional rule",
+        "icon": "windsock",
+        "subtitle": "Affecte les attaques et la perception",
+        "description": "Un vent fort impose un désavantage aux attaques avec des armes à distance et aux tests de Perception basés sur l'audition, éteint les flammes, disperse le brouillard et gêne le vol.",
+        "reference": "DMG, p. 110.",
+        "summary": "Un vent fort impose un désavantage aux attaques avec des armes à distance et aux tests de Perception basés sur l'audition, éteint les flammes nues, disperse le brouillard et force les créatures volantes à atterrir à la fin de leur tour ou à tomber.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Le vent peut être un facteur majeur lors des rencontres en extérieur, gênant les combattants à distance et faisant de l’environnement lui-même une menace."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Le vent fort impose un <b>désavantage aux jets d’attaque avec une arme à distance</b> et aux tests de Sagesse (Perception) qui reposent sur l'ouïe.",
+                    "Il éteint les flammes nues et disperse le brouillard.",
+                    "Une créature volante dans un vent fort doit atterrir à la fin de son tour sous peine de tomber.",
+                    "Dans un désert, un vent fort peut créer une tempête de sable qui désavantage les tests de Sagesse (Perception) qui reposent sur la vue."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ces règles font de la météo une considération tactique importante, forçant potentiellement les archers et les créatures volantes à changer de stratégie."
+            }
+        ]
+    },
+    {
+        "title": "Pièges*",
+        "optional": "Optional rule",
+        "icon": "tripwire",
+        "subtitle": "Dangers cachés",
+        "description": "Les pièges sont des dangers cachés, mécaniques ou magiques, qui nécessitent une perception pour être détectés et des compétences spécifiques pour être désactivés.",
+        "reference": "DMG, pp. 120-121; XGE, pp. 113-123.",
+        "summary": "Dangers cachés qui nécessitent un test de Sagesse (Perception) pour être repérés et un test de compétence pertinent (par exemple, Outils de Voleur, Dissipation de la Magie) pour être désactivés. Les pièges complexes agissent par initiative.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les pièges mettent les joueurs au défi d'être prudents et observateurs, allant des simples pièges aux défis élaborés en plusieurs étapes. Leur détection et leur désactivation nécessitent des compétences et des outils spécifiques."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "La description d’un piège spécifie les vérifications et les contrôleurs de domaine pour le trouver et le désactiver. Trouver un piège nécessite généralement un test de Sagesse (Perception). Sa désactivation peut nécessiter un test de Dextérité avec des outils de voleur ou un test d'Intelligence (Enquête).",
+                    "Les pièges magiques peuvent nécessiter un sort <b>Dissiper la magie</b> réussi pour être désactivés.",
+                    "<b>Pièges complexes (XGE):</b> ces pièges agissent par initiative, ont leurs propres actions et réactions, et peuvent changer au fil du temps, ce qui les rend plus proches d’un combat que d’un simple danger."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Des pièges bien placés peuvent drainer les ressources du groupe, diviser le groupe ou les affaiblir avant un combat majeur."
+            }
+        ]
+    },
+    {
+        "title": "Échecs critiques**",
+        "optional": "Homebrew rule",
+        "icon": "brokenshield",
+        "subtitle": "Naturel 1 a des conséquences",
+        "description": "Une règle maison populaire selon laquelle obtenir un 1 naturel sur un jet d’attaque entraîne une conséquence négative au-delà du simple manque.",
+        "reference": "Homebrew courant",
+        "summary": "Une règle maison selon laquelle un 1 naturel sur un jet d’attaque a une conséquence négative au-delà du simple manque, comme laisser tomber ton arme ou tomber à terre.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette règle maison rend les combats plus chaotiques et imprévisibles. Bien que populaire, il peut pénaliser de manière disproportionnée les personnages martiaux qui effectuent davantage de jets d’attaque. Les échecs critiques peuvent être simples ou déterminés en roulant sur un graphique."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Échec critique simple:</b> Sur un 1 naturel, l’attaquant tombe à terre ou laisse tomber son arme.",
+                    "<b>Échec critique complexe:</b> rouler sur une carte peut provoquer des effets tels que toucher un allié, briser une arme non magique ou t’infliger une petite quantité de dégâts."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Il est souvent recommandé que si les règles d’échappatoire sont utilisées pour les joueurs, elles s'appliquent également aux monstres afin de maintenir l'équité."
+            }
+        ]
+    }
+]

@@ -1,0 +1,380 @@
+[
+    {
+        "title": "Memanjat",
+        "optional": "Standard rule",
+        "icon": "crags",
+        "subtitle": "Biaya: +1 feet per 1 feet",
+        "description": "Pendakian adalah difficult terrain, membutuhkan 1 feet movement ekstra untuk setiap 1 feet yang dipanjat kecuali kamu memiliki climb speed.",
+        "reference": "PHB, hlm. 182.",
+        "summary": "Setiap feet movement yang dihabiskan untuk mendaki membutuhkan 1 feet ekstra, memperlakukannya sebagai difficult terrain. Makhluk dengan kecepatan mendaki mengabaikan cost tambahan ini.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Pergerakan vertikal adalah bagian penting dari eksplorasi. Kecuali jika makhluk tersebut adalah pemanjat alami, hal tersebut akan lambat dan berfungsi sebagai difficult terrain, yang secara efektif menyebabkan pergerakan ganda."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Setiap feet movement yang dilakukan pendakian membutuhkan 1 feet ekstra. Jadi, bergerak sejauh 5 feet ke atas tembok membutuhkan kecepatan 10 feet.",
+                    "Makhluk dengan kecepatan mendaki mengabaikan cost tambahan ini.",
+                    "DM mungkin memerlukan check Strength (Athletics) untuk permukaan yang sangat sulit atau licin."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ingat cost ini, karena ini berarti makhluk dengan kecepatan 30 feet bisa mendaki maksimal 15 feet dalam satu round tanpa menggunakan Dash action."
+            }
+        ]
+    },
+    {
+        "title": "Merangkak",
+        "optional": "Standard rule",
+        "icon": "crawl",
+        "subtitle": "Biaya: +1 feet per 1 feet",
+        "description": "Saat tengkurap, satu-satunya pilihan movement-mu adalah merangkak, yang membutuhkan gerakan ekstra 1 feet untuk setiap feet yang digerakkan.",
+        "reference": "PHB, hlm. 182.",
+        "summary": "Saat kamu berada di Prone, satu-satunya pilihan movement-mu adalah merangkak. Setiap feet movement yang dihabiskan untuk merangkak membutuhkan 1 feet ekstra, memperlakukannya sebagai difficult terrain.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Merangkak adalah gerakan lambat yang dibatasi saat kamu berada dalam kondisi Prone. Ini berfungsi sebagai difficult terrain, mewakili perjuangan untuk bergerak di sepanjang tanah."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Setiap feet movement yang dihabiskan untuk merangkak membutuhkan 1 feet ekstra.",
+                    "Merangkak adalah satu-satunya cara untuk bergerak selama kamu memiliki kondisi Prone, kecuali kamu terlebih dahulu menggunakan separuh movement-mu untuk berdiri."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Untuk mendapatkan kembali speed penuhmu, pertama-tama kamu harus menghabiskan setengah dari total movement-mu untuk berdiri, yang mengakhiri kondisi Prone dan biasanya merupakan pilihan yang lebih efisien."
+            }
+        ]
+    },
+    {
+        "title": "Difficult Terrain",
+        "optional": "Standard rule",
+        "icon": "stonepile",
+        "subtitle": "Pengubah cost: +1 feet per 1 feet",
+        "reference": "PHB, hlm. 182.",
+        "description": "Bergerak melalui area seperti puing-puing, salju, atau semak membutuhkan pergerakan ganda, sehingga secara efektif mengurangi separuh speed-mu.",
+        "summary": "Setiap langkah pergerakan di difficult terrain dikenakan cost tambahan 1 feet dari speed-mu. Efek ini berlaku untuk semua jenis gerakan dan mencakup ruang makhluk lain.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Difficult Terrain adalah salah satu faktor lingkungan yang paling umum dalam pertempuran, sehingga penentuan posisi dan pergerakan menjadi tantangan taktis. Untuk setiap 1 feet yang kamu gerakkan di difficult terrain, kamu harus mengeluarkan 1 feet ekstra untuk bergerak."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Contohnya termasuk furnitur rendah, puing-puing, semak belukar, tangga curam, salju, dan rawa dangkal.",
+                    "Ruang makhluk lain, baik bermusuhan atau tidak, juga difficult terrain.",
+                    "Beberapa fitur, seperti Natural Explorer milik Ranger, memungkinkan kamu mengabaikan efek difficult terrain non-magis."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini berarti melangkah sejauh 5 feet ke dalam puing-puing akan menghabiskan 10 feet movement-mu. Biaya tambahan ini berlaku untuk semua jenis gerakan, termasuk berjalan, memanjat, dan berenang."
+            }
+        ]
+    },
+    {
+        "title": "Jatuh Prone",
+        "optional": "Standard rule",
+        "icon": "falling",
+        "subtitle": "Biaya: 0 feet",
+        "description": "Kamu bisa jatuh ke tanah kapan saja pada giliranmu tanpa menggunakan kecepatan apa pun.",
+        "reference": "PHB, hlm. 190-191.",
+        "summary": "Kamu bisa jatuh ke tanah kapan saja pada giliranmu tanpa menggunakan gerakan apa pun. Ini memberi kamu kondisi Prone.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini adalah cara gratis dan instan untuk mengubah pendirian kamu. Ini sering digunakan secara defensif untuk membuat dirimu target yang lebih sulit untuk serangan jarak jauh, meskipun ini disertai dengan trade-off taktis."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Prone terjatuh tidak akan mengurangi speed-mu, action, atau reaction.",
+                    "Itu bisa dilakukan kapan saja selama giliranmu.",
+                    "Melakukannya akan memberi kamu kondisi <i>Prone</i>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Meskipun Prone memberikan disadvantage pada penyerang jarak jauh, ia memberikan advantage kepada penyerang jarak dekat dalam jarak 5 feet, jadi gunakan taktik ini dengan bijak."
+            }
+        ]
+    },
+    {
+        "title": "Gerak sambil Grapple",
+        "optional": "Standard rule",
+        "icon": "grab",
+        "subtitle": "Pengubah: kecepatan dibelah dua",
+        "description": "Saat kamu bergerak sambil bergulat dengan makhluk lain, speed-mu berkurang setengahnya kecuali ukuran makhluk itu dua atau lebih lebih kecil.",
+        "reference": "PHB, hlm. 195.",
+        "summary": "Saat kamu bergerak, kamu bisa menyeret makhluk yang bergulat bersama kamu, tetapi speed-mu berkurang setengahnya saat giliran. Penalti ini ditumpuk dengan difficult terrain.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Setelah makhluk bergulat, kamu bisa memindahkannya secara paksa. Ini mengorbankan speed-mu sendiri, mewakili kesulitan menyeret musuh yang tidak mau."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Saat kamu bergerak, kamu bisa menyeret atau membawa makhluk yang bergulat itu bersama kamu.",
+                    "Speed-mu <b>dibagi dua</b> untuk giliran, kecuali makhluk itu berukuran dua atau lebih lebih kecil dari kamu.",
+                    "Penalti ini berlaku untuk kecepatan total kamu pada giliran, dan ditumpuk dengan difficult terrain."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Misalnya, dengan kecepatan 30 feet, grappling membaginya menjadi 15 feet. Bergerak sejauh 5 feet melalui difficult terrain akan menghabiskan cost 10 feet dari jatah 15 feet tersebut, sehingga kamu hanya bisa bergerak sejauh 5 feet."
+            }
+        ]
+    },
+    {
+        "title": "Lompat Tinggi",
+        "optional": "Standard rule",
+        "icon": "wingfoot",
+        "subtitle": "Tinggi: 3 + STR MOD feet",
+        "description": "Setelah bergerak setidaknya 10 feet, kamu bisa melompat secara vertikal sejumlah feet sama dengan 3 + pengubah Strength kamu.",
+        "reference": "PHB, hlm. 182.",
+        "summary": "Dengan start lari 10 feet, kamu bisa melompat secara vertikal sebanyak 3 feet + pengubah Strength kamu. Lompatan tinggi sambil berdiri berjarak setengah dari jarak ini.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Kemampuan lompat tinggi kamu menentukan ketinggian maksimum yang bisa kamu lewati, dan setiap feet lompatan membutuhkan satu feet movement. Jaraknya tergantung apakah kamu mulai berlari."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>lari lompat tinggi</b>, yang sebelumnya harus berjalan minimal 10 feet, memungkinkan kamu melompat setinggi 3 + pengubah Strength dalam feet.",
+                    "<b>Lompat tinggi sambil berdiri</b> hanya berjarak setengah dari jarak tersebut.",
+                    "Kamu bisa merentangkan lengan setengah tinggi badan kamu di atas dirimu selama lompatan untuk mencapai tepian yang lebih tinggi.",
+                    "Setiap feet yang kamu bersihkan membutuhkan satu feet pergerakan."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Misalnya, karakter dengan 16 Strength (+3 mod) bisa melakukan lompatan tinggi sejauh 6 feet, memungkinkan mereka melompat ke peti atau melewati tembok rendah."
+            }
+        ]
+    },
+    {
+        "title": "Lompat Jauh",
+        "optional": "Standard rule",
+        "icon": "wingfoot",
+        "subtitle": "Jarak: Skor STR dalam satuan feet",
+        "description": "Setelah bergerak setidaknya 10 feet, kamu bisa melompat secara horizontal beberapa feet hingga skor Strength kamu.",
+        "reference": "PHB, hlm. 182.",
+        "summary": "Dengan start lari 10 feet, kamu bisa melompat secara horizontal beberapa feet hingga skor Strength kamu. Lompat jauh sambil berdiri berjarak setengah dari jarak ini.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Kemampuan lompat jauh kamu menentukan jarak maksimum yang bisa kamu lewati dalam suatu celah, dan setiap feet lompatan memerlukan satu feet pergerakan. Jaraknya tergantung apakah kamu mulai berlari."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>lompat jauh berlari</b>, yang sebelumnya harus berjalan minimal 10 feet, memungkinkan kamu melompat sejauh skor Strength dalam feet.",
+                    "<b>Lompat jauh sambil berdiri</b> hanya berjarak setengah dari jarak tersebut.",
+                    "Setiap feet yang kamu bersihkan membutuhkan satu feet pergerakan.",
+                    "DM mungkin memerlukan check DC 10 Strength (Athletics) untuk melewati rintangan rendah selama lompatan."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Karakter dengan skor Strength 14 bisa melakukan lompat jauh lari hingga 14 feet untuk melintasi jurang, asalkan mereka memiliki pergerakan sejauh 14 feet untuk dilakukan."
+            }
+        ]
+    },
+    {
+        "title": "Naik/Turun Mount",
+        "optional": "Standard rule",
+        "icon": "horsehead",
+        "subtitle": "Biaya: setengah kecepatan gerakan",
+        "description": "Setelah mendapat giliran, kamu bisa menaiki atau menurunkan makhluk dengan mengeluarkan gerakan yang setara dengan setengah speed-mu.",
+        "reference": "PHB, hlm. 198.",
+        "summary": "Kamu bisa naik atau turun dari tunggangan dengan mengeluarkan gerakan yang setara dengan setengah speed-mu. Jika mount kamu dipindahkan di luar kehendaknya, kamu harus membuat DC 10 DEX saving throw atau jatuh dan mendarat Prone.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Menaiki makhluk yang setidaknya satu ukuran lebih besar dari kamu adalah cara umum untuk meningkatkan kecepatan perjalanan. Biaya untuk melakukannya adalah bagian dari perpindahan kamu, dan ada risiko jika mount-mu dipindahkan atau dirobohkan secara paksa."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Memasang atau menurunkan memerlukan jumlah pergerakan yang setara dengan setengah speed-mu. Misalnya, jika speed-mu 30 feet, kamu harus mengeluarkan gerakan sejauh 15 feet.",
+                    "Jika suatu efek menggerakkan mount-mu di luar kehendaknya, kamu harus berhasil pada <b>DC 10 Dexterity saving throw</b> atau terjatuh, mendarat dalam jarak 5 feet darinya.",
+                    "Jika mount-mu Prone terjatuh, kamu bisa menggunakan reaction untuk turun saat terjatuh. Jika tidak, kamu akan turun dan jatuh Prone."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Biaya ini adalah biaya tetap. Dengan kecepatan 30 feet, kamu harus melakukan gerakan sejauh 15 feet untuk menaiki mount-mu, sehingga kamu memiliki sisa 15 feet untuk bergerak sendiri pada giliran itu jika kamu mau."
+            }
+        ]
+    },
+    {
+        "title": "Bergerak",
+        "optional": "Standard rule",
+        "icon": "run",
+        "subtitle": "Biaya: 1 feet per 1 feet",
+        "description": "Pada giliranmu, kamu bisa bergerak sejauh speed-mu, menghentikan gerakan ini sesuka kamu.",
+        "reference": "PHB, hlm. 182, 190.",
+        "summary": "Kamu bisa berpindah jarak sesuai speed-mu, membaginya sebelum dan sesudah action-mu. Kamu bisa bergerak melalui ruang makhluk yang tidak bermusuhan, tetapi tidak melalui ruang yang bermusuhan (kecuali ada perbedaan ukuran yang besar).",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Gerakan adalah sumber daya, bukan action. Kamu memiliki kumpulan gerakan pada giliranmu yang sama dengan speed-mu, yang bisa kamu gunakan secara bertahap. Kamu juga bisa berinteraksi dengan ruang makhluk lain dengan cara tertentu."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Kamu bisa menghentikan movement-mu saat giliran, menggunakan sebagian speed-mu sebelum dan sesudah action.",
+                    "Kamu bisa bergerak melalui ruang makhluk yang tidak bermusuhan. Kamu hanya bisa bergerak melalui ruang makhluk bermusuhan jika ukurannya setidaknya dua lebih besar atau lebih kecil dari kamu.",
+                    "Ruang makhluk lain selalu difficult terrain untuk kamu.",
+                    "Kamu tidak bisa dengan rela mengakhiri perpindahan kamu di ruang makhluk lain."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Fleksibilitas ini adalah kunci dalam pertarungan, memungkinkan kamu berpindah dari tempat berlindung, menyerang, dan kemudian kembali ke tempat berlindung, semuanya dalam giliran yang sama."
+            }
+        ]
+    },
+    {
+        "title": "Menyusup di Celah",
+        "optional": "Standard rule",
+        "icon": "resize",
+        "subtitle": "Bergerak melalui ruang yang lebih kecil",
+        "description": "Kamu bisa berpindah melalui kategori ruang yang satu ukuran lebih kecil dari kamu, tetapi kamu akan mendapat penalti yang signifikan saat melakukannya.",
+        "reference": "PHB, hlm. 192.",
+        "summary": "Bergerak melalui ruang yang satu ukuran lebih kecil membutuhkan pergerakan dua kali lipat. Saat menekan, kamu memiliki disadvantage pada serangan dan DEX saving throw, dan serangan terhadap kamu memiliki advantage.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Menekan memungkinkan melewati area yang sempit, tetapi ini berdampak besar pada pergerakan dan efektivitas tempur kamu, membuat kamu lambat dan rentan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Saat melakukan kompresi, setiap feet movement membutuhkan 1 feet ekstra (seolah-olah di difficult terrain).",
+                    "Kamu memiliki <b>disadvantage pada attack roll dan Dexterity saving throw</b>.",
+                    "Attack roll melawanmu memiliki <b>advantage</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Misalnya, makhluk Medium bisa masuk melalui lorong sempit yang diperuntukkan bagi makhluk Tiny, tetapi mereka akan menjadi sasaran empuk bagi musuh mana pun yang menunggu di sisi lain."
+            }
+        ]
+    },
+    {
+        "title": "Berdiri",
+        "optional": "Standard rule",
+        "icon": "strong",
+        "subtitle": "Biaya: setengah kecepatan gerakan",
+        "description": "Saat tiarap, kamu bisa berdiri dengan menggunakan gerakan yang setara dengan setengah speed-mu.",
+        "reference": "PHB, hlm. 190-191.",
+        "summary": "Kamu bisa bangkit dari Prone dengan mengeluarkan jumlah gerakan yang setara dengan setengah speed-mu. Kamu tidak bisa berdiri jika speed-mu 0 atau kamu tidak memiliki cukup gerakan.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Bangkit dari posisi tengkurap adalah bagian yang mahal namun penting untuk pemulihan dalam pertarungan. Biayanya adalah setengah dari total speed-mu, bukan sisa speed-mu untuk giliran."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Berdiri membutuhkan setengah dari total speed-mu. Untuk makhluk dengan kecepatan 30 feet, dibutuhkan pergerakan 15 feet.",
+                    "Biaya ini dipotong dari movement-mu yang tersedia untuk giliran tersebut.",
+                    "Kamu tidak bisa berdiri jika movement-mu tidak cukup atau jika speed-mu 0."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Biaya tetap ini berarti bahwa meskipun movement-mu hanya tersisa 1 feet, kamu tidak bisa berdiri jika speed-mu 30, karena biayanya adalah 15 feet."
+            }
+        ]
+    },
+    {
+        "title": "Berenang",
+        "optional": "Standard rule",
+        "icon": "atsea",
+        "subtitle": "Biaya: +1 feet per 1 feet",
+        "description": "Berenang adalah difficult terrain, membutuhkan 1 feet movement ekstra untuk setiap feet berenang kecuali kamu memiliki swim speed.",
+        "reference": "PHB, hlm. 182.",
+        "summary": "Setiap feet movement yang dihabiskan untuk berenang membutuhkan 1 feet ekstra, memperlakukannya sebagai difficult terrain. Makhluk dengan swim speed mengabaikan cost tambahan ini.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Bergerak melalui air bisa jadi lambat dan menantang bagi makhluk darat. Kecuali jika suatu makhluk secara alami akuatik, berenang memerlukan gerakan ganda karena diperlakukan sebagai difficult terrain."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Setiap feet movement yang dihabiskan untuk berenang membutuhkan 1 feet ekstra. Jadi, bergerak sejauh 5 feet di dalam air membutuhkan kecepatan 10 feet.",
+                    "Makhluk dengan swim speed mengabaikan cost tambahan ini.",
+                    "DM mungkin memerlukan check Strength (Athletics) untuk mengetahui adanya air yang kasar atau arus yang kuat."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Aturan ini, dikombinasikan dengan aturan pertempuran bawah air, membuat pertempuran di air menjadi tantangan taktis yang berbeda dan berbahaya."
+            }
+        ]
+    },
+    {
+        "title": "Pace Perjalanan",
+        "optional": "Standard rule",
+        "icon": "trail",
+        "subtitle": "Bepergian selama satu jam atau lebih",
+        "description": "Saat melakukan perjalanan darat, kecepatan kelompok kamu menentukan seberapa jauh kamu bergerak dan seberapa sadar kamu terhadap lingkungan sekitar.",
+        "reference": "PHB, hlm. 181-182.",
+        "summary": "Menentukan kecepatan dan kesadaran perjalanan darat. Speed yang cepat memberi penalti kepada Perception pasif sebesar 5, sedangkan kecepatan yang lambat memungkinkan grup untuk menggunakan Stealth. Bepergian lebih dari 8 jam sehari berisiko Exhaustion.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Aturan-aturan ini mengatur perjalanan jarak jauh, mengabstraksi pergerakan menjadi beberapa jam dan hari. Speed yang kamu pilih menciptakan trade-off antara kecepatan dan kesadaran."
+            },
+            {
+                "type": "table",
+                "headers": [
+                    "kecepatan",
+                    "Jarak per Jam",
+                    "Jarak per Hari",
+                    "Efek"
+                ],
+                "rows": [
+                    [
+                        "Cepat",
+                        "4 miles",
+                        "30 miles",
+                        "-5 penalti untuk Wisdom pasif (Perception)"
+                    ],
+                    [
+                        "Biasa",
+                        "3 miles",
+                        "24 miles",
+                        "—"
+                    ],
+                    [
+                        "Lambat",
+                        "2 miles",
+                        "18 miles",
+                        "Mampu menggunakan sembunyi-sembunyi"
+                    ]
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "<b>Forced March:</b> Untuk setiap jam perjalanan tambahan melebihi 8 jam dalam sehari, karakter harus membuat Constitution saving throw di akhir jam tersebut. DC adalah 10 + 1 untuk setiap jam setelah jam 8. Jika saving throw gagal, karakter mengalami satu tingkat kelelahan."
+            },
+            {
+                "type": "paragraph",
+                "content": "Jarak ini mengasumsikan medan yang relatif sederhana seperti dataran atau jalan raya. DM bisa mengurangi separuh jarak ini untuk difficult terrain seperti hutan lebat atau pegunungan."
+            }
+        ]
+    }
+]

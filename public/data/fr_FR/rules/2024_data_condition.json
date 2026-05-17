@@ -1,0 +1,599 @@
+[
+    {
+        "title": "Aveuglé",
+        "optional": "Standard rule",
+        "icon": "oneeyed",
+        "subtitle": "Tu ne peux pas voir",
+        "description": "Une créature aveuglée est totalement incapable de voir, ce qui en fait un mauvais attaquant et une cible facile.",
+        "reference": "PHB 2024, p. 367-368.",
+        "summary": "Tu échoues automatiquement à tout test d20 nécessitant la vue. Tu as un désavantage à tes jets d’attaque, et les jets d’attaque contre toi ont un avantage.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "La condition Aveugle représente une perte totale de la vue. Une créature qui ne peut pas voir échoue automatiquement aux tests nécessitant la vue et est considérablement désavantagée au combat."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu échoues automatiquement à tout test d20 nécessitant la vue.",
+                    "Tu as <b>un désavantage aux jets d’attaque</b>.",
+                    "Les jets d’attaque contre toi ont un <b>avantage</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Les créatures dotées de sens alternatifs comme Blindsight peuvent toujours localiser ton emplacement, mais les pénalités aux jets d’attaque restent à moins que leurs sens contournent complètement le besoin de vue pour attaquer."
+            }
+        ]
+    },
+    {
+        "title": "Charmé",
+        "optional": "Standard rule",
+        "icon": "smitten",
+        "subtitle": "Tu es charmé",
+        "description": "Tu es magiquement charmé par une autre créature, t’empêchant de lui faire du mal et te rendant plus vulnérable à son influence.",
+        "reference": "PHB 2024, p. 367-368.",
+        "summary": "Tu ne peux pas attaquer le charmeur ni le cibler avec des effets néfastes. Le charmeur a également un avantage sur les tests de Charisme faits pour interagir socialement avec toi.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "La condition Charmed représente une influence magique sur les émotions. Cela n'accorde pas le contrôle mental, mais cela protège le charmeur et lui facilite les interactions sociales."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu ne peux pas attaquer le charmeur ni le cibler avec un sort ou une capacité nuisible.",
+                    "Le charmeur a <b>un avantage sur les tests de Charisme</b> lors de ses interactions sociales avec toi."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Une créature charmée peut toujours refuser une demande nuisible ou hors de son caractère, mais elle a tendance à être amicale et agréable envers le charmeur."
+            }
+        ]
+    },
+    {
+        "title": "Hébété**",
+        "optional": "Homebrew rule",
+        "icon": "internalinjury",
+        "subtitle": "Tu as une activité limitée",
+        "description": "Une condition homebrew qui limite ton économie d’action et peut perturber ta concentration sans t’étourdir complètement.",
+        "summary": "Tu peux effectuer soit une Action, soit une action bonus pendant ton tour (pas les deux), et tu ne peux pas te concentrer sur des sorts ou d’autres effets. Tu peux toujours te déplacer et réagir.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L’étourdissement n’est pas une condition finale du PHB 2024. Il est conservé ici comme statut homebrew pour les tables qui souhaitent une alternative moins punitive que d'être étourdie."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu peux effectuer soit une Action, soit une action bonus pendant ton tour, mais pas les deux. Tu peux toujours te déplacer et réagir.",
+                    "Tu ne peux pas te concentrer sur des sorts ou d’autres effets."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cette condition est conçue pour réduire les scénarios d'étourdissement tout en restant un puissant affaiblissement, en particulier contre les lanceurs de sorts qui comptent sur leur concentration."
+            }
+        ]
+    },
+    {
+        "title": "Assourdi",
+        "optional": "Standard rule",
+        "icon": "mute",
+        "subtitle": "Tu ne peux pas entendre",
+        "description": "Une créature devenue sourde est totalement incapable d'entendre et échoue automatiquement à tous les tests nécessitant l'audition.",
+        "reference": "PHB 2024, p. 367-368.",
+        "summary": "Tu ne peux pas entendre et échouez automatiquement à tout test de capacité nécessitant l'audition.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Bien que moins grave qu'Aveuglé en combat, cette condition empêche une créature d'entendre les commandes verbales, les avertissements ou les composants verbaux des sorts lancés."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu échoues automatiquement à tout test de capacité nécessitant l’audition."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cette condition peut empêcher une créature de percevoir les commandes vocales, les avertissements et les lancements de sorts audibles, mais elle ne crée pas d'immunité générale contre les dégâts de tonnerre ou contre tout effet sonore."
+            }
+        ]
+    },
+    {
+        "title": "Mourant",
+        "optional": "Standard rule",
+        "icon": "deadhead",
+        "subtitle": "Tu es à 0 points de vie",
+        "description": "Lorsque tu es réduit à 0 point de vie, tu tombes inconscient et devez effectuer des jets de sauvegarde mortels pour éviter la mort.",
+        "reference": "PHB 2024, p. 341.",
+        "summary": "À 0 PV, tu es inconscient et dois effectuer une sauvegarde mortelle au début de ton tour. Trois succès te stabilisent; trois échecs signifient que tu meurs. Un nat 20 te ranime avec 1 PV.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "C'est l'état périlleux entre la conscience et la mort. Ton destin est déterminé par une série de lancers de d20 au début de chacun de tes tours, le succès te rapprochant de la stabilité et l’échec te rapprochant de la mort."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Jets de sauvegarde contre la mort:</b> Au début de chacun de tes tours, effectue une sauvegarde contre la mort (un jet de d20 sans modificateur). Sur 10 ou plus, tu obtiens une réussite. Sur un 9 ou moins, un échec.",
+                    "<b>3 Succès:</b> Tu deviens Stable.",
+                    "<b>3 échecs:</b> Tu meurs.",
+                    "Un <b>1 naturel</b> compte pour deux échecs. Un <b>20 naturel</b> signifie que tu récupères 1 point de vie.",
+                    "<b>Dégâts à 0 PV:</b> subir des dégâts à 0 PV provoque un échec de sauvegarde mortelle (deux si les dégâts proviennent d’un coup critique)."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Toute guérison qui restaure ne serait-ce qu'un point de vie mettra fin à l'état de mort et tu ramènera immédiatement à la conscience."
+            }
+        ]
+    },
+    {
+        "title": "Épuisement",
+        "optional": "Standard rule",
+        "icon": "crawl",
+        "subtitle": "Tu es épuisé",
+        "description": "Une condition révisée mesurée en 6 niveaux, chacun aggravant tes tests et ta vitesse d20.",
+        "reference": "PHB 2024, p. 368.",
+        "summary": "Pour chaque niveau d'épuisement, soustrayez 2 des d20 tests et réduisez la vitesse de 1,50 m. Au niveau 6, tu meurs.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Le système d'épuisement final de 2024 est plus court et plus précis que la version playtest: chaque niveau affecte directement à la fois tes jets et ta mobilité."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Tests D20:</b> Soustrayez <b>2 fois ton niveau d'épuisement</b> aux jets d’attaque, aux tests de caractéristiques et aux jets de sauvegarde.",
+                    "<b>Vitesse:</b> Réduis ta vitesse de <b>1,50 m multiplié par ton niveau d'épuisement</b>.",
+                    "Au <b>niveau 6</b>, tu meurs.",
+                    "Terminer un repos long supprime 1 niveau d'épuisement."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Étant donné que la pénalité s'applique à chaque test d20, même un ou deux niveaux d'épuisement peuvent rapidement avoir une importance."
+            }
+        ]
+    },
+    {
+        "title": "Effrayé",
+        "optional": "Standard rule",
+        "icon": "sharpsmile",
+        "subtitle": "Tu as peur",
+        "description": "En proie à la terreur, tu es désavantagé aux tests de caractéristiques et aux jets d’attaque tant que la source de la peur est visible et que tu ne peux pas t’en rapprocher.",
+        "reference": "PHB 2024, p. 368.",
+        "summary": "Tu es désavantagé aux tests de caractéristiques et aux jets d’attaque alors que tu peux voir la source de ta peur. Tu ne peux pas non plus t’en rapprocher volontairement.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette condition combine une pénalité de combat avec une restriction tactique des mouvements, ce qui en fait un puissant outil de contrôle du champ de bataille en forçant une créature à rester à distance."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu as <b>un désavantage aux tests de caractéristiques et aux jets d’attaque</b> tant que la source de ta peur est à portée de vue.",
+                    "Tu ne peux pas volontairement te rapprocher de la source de ta peur."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Si tu brises la ligne de vue avec la source de ta peur, le désavantage est supprimé pour ce moment, mais tu ne peux toujours pas t’en rapprocher."
+            }
+        ]
+    },
+    {
+        "title": "Agrippé",
+        "optional": "Standard rule",
+        "icon": "grab",
+        "subtitle": "Tu es aux prises",
+        "description": "Ta vitesse est de 0 et tu es désavantagé lors des attaques contre toute cible autre que ton personnage qui t’agrippe.",
+        "reference": "PHB 2024, p. 368.",
+        "summary": "Ton Vitesse est de 0, tu ne peux pas bénéficier de bonus de Vitesse, et les jets d’attaque contre des cibles autres que le personnage qui t’agrippe sont désavantagés. La condition prend fin si le personnage qui t’agrippe est frappé d'incapacité ou si tu es éloigné.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L’état Agrippé a été mise à jour pour être plus débilitante, ce qui en fait une option de contrôle plus puissante pour verrouiller une seule cible et la forcer à t’affronter."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Ton Vitesse devient 0, et tu ne peux bénéficier d'aucun bonus à ton Vitesse.",
+                    "Tu as <b>un désavantage aux jets d’attaque</b> contre toute créature autre que celle qui t’agrippe.",
+                    "La condition prend fin si le personnage qui t’agrippe est frappé d'incapacité ou si tu es déplacé hors de portée du personnage qui t’agrippe."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ce changement encourage la créature agrippée à se concentrer sur sa menace immédiate, plutôt que d’attaquer d’autres cibles en toute impunité."
+            }
+        ]
+    },
+    {
+        "title": "Neutralisé",
+        "optional": "Standard rule",
+        "icon": "internalinjury",
+        "subtitle": "Tu ne peux pas agir",
+        "description": "Une créature frappée d'incapacité est incapable d'effectuer une action, une action bonus ou une réaction, ce qui la retire effectivement de l'économie d’action.",
+        "reference": "PHB 2024, p. 368.",
+        "summary": "Tu ne peux pas effectuer d’action, d’action bonus ou de réaction. La concentration prend également fin lorsque tu deviens incapable.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette condition arrête ton économie d’action. Il est également intégré dans plusieurs conditions plus difficiles, notamment paralysé, étourdi et inconscient."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu ne peux pas effectuer d'<b>Action</b>.",
+                    "Tu ne peux pas effectuer d'<b>action bonus</b>.",
+                    "Tu ne peux pas prendre de <b>Réaction</b>.",
+                    "Si tu te concentres, ta concentration prend fin lorsque tu deviens incapable."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Invisible",
+        "optional": "Standard rule",
+        "icon": "invisible",
+        "subtitle": "Tu ne peux pas être vu",
+        "description": "Tu ne peux pas être vu sans magie ou sans sens spécial, et les attaques sont affectées à moins qu'une créature ne puisse te voir d’une manière ou d’une autre.",
+        "reference": "PHB 2024, p. 368.",
+        "summary": "Tu ne peux pas être vu sans magie ou sans sens particulier. Tu as un avantage sur les attaques et les attaques contre toi ont un désavantage à moins qu'une créature ne puisse te voir d’une manière ou d’une autre.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L'état invisible te cache et affecte les attaques, mais ses avantages en attaque ne s'appliquent pas contre une créature qui peut te voir d’une manière ou d’une autre."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu ne peux pas être vu sans magie ou sans sens particulier.",
+                    "L’équipement que tu portes ou transportez est également dissimulé.",
+                    "Tu as un <b>avantage aux jets d’attaque</b>, et les jets d’attaque contre toi ont un <b>désavantage</b>.",
+                    "Si une créature peut te voir d’une manière ou d’une autre, tu ne bénéficiez pas de ces avantages d’attaque contre cette créature."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Les effets de zone et les attaques contre un emplacement deviné peuvent toujours affecter une créature invisible si l’attaquant choisit le bon espace."
+            }
+        ]
+    },
+    {
+        "title": "Paralysé",
+        "optional": "Standard rule",
+        "icon": "spiderweb",
+        "subtitle": "Tu es paralysé",
+        "description": "Tu es gelé et frappé d'incapacité. Tout coup porté par un attaquant proche devient un coup critique.",
+        "reference": "PHB 2024, p. 368.",
+        "summary": "Tu es incapable de bouger, tu ne peux ni bouger ni parler et tu échoues automatiquement aux sauvegardes de Force et de Dextérité. Les attaques contre toi ont un avantage, et tout coup porté par un attaquant à moins de 1,50 m est un coup critique.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Il s'agit d’une condition extrêmement dangereuse qui peut entraîner la disparition rapide d’un personnage. Tu es complètement à la merci de tes ennemis, incapable d'agir et vulnérable aux attaques dévastatrices."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu es <b>incapacité</b> et ne pouvez ni bouger ni parler.",
+                    "Les jets d’attaque contre toi ont un <b>avantage</b>.",
+                    "Toute attaque qui te touche est un <b>coup critique</b> si l’attaquant se trouve à moins de 1,50 m de toi.",
+                    "Tu échoues automatiquement aux jets de sauvegarde de Force et de Dextérité."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Le coup critique automatique des attaquants adjacents en fait sans doute la condition non mortelle la plus dangereuse du jeu."
+            }
+        ]
+    },
+    {
+        "title": "Pétrifié",
+        "optional": "Standard rule",
+        "icon": "stonepile",
+        "subtitle": "Tu es transformé en pierre",
+        "description": "Tu es transformé en un objet inanimé, devenant incapable et hautement résistant aux dommages.",
+        "reference": "PHB 2024, p. 368.",
+        "summary": "Tu es transformé en substance inanimée, êtes incapable d'agir, ta vitesse est de 0 et tu as une résistance à tous les dégâts.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Une créature pétrifiée est en fait une statue, retirée du jeu et inconsciente de son environnement. Cette condition est généralement permanente jusqu'à ce qu'elle soit guérie par une magie puissante."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu es transformé, avec les objets non magiques que tu portes et transportez, en une substance solide et inanimée.",
+                    "Tu es <b>incapacité</b>, ta vitesse devient 0 et ta vitesse ne peut pas augmenter.",
+                    "Les jets d’attaque contre toi ont un <b>avantage</b>.",
+                    "Tu échoues automatiquement aux jets de sauvegarde de Force et de Dextérité.",
+                    "Tu as <b>résistance à tous les dégâts</b>.",
+                    "Tu es immunisé contre la condition Empoisonné.",
+                    "Ton poids est multiplié par dix, et tu arrêtes de vieillir."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Même si tu résistes aux dégâts, suffisamment de dégâts peuvent détruire ta forme pétrifiée, entraînant la mort."
+            }
+        ]
+    },
+    {
+        "title": "Empoisonné",
+        "optional": "Standard rule",
+        "icon": "poisonbottle",
+        "subtitle": "Tu es empoisonné",
+        "description": "Le poison dans ton système te donne un désavantage sur tous tes jets d’attaque et tests de caractéristiques.",
+        "reference": "PHB 2024, p. 368.",
+        "summary": "Tu es désavantagé sur tous tes jets d’attaque et tests de caractéristiques. Cela n'affecte pas tes jets de sauvegarde.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette condition représente une débilité générale due à une toxine. Cela entrave ton efficacité dans presque toutes les tâches que tu pourrais tenter et qui impliquent une attaque ou une compétence."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu as <b>un désavantage aux jets d’attaque et aux tests de caractéristiques</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Notamment, l’état d’empoisonnement n’affecte pas les jets de sauvegarde, mais uniquement les jets d’attaque et les tests de caractéristiques, ce qui constitue une distinction clé par rapport aux autres effets débilitants."
+            }
+        ]
+    },
+    {
+        "title": "À terre",
+        "optional": "Standard rule",
+        "icon": "crawl",
+        "subtitle": "Tu es sujet",
+        "description": "Tu es allongé par terre. Cela te rend plus difficile à frapper à distance mais plus facile à frapper de près.",
+        "reference": "PHB 2024, p. 368.",
+        "summary": "Tu es désavantagé aux jets d’attaque. Les jets d’attaque contre toi ont un avantage si l’attaquant est à moins de 1,50 m, et un désavantage dans le cas contraire. Se lever coûte la moitié de ta vitesse.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L’état à terre offre un compromis tactique. C'est un avantage défensif contre les attaquants à distance mais un handicap majeur contre les ennemis de mêlée. Cela a également un impact significatif sur tes mouvements."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Ta seule option de mouvement est de ramper (ce qui coûte le double du mouvement) jusqu'à ce que tu te relèves.",
+                    "Se relever coûte la moitié de ta vitesse.",
+                    "Tu as <b>un désavantage aux jets d’attaque</b>.",
+                    "Un jet d’attaque contre toi a un <b>avantage</b> si l’attaquant est à moins de 1,50 m. Sinon, le jet d’attaque présente un <b>désavantage</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Se relever coûte la moitié de ton mouvement pour le tour, ce qui peut t’empêcher d'atteindre un emplacement souhaité."
+            }
+        ]
+    },
+    {
+        "title": "Entravé",
+        "optional": "Standard rule",
+        "icon": "imprisoned",
+        "subtitle": "Tu es retenu",
+        "description": "Ta vitesse est de 0 et les attaques contre toi ont un avantage, tandis que tes attaques et tes jets de sauvegarde de Dextérité ont un désavantage.",
+        "reference": "PHB 2024, p. 368.",
+        "summary": "Ton Vitesse est de 0. Tu es désavantagé aux jets d’attaque et aux jets de sauvegarde de Dextérité. Les jets d’attaque contre toi ont un avantage.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette condition représente le fait d'être empêtré, tenu dans des menottes ou pris dans une toile. Cela affecte simultanément ton mouvement, ton attaque et ton défense."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Ton Vitesse devient 0, et tu ne peux bénéficier d'aucun bonus à ton Vitesse.",
+                    "Tu as <b>un désavantage aux jets d’attaque</b>.",
+                    "Les jets d’attaque contre toi ont un <b>avantage</b>.",
+                    "Tu as <b>un désavantage aux jets de sauvegarde de Dextérité</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cette condition est particulièrement dangereuse car elle te rend vulnérable aux effets qui nécessitent des jets de sauvegarde de Dextérité, comme de nombreux sorts de dégâts."
+            }
+        ]
+    },
+    {
+        "title": "Ralenti**",
+        "optional": "Homebrew rule",
+        "icon": "snail",
+        "subtitle": "Ton mouvement est entravé",
+        "description": "Une condition homebrew qui réduit de moitié ta vitesse et limite ton économie d’action.",
+        "summary": "Ta vitesse est réduite de moitié, tu es désavantagé lors des sauvegardes DEX et tu peux effectuer soit une action, soit une action bonus (pas les deux). Tu ne peux pas effectuer l’action Désengager.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Le ralentissement n’est pas une condition finale du PHB pour 2024. Il est conservé ici comme effet de contrôle homebrew pour les tables qui souhaitent une alternative plus faible aux conditions d'arrêt brutal."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Ta vitesse est réduite de moitié.",
+                    "Tu es désavantagé aux jets de sauvegarde de Dextérité.",
+                    "Tu peux effectuer soit une Action, soit une action bonus pendant ton tour, mais pas les deux.",
+                    "Tu ne peux pas effectuer l’action Désengager."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Il a un impact sur la mobilité, l'économie d’action et la défense d’une créature, ce qui en fait un outil polyvalent pour contrôler le champ de bataille."
+            }
+        ]
+    },
+    {
+        "title": "Étourdi",
+        "optional": "Standard rule",
+        "icon": "knockedoutstars",
+        "subtitle": "Tu es abasourdi",
+        "description": "Tu es incapable de bouger, tu ne peux pas bouger et tu échoues automatiquement aux jets de sauvegarde de Force et de Dextérité.",
+        "reference": "PHB 2024, p. 368.",
+        "summary": "Tu es incapable de bouger, tu ne peux pas bouger et tu échoues automatiquement aux sauvegardes de Force et de Dextérité. Les jets d’attaque contre toi ont un avantage.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Une créature étourdie est presque entièrement impuissante, retirée du combat pour la durée. Il s’agit d’une condition puissante qui peut faire basculer l’élan d’une bataille en neutralisant une menace clé."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu es <b>incapacité</b> et ne pouvez pas bouger.",
+                    "Les jets d’attaque contre toi ont un <b>avantage</b>.",
+                    "Tu échoues automatiquement aux jets de sauvegarde de Force et de Dextérité."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cette condition est souvent imposée par les capacités du Moine ou par certains sorts, capables d'arrêter complètement un ennemi pendant un tour ou plus."
+            }
+        ]
+    },
+    {
+        "title": "Suffocation",
+        "optional": "Standard rule",
+        "icon": "drowning",
+        "subtitle": "Retenir ton souffle",
+        "description": "Privé d'air, tu peux retenir ton souffle brièvement avant de retrouver l'épuisement à la fin de chaque tour.",
+        "reference": "PHB 2024, p. 184.",
+        "summary": "Une fois que ton souffle retenu s'épuise ou que toi tu étouffes, tu gagnes 1 niveau d'épuisement à la fin de chaque tour jusqu'à ce que tu puisses à nouveau respirer. Ces niveaux d’épuisement disparaissent lorsque tu respires à nouveau.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les règles d'étouffement de 2024 créent un compte à rebours depuis la respiration retenue jusqu'à l'épuisement croissant, plutôt que de faire tomber immédiatement la créature à 0 point de vie après un nombre fixe de tours."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu peux retenir ton souffle pendant <b>1 + modificateur CON</b> minutes (minimum 30 secondes).",
+                    "Lorsque ton souffle s'épuise ou que toi tu étouffes, tu gagnes <b>1 niveau d'épuisement</b> à la fin de chacun de tes tours.",
+                    "L'épuisement continue jusqu'à ce que tu puisses à nouveau respirer.",
+                    "Lorsque l’étouffement prend fin, tu supprimes tous les niveaux d’épuisement gagnés."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cela rend l'étouffement dangereux sur plusieurs tours tout en gardant son épuisement séparé des autres sources une fois que la créature peut à nouveau respirer."
+            }
+        ]
+    },
+    {
+        "title": "Inconscient",
+        "optional": "Standard rule",
+        "icon": "coma",
+        "subtitle": "Tu es inconscient",
+        "description": "Tu es incapable, inconscient et impuissant. Tout coup porté par un attaquant proche devient un coup critique.",
+        "reference": "PHB 2024, p. 368.",
+        "summary": "Tu es frappé d'incapacité, à terre, tu ne peux ni bouger ni parler et tu échoues aux sauvegardes STR/DEX. Les attaques contre toi ont un avantage et les coups à moins de 1,50 m sont des coups critiques.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette condition représente le fait d'être endormi, assommé ou à 0 point de vie. Ses effets sont presque identiques à ceux de la paralysie, te laissant complètement vulnérable."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu es <b>incapacité</b>, tu ne peux ni bouger ni parler et tu n'êtes pas conscient de ton environnement.",
+                    "Tu laisses tomber tout ce que tu tiens et tombez à plat ventre.",
+                    "Les jets d’attaque contre toi ont un <b>avantage</b>.",
+                    "Toute attaque qui te touche est un <b>coup critique</b> si l’attaquant se trouve à moins de 1,50 m de toi.",
+                    "Tu échoues automatiquement aux jets de sauvegarde de Force et de Dextérité.",
+                    "Si tu es à 0 Point de Vie, tu es soumis aux règles de Mourir."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Une créature est inconsciente lorsqu'elle est à 0 point de vie. Toute guérison restaurera la conscience. Le sort Sommeil rend également les créatures inconscientes sans réduire leurs points de vie."
+            }
+        ]
+    },
+    {
+        "title": "Stress mental*",
+        "optional": "Optional rule",
+        "icon": "architectmask",
+        "subtitle": "Ton esprit est endommagé",
+        "description": "Un cadre DMG 2024 facultatif pour le stress mental traumatique utilisant les dommages psychiques et les effets prolongés possibles.",
+        "reference": "DMG 2024, p. 236.",
+        "summary": "Utiliser les dégâts psychiques comme base de référence pour un stress mental intense; les effets prolongés peuvent imposer des conditions à court terme, un désavantage à long terme lors des tests de capacité ou des effets indéfinis jusqu'à ce qu'ils soient supprimés.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Le DMG 2024 définit ces effets comme de la peur et du stress mental plutôt que comme l'ancien sous-système Madness. Cela maintient la ligne alignée avec la langue source actuelle."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "La plupart des effets de stress mental utilisent des <b>dégâts psychiques</b>, auxquels on résiste généralement avec une sauvegarde de Sagesse, à moins qu'une autre capacité ne soit plus appropriée.",
+                    "<b>Effets à court terme:</b> effrayé, incapable d'agir ou étourdi pendant 1d10 minutes, éventuellement avec un comportement alarmant ou des hallucinations.",
+                    "<b>Effets à long terme:</b> Inconvénient sur certains ou tous les tests de capacité pendant 1d10 x 10 heures.",
+                    "<b>Effets indéfinis:</b> un effet à long terme qui dure jusqu'à ce qu'il soit supprimé par <i>Restauration supérieure</i>; Les <i>émotions calmes</i> peuvent le supprimer."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cela préserve la carte facultative de traumatisme mental de l'application tout en supprimant l'ancienne formulation de Madness qui n'est pas ainsi que le DMG 2024 présente la règle."
+            }
+        ]
+    },
+    {
+        "title": "Secoué**",
+        "optional": "Homebrew rule",
+        "icon": "headshot",
+        "subtitle": "Ta concentration est ébranlée",
+        "description": "Une condition homebrew moins sévère que Dazed qui cible spécifiquement la concentration et les contrôles mentaux.",
+        "summary": "Une condition homebrew qui te donne un désavantage sur les sauvegardes de Constitution pour maintenir la concentration, ainsi que sur les tests d'Intelligence et de Sagesse.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette condition homebrew remplit une niche pour les effets qui perturbent la concentration d’un lanceur de sorts sans limiter complètement ses actions. Il peut être infligé par des dégâts psychiques, des coups de tonnerre ou des événements surprenants."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu as <b>un désavantage aux jets de sauvegarde de Constitution</b> effectués pour maintenir ta concentration sur un sort ou un autre effet.",
+                    "Tu as <b>un désavantage aux tests d'Intelligence et de Sagesse</b>.",
+                    "Cette condition dure souvent 1 minute, ou jusqu'à ce que tu réussisses un jet de sauvegarde de Sagesse à la fin de ton tour."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "C'est une bonne étape intermédiaire avant l'état d'étourdissement plus débilitant, offrant une forme plus légère de perturbation mentale qui est particulièrement menaçante pour les lanceurs de sorts."
+            }
+        ]
+    },
+    {
+        "title": "Brisé**",
+        "optional": "Homebrew rule",
+        "icon": "swordbreak",
+        "subtitle": "Ton armure est endommagée",
+        "description": "Une condition homebrew pour les campagnes difficiles où l'armure peut être endommagée, réduisant son bonus CA jusqu'à ce qu'elle soit réparée.",
+        "summary": "Une condition homebrew dans laquelle la CA de base de ton armure est réduite de 2. Cette pénalité peut se cumuler et supprimer les propriétés magiques jusqu'à ce que l'armure soit réparée avec Smith's Tools.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Pour les jeux qui souhaitent davantage de dégradation de l'équipement, la condition Sundered fournit un mécanisme permettant de briser l'armure suite à des coups puissants ou à des effets corrosifs, ce qui rend la maintenance importante."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "La classe d’armure de base de ton armure est réduite de 2. Cette pénalité peut se cumuler.",
+                    "Si la pénalité atteint ou dépasse le bonus magique de l'armure (le cas échéant), les propriétés magiques de l'armure sont supprimées jusqu'à ce qu'elle soit réparée.",
+                    "La réparation de l'état brisé nécessite généralement une vérification des outils de forgeron pendant un repos court ou long, et peut coûter de l'or pour les matériaux."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cela ajoute un élément de gestion des ressources à l'aventure, faisant de l'entretien des armures un élément de la survie à long terme."
+            }
+        ]
+    }
+]

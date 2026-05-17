@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { debounce, DOMElementNotFoundError, DataLoadError, installPrintRestoreFallback, safeHTML, trapFocusWithin } from '../utils/Utils.js';
+import { debounce, DOMElementNotFoundError, DataLoadError, getFocusableElements, installPrintRestoreFallback, safeHTML, trapFocusWithin } from '../utils/Utils.js';
 
 describe('debounce', () => {
     beforeEach(() => { vi.useFakeTimers(); });
@@ -107,6 +107,11 @@ describe('installPrintRestoreFallback', () => {
 });
 
 describe('trapFocusWithin', () => {
+    afterEach(() => {
+        document.body.innerHTML = '';
+        vi.restoreAllMocks();
+    });
+
     it('wraps Tab focus from the last focusable element back to the first', () => {
         document.body.innerHTML = `
             <div id="modal">
@@ -126,5 +131,79 @@ describe('trapFocusWithin', () => {
 
         expect(preventDefault).toHaveBeenCalledOnce();
         expect(document.activeElement).toBe(first);
+    });
+
+    it('wraps Shift+Tab focus from the first focusable element back to the last', () => {
+        document.body.innerHTML = `
+            <div id="modal">
+                <button id="first">First</button>
+                <button id="last">Last</button>
+            </div>
+        `;
+        const modal = document.getElementById('modal') as HTMLElement;
+        const first = document.getElementById('first') as HTMLElement;
+        const last = document.getElementById('last') as HTMLElement;
+        const event = new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true });
+        const preventDefault = vi.spyOn(event, 'preventDefault');
+
+        first.focus();
+        trapFocusWithin(event, modal);
+
+        expect(preventDefault).toHaveBeenCalledOnce();
+        expect(document.activeElement).toBe(last);
+    });
+
+    it('ignores hidden form controls when choosing the first focus target', () => {
+        document.body.innerHTML = `
+            <div id="modal">
+                <input id="csrf-token" type="hidden" value="token">
+                <button id="first">First visible action</button>
+            </div>
+            <button id="outside">Outside</button>
+        `;
+        const modal = document.getElementById('modal') as HTMLElement;
+        const first = document.getElementById('first') as HTMLElement;
+        const outside = document.getElementById('outside') as HTMLElement;
+        const event = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true });
+        const preventDefault = vi.spyOn(event, 'preventDefault');
+
+        outside.focus();
+        trapFocusWithin(event, modal);
+
+        expect(preventDefault).toHaveBeenCalledOnce();
+        expect(document.activeElement).toBe(first);
+    });
+
+    it('prevents Tab from escaping when the focus trap has no focusable controls', () => {
+        document.body.innerHTML = '<div id="modal"><p>Loading</p></div>';
+        const modal = document.getElementById('modal') as HTMLElement;
+        const event = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true });
+        const preventDefault = vi.spyOn(event, 'preventDefault');
+
+        trapFocusWithin(event, modal);
+
+        expect(preventDefault).toHaveBeenCalledOnce();
+    });
+});
+
+describe('getFocusableElements', () => {
+    afterEach(() => {
+        document.body.innerHTML = '';
+    });
+
+    it('returns controls that can actually participate in sequential focus', () => {
+        document.body.innerHTML = `
+            <div id="root">
+                <a id="link" href="#rule">Rule</a>
+                <input id="hidden-input" type="hidden" value="token">
+                <button id="disabled" disabled>Disabled</button>
+                <button id="visible">Visible</button>
+                <button id="aria-hidden" aria-hidden="true">Hidden from AT</button>
+                <button id="programmatic" tabindex="-1">Programmatic only</button>
+            </div>
+        `;
+        const root = document.getElementById('root') as HTMLElement;
+
+        expect(getFocusableElements(root).map((el) => el.id)).toEqual(['link', 'visible']);
     });
 });

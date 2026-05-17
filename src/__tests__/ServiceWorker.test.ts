@@ -44,6 +44,13 @@ const loadServiceWorkerInternals = () => {
 };
 
 describe('service worker cache policy', () => {
+    it('does not emit debug logs in production', () => {
+        const source = readFileSync(new URL('../../public/sw.js', import.meta.url), 'utf8');
+
+        expect(source).not.toMatch(/console\.(log|debug)\(/);
+        expect(source).not.toContain('eslint-disable no-console');
+    });
+
     it('uses the package app version for cache invalidation', () => {
         const sw = loadServiceWorkerInternals();
 
@@ -57,7 +64,7 @@ describe('service worker cache policy', () => {
         expect(sw.isCoreAsset('/app/')).toBe(true);
         expect(sw.isCoreAsset('/app/index.html')).toBe(true);
         expect(sw.isCoreAsset('/app/assets/index.js')).toBe(true);
-        expect(sw.isCoreAsset('/app/js/data/data_action.json')).toBe(false);
+        expect(sw.isCoreAsset('/app/data/en_US/rules/data_action.json')).toBe(false);
     });
 
     it('requires explicit app consent before non-core caching is allowed', () => {
@@ -70,7 +77,7 @@ describe('service worker cache policy', () => {
         const sw = loadServiceWorkerInternals();
 
         expect(sw.getCacheMatchOptions).toBeTypeOf('function');
-        expect(sw.getCacheMatchOptions?.('/app/js/data/data_action.json')).toMatchObject({ ignoreSearch: false });
+        expect(sw.getCacheMatchOptions?.('/app/data/en_US/rules/data_action.json')).toMatchObject({ ignoreSearch: false });
         expect(sw.getCacheMatchOptions?.('/app/assets/index.js')).toMatchObject({ ignoreSearch: false });
         expect(sw.getCacheMatchOptions?.('/app/img/run.webp')).toMatchObject({ ignoreSearch: true });
     });

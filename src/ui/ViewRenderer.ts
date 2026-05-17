@@ -4,6 +4,7 @@ import type { UserDataService } from '../services/UserDataService.js';
 import type { StateManager } from '../state/StateManager.js';
 import type { TemplateService } from './TemplateService.js';
 import type { RuleInfo } from '../types.js';
+import { prefersReducedMotion } from '../utils/Utils.js';
 
 export class ViewRenderer {
     #domProvider: DOMProvider;
@@ -13,6 +14,7 @@ export class ViewRenderer {
     #notificationContainer: HTMLElement | null = null;
     // #5: Cached reference for scoped DOM queries
     #mainScrollArea: HTMLElement | null = null;
+    #printIconSrcCache = new Map<string, string | null>();
 
     constructor(domProvider: DOMProvider, stateManager: StateManager, userDataService: UserDataService, templateService: TemplateService) {
         this.#domProvider = domProvider;
@@ -33,7 +35,7 @@ export class ViewRenderer {
             fragment.appendChild(item);
         });
 
-        if (document.startViewTransition) {
+        if (document.startViewTransition && !prefersReducedMotion()) {
             const transition = document.startViewTransition(() => {
                 parent.replaceChildren(fragment);
                 this.#postRender(parent);
@@ -58,9 +60,14 @@ export class ViewRenderer {
 
     #ensurePrintableIcon(iconEl: HTMLElement): void {
         if (iconEl.querySelector('.item-icon-print-img')) return;
-        const backgroundImage = window.getComputedStyle(iconEl).backgroundImage;
-        const match = backgroundImage.match(/url\(["']?(.*?)["']?\)/);
-        const src = match?.[1];
+        const iconName = iconEl.getAttribute(CONFIG.ATTRIBUTES.ICON) ?? '';
+        let src = this.#printIconSrcCache.get(iconName);
+        if (!this.#printIconSrcCache.has(iconName)) {
+            const backgroundImage = window.getComputedStyle(iconEl).backgroundImage;
+            const match = backgroundImage.match(/url\(["']?(.*?)["']?\)/);
+            src = match?.[1] ?? null;
+            this.#printIconSrcCache.set(iconName, src);
+        }
         if (!src) return;
 
         iconEl.setAttribute('aria-hidden', 'true');
@@ -261,6 +268,7 @@ export class ViewRenderer {
         };
         const iconEl = document.createElement('div');
         iconEl.className = 'notification-icon';
+        iconEl.setAttribute('aria-hidden', 'true');
         iconEl.textContent = iconMap[level] || 'ℹ️';
 
         const msgEl = document.createElement('div');

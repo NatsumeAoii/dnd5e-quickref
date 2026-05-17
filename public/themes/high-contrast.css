@@ -18,6 +18,12 @@ html[data-theme='high-contrast'][data-mode='light'] {
     --color-settings: #000;
     --color-accept: #0b0;
     --color-favorite: #b39b00;
+    --color-action-text: #000;
+    --color-bonus-action-text: #000;
+    --color-reaction-text: #000;
+    --color-condition-text: #000;
+    --color-environment-text: #000;
+    --color-favorite-text: #000;
 }
 
 html[data-theme='high-contrast'][data-mode='dark'] {

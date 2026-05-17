@@ -95,6 +95,20 @@ describe('SettingsService update guards', () => {
         expect(storage.setItem).not.toHaveBeenCalledWith(CONFIG.STORAGE_KEYS.DENSITY, 'giant');
         expect(sync.broadcast).not.toHaveBeenCalledWith('SETTING_CHANGE', { key: 'DENSITY', value: 'giant' });
     });
+
+    it('falls back from unsupported stored locales and persists supported locale updates', () => {
+        const { service, stateManager, sync, storage } = createSettingsService(createStorage({
+            [CONFIG.STORAGE_KEYS.LOCALE]: '../id_ID',
+        }));
+
+        expect(stateManager.getState().settings.locale).toBe(CONFIG.DEFAULTS.LOCALE);
+
+        service.update(CONFIG.STORAGE_KEYS.LOCALE, 'id_ID');
+
+        expect(stateManager.getState().settings.locale).toBe('id_ID');
+        expect(storage.setItem).toHaveBeenCalledWith(CONFIG.STORAGE_KEYS.LOCALE, 'id_ID');
+        expect(sync.broadcast).toHaveBeenCalledWith('SETTING_CHANGE', { key: 'LOCALE', value: 'id_ID' });
+    });
 });
 
 describe('DBService transaction semantics', () => {

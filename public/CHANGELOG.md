@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.7] - 2026-05-17
+
+### Added
+- **Locale Data Structure**: Moved rule JSON source files into `data/en_US/rules/` and added `data/id_ID/` with `menu.json` translation files and seeded rule-data files.
+- **Language Setting**: Added an English/Indonesian language selector for localized menu text and locale-specific rule data loading.
+- **README Modal Regression Coverage**: Added focused tests for README modal focus behavior, ordered setup steps, nested code examples, strong-formatted links, and emitted modal styling contracts.
+- **Modal Width Contract Coverage**: Added a tooling regression that keeps the changelog modal width aligned with the README modal width.
+
+### Changed
+- **Runtime Data Paths**: Rule data now loads from `data/<locale>/rules/` instead of `js/data/`.
+- **Data Sync Workflow**: `npm run sync-version` now copies the root `data/` tree into `public/data/` for static hosting and service-worker caching.
+- **Changelog Modal Width**: The changelog modal now uses the same desktop width and mobile max-width behavior as the README modal.
+- **Print Icon Fallback Caching**: Duplicate rule icons now reuse resolved print fallback image URLs during rendering, reducing repeated style-resolution work without changing visible icons.
+- **Repository Upload Hygiene**: Kept generated output, dependencies, logs, local environment files, and local editor settings out of upload scope; `.vscode/settings.json` is no longer kept as a tracked machine-local file.
+
+### Fixed
+- **README Modal Ordered Lists**: Numbered README setup steps now render as semantic ordered lists instead of loose paragraphs with raw numbering.
+- **README Modal Code Blocks in Lists**: Indented fenced code examples now stay attached to their owning README list item and have list indentation stripped from the rendered code.
+- **README Modal Inline Links**: Markdown links nested inside strong text, such as `**[Node.js](https://nodejs.org/) 22+**`, now render as real links without leaking raw markdown.
+- **README Modal Details Summaries**: Details summaries using either `<b>` or `<strong>` tags now render clean text labels without exposing wrapper markup.
+- **README Modal Focus Management**: The README modal traps keyboard focus while open and restores focus to the opener when closed.
+
+### Security
+- **Safe README Rendering**: README modal content continues to render through `createElement` and `textContent`, with external links opened using `target="_blank"` and `rel="noopener noreferrer"`.
+
+---
+
 ## [1.1.6] - 2026-05-04
 
 ### Rule Data Source Audit & Runtime Hardening

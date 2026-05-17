@@ -1,54 +1,84 @@
-# Code of Conduct
+# Contributor Code of Conduct
 
-## Purpose
+This project follows the Contributor Covenant as a baseline, adapted for a small open-source repository focused on D&D quick-reference data, browser UI, documentation, accessibility, and release workflow.
 
-This project is for maintaining a useful D&D quick reference app and the supporting code, data, documentation, and release workflow. Contributors are expected to keep discussion technical, respectful, and focused on improving the project.
+## Our Pledge
 
-## Expected Behavior
+We pledge to make participation in this project a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or sexual identity and orientation.
 
-- Be direct, constructive, and specific when discussing code, rules data, UX, accessibility, security, or documentation.
-- Assume good intent, but verify claims with code, tests, references, screenshots, or reproduction steps when possible.
-- Respect different experience levels and play styles.
-- Keep issues and pull requests on topic.
-- Give and receive review feedback based on correctness, maintainability, accessibility, security, and compatibility.
+We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.
 
-## Unacceptable Behavior
+## Our Standards
 
-- Harassment, insults, personal attacks, threats, or discriminatory language.
-- Sexualized, violent, or otherwise inappropriate comments unrelated to the project.
-- Publishing private information without permission.
-- Repeatedly derailing technical discussions after maintainers ask for focus.
-- Bad-faith reports, spam, or intentionally disruptive pull requests.
-- Using project spaces to promote unrelated products, services, or campaigns.
+Examples of behavior that contributes to a positive environment include:
+
+- Demonstrating empathy and kindness toward other people.
+- Being respectful of differing opinions, viewpoints, and experiences.
+- Giving and gracefully accepting constructive feedback.
+- Accepting responsibility and apologizing to those affected by mistakes.
+- Focusing on what is best for the overall project and community.
+- Keeping discussion grounded in code, rules data, UX, accessibility, security, documentation, or release workflow.
+
+Examples of unacceptable behavior include:
+
+- Sexualized language or imagery, and sexual attention or advances of any kind.
+- Trolling, insulting or derogatory comments, and personal or political attacks.
+- Public or private harassment.
+- Publishing others' private information, such as a physical or email address, without explicit permission.
+- Other conduct that could reasonably be considered inappropriate in a professional setting.
+- Bad-faith reports, spam, or intentionally disruptive issues or pull requests.
+
+## Enforcement Responsibilities
+
+Project maintainers are responsible for clarifying and enforcing standards of acceptable behavior and may take appropriate and fair corrective action in response to behavior they deem inappropriate, threatening, offensive, or harmful.
+
+Maintainers may remove, edit, or reject comments, commits, code, wiki edits, issues, pull requests, and other contributions that are not aligned with this Code of Conduct. Maintainers may also temporarily or permanently ban contributors for behavior they deem inappropriate, threatening, offensive, or harmful.
 
 ## Scope
 
-This code of conduct applies to:
+This Code of Conduct applies within all project spaces and when an individual is officially representing the project in public spaces. Project spaces include GitHub issues, pull requests, discussions, reviews, documentation, release notes, and any project-related communication space maintained by the project owner.
 
-- GitHub issues, pull requests, discussions, reviews, and release notes.
-- Project documentation and comments.
-- Any project-related communication space maintained by the project owner.
-
-It also applies when someone represents the project in another space, such as linking to project work, discussing project decisions, or coordinating contributions.
-
-## Reporting
-
-If you see or experience unacceptable behavior:
-
-1. If it is safe and appropriate, ask the person to stop or move the discussion back to the technical topic.
-2. If that is not appropriate, contact a project maintainer through the repository's GitHub channels or maintainer profile.
-3. Include links, screenshots, timestamps, and a short description of what happened when possible.
-
-Do not publish sensitive personal information in public issues.
+Examples of representing the project include using an official project email address, posting through an official social media account, or acting as an appointed representative at an online or offline event.
 
 ## Enforcement
 
-Maintainers may take any action needed to protect the project and its contributors, including:
+Report abusive, harassing, or otherwise unacceptable behavior to the project owner through the GitHub profile visible from the repository:
 
-- Editing or hiding comments.
-- Asking for a topic reset.
-- Closing or locking issues and pull requests.
-- Rejecting contributions.
-- Temporarily or permanently blocking users from project spaces.
+https://github.com/NatsumeAoii
 
-Enforcement should be proportional, documented when appropriate, and focused on restoring a productive project environment.
+[FILL IN: private maintainer email address or private conduct report form before publishing this file for a larger contributor community.]
+
+All complaints should be reviewed and investigated promptly and fairly. Maintainers are obligated to respect the privacy and security of the reporter of any incident.
+
+## Enforcement Guidelines
+
+Maintainers should follow these Community Impact Guidelines when determining consequences:
+
+### 1. Correction
+
+Community Impact: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.
+
+Consequence: A private, written warning from maintainers, providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested.
+
+### 2. Warning
+
+Community Impact: A violation through a single incident or series of actions.
+
+Consequence: A warning with consequences for continued behavior. The person may be asked to avoid interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, for a specified period. Violating these terms may lead to a temporary or permanent ban.
+
+### 3. Temporary Ban
+
+Community Impact: A serious violation of community standards, including sustained inappropriate behavior.
+
+Consequence: A temporary ban from interaction or public communication with the project for a specified period. No public or private interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, is allowed during this period. Violating these terms may lead to a permanent ban.
+
+### 4. Permanent Ban
+
+Community Impact: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment, or aggression toward or disparagement of classes of individuals.
+
+Consequence: A permanent ban from public interaction within the project.
+
+## Attribution
+
+This Code of Conduct is adapted from the Contributor Covenant, version 2.1, available at https://www.contributor-covenant.org/version/2/1/code_of_conduct.html.
+

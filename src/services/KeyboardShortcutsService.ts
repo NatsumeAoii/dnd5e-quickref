@@ -24,6 +24,7 @@ export class KeyboardShortcutsService {
     #modalEl: HTMLElement | null = null;
     #a11yService: A11yService;
     #isOpen = false;
+    #returnFocusEl: HTMLElement | null = null;
 
     constructor(a11yService: A11yService) {
         this.#a11yService = a11yService;
@@ -87,6 +88,7 @@ export class KeyboardShortcutsService {
     open(): void {
         if (this.#isOpen) return;
         this.#isOpen = true;
+        this.#returnFocusEl = document.activeElement instanceof HTMLElement ? document.activeElement : null;
         this.#createModal();
         this.#a11yService.announce('Keyboard shortcuts panel opened');
     }
@@ -96,6 +98,8 @@ export class KeyboardShortcutsService {
         this.#isOpen = false;
         this.#modalEl?.remove();
         this.#modalEl = null;
+        if (this.#returnFocusEl?.isConnected) this.#returnFocusEl.focus();
+        this.#returnFocusEl = null;
         this.#a11yService.announce('Keyboard shortcuts panel closed');
     }
 

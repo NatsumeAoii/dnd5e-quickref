@@ -44,6 +44,7 @@ export interface Settings {
     showHomebrew: boolean;
     reduceMotion: boolean;
     keepScreenOn: boolean;
+    locale: string;
     theme: string;
     darkMode: boolean;
     density: string;

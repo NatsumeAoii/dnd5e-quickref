@@ -4,14 +4,16 @@ import type { UserDataService } from '../services/UserDataService.js';
 export class DragDropManager {
     #container: HTMLElement | null;
     #userDataService: UserDataService;
+    #announce: (message: string) => void;
     #draggedItem: HTMLElement | null = null;
     #abortController: AbortController | null = null;
     // Secondary controller for document-level pointer listeners active during a touch drag
     #activeDragAbort: AbortController | null = null;
 
-    constructor(containerId: string, userDataService: UserDataService) {
+    constructor(containerId: string, userDataService: UserDataService, announce: (message: string) => void = () => undefined) {
         this.#container = document.getElementById(containerId);
         this.#userDataService = userDataService;
+        this.#announce = announce;
         if (this.#container) {
             this.#bind();
         }
@@ -25,8 +27,10 @@ export class DragDropManager {
         this.#container!.addEventListener('dragleave', this.#handleDragLeave, opts);
         this.#container!.addEventListener('drop', this.#handleDrop, opts);
         this.#container!.addEventListener('dragend', this.#handleDragEnd, opts);
+        this.#container!.addEventListener('keydown', this.#handleKeyDown, opts);
         // Touch drag-and-drop — bound through the same signal so destroy() cleans it up
         this.#container!.addEventListener('pointerdown', this.#onPointerDown as EventListener, { signal: this.#abortController.signal, passive: false });
+        this.#syncKeyboardReorderHints();
     }
 
     destroy(): void {
@@ -89,14 +93,70 @@ export class DragDropManager {
             target.before(this.#draggedItem);
         }
 
-        const newOrder = [...this.#container!.querySelectorAll(`.${CONFIG.CSS.ITEM_CLASS}`)].map(
-            (el) => el.getAttribute(CONFIG.ATTRIBUTES.POPUP_ID) ?? ''
-        ).filter(Boolean);
-        this.#userDataService.updateFavoritesOrder(newOrder);
+        this.#persistOrder();
         this.#cleanup();
     };
 
     #handleDragEnd = (): void => this.#cleanup();
+
+    #getItems(): HTMLElement[] {
+        return [...this.#container?.querySelectorAll<HTMLElement>(`.${CONFIG.CSS.ITEM_CLASS}`) ?? []];
+    }
+
+    #persistOrder(): string[] {
+        const newOrder = this.#getItems().map(
+            (el) => el.getAttribute(CONFIG.ATTRIBUTES.POPUP_ID) ?? ''
+        ).filter(Boolean);
+        this.#userDataService.updateFavoritesOrder(newOrder);
+        return newOrder;
+    }
+
+    #getItemTitle(item: HTMLElement): string {
+        return item.querySelector('.item-title')?.textContent?.trim()
+            || item.getAttribute(CONFIG.ATTRIBUTES.POPUP_ID)?.split('::')[1]
+            || 'Favorite';
+    }
+
+    #syncKeyboardReorderHints(): void {
+        this.#container?.querySelectorAll<HTMLElement>('.item-content').forEach((control) => {
+            control.setAttribute('aria-keyshortcuts', 'Shift+ArrowLeft Shift+ArrowRight Shift+ArrowUp Shift+ArrowDown');
+        });
+    }
+
+    #moveItemByKeyboard(item: HTMLElement, direction: -1 | 1): void {
+        const items = this.#getItems();
+        const currentIndex = items.indexOf(item);
+        const nextIndex = currentIndex + direction;
+        if (currentIndex === -1 || nextIndex < 0 || nextIndex >= items.length) return;
+
+        const target = items[nextIndex];
+        if (!target) return;
+        if (direction < 0) target.before(item);
+        else target.after(item);
+
+        this.#persistOrder();
+        (item.querySelector('.item-content') as HTMLElement | null)?.focus();
+        this.#announce(`${this.#getItemTitle(item)} moved to position ${nextIndex + 1} of ${items.length}.`);
+    }
+
+    #handleKeyDown = (e: Event): void => {
+        const ke = e as KeyboardEvent;
+        if (!ke.shiftKey || ke.altKey || ke.ctrlKey || ke.metaKey) return;
+        const direction = ke.key === 'ArrowLeft' || ke.key === 'ArrowUp'
+            ? -1
+            : ke.key === 'ArrowRight' || ke.key === 'ArrowDown'
+                ? 1
+                : 0;
+        if (direction === 0) return;
+
+        const control = (ke.target as HTMLElement).closest('.item-content');
+        const item = control?.closest(`.${CONFIG.CSS.ITEM_CLASS}`) as HTMLElement | null;
+        if (!item || !this.#container?.contains(item)) return;
+
+        ke.preventDefault();
+        ke.stopPropagation();
+        this.#moveItemByKeyboard(item, direction);
+    };
 
     #cleanup(): void {
         if (this.#draggedItem) this.#draggedItem.classList.remove(CONFIG.CSS.IS_DRAGGING);
@@ -194,10 +254,7 @@ export class DragDropManager {
                     if (fromIndex < toIndex) dropTarget.after(this.#touchDragItem);
                     else dropTarget.before(this.#touchDragItem);
 
-                    const newOrder = [...this.#container.querySelectorAll(`.${CONFIG.CSS.ITEM_CLASS}`)].map(
-                        (el) => el.getAttribute(CONFIG.ATTRIBUTES.POPUP_ID) ?? ''
-                    ).filter(Boolean);
-                    this.#userDataService.updateFavoritesOrder(newOrder);
+                    this.#persistOrder();
                 }
             }
             this.#touchCleanup();

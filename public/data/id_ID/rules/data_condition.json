@@ -1,0 +1,543 @@
+[
+    {
+        "title": "Blinded",
+        "optional": "Standard rule",
+        "icon": "oneeyed",
+        "subtitle": "Kamu tidak bisa melihat",
+        "description": "Makhluk yang buta tidak bisa melihat, secara otomatis gagal dalam check berbasis penglihatan, dan menderita hukuman pertempuran yang berat.",
+        "reference": "PHB, hlm. 290.",
+        "summary": "Kamu secara otomatis menggagalkan ability check yang memerlukan penglihatan. Kamu memiliki disadvantage pada seranganmu, dan serangan terhadap kamu memiliki advantage.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Kondisi ini merupakan hambatan besar, karena ketidakmampuan melihat membuat kamu target yang rentan dan penyerang yang tidak efektif. Makhluk yang buta akan menderita akibat berikut:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Kamu secara otomatis menggagalkan ability check apa pun yang memerlukan penglihatan.",
+                    "Kamu memiliki <b>disadvantage pada daftar seranganmu</b>.",
+                    "Attack roll melawanmu memiliki <b>advantage</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Indera alternatif seperti penglihatan buta masih bisa membuat makhluk melihat target dalam jangkauan indra tersebut, namun interaksi pastinya bergantung pada penyebab kondisi kebutaan tersebut."
+            }
+        ]
+    },
+    {
+        "title": "Charmed",
+        "optional": "Standard rule",
+        "icon": "smitten",
+        "subtitle": "Kamu terpesona",
+        "description": "Makhluk yang terpesona menganggap pawangnya sebagai kenalan yang ramah, mencegah action permusuhan terhadap mereka.",
+        "reference": "PHB, hlm. 290.",
+        "summary": "Kamu tidak bisa menyerang pawang atau menargetkan mereka dengan efek berbahaya. Pawang juga memiliki check advantage di Charisma yang dibuat untuk berinteraksi secara sosial dengan kamu.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini adalah kondisi sosial, bukan pengendalian pikiran. Makhluk yang terpesona tidak berada di bawah perintah pawang tetapi secara ajaib cenderung untuk menyenangkan, menerapkan dua batasan utama:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Kamu tidak bisa menyerang pawang atau menargetkan mereka dengan kemampuan atau efek magis yang berbahaya.",
+                    "Pawang memiliki <b>advantage pada ability check untuk berinteraksi secara sosial</b> dengan kamu."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Makhluk yang terpesona mungkin masih menolak permintaan jika itu bertentangan dengan sifatnya, tapi mereka akan melakukannya dengan sopan. Mereka juga akan mempertahankan diri dari ally pawang jika diserang."
+            }
+        ]
+    },
+    {
+        "title": "Deafened",
+        "optional": "Standard rule",
+        "icon": "mute",
+        "subtitle": "Kamu tidak bisa mendengar",
+        "description": "Makhluk yang tuli tidak bisa mendengar dan secara otomatis gagal dalam ability check apa pun yang memerlukan pendengaran.",
+        "reference": "PHB, hlm. 290.",
+        "summary": "Kamu memiliki ketidakmampuan total untuk mendengar dan secara otomatis menggagalkan ability check apa pun yang memerlukan pendengaran. Kamu kebal terhadap efek yang mengandalkan suara.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Meskipun tidak terlalu melemahkan dalam pertempuran dibandingkan kebutaan, ketulian merupakan hambatan utama dalam persepsi dan komunikasi. Dampak tunggal dan langsung dari kondisi ini adalah sebagai berikut:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Kamu secara otomatis menggagalkan ability check apa pun yang memerlukan pendengaran."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Kondisi ini juga memberikan kekebalan terhadap efek yang mengandalkan suara, seperti <b>Command</b> spell. Yang terpenting, itu tidak berpengaruh pada seranganmu atau Armor Class."
+            }
+        ]
+    },
+    {
+        "title": "Dying",
+        "optional": "Standard rule",
+        "icon": "deadhead",
+        "subtitle": "Kamu berada di 0 HP dan tidak stabil",
+        "description": "Pada 0 hit points, kamu jatuh pingsan dan harus melakukan lemparan penyelamat kematian untuk menghindari kematian permanen.",
+        "reference": "PHB, hlm. 197.",
+        "summary": "Pada 0 HP, kamu adalah Unconscious dan harus melakukan Death Save di awal giliranmu. Tiga keberhasilan menstabilkan kamu; tiga kegagalan berarti kamu mati. Nat 20 menghidupkan kamu dengan 1 HP.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini adalah keadaan berbahaya antara kesadaran dan kematian. Nasibmu ditentukan oleh serangkaian gulungan d20 di awal setiap giliranmu saat berada dalam kondisi ini. Saat sekarat, kamu tunduk pada serangkaian aturan unik yang mengatur kelangsungan hidup kamu:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Death Saving Throw:</b> Di awal setiap giliranmu, lakukan saving throw kematian (lemparan d20 tanpa pengubah). Nilai 10 atau lebih tinggi adalah kesuksesan; 9 atau lebih rendah adalah kegagalan. Tiga keberhasilan berarti kamu menjadi stabil; tiga kegagalan berarti kamu mati.",
+                    "<b>1</b> alami pada dadu dihitung sebagai 2 kegagalan. <b>20</b> alami berarti kamu segera mendapatkan kembali 1 HP.",
+                    "<b>Damage pada 0 HP:</b> Menerima damage apa pun saat berada pada 0 hit points menyebabkan satu kegagalan saving throw kematian otomatis. Jika damage-nya berasal dari serangan kritis, maka akan menyebabkan dua kegagalan.",
+                    "<b>Menstabilkan:</b> Ally bisa menggunakan check action dan DC 10 Wisdom (Medicine) untuk menstabilkan kamu. Makhluk yang stabil tidak sadarkan diri tetapi tidak lagi menyelamatkan kematian."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Penyembuhan apa pun yang memulihkan bahkan satu hit point akan segera mengakhiri kondisi sekarat dan membawa kamu kembali ke kesadaran."
+            }
+        ]
+    },
+    {
+        "title": "Exhaustion",
+        "optional": "Standard rule",
+        "icon": "crawl",
+        "subtitle": "Kamu kelelahan",
+        "description": "Kondisi kumulatif dalam enam level. Setiap level memberikan hukuman yang semakin berat, dengan level keenam berakibat fatal.",
+        "reference": "PHB, hlm. 291.",
+        "summary": "Kondisi dengan enam tingkat penalti kumulatif: 1) Disadvantage pada check, 2) Speed dikurangi setengahnya, 3) Disadvantage pada serangan/saving throw, 4) HP maks dikurangi setengahnya, 5) Speed adalah 0, 6) Kematian.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Exhaustion melacak kelelahan dari sumber seperti kelaparan, paparan, atau kemampuan monster khusus. Efeknya bersifat kumulatif dan semakin berbahaya seiring bertambahnya level."
+            },
+            {
+                "type": "table",
+                "headers": [
+                    "Tingkat",
+                    "Efek"
+                ],
+                "rows": [
+                    [
+                        "1",
+                        "Disadvantage pada ability check"
+                    ],
+                    [
+                        "2",
+                        "Speed berkurang setengahnya"
+                    ],
+                    [
+                        "3",
+                        "Disadvantage pada serangan roll dan saving throw"
+                    ],
+                    [
+                        "4",
+                        "Titik hit maksimum dibelah dua"
+                    ],
+                    [
+                        "5",
+                        "Speed dikurangi menjadi 0"
+                    ],
+                    [
+                        "6",
+                        "Kematian"
+                    ]
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Menyelesaikan istirahat panjang akan mengurangi tingkat kelelahan kamu sebesar 1, asalkan kamu juga sudah makan dan minum. Spell seperti <b>Restorasi Lebih Besar</b> juga bisa mengurangi kelelahan."
+            }
+        ]
+    },
+    {
+        "title": "Frightened",
+        "optional": "Standard rule",
+        "icon": "sharpsmile",
+        "subtitle": "Kamu ketakutan",
+        "description": "Dicekam oleh rasa takut, kamu menderita disadvantage sementara sumber ketakutanmu terlihat dan kamu tidak bisa dengan rela mendekatinya.",
+        "reference": "PHB, hlm. 290.",
+        "summary": "Kamu memiliki disadvantage di semua ability check dan serangan selama kamu bisa melihat sumber ketakutanmu. Kamu juga tidak bisa rela mendekat pada sumber ketakutanmu.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Kondisi ini menggabungkan hukuman pertempuran dengan pembatasan taktis pada pergerakan, membuatnya alat yang ampuh untuk mengendalikan medan perang dengan memaksa makhluk untuk menjaga jarak."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Kamu memiliki <b>disadvantage dalam ability check dan serangan</b> sementara sumber ketakutanmu berada dalam jangkauan pandangan kamu.",
+                    "Kamu tidak bisa dengan rela mendekat pada sumber ketakutanmu."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Jika kamu memutuskan garis pandang dengan sumber ketakutanmu, disadvantage di gulungan kamu akan ditekan selama kamu tidak bisa melihatnya, tetapi kamu masih tidak bisa dengan sukarela bergerak mendekati lokasinya."
+            }
+        ]
+    },
+    {
+        "title": "Grappled",
+        "optional": "Standard rule",
+        "icon": "grab",
+        "subtitle": "Kamu sedang bergulat",
+        "description": "Speed-mu dikurangi menjadi 0, membatasi movement-mu.",
+        "reference": "PHB, hlm. 290.",
+        "summary": "Speed-mu menjadi 0, dan kamu tidak bisa mendapatkan advantage dari bonus apa pun pada speed-mu. Kondisi ini berakhir jika grapplernya adalah Incapacitated atau jika kamu dipindahkan keluar dari jangkauan grappler.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Digenggam berarti kamu Restrained oleh makhluk lain. Dengan sendirinya, ini tidak memberikan hukuman atas seranganmu atau action lainnya; dampaknya terfokus sepenuhnya pada gerakan:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Speed-mu menjadi 0, dan kamu tidak bisa mendapatkan advantage dari bonus apa pun pada speed-mu.",
+                    "Kondisi ini berakhir jika grappler menjadi Incapacitated.",
+                    "Kondisi ini juga berakhir jika suatu efek, seperti <b>Gelombang Petir</b> spell, menjauhkan kamu dari jangkauan grappler."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Kamu bisa menggunakan action untuk mencoba Escape dengan check Strength (Athletics) atau Dexterity (Acrobatics) yang diperebutkan terhadap check Strength (Athletics) grappler."
+            }
+        ]
+    },
+    {
+        "title": "Incapacitated",
+        "optional": "Standard rule",
+        "icon": "internalinjury",
+        "subtitle": "Kamu tidak bisa mengambil action atau reaction",
+        "description": "Makhluk yang Incapacitated tidak bisa melakukan action atau reaction apa pun.",
+        "reference": "PHB, hlm. 290.",
+        "summary": "Kamu tidak bisa mengambil action atau reaction apa pun. Kamu masih bisa menggunakan movement-mu kecuali kondisi lain juga menghalanginya.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini adalah salah satu kondisi yang paling parah, karena membuat makhluk menjadi pasif sepenuhnya. Ini adalah komponen dari beberapa kondisi lain, seperti Paralyzed, Stunned, dan Unconscious. Efek intinya sederhana namun mutlak:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Kamu tidak bisa mengambil action atau reaction."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Makhluk yang Incapacitated masih bisa bergerak kecuali kondisi lain juga mencegahnya, namun mereka tidak bisa melakukan action Dash atau Disengage, karena action tersebut memerlukan action."
+            }
+        ]
+    },
+    {
+        "title": "Invisible",
+        "optional": "Standard rule",
+        "icon": "invisible",
+        "subtitle": "Kamu tidak bisa dilihat",
+        "description": "Makhluk tak kasat mata tidak mungkin dilihat tanpa sihir atau indera khusus, yang memberikan advantage yang kuat.",
+        "reference": "PHB, hlm. 291.",
+        "summary": "Kamu tidak mungkin melihat tanpa sihir atau indra khusus. Kamu memiliki advantage pada seranganmu, dan serangan terhadap kamu memiliki disadvantage.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Gaib adalah alat taktis yang ampuh, membuat kamu penyerang yang Invisible dan sasaran yang sulit. Menjadi Invisible memberikan advantage utama berikut:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Untuk tujuan persembunyian, kamu dianggap sangat dikaburkan.",
+                    "Kamu bisa dideteksi oleh kebisingan apa pun yang kamu buat atau jejak yang kamu tinggalkan.",
+                    "Kamu memiliki <b>advantage pada daftar seranganmu</b>.",
+                    "Attack roll melawanmu memiliki <b>disadvantage</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Spell yang mengharuskan penggunanya untuk melihat target tidak bisa menargetkan makhluk tak kasat mata. Namun, spell area-of-effect masih bisa mempengaruhi mereka jika lokasinya diketahui atau ditebak."
+            }
+        ]
+    },
+    {
+        "title": "Paralyzed",
+        "optional": "Standard rule",
+        "icon": "spiderweb",
+        "subtitle": "Kamu Paralyzed",
+        "description": "Makhluk yang Paralyzed adalah makhluk yang membeku, Incapacitated, dan Incapacitated. Hit apa pun di sekitar akan menjadi hit kritis.",
+        "reference": "PHB, hlm. 291.",
+        "summary": "Kamu Incapacitated, tidak bisa bergerak atau berbicara, dan secara otomatis gagal Strength dan Dexterity saving throw. Serangan terhadap kamu memiliki advantage, dan setiap serangan dari penyerang dalam jarak 5 feet merupakan serangan kritis.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini adalah kondisi yang sangat berbahaya yang bisa menyebabkan kematian karakter dengan cepat. Kamu sepenuhnya berada di bawah kekuasaan musuhmu, menderita serangkaian dampak buruk:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Kamu <b>tidak mampu</b> dan tidak bisa bergerak atau berbicara.",
+                    "Kamu secara otomatis gagal dalam Strength saving throw dan Dexterity.",
+                    "Attack roll melawanmu memiliki <b>advantage</b>.",
+                    "Setiap serangan yang mengenai kamu adalah <b>hit kritis</b> jika penyerang berada dalam jarak 5 feet dari kamu."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Serangan kritis otomatis dari penyerang di dekatnya membuatnya kondisi tidak mematikan yang paling berbahaya dalam permainan."
+            }
+        ]
+    },
+    {
+        "title": "Petrified",
+        "optional": "Standard rule",
+        "icon": "stonepile",
+        "subtitle": "Kamu diubah menjadi batu",
+        "description": "Makhluk yang membatu diubah menjadi benda mati, menjadi Incapacitated dan sangat tahan terhadap damage.",
+        "reference": "PHB, hlm. 291.",
+        "summary": "Kamu berubah menjadi batu, Incapacitated, dan memiliki ketahanan terhadap semua damage. Kamu secara otomatis gagal dalam saving throw STR dan DEX, dan serangan terhadap kamu memiliki advantage.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Makhluk yang membatu secara efektif adalah sebuah patung, dikeluarkan dari permainan sampai kondisinya sembuh. Kondisi transformatif ini mempunyai dampak sebagai berikut:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Kamu diubah, bersama dengan benda-benda non-magis yang kamu kenakan atau bawa, menjadi benda mati padat (biasanya batu). Berat badan kamu bertambah sepuluh kali lipat, dan kamu berhenti menua.",
+                    "Kamu <b>tidak mampu</b>, tidak bisa bergerak atau berbicara, dan tidak menyadari lingkungan sekitarmu.",
+                    "Attack roll melawanmu memiliki <b>advantage</b>.",
+                    "Kamu secara otomatis gagal dalam Strength saving throw dan Dexterity.",
+                    "Kamu memiliki <b>ketahanan terhadap semua damage</b>.",
+                    "Kamu kebal terhadap racun dan penyakit, meskipun racun atau penyakit apa pun yang sudah ada dalam sistem tubuhmu akan ditangguhkan, bukan dinetralkan."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Meskipun kamu tahan terhadap damage, kekuatan yang cukup masih bisa menghancurkan wujud membatu kamu, yang mengakibatkan kematian. Kondisi ini biasanya bersifat permanen hingga disembuhkan dengan sihir yang kuat seperti <b>Pemulihan Besar</b>."
+            }
+        ]
+    },
+    {
+        "title": "Poisoned",
+        "optional": "Standard rule",
+        "icon": "poisonbottle",
+        "subtitle": "Kamu diracuni",
+        "description": "Racun di sistem tubuhmu memberi kamu disadvantage pada serangan dan ability check.",
+        "reference": "PHB, hlm. 292.",
+        "summary": "Kamu memiliki disadvantage di semua serangan dan ability check kamu. Ini tidak mempengaruhi saving throw kamu.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Kondisi ini menunjukkan kelemahan umum akibat racun, sehingga menghambat efektivitas kamu dalam hampir setiap tugas yang mungkin kamu coba. Dampaknya jelas namun luas:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Kamu memiliki <b>disadvantage pada attack roll dan ability check</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Khususnya, kondisi keracunan tidak memengaruhi saving throw atau damage yang kamu timbulkan, hanya kemampuanmu untuk berhasil dalam serangan dan ability check."
+            }
+        ]
+    },
+    {
+        "title": "Prone",
+        "optional": "Standard rule",
+        "icon": "falling",
+        "subtitle": "Kamu rentan",
+        "description": "Kamu berbaring di tanah, membuat kamu lebih sulit untuk dipukul dari jarak jauh tetapi lebih mudah untuk dipukul dari jarak dekat.",
+        "reference": "PHB, hlm. 292.",
+        "summary": "Kamu memiliki disadvantage pada serangan. Attack roll melawanmu memiliki advantage jika penyerang berada dalam jarak 5 feet, dan disadvantage sebaliknya. Berdiri membutuhkan setengah speed-mu.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Kondisi Prone menawarkan trade-off taktis, bertindak sebagai advantage defensif terhadap penyerang jarak jauh namun merupakan tanggung jawab besar terhadap musuh jarak dekat. Makhluk yang rentan memiliki kelebihan dan kekurangan:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Satu-satunya pilihan movement-mu adalah merangkak, yang memerlukan gerakan ekstra, kecuali kamu berdiri.",
+                    "Berdiri menghabiskan setengah dari total kecepatan movement-mu untuk giliran.",
+                    "Kamu memiliki <b>disadvantage pada daftar seranganmu</b>.",
+                    "attack roll yang melawanmu memiliki <b>advantage</b> jika penyerang berada dalam jarak 5 feet. Jika tidak, attack roll memiliki <b>disadvantage</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Menjatuhkan posisi tengkurap tidak memerlukan pergerakan, tetapi berdiri membutuhkan cost yang besar. Ini membuat risiko jatuh secara sukarela menjadi risiko yang diperhitungkan untuk menghindari kebakaran jarak jauh."
+            }
+        ]
+    },
+    {
+        "title": "Restrained",
+        "optional": "Standard rule",
+        "icon": "imprisoned",
+        "subtitle": "Kamu tertahan",
+        "description": "Speed-mu 0, serangan terhadap kamu memiliki advantage, dan seranganmu sendiri serta Dexterity saving throw memiliki disadvantage.",
+        "reference": "PHB, hlm. 292.",
+        "summary": "Speed-mu 0. Kamu memiliki disadvantage pada attack roll-mu dan pada saving throw Dexterity. Attack roll yang dilakukan terhadap kamu memiliki advantage.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini adalah versi yang lebih parah dari kondisi bergulat, yang melambangkan terjerat dalam jaring, jaring, atau ikatan magis. Dampak dari pengekangan sangat signifikan dan berbahaya:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Speed-mu menjadi 0, dan kamu tidak bisa mendapatkan advantage dari bonus apa pun pada speed-mu.",
+                    "Kamu memiliki <b>disadvantage pada daftar seranganmu</b>.",
+                    "Attack roll melawanmu memiliki <b>advantage</b>.",
+                    "Kamu memiliki <b>disadvantage pada Dexterity saving throw</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Kondisi ini sangat berbahaya karena membuat kamu rentan terhadap efek yang memerlukan saving throw Dexterity, seperti banyak spell yang merusak."
+            }
+        ]
+    },
+    {
+        "title": "Stunned",
+        "optional": "Standard rule",
+        "icon": "knockedoutstars",
+        "subtitle": "Kamu tercengang",
+        "description": "Kamu Incapacitated, tidak bisa bergerak, dan rentan dalam pertahanan. Kamu juga secara otomatis gagal dalam saving throw Strength dan Dexterity.",
+        "reference": "PHB, hlm. 292.",
+        "summary": "Kamu Incapacitated, tidak bisa bergerak, dan otomatis gagal Strength dan Dexterity saving throw. Attack roll melawanmu memiliki advantage.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Makhluk yang tertegun sepenuhnya dikeluarkan dari pertarungan selama durasi tersebut. Mereka Incapacitated dan tidak mampu bertindak dengan cara yang berarti, sehingga memberi keadaan hampir Incapacitated total:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Kamu <b>tidak mampu</b>, tidak bisa bergerak, dan hanya bisa berbicara dengan terbata-bata.",
+                    "Kamu secara otomatis gagal dalam Strength saving throw dan Dexterity.",
+                    "Attack roll melawanmu memiliki <b>advantage</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini adalah kondisi kontrol yang kuat, sering kali disebabkan oleh kemampuan Biksu atau spell tertentu, yang bisa sepenuhnya menetralisir ancaman utama dalam waktu singkat."
+            }
+        ]
+    },
+    {
+        "title": "Unconscious",
+        "optional": "Standard rule",
+        "icon": "coma",
+        "subtitle": "Kamu tidak sadarkan diri",
+        "description": "Kamu Incapacitated, Unconscious, dan Incapacitated. Hit apa pun di sekitar akan menjadi hit kritis.",
+        "reference": "PHB, hlm. 292.",
+        "summary": "Kamu Incapacitated, Prone, tidak bisa bergerak atau berbicara, dan gagal STR/DEX saving throw. Serangan terhadap kamu memiliki advantage, dan serangan dari jarak 5 feet merupakan serangan kritis.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Kondisi ini menunjukkan tertidur, pingsan, atau mati pada 0 hit points. Efeknya hampir sama dengan kondisi Paralyzed, membuat makhluk tak berdaya sama sekali:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Kamu <b>tidak mampu</b>, tidak bisa bergerak atau berbicara, dan tidak menyadari lingkungan sekitarmu.",
+                    "Kamu menjatuhkan apa pun yang kamu pegang dan jatuh Prone.",
+                    "Kamu secara otomatis gagal dalam Strength saving throw dan Dexterity.",
+                    "Attack roll melawanmu memiliki <b>advantage</b>.",
+                    "Setiap serangan yang mengenai kamu adalah <b>hit kritis</b> jika penyerang berada dalam jarak 5 feet dari kamu."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Makhluk tidak sadarkan diri ketika berada pada 0 hit points. Penyembuhan apa pun akan memulihkan kesadaran. <b>Tidur</b> spell juga membuat makhluk tidak sadarkan diri tanpa mengurangi hit points mereka."
+            }
+        ]
+    },
+    {
+        "title": "Kegilaan*",
+        "optional": "Optional rule",
+        "icon": "architectmask",
+        "subtitle": "Pikiranmu rusak",
+        "description": "Optional rule untuk mewakili trauma mental dengan efek psikologis jangka pendek, jangka panjang, dan tidak terbatas.",
+        "reference": "DMG, hlm. 258-260.",
+        "summary": "Optional rule untuk trauma mental akibat peristiwa mengerikan, yang memberi kelemahan psikologis jangka pendek (misalnya tertegun), jangka panjang (misalnya paranoia), atau tidak terbatas.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Seorang karakter mungkin mengalami kegilaan akibat peristiwa traumatis, seperti melihat penyimpangan dari Nature Jauh atau membaca pengetahuan terlarang. Kegilaan dikategorikan berdasarkan durasinya, dengan setiap level membawa perubahan yang lebih besar:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Kegilaan Jangka Pendek (berlangsung 1 hari 10 menit):</b> Efek seperti tertegun, Paralyzed karena ketakutan, atau mengoceh tidak jelas.",
+                    "<b>Kegilaan Jangka Panjang (berlangsung 1 hari 10 x 10 jam):</b> Efek seperti mengembangkan fobia, mengalami halusinasi, atau menderita paranoia ekstrem.",
+                    "<b>Kegilaan Tanpa Batas:</b> Perubahan permanen pada kepribadian karakter, hanya bisa disembuhkan dengan sihir kuat seperti <b>Pemulihan Lebih Besar</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Aturan-aturan ini menambah lapisan kengerian dan kedalaman psikologis, menciptakan konsekuensi di luar damage fisik. DM bisa menggunakan table di DMG untuk menambah cita rasa saat menghadapi kengerian kosmik."
+            }
+        ]
+    },
+    {
+        "title": "Pendarahan**",
+        "optional": "Homebrew rule",
+        "icon": "bleedingeye",
+        "subtitle": "Menderita damage seiring berjalannya waktu",
+        "description": "Kondisi homebrew yang memberi damage terus-menerus di setiap giliran hingga lukanya diobati.",
+        "reference": "Homebrew yang jarang dipakai",
+        "summary": "House rule di mana kamu mendapat damage terus-menerus (mis., 1d4) di awal giliranmu. Kondisi ini bisa diakhiri dengan penyembuhan ajaib apa pun atau check Wisdom (Medicine) yang berhasil.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "House rule ini menambahkan efek 'damage seiring waktu', sering kali dipicu oleh serangan kritis dari senjata tebas atau tusuk. Ini membuat pertempuran menjadi lebih berbahaya dan menekankan perlunya penyembuhan dalam pertempuran atau pertolongan pertama. Makhluk yang mengalami pendarahan mendapat damage pada awal gilirannya, namun kondisi ini bisa diakhiri dengan beberapa cara:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Makhluk yang berdarah biasanya mendapat 1d4 damage nekrotik atau tebasan di awal setiap giliran. Damage die bisa meningkat untuk luka yang lebih parah.",
+                    "Penyembuhan magis dalam jumlah berapa pun yang memulihkan hit points akan mengakhiri kondisi tersebut.",
+                    "Makhluk bisa menggunakan action miliknya untuk melakukan check Wisdom (Medicine) (misalnya, DC 12) untuk menghentikan luka, mengakhiri kondisi dengan sukses."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini menambah terkurasnya sumber daya dalam pertemuan, karena pihak tersebut harus mengeluarkan action atau spell untuk mengatasi damage yang sedang terjadi, sehingga menciptakan rasa urgensi."
+            }
+        ]
+    },
+    {
+        "title": "Sistem Stres / Sanitas**",
+        "optional": "Homebrew rule",
+        "icon": "brainleak",
+        "subtitle": "Subsistem kesehatan mental",
+        "description": "Sistem homebrew yang melacak ketabahan mental karakter dengan skor yang bisa diukur, sering kali menggantikan aturan Madness opsional.",
+        "reference": "Rare Homebrew (inspired by Call of Cthulhu)",
+        "summary": "Sistem homebrew yang melacak ketabahan mental dengan skor. Menyaksikan kejadian mengerikan bisa memaksa Sanity melakukan saving throw, dan kegagalan mengurangi skor, sehingga berpotensi menyebabkan kegilaan.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Untuk kampanye yang berfokus pada horor kosmik, sistem Sanity menyediakan cara yang lebih terperinci untuk melacak dampak petualangan mengerikan di pikiran karakter. Sistem ini memperkenalkan sumber daya karakter baru dan saving throw untuk dikelola:"
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Karakter memiliki <b>Skor Sanitas</b>, sering kali didasarkan pada skor kemampuan mental seperti Wisdom atau Charisma.",
+                    "Menyaksikan peristiwa mengerikan memaksa Sanity saving throw (seringkali berbasis Wisdom).",
+                    "Jika gagal, karakter kehilangan poin dari skor Sanitasnya. Saat Sanitas mereka terkuras, mereka mungkin mengalami berbagai bentuk kegilaan yang terkait dengan ambang batas skor tertentu.",
+                    "Memulihkan Sanitas itu sulit, sering kali memerlukan waktu henti yang lama atau sihir pemulihan yang kuat."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Sistem ini membuat ketahanan mental sebagai sumber daya karakter inti yang harus dikelola, sama seperti hit points, dan sangat baik untuk kampanye bertema horor."
+            }
+        ]
+    }
+]

@@ -1,0 +1,973 @@
+[
+    {
+        "title": "penglihatan buta",
+        "optional": "Standard rule",
+        "icon": "echoripples",
+        "subtitle": "Melihat tanpa melihat",
+        "description": "Makhluk dengan Blindsight bisa melihat sekelilingnya dalam radius tertentu tanpa bergantung pada penglihatan, menggagalkan ketidaktampakan dan kegelapan.",
+        "reference": "PHB 2024, hlm. 183.",
+        "summary": "Memungkinkan makhluk untuk melihat sekelilingnya dalam radius tertentu tanpa bergantung pada penglihatan, melihat apa pun dalam jangkauan yang tidak berada di belakang Total Cover bahkan dalam kegelapan atau saat Invisible.",
+        "tags": [
+            "environment_vision"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Indra non-visual yang tepat ini memungkinkan makhluk untuk menunjukkan dengan tepat lokasi makhluk dan objek lain, meskipun mereka berada dalam kegelapan magis atau Invisible."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Dalam radiusnya, makhluk tersebut bisa secara efektif melihat apa pun yang tidak berada di balik <b>Penutup Total</b>, meskipun makhluk tersebut memiliki kondisi Blinded atau target berada dalam kegelapan.",
+                    "Ia juga bisa melihat makhluk yang memiliki kondisi <b>Invisible</b> dalam radius tersebut.",
+                    "Pengertian ini tidak melampaui kisaran yang tercantum."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Blindsight adalah penghalang kuat terhadap kegelapan dan ketidaktampakan, namun Total Cover masih menghalanginya."
+            }
+        ]
+    },
+    {
+        "title": "Cahaya Terang",
+        "optional": "Standard rule",
+        "icon": "starpupil",
+        "subtitle": "Penglihatan biasa",
+        "description": "Dalam cahaya terang, seperti sinar matahari langsung atau area yang kena obor, sebagian besar makhluk bisa melihat secara normal tanpa penalti.",
+        "reference": "PHB 2024, hlm. 183.",
+        "summary": "Kondisi pencahayaan normal dimana sebagian besar makhluk bisa melihat tanpa penalti. Beberapa fitur dan monster mungkin berinteraksi dengan cahaya terang secara khusus.",
+        "tags": [
+            "environment_light"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini adalah kondisi pencahayaan default untuk sebagian besar pertemuan siang hari dan interior dengan penerangan yang baik. Di bawah cahaya terang, penglihatan tidak terhalang dan check berbasis penglihatan dilakukan tanpa penalti."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Sumbernya mencakup sinar matahari langsung, area <i>Siang hari</i> spell, atau area sekitar obor dan lentera.",
+                    "Beberapa makhluk memiliki Sensitivitas Sinar Matahari, memberi mereka disadvantage pada pengujian d20 saat berada di bawah sinar matahari langsung."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Transisi dari kondisi cahaya terang ke kondisi redup merupakan pertimbangan taktis yang penting, karena menciptakan area bayangan dan penyembunyian."
+            }
+        ]
+    },
+    {
+        "title": "Terbakar",
+        "optional": "Standard rule",
+        "icon": "sun",
+        "subtitle": "Fire damage yang sedang berlangsung",
+        "description": "Makhluk atau benda yang terbakar mendapat damage akibat Api pada awal setiap gilirannya hingga apinya padam.",
+        "reference": "PHB 2024, hlm. 361.",
+        "summary": "Saat terbakar, makhluk atau objek mendapat 1d4 fire damage di awal setiap giliran. Menggunakan action untuk memadamkan api mengakhiri bahaya.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Terbakar adalah bahaya 2024 PHB untuk paparan api yang berkelanjutan setelah suatu efek menyulut makhluk atau benda."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Makhluk atau benda yang terbakar mendapat <b>1d4 fire damage</b> di awal setiap gilirannya.",
+                    "Makhluk bisa menggunakan <b>action</b> untuk memadamkan api pada dirinya sendiri atau makhluk atau objek lain yang berada dalam jangkauannya.",
+                    "Api juga bisa dipadamkan dengan cara lain, seperti direndam dalam air."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Kegelapan",
+        "optional": "Standard rule",
+        "icon": "worriedeyes",
+        "subtitle": "Sangat dikaburkan",
+        "description": "Kegelapan menciptakan area yang sangat tertutup, secara efektif membutakan makhluk apa pun yang mencoba melihat ke dalamnya tanpa indra khusus.",
+        "reference": "PHB 2024, hlm. 183.",
+        "summary": "Menciptakan area yang sangat tertutup, secara efektif membutakan makhluk di dalamnya. Penglihatan Gelap memungkinkan makhluk melihat dalam kegelapan non-magis seolah-olah itu adalah cahaya redup.",
+        "tags": [
+            "environment_light"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Kegelapan total menghalangi penglihatan sepenuhnya, memaksakan kondisi Blinded pada makhluk yang mencoba melihat ke dalam atau melalui area tersebut. Indra khusus diperlukan untuk beroperasi secara efektif dalam kegelapan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Makhluk tanpa indra khusus secara efektif adalah Blinded dalam kegelapan.",
+                    "Makhluk dengan <b>Darkvision</b> bisa melihat dalam kegelapan non-magis dalam rentang tertentu seolah-olah dalam cahaya redup (artinya mereka masih memiliki disadvantage pada check Perception). Mereka tidak bisa membedakan warna dalam kegelapan.",
+                    "Kegelapan magis, seperti dari <i>Darkness</i> spell, bahkan menghalangi Darkvision."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Perbedaan antara kegelapan magis dan non-magis sangat penting, karena hanya indera yang paling kuat (seperti Truesight) yang bisa menembus kegelapan magis."
+            }
+        ]
+    },
+    {
+        "title": "Darkvision",
+        "optional": "Standard rule",
+        "icon": "semiclosedeye",
+        "subtitle": "Penglihatan terbatas dalam kegelapan",
+        "description": "Akal sehat ini memungkinkan makhluk melihat dalam cahaya redup seolah-olah terang, dan dalam kegelapan seolah-olah cahaya redup.",
+        "reference": "PHB 2024, hlm. 183.",
+        "summary": "Dalam rentang tertentu, kamu bisa melihat dalam cahaya redup seolah-olah cahaya terang, dan dalam kegelapan seolah-olah cahaya redup. Melihat dalam kegelapan dengan cara ini berada dalam nuansa abu-abu dan menerapkan check disadvantage pada Perception.",
+        "tags": [
+            "environment_vision"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Penglihatan gelap bukanlah penglihatan sempurna dalam kegelapan. Ini memungkinkan makhluk untuk bernavigasi dan bertarung dalam kegelapan, tetapi dengan hukuman utama terhadap persepsi yang membuatnya lebih sulit untuk menemukan hal-hal yang tersembunyi."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Dalam jangkauan yang ditentukan, makhluk dengan penglihatan gelap bisa melihat dalam <b>cahaya redup seolah-olah dalam cahaya terang</b>.",
+                    "Ia bisa melihat dalam <b>kegelapan seolah-olah cahaya redup</b>. Ini berarti area tersebut masih sedikit dikaburkan bagi mereka, menerapkan check disadvantage pada Perception.",
+                    "Makhluk itu tidak bisa membedakan warna dalam kegelapan, hanya bayangan abu-abu.",
+                    "Darkvision tidak menembus kegelapan magis."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini berarti karakter dengan penglihatan gelap masih kecil kemungkinannya untuk melihat jebakan tersembunyi atau makhluk bersembunyi di kegelapan total dibandingkan saat mereka berada dalam cahaya terang."
+            }
+        ]
+    },
+    {
+        "title": "Dehidrasi",
+        "optional": "Standard rule",
+        "icon": "atsea",
+        "subtitle": "Terlalu sedikit air",
+        "description": "Makhluk yang minum terlalu sedikit air berisiko mengalami Exhaustion setelah menyelesaikan Istirahat Panjang.",
+        "reference": "PHB 2024, hlm. 365.",
+        "summary": "Makhluk hidup membutuhkan 1 galon air per hari, atau 2 galon saat cuaca panas. Minum setengah dari jumlah tersebut memerlukan simpanan DC 15 Constitution setelah Istirahat Panjang atau 1 level Exhaustion; minum lebih sedikit otomatis menyebabkan Exhaustion.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Dehidrasi adalah bahaya PHB 2024 untuk melacak air selama perjalanan dan adegan bertahan hidup."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Makhluk hidup membutuhkan <b>1 galon air per hari</b>, atau <b>2 galon</b> saat cuaca panas.",
+                    "Jika ia hanya minum setengah dari jumlah yang diperlukan, ia harus berhasil pada <b>DC 15 Constitution saving throw</b> setelah menyelesaikan Istirahat Panjang atau memperoleh 1 level Exhaustion.",
+                    "Jika ia meminum kurang dari setengah jumlah yang dibutuhkan, ia memperoleh 1 level Exhaustion secara otomatis setelah menyelesaikan Istirahat Panjang.",
+                    "Exhaustion yang disebabkan oleh dehidrasi tidak bisa dihilangkan sampai makhluk tersebut meminum jumlah yang dibutuhkan."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Cahaya redup",
+        "optional": "Standard rule",
+        "icon": "semiclosedeye",
+        "subtitle": "Sedikit dikaburkan",
+        "description": "Cahaya redup, atau bayangan, menciptakan area yang sedikit tertutup sehingga detailnya lebih sulit terlihat.",
+        "reference": "PHB 2024, hlm. 183.",
+        "summary": "Menciptakan area yang sedikit tertutup. Makhluk memiliki check disadvantage pada Wisdom (Perception) yang mengandalkan penglihatan.",
+        "tags": [
+            "environment_light"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cahaya redup mewakili area dengan penerangan parsial, seperti senja, malam yang diterangi cahaya bulan, atau tepi cahaya obor. Ketidakjelasan sebagian ini memberikan hukuman pada makhluk yang mengandalkan penglihatan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Makhluk dalam cahaya redup memiliki check disadvantage dan Wisdom (Perception) yang mengandalkan penglihatan.",
+                    "Sumber alaminya antara lain senja, fajar, atau bulan purnama.",
+                    "Makhluk dengan <b>Penglihatan Gelap</b> memperlakukan cahaya redup seolah-olah cahaya terang."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cahaya redup penting untuk eksplorasi dan persembunyian karena mempengaruhi Perception berbasis penglihatan, namun tidak dengan sendirinya memaksakan disadvantage pada attack roll."
+            }
+        ]
+    },
+    {
+        "title": "Jatuh",
+        "optional": "Standard rule",
+        "icon": "falling",
+        "subtitle": "1d6 per 10 feet (maks 20d6)",
+        "description": "Makhluk mendapat 1d6 bludgeoning damage untuk setiap 10 feet mereka jatuh, hingga maksimum 20d6, dan mendarat dalam posisi Prone.",
+        "reference": "PHB 2024, hlm. 183.",
+        "summary": "Kamu mendapat bludgeoning damage 1d6 untuk setiap jatuh 10 feet, hingga 20d6, dan mendarat Prone kecuali kamu menghindari damage tersebut. Jatuh ke dalam air bisa menyelamatkan DC 15 Strength atau Dexterity untuk mengurangi separuh damage.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Jatuh merupakan bahaya lingkungan yang signifikan. Damage berskala seiring dengan jarak jatuh, hingga maksimum yang mewakili kecepatan terminal. Aturan tersebut juga menentukan kecepatan penurunan yang cepat."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Makhluk mendapat <b>1d6 bludgeoning damage untuk setiap 10 feet</b> jatuhnya, hingga maksimum <b>20d6</b>.",
+                    "Makhluk itu mendarat <b>Prone</b> kecuali ia menghindari damage akibat terjatuh.",
+                    "<b>Jatuh ke Air:</b> Jika makhluk yang jatuh bisa mengambil Reaction, ia bisa melakukan <b>DC 15 Strength (Athletics) atau Dexterity (Acrobatics)</b> agar mengenai air dengan bersih dan mendapat setengah damage.",
+                    "<b>Laju Jatuh (XGE opsional):</b> Makhluk yang jatuh dari ketinggian langsung turun hingga 500 feet, lalu naik hingga 500 feet di akhir giliran berikutnya hingga musim gugur berakhir."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Jatuh yang berkepanjangan bisa diatasi dengan sangat cepat, sehingga reaction dan fitur yang mengubah jatuh perlu ditangani segera setelah triggernya terjadi."
+            }
+        ]
+    },
+    {
+        "title": "Setengah Penutup",
+        "optional": "Standard rule",
+        "icon": "brokenshield",
+        "subtitle": "+2 AC & penghematan Dex",
+        "description": "Rintangan yang menutupi setidaknya separuh tubuhmu memberi kamu bonus +2 untuk saving throw AC dan Dexterity.",
+        "reference": "PHB 2024, hlm. 319.",
+        "summary": "Rintangan yang menutupi setidaknya separuh tubuhmu (seperti tembok rendah atau makhluk lain) memberi kamu bonus +2 untuk Armor Class dan semua saving throw Dexterity.",
+        "tags": [
+            "environment_cover"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Setengah penutup adalah jenis penutup yang paling umum, mewakili cover di balik tembok rendah, pohon, atau bahkan makhluk lain. Ini memberikan bonus pertahanan kecil namun berguna."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Memberikan <b>+2 bonus untuk saving throw AC dan Dexterity</b>.",
+                    "Contoh: tembok rendah, perabot besar, makhluk lain."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Bonus ini membuat kamu menjadi sasaran yang lebih sulit baik untuk serangan langsung maupun efek area yang mengharuskan kamu gesit, seperti napas naga."
+            }
+        ]
+    },
+    {
+        "title": "Sangat Dikaburkan",
+        "optional": "Standard rule",
+        "icon": "fog",
+        "subtitle": "Secara efektif membutakan",
+        "description": "Suatu area akan sangat tertutup jika menghalangi penglihatan sepenuhnya, misalnya dalam kegelapan, kabut buram, atau dedaunan lebat.",
+        "reference": "PHB 2024, hlm. 183.",
+        "summary": "Area yang menghalangi penglihatan sepenuhnya, seperti kegelapan atau kabut tebal. Makhluk yang mencoba melihat melalui area yang sangat tertutup secara efektif adalah Blinded.",
+        "tags": [
+            "environment_obscurance"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Area yang sangat tertutup menghalangi pandangan sepenuhnya. Ini secara efektif menerapkan kondisi Blinded pada makhluk apa pun yang mencoba melihat sesuatu di dalamnya, sehingga mustahil untuk menargetkan makhluk tersebut melalui penglihatan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Makhluk di area yang sangat tertutup secara efektif menderita <b>kondisi Blinded</b> saat mencoba melihat apa pun di area tersebut.",
+                    "Makhluk selalu bisa mencoba Bersembunyi saat berada di area yang sangat tertutup."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini adalah syarat utama untuk sembunyi-sembunyi, karena kamu harus sangat tertutup dari makhluk untuk mencoba Hide action melawannya."
+            }
+        ]
+    },
+    {
+        "title": "Sedikit Dikaburkan",
+        "optional": "Standard rule",
+        "icon": "dustcloud",
+        "subtitle": "Disadvantage pada beberapa check",
+        "description": "Suatu area sedikit tertutup jika ada sesuatu yang menghalangi pandangan, seperti cahaya redup, kabut tipis, atau dedaunan sedang.",
+        "reference": "PHB 2024, hlm. 183.",
+        "summary": "Area yang menghalangi pandangan, seperti cahaya redup atau kabut tipis. Makhluk memiliki disadvantage pada check Perception berbasis penglihatan.",
+        "tags": [
+            "environment_obscurance"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ketika penglihatan terhambat sebagian, akan lebih sulit untuk menemukan objek di area tersebut, sehingga menerapkan disadvantage pada check Perception berbasis penglihatan yang relevan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Makhluk di area yang sedikit tertutup memiliki check <b>disadvantage di Wisdom (Perception)</b> yang mengandalkan penglihatan.",
+                    "Bersembunyi tidak mungkin dilakukan di area yang sedikit tertutup kecuali kamu juga berada di balik setidaknya tiga perempat cover."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Pengaburan cahaya mempengaruhi penglihatan dan perhatian; Serangan disadvantage berasal dari aturan lain, seperti tidak bisa melihat target."
+            }
+        ]
+    },
+    {
+        "title": "Malnutrisi",
+        "optional": "Standard rule",
+        "icon": "journey",
+        "subtitle": "Terlalu sedikit makanan",
+        "description": "Makhluk yang makan terlalu sedikit berisiko mengalami Exhaustion setelah menyelesaikan Istirahat Panjang.",
+        "reference": "PHB 2024, hlm. 371.",
+        "summary": "Seekor makhluk membutuhkan 1 pon makanan per hari. Setelah berhari-hari tanpa makanan yang cukup sama dengan pengubah 3 + CON, ia memperoleh 1 level Exhaustion setelah setiap Istirahat Panjang hingga ia makan cukup makanan.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Malnutrisi adalah bahaya pelacakan makanan PHB 2024, terpisah dari dehidrasi."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Makhluk membutuhkan <b>1 pon makanan per hari</b>.",
+                    "Ia bisa hidup tanpa makanan yang cukup selama beberapa hari yang setara dengan <b>3 + pengubah Constitution</b> (minimal 1 hari).",
+                    "Setelah itu, ia memperoleh <b>1 level Exhaustion</b> setelah setiap Istirahat Panjang hingga ia makan cukup makanan.",
+                    "Hari makan yang normal akan mengatur ulang hitungan hari tanpa cukup makanan menjadi 0."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Mati lemas",
+        "optional": "Standard rule",
+        "icon": "drowning",
+        "subtitle": "Menahan nafasmu",
+        "description": "Makhluk yang kekurangan udara bisa menahan nafasnya sebentar sebelum memperoleh Exhaustion di akhir setiap giliran.",
+        "reference": "PHB 2024, hlm. 184.",
+        "summary": "Kamu bisa menahan napas selama 1 + menit pengubah CON. Setelah itu atau saat tersedak, kamu mendapatkan 1 level Exhaustion di akhir setiap giliran hingga kamu bisa bernapas kembali, lalu menghilangkan Exhaustion yang diperoleh dari mati lemas.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Aturan-aturan ini mengatur berapa lama suatu makhluk bisa bertahan hidup tanpa udara. Saat nafas makhluk habis, bahaya meningkat melalui Exhaustion hingga makhluk tersebut bisa bernapas kembali."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Makhluk bisa menahan nafasnya selama beberapa menit yang setara dengan <b>1 + pengubah Constitution</b> (minimal 30 detik).",
+                    "Saat nafasnya habis atau makhluk tersebut tersedak, ia memperoleh <b>1 level Exhaustion</b> di akhir setiap gilirannya.",
+                    "Exhaustion berlanjut hingga makhluk tersebut bisa bernapas kembali.",
+                    "Saat mati lemas berakhir, makhluk itu menghilangkan semua level Exhaustion yang diperoleh dari mati lemas."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini membuat mati lemas menjadi bahaya yang semakin buruk sekaligus menjaga Exhaustion tetap bisa dilepas setelah udara pulih kembali."
+            }
+        ]
+    },
+    {
+        "title": "Sampul Tiga Perempat",
+        "optional": "Standard rule",
+        "icon": "crackedshield",
+        "subtitle": "+5 AC & penghematan Dex",
+        "description": "Rintangan yang menutupi sekitar tiga perempat tubuhmu memberikan bonus +5 yang signifikan untuk saving throw AC dan Dexterity.",
+        "reference": "PHB 2024, hlm. 319.",
+        "summary": "Rintangan yang menutupi sekitar tiga perempat tubuhmu (seperti celah panah) memberikan bonus +5 pada Armor Class kamu dan semua saving throw Dexterity.",
+        "tags": [
+            "environment_cover"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Tingkat cover ini mewakili sebagian besar keadaan yang tersembunyi, seperti mengintip dari sudut atau menembak melalui celah panah. Ini memberikan pertahanan besar advantage, membuat kamu sangat sulit untuk diserang."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Memberikan <b>+5 bonus untuk saving throw AC dan Dexterity</b>.",
+                    "Contoh: pintu gerbang, celah panah, atau batang pohon yang tebal.",
+                    "Tingkat cover ini juga cukup bagi makhluk untuk mencoba Sembunyikan action."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Bonus +5 adalah peningkatan pertahanan yang sangat besar, setara dengan perisai yang sangat langka. Mencari cover tiga perempat adalah taktik yang sangat efektif."
+            }
+        ]
+    },
+    {
+        "title": "Cakupan Total",
+        "optional": "Standard rule",
+        "icon": "shield",
+        "subtitle": "Tidak bisa ditargetkan secara langsung",
+        "description": "Kamu sepenuhnya tersembunyi oleh rintangan, membuat kamu kebal terhadap sasaran serangan atau spell secara langsung.",
+        "reference": "PHB 2024, hlm. 319.",
+        "summary": "Sebuah rintangan menyembunyikan kamu sepenuhnya, artinya kamu tidak bisa menjadi sasaran serangan apa pun secara langsung atau spell yang memerlukan garis efek. Kamu selalu bisa mencoba untuk Menyembunyikan.",
+        "tags": [
+            "environment_cover"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Penutupan total berarti tidak ada jalur yang jelas antara kamu dan asal efek. Kamu sepenuhnya terlindungi dari efek apa pun yang memerlukan garis efek ke target."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Target dengan Total Cover <b>tidak bisa ditargetkan secara langsung</b> oleh serangan atau spell.",
+                    "Serangan atau spell masih bisa mengenai target dengan Total Cover melalui area efek jika efeknya bisa menyebar ke sekeliling rintangan (misalnya, ledakan dari <i>Fireball</i>).",
+                    "Makhluk yang berada di balik Total Cover selalu bisa mencoba Sembunyikan action."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini adalah bentuk cover pamungkas, memaksa musuh untuk mengubah posisi atau menggunakan kemampuan efek area untuk menyakiti kamu."
+            }
+        ]
+    },
+    {
+        "title": "Rasa gemetar",
+        "optional": "Standard rule",
+        "icon": "groundbreaker",
+        "subtitle": "Getaran indra",
+        "description": "Makhluk dengan Tremorsense bisa mendeteksi dan menentukan asal usul getaran yang bersentuhan dengan tanah atau zat yang sama.",
+        "reference": "PHB 2024, hlm. 183.",
+        "summary": "Memungkinkan makhluk untuk menunjukkan dengan tepat makhluk dan objek bergerak dalam jarak tertentu jika mereka bersentuhan dengan permukaan atau cairan yang sama. Tremorsense tidak dihitung sebagai penglihatan.",
+        "tags": [
+            "environment_vision"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Indra khusus ini umum dimiliki oleh makhluk penggali dan memungkinkan mereka mendeteksi apa pun yang bergerak di dalam atau di dalam tanah tanpa perlu melihatnya."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Makhluk atau objek yang diindera harus bersentuhan dengan permukaan atau cairan yang sama dengan makhluk yang mengidap Tremorsense.",
+                    "Tremorsense tidak bisa mendeteksi makhluk terbang atau inkorporeal yang tidak bersentuhan dengan permukaan atau cairan tersebut.",
+                    "Tremorsense menunjukkan lokasi dengan tepat, tetapi Invisible dan tidak mengungkapkan detail visual."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini adalah cara terbaik untuk melawan siluman dan tembus pandang makhluk-makhluk di darat, membuat penyergapan terhadap makhluk-makhluk tersebut menjadi sangat sulit."
+            }
+        ]
+    },
+    {
+        "title": "Truesight",
+        "optional": "Standard rule",
+        "icon": "eyeshield",
+        "subtitle": "Lihat bentuk sebenarnya",
+        "description": "Perasaan yang kuat dan langka yang memungkinkan makhluk melihat segala sesuatu sebagaimana adanya, melewati sebagian besar bentuk penipuan.",
+        "reference": "PHB 2024, hlm. 183.",
+        "summary": "Memungkinkan makhluk untuk melihat dalam segala bentuk kegelapan, melihat makhluk tak terlihat, secara otomatis mendeteksi ilusi, dan melihat wujud sebenarnya dari makhluk yang berubah bentuk atau berubah.",
+        "tags": [
+            "environment_vision"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Truesight adalah bentuk persepsi tertinggi, menembus hampir semua bentuk penyembunyian dan penipuan magis dan nonmagis. Ini mengungkapkan kenyataan apa adanya."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Melihat dalam Kegelapan:</b> Melihat secara normal dalam kegelapan magis dan non-magis.",
+                    "<b>Melihat Invisible:</b> Melihat makhluk dan objek tak kasat mata.",
+                    "<b>Mendeteksi Ilusi:</b> Secara otomatis mendeteksi ilusi visual dan berhasil menyelamatkan lemparan terhadap ilusi tersebut.",
+                    "<b>Melihat Bentuk Sejati:</b> Melihat bentuk sebenarnya dari seorang pengubah bentuk atau makhluk yang diubah oleh sihir.",
+                    "<b>Melihat ke dalam Bidang Ethereal:</b> Bisa melihat ke dalam Bidang Ethereal."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Makhluk dengan penglihatan sejati adalah musuh yang sangat berbahaya bagi pihak-pihak yang mengandalkan siluman, ilusi, atau kegelapan magis."
+            }
+        ]
+    },
+    {
+        "title": "Combat di Dalam Air",
+        "optional": "Standard rule",
+        "icon": "atsea",
+        "subtitle": "Bertarung di air",
+        "description": "Serangan senjata di bawah air akan terhalang kecuali senjata atau makhluk tersebut cocok untuk bertarung di dalam air.",
+        "reference": "PHB 2024, hlm. 184.",
+        "summary": "Makhluk tanpa swim speed memiliki disadvantage pada serangan senjata jarak dekat di bawah air kecuali senjata tersebut memberi piercing damage. Serangan senjata jarak jauh meleset dari jangkauan normal dan memiliki disadvantage dalam jangkauan normal.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Aturan pertempuran bawah air tahun 2024 menggunakan jenis damage dan jangkauan senjata, bukan daftar senjata lama yang dikecualikan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Serangan Senjata Jarak Dekat:</b> Makhluk tanpa swim speed memiliki <b>Disadvantage</b> kecuali senjata tersebut memberi damage <b>Menusuk</b>.",
+                    "<b>Serangan Senjata Jarak Jauh:</b> Serangan senjata jarak jauh secara otomatis meleset melampaui jangkauan normal dan <b>Disadvantage</b> berada dalam jangkauan normal.",
+                    "Apa pun yang berada di bawah air memiliki <b>Ketahanan terhadap fire damage</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Aturan-aturan ini membuat pertarungan akuatik sebagai tantangan khusus di mana pemilihan dan pergerakan senjata sangat penting."
+            }
+        ]
+    },
+    {
+        "title": "Aturan Pengejaran*",
+        "optional": "Optional rule",
+        "icon": "sprint",
+        "subtitle": "Menyelesaikan pengejaran dinamis",
+        "description": "Subsistem opsional untuk menjalankan kejar-kejaran seru dengan komplikasi dan batasan Dashing terus menerus.",
+        "reference": "DMG 2024, hlm. 232.",
+        "summary": "Sistem opsional di mana peserta bisa melakukan pengubahan Dash 3 + CON, lalu setiap Dash tambahan memerlukan DC 10 Constitution saving throw atau 1 level Exhaustion. Pengejaran juga menggunakan check pelarian dan komplikasi.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Aturan-aturan ini memberikan struktur untuk membuat adegan kejar-kejaran lebih dari sekadar serangkaian aksi gerakan, memperkenalkan peristiwa acak dan mekanik stamina untuk menciptakan rangkaian dinamis."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Batas Dash:</b> Peserta kejar-kejaran bisa melakukan Dash sebanyak 3 kali + pengubah Constitution-nya (minimal satu kali). Setiap Dash tambahan memerlukan <b>DC 10 Constitution saving throw</b> di akhir giliran atau 1 level Exhaustion.",
+                    "<b>Opportunity Attack:</b> Peserta pengejaran biasanya tidak bisa melakukan Opportunity Attack terhadap satu sama lain, meskipun peserta yang bukan peserta masih bisa.",
+                    "<b>Escape:</b> Tambang melakukan check Dexterity (Stealth) pada Inisiatif hitungan 0 jika memiliki peluang untuk mematahkan garis pandang; bandingkan dengan Pasif pengejarnya Perception.",
+                    "<b>Komplikasi:</b> DM bisa menggunakan table komplikasi pengejaran atau rintangan yang telah disiapkan untuk membuat pengejaran lebih dinamis."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Sistem ini mengubah kejar-kejaran menjadi mini-game dinamis tentang manajemen risiko dan mengatasi rintangan tak terduga."
+            }
+        ]
+    },
+    {
+        "title": "Perairan Dalam*",
+        "optional": "Optional rule",
+        "icon": "atsea",
+        "subtitle": "Terlalu dalam untuk berdiri",
+        "description": "Air yang cukup dalam sehingga makhluk tidak bisa menyentuh dasar dengan kakinya menciptakan tekanan ekstra saat berenang dan bisa membatasi kemampuan berbicara.",
+        "reference": "DMG 2024, hlm. 234.",
+        "summary": "Perairan dalam memaksa makhluk tanpa swim speed menghabiskan 1 feet ekstra gerakan untuk setiap feet berenang dan bisa mencegah ucapan yang jelas kecuali sihir atau feature lainnya mengizinkannya.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Perairan dalam adalah efek lingkungan DMG 2024 untuk pemandangan saat makhluk berenang sepenuhnya, bukan mengarungi."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Makhluk yang tidak memiliki <b>swim speed</b> harus mengeluarkan 1 feet ekstra gerakan untuk setiap feet yang digerakkannya saat berenang.",
+                    "Makhluk di perairan dalam biasanya tidak bisa berbicara dengan jelas kecuali ia bisa menghirup air, memiliki swim speed, atau menggunakan sihir yang memungkinkannya berbicara di bawah air.",
+                    "Perairan dalam sering kali digabungkan dengan aturan pertempuran bawah air dan mati lemas yang terpisah."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Dingin Ekstrem*",
+        "optional": "Optional rule",
+        "icon": "thermometercold",
+        "subtitle": "Risiko Exhaustion",
+        "description": "Paparan suhu yang terlalu lama pada atau di bawah 0° F memaksa Constitution menabung untuk menahan tingkat kelelahan.",
+        "reference": "DMG 2024, hlm. 234-235.",
+        "summary": "Saat kena suhu pada atau di bawah 0° F, makhluk harus melakukan DC 10 Constitution saving throw di akhir setiap jam atau mendapatkan satu level Exhaustion.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Hawa dingin yang pahit merupakan ancaman lingkungan yang terus-menerus yang bisa melemahkan bahkan para petualang yang paling tangguh sekalipun seiring berjalannya waktu, memaksakan tingkat Exhaustion untuk setiap jam paparan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Pada suhu pada atau di bawah 0? F, makhluk yang kena suhu dingin harus berhasil mencapai <b>DC 10 Constitution saving throw</b> di akhir setiap jam atau memperoleh satu level <b>Exhaustion</b>.",
+                    "Makhluk dengan ketahanan atau kekebalan terhadap cold damage otomatis berhasil di saving throw ini."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Dengan aturan kelelahan yang direvisi, hukuman bertahap -1 membuatnya ancaman yang lambat namun serius selama ekspedisi Arktik."
+            }
+        ]
+    },
+    {
+        "title": "Panas Ekstrem*",
+        "optional": "Optional rule",
+        "icon": "sun",
+        "subtitle": "Risiko Exhaustion",
+        "description": "Paparan suhu yang terlalu lama pada atau di atas 100° F memaksa Constitution menabung untuk menahan tingkat kelelahan.",
+        "reference": "DMG 2024, hlm. 234-235.",
+        "summary": "Dalam suhu pada atau di atas 100° F, makhluk harus melakukan penghematan Constitution setiap jam atau memperoleh level Exhaustion. DC dimulai pada 5 dan meningkat 1 setiap jam.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Panas terik bisa sama berbahayanya dengan suhu dingin yang membekukan, secara bertahap melemahkan kekuatan makhluk dan menyebabkan Exhaustion, terutama bagi mereka yang mengenakan baju besi berat."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Pada suhu pada atau di atas 100° F, makhluk yang kena panas tanpa air yang cukup harus membuat Constitution saving throw di akhir setiap jam atau naik satu level <b>Exhaustion</b>.",
+                    "DC adalah <b>5 untuk jam pertama dan meningkat sebesar 1</b> untuk setiap jam tambahan.",
+                    "Makhluk yang memakai baju besi sedang atau berat mempunyai <b>disadvantage</b> yang bisa saving throw.",
+                    "Makhluk dengan ketahanan atau kekebalan terhadap fire damage secara otomatis berhasil."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Meningkatnya DC membuat kita semakin sulit bertahan dalam perjalanan jauh di gurun pasir tanpa air dan tempat berteduh yang memadai."
+            }
+        ]
+    },
+    {
+        "title": "Air Sangat Dingin*",
+        "optional": "Optional rule",
+        "icon": "thermometercold",
+        "subtitle": "Perendaman dingin",
+        "description": "Perendaman dalam air yang sangat dingin bisa dengan cepat menyebabkan Exhaustion ketika suatu makhluk melebihi toleransi berbasis Constitution.",
+        "reference": "DMG 2024, hlm. 235.",
+        "summary": "Seekor makhluk bisa bertahan di air dingin selama beberapa menit yang setara dengan skor Constitution-nya. Setiap menit tambahan memerlukan DC 10 Constitution saving throw atau 1 level Exhaustion.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Air dingin lebih berbahaya dibandingkan air dingin biasa karena perendaman menguras daya tahan tubuh dengan cepat."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Makhluk bisa dibenamkan selama beberapa menit yang setara dengan <b>skor Constitution</b> sebelum menderita akibat buruk.",
+                    "Setiap menit tambahan memerlukan <b>DC 10 Constitution saving throw</b> atau makhluk tersebut memperoleh 1 level Exhaustion.",
+                    "Makhluk yang memiliki ketahanan atau kekebalan terhadap cold damage secara otomatis berhasil, begitu pula makhluk yang secara alami beradaptasi dengan air sedingin es."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Hujan/Salju Lebat*",
+        "optional": "Optional rule",
+        "icon": "raining",
+        "subtitle": "Mempengaruhi persepsi dan api",
+        "description": "Hujan deras atau hujan salju sedikit mengaburkan area tersebut dan hujan lebat memadamkan api terbuka.",
+        "reference": "DMG 2024, hlm. 234-235.",
+        "summary": "Hujan deras atau salju lebat menciptakan area Sedikit Kabur dan menerapkan check disadvantage pada Wisdom (Perception). Hujan deras juga memadamkan api terbuka.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Hujan deras atau badai salju bisa berdampak signifikan terhadap jarak pandang dan pendengaran, sehingga ancaman lebih sulit dikenali dan lebih mudah disembunyikan. Ini juga bisa mempengaruhi sumber cahaya."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Hujan deras atau salju lebat menyebabkan area <b>Sedikit Tertutup</b>.",
+                    "Makhluk di area tersebut memiliki check <b>Disadvantage di Wisdom (Perception)</b>.",
+                    "Hujan deras memadamkan api terbuka."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini bisa menetralkan sumber cahaya umum dan mempersulit deteksi atau pendengaran bahaya yang mendekat."
+            }
+        ]
+    },
+    {
+        "title": "Dataran Tinggi*",
+        "optional": "Optional rule",
+        "icon": "mountainclimbing",
+        "subtitle": "Risiko Exhaustion",
+        "description": "Pada ketinggian 10.000 feet atau lebih, perjalanan menjadi lebih melelahkan bagi makhluk yang perlu bernapas.",
+        "reference": "DMG 2024, hlm. 235.",
+        "summary": "Pada ketinggian 10.000 feet atau lebih, setiap jam perjalanan dihitung sebagai 2 jam untuk menentukan berapa lama makhluk bernapas bisa melakukan perjalanan. Aklimatisasi memerlukan waktu 30 hari dan tidak mungkin dilakukan di atas ketinggian 20.000 feet kecuali jika ia berasal dari lingkungan tersebut.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Udara yang tipis di dataran tinggi membuat aktivitas fisik yang lama menjadi sulit dan bisa menyebabkan Exhaustion bagi makhluk yang tidak terbiasa melakukan aktivitas fisik dalam jangka waktu lama."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Pada ketinggian <b>10.000 feet atau lebih</b>, setiap jam yang dihabiskan dalam perjalanan dihitung sebagai <b>2 jam</b> untuk menentukan berapa lama suatu makhluk bisa melakukan perjalanan.",
+                    "Makhluk bernapas menjadi terbiasa setelah menghabiskan <b>30 hari atau lebih</b> di ketinggian tersebut.",
+                    "Makhluk yang bernapas tidak bisa menyesuaikan diri pada ketinggian di atas <b>20.000 feet</b> kecuali mereka berasal dari lingkungan tersebut."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini membuat perjalanan gunung benar-benar ujian ketahanan, memerlukan langkah hati-hati atau bantuan magis."
+            }
+        ]
+    },
+    {
+        "title": "Cedera Berkepanjangan*",
+        "optional": "Optional rule",
+        "icon": "swordbreak",
+        "subtitle": "Luka abadi akibat pertempuran",
+        "description": "Optional rule untuk menambahkan konsekuensi mekanis jangka panjang saat makhluk kena serangan kritis atau turun ke 0 HP.",
+        "reference": "DMG 2014, hlm. 272.",
+        "summary": "Optional rule untuk kampanye sulit di mana mendapat hit kritis atau turun ke 0 HP bisa memberi penalti mekanis yang bertahan lama, seperti pincang atau kehilangan mata, yang ditentukan oleh table roll.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Untuk kampanye yang bertujuan untuk memberikan nuansa yang lebih grit, aturan ini memastikan bahwa luka serius bisa meninggalkan bekas yang bertahan lama setelah hit points hilang. Cedera yang cukup parah bisa memicu tergulingnya table khusus."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Makhluk mungkin mengalami cedera berkepanjangan saat mendapat serangan kritis, jatuh ke 0 hit points, atau gagal membunuh saving throw sebanyak 5 atau lebih.",
+                    "DM bisa membuat pemain berguling di table Cedera Berlama-lama.",
+                    "Contoh: <b>Kehilangan Mata</b> (disadvantage pada serangan jarak jauh dan Perception berbasis penglihatan), <b>Limp</b> (kecepatan berkurang 5 feet), <b>Cedera Dalam</b> (disadvantage pada saving throw CON), <b>Bekas Luka Mengerikan</b> (disadvantage pada Persuasi, advantage tentang Intimidation)."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cedera ini sering kali memerlukan sihir yang kuat atau waktu henti yang signifikan untuk menyembuhkannya, sehingga menciptakan tantangan dan peluang baru untuk bermain peran."
+            }
+        ]
+    },
+    {
+        "title": "Damage Masif*",
+        "optional": "Optional rule",
+        "icon": "internalinjury",
+        "subtitle": "Risiko Kejutan Sistem",
+        "description": "Optional rule ini memaksa DC 15 Constitution saving throw ketika makhluk mendapat damage yang sama dengan atau lebih besar dari setengah HP maksnya dari satu sumber.",
+        "reference": "DMG 2014, hlm. 273.",
+        "summary": "Optional rule di mana mendapat damage sama dengan atau lebih besar dari setengah maksimum HP kamu dari satu sumber akan memaksa DC 15 Constitution saving throw. Jika terjadi kegagalan, kamu mengalami efek kejutan acak.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Aturan ini mencontohkan guncangan fisik akibat mendapat satu hit yang menghancurkan. Bahkan jika karakternya selamat, trauma dari cedera tersebut bisa membuat mereka terganggu jika mereka gagal dalam Constitution saving throw."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Saat makhluk mendapat damage dari satu sumber yang sama dengan atau lebih besar dari <b>setengah maksimum hit point</b>, ia harus berhasil pada <b>DC 15 Constitution saving throw</b>.",
+                    "Jika gagal, makhluk tersebut akan mengalami efek acak dari table System Shock, seperti turun ke 0 Hit Points, menjadi Stunned, atau kehilangan reaction untuk sementara."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Saving throw yang gagal bisa memberi dampak buruk, namun ini tetap menjadi optional rule lama dan bukan default DMG 2024."
+            }
+        ]
+    },
+    {
+        "title": "Varian Rest*",
+        "optional": "Optional rule",
+        "icon": "nightsleep",
+        "subtitle": "Ubah kecepatan permainan",
+        "description": "Optional rule ini mengubah durasi istirahat pendek dan panjang untuk mengubah tempo dan nada kampanye secara mendasar.",
+        "reference": "DMG 2014, hlm. 267.",
+        "summary": "Optional rule untuk mengubah kecepatan kampanye. Epic Heroism membuat Istirahat Singkat 5 menit dan Istirahat Panjang 1 jam. Realisme Berpasir membuat Istirahat Singkat 8 jam dan Istirahat Panjang 7 hari.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Speed kampanye kamu bisa diubah secara dramatis dengan mengubah waktu yang dibutuhkan karakter untuk memulihkan sumber dayanya. Varian ini memungkinkan permainan yang realistis dan beroktan tinggi atau berpasir."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Kepahlawanan Epik:</b> Istirahat Singkat adalah 5 menit, dan Istirahat Panjang adalah 1 jam. Ini untuk action tinggi, game bertempo cepat yang sumber dayanya diisi ulang dengan cepat.",
+                    "<b>Realisme Berpasir:</b> Istirahat Singkat adalah 8 jam, dan Istirahat Panjang adalah 7 hari. Ini membuat pertemuan menjadi lebih berbahaya dan mendorong pengelolaan sumber daya yang hati-hati dan waktu henti."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Memilih varian lainnya adalah keputusan besar yang sangat memengaruhi cara semua kelas mengelola sumber daya mereka dan harus ditetapkan pada awal kampanye."
+            }
+        ]
+    },
+    {
+        "title": "Es Licin*",
+        "optional": "Optional rule",
+        "icon": "icecube",
+        "subtitle": "Difficult Terrain, risiko terjatuh",
+        "description": "Es yang licin adalah Difficult Terrain dan bisa menjatuhkan makhluk Prone saat ia mulai atau bergerak ke atas es.",
+        "reference": "DMG 2024, hlm. 235.",
+        "summary": "Es yang licin adalah Difficult Terrain. Ketika makhluk bergerak ke atasnya untuk pertama kalinya pada suatu giliran atau memulai gilirannya di sana, ia harus membuat DC 10 Dexterity saving throw atau jatuh Prone.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Aturan sederhana ini bisa mengubah danau beku atau gua es menjadi medan perang yang berbahaya dan lucu di mana mempertahankan pijakan kamu merupakan tantangan yang terus-menerus."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Es yang licin adalah <b>Difficult Terrain</b>.",
+                    "Saat makhluk bergerak ke atas es licin untuk pertama kalinya pada sebuah giliran atau memulai gilirannya di sana, ia harus berhasil pada <b>DC 10 Dexterity saving throw</b> atau jatuh Prone."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Karakter dengan skill Acrobatics yang tinggi akan bersinar di lingkungan ini, sementara mereka yang mengenakan baju besi berat akan kesulitan untuk mempertahankan pijakan mereka."
+            }
+        ]
+    },
+    {
+        "title": "Angin Kencang*",
+        "optional": "Optional rule",
+        "icon": "windsock",
+        "subtitle": "Mempengaruhi serangan dan persepsi",
+        "description": "Angin kencang memberi disadvantage pada serangan senjata jarak jauh, memadamkan api, menyebarkan kabut, dan bisa memaksa makhluk terbang untuk mendarat.",
+        "reference": "DMG 2024, hlm. 234-235.",
+        "summary": "Angin kencang memberi disadvantage pada serangan senjata jarak jauh, memadamkan api terbuka, menyebarkan kabut, dan memaksa makhluk terbang untuk mendarat di akhir giliran atau kejatuhannya.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Angin kencang bisa mengubah bidikan yang jelas menjadi tebakan liar, mematikan sumber cahaya penting, dan membuat penerbangan menjadi pekerjaan yang berbahaya. Pada kondisi paling ekstrim, serangan jarak jauh dan penerbangan menjadi tidak mungkin dilakukan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Angin kencang menyebabkan <b>Disadvantage pada attack roll senjata jarak jauh</b>.",
+                    "Ini memadamkan api terbuka dan menyebarkan kabut.",
+                    "Makhluk terbang yang tertiup angin kencang harus mendarat pada akhir gilirannya atau jatuh.",
+                    "Di gurun, angin kencang bisa memberi badai pasir yang mengakibatkan <b>Disadvantage pada Wisdom (Perception)</b> yang bergantung pada penglihatan."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Aturan-aturan ini membuat cuaca sebagai pertimbangan taktis yang penting, yang berpotensi memaksa pemanah dan makhluk terbang untuk mengubah strategi mereka."
+            }
+        ]
+    },
+    {
+        "title": "Es Tipis*",
+        "optional": "Optional rule",
+        "icon": "icecube",
+        "subtitle": "Bahaya batas berat",
+        "description": "Es tipis pecah ketika berat total pada area seluas 10 feet persegi melebihi toleransi acaknya.",
+        "reference": "DMG 2024, hlm. 235.",
+        "summary": "Es tipis menopang 3d10 x 10 pon per area 10 feet persegi. Jika berat total melebihi toleransi tersebut, es akan pecah dan makhluk di atasnya akan terjatuh.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Es tipis merupakan bahaya lingkungan sederhana bagi danau beku, sungai, dan medan magis yang tidak stabil."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Es tipis seluas 10 feet persegi mampu menopang <b>3d10 x 10 pon</b>.",
+                    "Ketika berat total di area tersebut melebihi toleransi tersebut, es akan pecah.",
+                    "Makhluk di pecahan es terjatuh, sering kali memicu air dingin atau aturan berenang."
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Trap*",
+        "optional": "Optional rule",
+        "icon": "tripwire",
+        "subtitle": "Bahaya tersembunyi",
+        "description": "Perangkap adalah bahaya tersembunyi, baik mekanis maupun magis, yang memerlukan Perception untuk mengenalinya dan skill khusus untuk menonaktifkannya.",
+        "reference": "DMG 2024, hlm. 105-115.",
+        "summary": "Bahaya tersembunyi yang memerlukan check Wisdom (Perception) untuk mendeteksinya dan check skill yang relevan (misalnya, Alat Pencuri, Sihir Penghilang) untuk dinonaktifkan, dengan DC yang diatur oleh desain jebakan.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Perangkap memberikan tantangan di luar pertempuran, mulai dari jebakan sederhana hingga perangkat rumit yang bertindak seperti teka-teki yang harus dipecahkan di bawah tekanan. Mereka ditentukan oleh skill yang diperlukan untuk mendeteksi dan melucuti senjata mereka."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Mendeteksi/Menonaktifkan:</b> Deskripsi jebakan menentukan check dan DC untuk menemukan atau menonaktifkannya. Menemukan jebakan biasanya memerlukan check Wisdom (Perception). Menonaktifkannya mungkin memerlukan check Dexterity dengan alat pencuri, check Intelligence (Investigation), atau <i>Dispel Magic</i> spell yang berhasil untuk jebakan magis.",
+                    "DMG 2024 memberikan panduan ekstensif dalam merancang jebakan sederhana dan kompleks dengan DC jernih untuk menghemat lemparan, deteksi, dan pelucutan senjata."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Perangkap yang ditempatkan dengan baik bisa menguras sumber daya partai, memecah belah kelompok, atau melemahkan mereka sebelum terjadinya pertempuran besar."
+            }
+        ]
+    },
+    {
+        "title": "Efek Hit Kritis/Fumble**",
+        "optional": "Homebrew rule",
+        "icon": "swordbreak",
+        "subtitle": "Hasil ekstrim untuk serangan",
+        "description": "House rule populer yang menambahkan efek ekstra pada natural 20 (di luar damage) dan 1 alami (di luar hilang).",
+        "summary": "House rule di mana nat 20 bisa memberikan efek ekstra dan nat 1 bisa menyebabkan konsekuensi negatif seperti menjatuhkan senjata atau jatuh Prone.",
+        "tags": [
+            "environment_other"
+        ],
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Untuk menambahkan lebih banyak sinematik tinggi dan rendah dalam pertarungan, banyak table menggunakan efek hit kritis dan hit meleset. Ini harus digunakan dengan hati-hati, karena kesalahan bisa mempengaruhi karakter yang melakukan banyak serangan secara tidak proporsional, seperti Fighter."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Serangan Kritis (Nat 20):</b> Selain memaksimalkan satu damage, penyerang bisa memilih efek:",
+                    "- Dorong target sejauh 10 feet.",
+                    "- Ketuk target Prone.",
+                    "- Menerapkan debuff yang ditentukan table hingga akhir giliran target berikutnya.",
+                    "<b>Fumble (Nat 1):</b> Serangan otomatis meleset. DM bisa memilih salah satu dari yang berikut:",
+                    "- Penyerang menjatuhkan senjatanya.",
+                    "- Penyerang jatuh Prone.",
+                    "- Serangan mengenai ally yang berdekatan (menggunakan attack roll yang sama)."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Tentukan efek ekstra sebelum bermain sehingga hit kritis dan hit telak tetap cepat dan bisa diprediksi."
+            }
+        ]
+    }
+]

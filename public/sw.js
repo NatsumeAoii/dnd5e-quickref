@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-const CACHE_VERSION = '1.1.6';
+const CACHE_VERSION = '1.1.7';
 const CACHE_NAME = `dnd5e-quickref-cache-v${CACHE_VERSION}`;
 const CORE_ASSETS = [
   './',
@@ -37,7 +36,6 @@ function isCoreAsset(pathname) {
 }
 
 async function clearDataCache() {
-  console.log('[SW] Clearing data cache (consent revoked).');
   cachingAllowed = false;
   try {
     const cache = await caches.open(CACHE_NAME);
@@ -47,7 +45,6 @@ async function clearDataCache() {
       return !isCoreAsset(url.pathname) ? cache.delete(request) : Promise.resolve();
     });
     await Promise.all(deletions);
-    console.log('[SW] Non-core cache cleared.');
   } catch (error) {
     console.error('[SW] Failed to clear cache:', error);
   }
@@ -72,22 +69,24 @@ async function tryCachePut(request, response) {
 }
 
 async function precacheAllContent() {
-  console.log('[SW] Pre-caching all content for offline access...');
   try {
     const cache = await caches.open(CACHE_NAME);
     await Promise.allSettled(CORE_ASSETS.map((url) => cache.add(url)));
 
     const dataFiles = ['movement', 'action', 'bonus_action', 'reaction', 'condition', 'environment'];
+    const locales = ['en_US', 'id_ID', 'fr_FR'];
     const prefixes = ['', '2024_'];
     const dataPromises = [];
-    for (const prefix of prefixes) {
-      for (const file of dataFiles) {
-        dataPromises.push(cache.add(`./js/data/${prefix}data_${file}.json`).catch(() => { }));
+    for (const locale of locales) {
+      dataPromises.push(cache.add(`./data/${locale}/menu.json`));
+      for (const prefix of prefixes) {
+        for (const file of dataFiles) {
+          dataPromises.push(cache.add(`./data/${locale}/rules/${prefix}data_${file}.json`));
+        }
       }
     }
-    dataPromises.push(cache.add('./themes/themes.json').catch(() => { }));
+    dataPromises.push(cache.add('./themes/themes.json'));
     await Promise.allSettled(dataPromises);
-    console.log('[SW] Pre-caching complete.');
   } catch (error) {
     console.error('[SW] Pre-caching failed:', error);
   }
@@ -117,7 +116,6 @@ self.addEventListener('message', (event) => {
   switch (event.data.type) {
     case 'SET_CACHING_POLICY':
       cachingAllowed = !!event.data.allowed;
-      console.log(`[SW] Caching policy: ${cachingAllowed}`);
       if (cachingAllowed) event.waitUntil(precacheAllContent());
       break;
     case 'CLEAR_CACHE':
@@ -187,10 +185,10 @@ self.addEventListener('fetch', (event) => {
     const networkFetch = fetch(request).then(async (response) => {
       await tryCachePut(request, response);
       return response;
+    // A failed background refresh should not replace a valid cached response.
     }).catch(() => undefined);
 
     if (cachedResponse) {
-      networkFetch.catch(() => { });
       return cachedResponse;
     }
 

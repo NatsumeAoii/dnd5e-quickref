@@ -4,6 +4,7 @@ import type { SyncService } from './SyncService.js';
 import type { PerformanceOptimizer } from './PerformanceOptimizer.js';
 
 const ALLOWED_DENSITIES = new Set(['normal', 'compact', 'comfortable']);
+const ALLOWED_LOCALES = new Set<string>(CONFIG.LOCALE_CONFIG.SUPPORTED);
 const SAFE_THEME_ID_RE = /^[a-z0-9_-]{1,64}$/i;
 
 export class SettingsService {
@@ -40,11 +41,17 @@ export class SettingsService {
         return value && ALLOWED_DENSITIES.has(value) ? value : def;
     };
 
+    #readLocale = (key: string, def: string): string => {
+        const value = this.#read(key);
+        return value && ALLOWED_LOCALES.has(value) ? value : def;
+    };
+
     #isValidValue(key: string, type: 'checkbox' | 'select', value: boolean | string): boolean {
         if (type === 'checkbox') return typeof value === 'boolean';
         if (typeof value !== 'string') return false;
         if (key === 'DENSITY') return ALLOWED_DENSITIES.has(value);
         if (key === 'THEME') return SAFE_THEME_ID_RE.test(value);
+        if (key === 'LOCALE') return ALLOWED_LOCALES.has(value);
         return true;
     }
 
@@ -58,6 +65,7 @@ export class SettingsService {
         state.settings.reduceMotion = storedMotion !== null ? storedMotion === 'true' : this.#optimizer.shouldReduceMotion();
 
         state.settings.keepScreenOn = this.#readBool(CONFIG.STORAGE_KEYS.WAKE_LOCK);
+        state.settings.locale = this.#readLocale(CONFIG.STORAGE_KEYS.LOCALE, CONFIG.DEFAULTS.LOCALE);
         state.settings.theme = this.#readTheme(CONFIG.STORAGE_KEYS.THEME, CONFIG.DEFAULTS.THEME);
 
         // #19: Auto-detect OS dark mode preference when no stored preference exists

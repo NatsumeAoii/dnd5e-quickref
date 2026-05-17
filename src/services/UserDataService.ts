@@ -193,6 +193,26 @@ export class UserDataService {
         return type.length > 0 && title.length > 0;
     }
 
+    #restoreNoteState(previousValues: Map<string, string | undefined>): void {
+        const state = this.#stateManager.getState();
+        previousValues.forEach((previous, key) => {
+            if (previous === undefined) state.user.notes.delete(key);
+            else state.user.notes.set(key, previous);
+        });
+    }
+
+    async #rollbackImportedNoteWrites(previousValues: Map<string, string | undefined>, writtenKeys: string[]): Promise<void> {
+        for (const key of [...writtenKeys].reverse()) {
+            const previous = previousValues.get(key);
+            try {
+                if (previous === undefined) await this.#dbService.delete(key);
+                else await this.#dbService.put(key, previous);
+            } catch (rollbackError) {
+                console.warn(`Failed to roll back imported note "${key}":`, rollbackError);
+            }
+        }
+    }
+
     async importNotes(file: File): Promise<number> {
         if (file.size > CONFIG.IMPORT_LIMITS.MAX_FILE_SIZE_BYTES) {
             throw new Error(`File exceeds maximum size of ${(CONFIG.IMPORT_LIMITS.MAX_FILE_SIZE_BYTES / 1_048_576).toFixed(1)}MB`);
@@ -246,15 +266,18 @@ export class UserDataService {
         }
 
         const previousValues = new Map<string, string | undefined>();
-        for (const [key, text] of toWrite) {
+        toWrite.forEach(([key]) => {
             previousValues.set(key, state.user.notes.get(key));
+        });
+        const writtenKeys: string[] = [];
+        for (const [key, text] of toWrite) {
             state.user.notes.set(key, text);
             try {
                 await this.#dbService.put(key, text);
+                writtenKeys.push(key);
             } catch (error) {
-                const previous = previousValues.get(key);
-                if (previous === undefined) state.user.notes.delete(key);
-                else state.user.notes.set(key, previous);
+                this.#restoreNoteState(previousValues);
+                await this.#rollbackImportedNoteWrites(previousValues, writtenKeys);
                 throw error;
             }
         }

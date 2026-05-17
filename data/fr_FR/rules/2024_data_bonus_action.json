@@ -1,0 +1,242 @@
+[
+    {
+        "title": "Lancer un sort",
+        "optional": "Standard rule",
+        "icon": "magicswirl",
+        "subtitle": "Temps d’incantation d’une action bonus",
+        "description": "Lance un sort dont le temps d’incantation est une action bonus.",
+        "reference": "PHB 2024, p. 301.",
+        "summary": "Lance un sort avec un temps d’incantation de 1 action bonus. Dans les règles de 2024, un lanceur de sorts ne peut dépenser qu'un seul emplacement de sort pour lancer un sort par tour.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les sorts d’action bonus utilisent le timing imprimé dans l'entrée Temps d’incantation du sort. La limite de lancement de sorts de 2024 est basée sur les emplacements de sorts dépensés pendant le tour, et non sur l'ancienne restriction de cantrip d’action bonus."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "La plupart des sorts utilisent l’action <b>Magie</b>, mais certains sorts ont un temps d’incantation de <b>action bonus</b>, <b>Réaction</b> ou plus.",
+                    "Lors d’un tour, tu ne peux dépenser qu'<b>un seul emplacement de sort</b> pour lancer un sort.",
+                    "Après avoir lancé un sort d’action bonus avec un emplacement de sort, tu peux toujours effectuer une action non magique ou lancer un sort qui ne dépense pas d'emplacement de sort si une autre règle le permet."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cela permet aux sorts d’action bonus d'être rapides sans conserver la formulation obsolète de 2014 qui limitait le reste du tour à des sorts mineurs à une action."
+            }
+        ]
+    },
+    {
+        "title": "Combat à deux armes",
+        "optional": "Standard rule",
+        "icon": "crossedswords",
+        "subtitle": "Utiliser avec l’action Attaque",
+        "description": "Lorsque tu effectues l’action Attaque avec une arme légère, utilise ton action bonus pour effectuer une attaque avec une deuxième arme légère.",
+        "reference": "PHB 2024, p. 291.",
+        "summary": "Après avoir effectué l’action Attaque avec une arme légère, tu peux utiliser ton action bonus pour effectuer une attaque avec une arme légère différente. Tu n’ajoutes pas ton modificateur de capacité aux dégâts de l’attaque bonus.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Il s’agit de la règle classique du double maniement, te permettant d’échanger ton action bonus contre une attaque supplémentaire. Cela augmente ta puissance offensive au détriment de l'utilisation d’un bouclier ou d’une arme à deux mains."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Lorsque tu effectues l’action Attaque et attaquez avec une arme qui possède la propriété <b>Légère</b>, tu peux utiliser une action bonus pour attaquer avec une autre arme <b>Lumière</b> que tu tiens dans une autre main.",
+                    "Tu n’ajoutes pas ton modificateur de capacité aux dégâts de l’attaque bonus, sauf si ce modificateur est négatif.",
+                    "Le style de combat à deux armes te permet d'ajouter ton modificateur de capacité aux dégâts de cette attaque bonus.",
+                    "Le don Dual Wielder te permet d'utiliser pour cela des armes qui n'ont pas la propriété Light."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Note que certaines armes dotées de la nouvelle propriété <i>Nick</i> permettent une attaque supplémentaire sans utiliser d’action bonus du tout, ce qui les rend hautement souhaitables pour les doubles utilisateurs et libère l’action bonus pour d’autres utilisations."
+            }
+        ]
+    },
+    {
+        "title": "Utiliser une aptitude de classe",
+        "optional": "Standard rule",
+        "icon": "embrassedenergy",
+        "subtitle": "Certaines aptitudes utilisent des actions bonus",
+        "description": "Active une classe, une espèce ou une autre aptitude qui utilise une action bonus, comme spécifié dans sa description.",
+        "reference": "Voir les descriptions de classe dans le PHB 2024.",
+        "summary": "Active une capacité unique de ton classe, espèce ou autre source dont l'utilisation nécessite une action bonus, comme spécifié dans la description de la aptitude.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "La plupart des capacités de classe les plus emblématiques sont activées sous forme d’action bonus, permettant aux personnages d'effectuer leurs mouvements caractéristiques tout en effectuant une action principale comme attaquer ou lancer un sort."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Les exemples incluent un barbare entrant dans une rage, une action rusée d’un voleur, l'imposition des mains d’un paladin ou une forme sauvage d’un druide."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "La gestion de ton action bonus est un élément clé de la maîtrise de ces classes, car elle entre souvent en concurrence avec d’autres options comme le combat à deux armes ou les sorts d’action bonus."
+            }
+        ]
+    },
+    {
+        "title": "Viser**",
+        "optional": "Homebrew rule",
+        "icon": "archerytarget",
+        "subtitle": "Prendre l'avantage lors d’une attaque",
+        "description": "Une règle de table qui permet à une créature de dépenser son action et son mouvement bonus pour obtenir un avantage sur une attaque.",
+        "reference": "Inspiré de Steady Aim, TCE.",
+        "summary": "Si tu n’as pas bougé ce tour-ci, cette règle maison te permet d'utiliser une action bonus pour obtenir un avantage lors de ton prochain jet d’attaque ce tour-ci, réduisant ta vitesse à 0 jusqu'à la fin du tour.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Il ne s’agit pas d’une option d’action générale DMG 2024. Il est conservé comme une règle de table homebrew inspirée de la aptitude optionnelle Rogue Steady Aim de Tasha's Cauldron of Everything."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "À utiliser uniquement si la table souhaite qu'une option de visée générale soit disponible au-delà de la aptitude Rogue.",
+                    "Tu ne dois pas encore avoir bougé au tour.",
+                    "L'utilisation de cette action bonus donne un avantage lors du prochain jet d’attaque que tu effectues ce tour et réduit ta vitesse à 0 jusqu'à la fin du tour."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Étant donné que cela élargit une aptitude facultative spécifique à la classe, confirmez-la comme règle de table avant de jouer."
+            }
+        ]
+    },
+    {
+        "title": "Forcer le passage*",
+        "optional": "Optional rule",
+        "icon": "shieldbash",
+        "subtitle": "Courez à travers un espace hostile",
+        "description": "En tant qu’action ou action bonus, tente de te frayer un chemin à travers l'espace d’une créature hostile via un test d'Athlétisme contesté.",
+        "reference": "DMG 2014, p. 272.",
+        "summary": "En guise d’action bonus, effectue un test de Force (Athlétisme) contesté par l'Athlétisme d’un ennemi. Si tu gagnes, tu pourras te déplacer dans son espace une fois ce tour-ci. Tu as un avantage si tu es plus grand.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette règle facultative permet aux personnages forts d'utiliser la force brute pour percer une ligne ennemie en lançant un concours de force. Elle peut être utilisée comme une action ou, de manière plus flexible, comme une action bonus."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "En tant qu’action ou action bonus, le joueur effectue un test de Force (Athlétisme) contesté par le test de Force (Athlétisme) de la créature hostile.",
+                    "Le moteur a un <b>avantage</b> au test s'il est plus grand que la créature hostile, ou un <b>désavantage</b> s'il est plus petit.",
+                    "Si le joueur gagne le concours, il peut traverser l'espace de la créature hostile une fois ce tour."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Avoir cela comme option d’action bonus le rend beaucoup plus viable pour les personnages qui souhaitent également attaquer au même tour où ils se repositionnent."
+            }
+        ]
+    },
+    {
+        "title": "Se faufiler*",
+        "optional": "Optional rule",
+        "icon": "acrobatic",
+        "subtitle": "Traversez un espace hostile",
+        "description": "En tant qu’action ou action bonus, tente de te déplacer adroitement dans l'espace d’une créature hostile avec un test d'acrobaties contesté.",
+        "reference": "DMG 2014, p. 272.",
+        "summary": "En guise d’action bonus, effectue un test de Dextérité (Acrobatie) contesté par l'Acrobatie d’un ennemi. Si tu gagnes, tu pourras te déplacer dans son espace une fois ce tour-ci.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "En tant qu'alternative agile à Overrun, Tumble permet aux personnages adroits de passer devant un adversaire, en s'appuyant sur des acrobaties plutôt que sur la force brute. Elle peut être utilisée comme une action ou une action bonus."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "En tant qu’action ou action bonus, le culbuteur effectue un test de Dextérité (Acrobaties) contesté par le test de Dextérité (Acrobaties) de la créature hostile.",
+                    "Si le tumbler remporte le concours, il peut se déplacer dans l'espace de la créature hostile une fois ce tour."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Il s'agit d’une excellente action bonus pour les personnages mobiles comme les moines ou les voleurs qui souhaitent naviguer sur un champ de bataille bondé sans sacrifier leur action principale."
+            }
+        ]
+    },
+    {
+        "title": "Potion de soins",
+        "optional": "Standard rule",
+        "icon": "potionball",
+        "subtitle": "Boire ou administrer",
+        "description": "Buvez une potion de guérison ou administrez-la à une autre créature dans un rayon de 1,50 m en tant qu’action bonus.",
+        "reference": "PHB 2024, p. 228.",
+        "summary": "Une potion de guérison peut être bue ou administrée à une autre créature dans un rayon de 1,50 m en tant qu’action bonus, restaurant 2d4 + 2 points de vie.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les règles de 2024 rendent la potion de guérison de base plus rapide à utiliser au combat que la valeur par défaut de 2014. Cela s'applique au fait de le boire tu-même ou de l'administrer à une créature proche."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Utilise une action bonus pour boire la potion tu-même.",
+                    "Tu peux également utiliser une action bonus pour l'administrer à une autre créature à moins de 1,50 m.",
+                    "La cible récupère <b>2d4 + 2 points de vie</b>.",
+                    "D'autres potions utilisent le timing dans leurs propres descriptions d'objets."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ce changement rend les soins d'urgence plus faciles à intégrer dans un tour sans consommer l’action principale."
+            }
+        ]
+    },
+    {
+        "title": "Feinte**",
+        "optional": "Homebrew rule",
+        "icon": "liar",
+        "subtitle": "Bénéficiez d’un avantage sur ton attaque",
+        "description": "Une règle maison permettant à une créature d'utiliser son action bonus pour tenter de déjouer un adversaire, lui accordant ainsi un avantage sur sa propre attaque.",
+        "summary": "Une règle maison selon laquelle tu utilises une action bonus pour effectuer un test contesté de Déception contre Perspicacité afin d'obtenir un avantage lors de ton prochaine attaque contre la cible.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Alors que le Rogue 2024 obtient une capacité similaire via Cunning Action, cet homebrew rend l'option disponible à tous les personnages, offrant un moyen non magique d'obtenir un avantage par la ruse plutôt que par la force brute."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Il ne s’agit pas d’une action standard universelle; c'est une option de table pour les campagnes qui souhaitent que la supercherie sociale ait davantage d'importance au combat.",
+                    "En tant qu’action bonus, effectue un test de Charisme (Tromperie) contesté par le test de Sagesse (Perspicacité) d’une cible.",
+                    "Si tu réussis, tu gagnes l'Avantage lors de ton prochain jet d’attaque contre cette créature ce tour-ci."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Il s’agit d’un thème thématique idéal pour les Swashbucklers ou pour tout personnage qui compte autant sur la ruse que sur les prouesses au combat."
+            }
+        ]
+    },
+    {
+        "title": "Changer d’arme**",
+        "optional": "Homebrew rule",
+        "icon": "switchweapon",
+        "subtitle": "Gainez-en un, dessinez-en un autre",
+        "description": "Une règle maison pour rationaliser le combat en permettant à un personnage de ranger une arme et d'en dégainer une autre comme action bonus.",
+        "reference": "Basé sur 'Interagir avec un objet', PHB 2024, p. 294.",
+        "summary": "Une règle maison qui te permet d'utiliser ton action bonus pour rengainer une arme que tu tiens et d'en piocher une autre, en contournant le coût d’action normal pour une deuxième interaction d'objet.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cet homebrew de qualité de vie facilite le combat pour les personnages qui basculent fréquemment entre les armes de mêlée et à distance, ce qui est difficile selon les règles standard pour les interactions avec les objets."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>RAW:</b> tu obtiens une interaction d'objet gratuite à ton tour (par exemple, dégainer une épée). Rengainer cette épée puis en tirer une autre nécessiterait ton action pour la deuxième interaction.",
+                    "<b>homebrew:</b> en tant qu’action bonus, tu peux rengainer une arme que tu tiens et en piocher une autre. Cela rend le changement d'arme plus fluide pour les personnages martiaux."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ceci est particulièrement utile pour les personnages dotés du style de combat à l'arme lancée ou pour ceux qui doivent passer d’une arme à deux mains pour avoir une main libre pour lancer des sorts."
+            }
+        ]
+    }
+]

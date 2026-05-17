@@ -41,6 +41,7 @@ npm test
 npm run type-check
 npm run lint
 npm run lint:css
+npm run audit:data
 npm run build
 ```
 
@@ -63,13 +64,14 @@ For release/version changes, `npm run build` runs `prebuild`, which calls `npm r
 
 Rules live in:
 
-- `js/data/`
-- `public/js/data/`
+- `data/<locale>/rules/`
+- `data/<locale>/menu.json`
+- `public/data/` (generated mirror; do not edit by hand)
 
 When changing rule data:
 
 - Keep 2014 and 2024 data files consistent with the intended ruleset.
-- Mirror shipped data edits between `js/data/` and `public/js/data/`.
+- Run `npm run sync-version` after source data edits so `public/data/` is refreshed.
 - Preserve existing field names and response shapes.
 - Use existing icon names from `public/img/`.
 - Keep limited HTML markup simple. Current rule data primarily uses `<b>` and `<i>`.
@@ -77,6 +79,7 @@ When changing rule data:
 - Keep `reference`, short descriptions, summaries, and bullet details source-backed.
 - Use one trailing `*` for optional rule titles and two trailing `**` for homebrew rule titles.
 - Check that linked rule titles still resolve in popups and search.
+- Keep ambiguous or awkward non-English D&D terms in English rather than forcing a translation that could confuse users.
 
 ## Service Worker Changes
 
@@ -128,4 +131,4 @@ Include:
 - Actual behavior.
 - Console errors, screenshots, exported test data, or affected rule IDs when useful.
 
-For security-sensitive reports, avoid posting exploit details publicly. Contact a maintainer through the repository's GitHub channels first.
+For security-sensitive reports, avoid posting exploit details publicly. Follow `SECURITY.md` and use the repository's private vulnerability reporting flow when available.

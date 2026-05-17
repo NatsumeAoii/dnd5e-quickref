@@ -7,6 +7,7 @@ export { SyncService } from './SyncService.js';
 export { PerformanceOptimizer } from './PerformanceOptimizer.js';
 export { GamepadService } from './GamepadService.js';
 export { SettingsService } from './SettingsService.js';
+export { LocalizationService } from './LocalizationService.js';
 export { UserDataService } from './UserDataService.js';
 export { PersistenceService } from './PersistenceService.js';
 export { DataService } from './DataService.js';

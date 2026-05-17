@@ -9,12 +9,27 @@ const changelogPath = path.join(rootDir, 'CHANGELOG.md');
 const publicChangelogPath = path.join(rootDir, 'public', 'CHANGELOG.md');
 const readmePath = path.join(rootDir, 'README.md');
 const publicReadmePath = path.join(rootDir, 'public', 'README.md');
+const dataPath = path.join(rootDir, 'data');
+const publicDataPath = path.join(rootDir, 'public', 'data');
 const packageJsonPath = path.join(rootDir, 'package.json');
 const packageLockPath = path.join(rootDir, 'package-lock.json');
 const configTsPath = path.join(rootDir, 'src', 'config.ts');
 const serviceWorkerPath = path.join(rootDir, 'public', 'sw.js');
 
-// 1. Sync markdown files to public/
+const copyDirectory = (source, target) => {
+    fs.mkdirSync(target, { recursive: true });
+    for (const entry of fs.readdirSync(source, { withFileTypes: true })) {
+        const sourcePath = path.join(source, entry.name);
+        const targetPath = path.join(target, entry.name);
+        if (entry.isDirectory()) {
+            copyDirectory(sourcePath, targetPath);
+        } else if (entry.isFile()) {
+            fs.copyFileSync(sourcePath, targetPath);
+        }
+    }
+};
+
+// 1. Sync static content to public/
 try {
     if (!fs.existsSync(path.join(rootDir, 'public'))) {
         fs.mkdirSync(path.join(rootDir, 'public'));
@@ -23,8 +38,11 @@ try {
     console.log('Copied CHANGELOG.md to public/CHANGELOG.md');
     fs.copyFileSync(readmePath, publicReadmePath);
     console.log('Copied README.md to public/README.md');
+    fs.rmSync(publicDataPath, { recursive: true, force: true });
+    copyDirectory(dataPath, publicDataPath);
+    console.log('Copied data/ to public/data/');
 } catch (e) {
-    console.warn('Could not copy markdown files to public:', e.message);
+    console.warn('Could not copy static content to public:', e.message);
 }
 
 // 2. Extract latest version from CHANGELOG.md

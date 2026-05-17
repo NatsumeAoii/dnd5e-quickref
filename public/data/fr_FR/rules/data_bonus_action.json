@@ -1,0 +1,291 @@
+[
+    {
+        "title": "Lancer un sort",
+        "optional": "Standard rule",
+        "icon": "magicswirl",
+        "subtitle": "Temps d’incantation d’une action bonus",
+        "description": "Lance un sort rapide avec un temps d’incantation de 1 action bonus, ce qui limite le lancement de sorts supplémentaires pendant ton tour.",
+        "reference": "PHB, p. 202.",
+        "summary": "Lance un sort avec un temps d’incantation d’une action bonus. Si tu le fais, le seul autre sort que tu peux lancer au cours du même tour est un sort mineur avec un temps d’incantation d’une action.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les sorts d’action bonus offrent une flexibilité incroyable, mais ils sont accompagnés d’une restriction spécifique et importante sur les autres sorts que tu peux lancer au cours du même tour. Cette règle est la pierre angulaire de l’économie d’action du jeu pour les lanceurs de sorts."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Si tu lances un sort en utilisant une action bonus, tu ne peux pas lancer un autre sort au cours du même tour, à l'exception d’un sort mineur avec un temps d’incantation de 1 action.",
+                    "Par exemple, si tu lances <b>Misty Step</b> (un sort d’action bonus), tu ne peux lancer qu'un sort mineur comme <b>Fire Bolt</b> avec ton action, pas un autre sort de niveau comme <b>Magic Missile</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cette règle empêche un lanceur d'utiliser deux sorts de niveau en un seul tour, comme lancer <b>Mot de guérison</b> comme action bonus et <b>Guérir les blessures</b> comme action. Comprendre cette limitation est essentiel pour jouer efficacement un lanceur de sorts."
+            }
+        ]
+    },
+    {
+        "title": "Attaque avec l’autre main",
+        "optional": "Standard rule",
+        "icon": "crossedswords",
+        "subtitle": "Utiliser avec l’action Attaque",
+        "description": "Lorsque tu effectues l’action Attaque avec une arme légère, utilise ton action bonus pour attaquer avec une autre arme légère dans ton autre main.",
+        "reference": "PHB, p. 195.",
+        "summary": "Après avoir effectué l’action Attaque avec une arme légère, tu peux utiliser ton action bonus pour effectuer une attaque avec une arme légère différente. Tu n’ajoutes pas ton modificateur de capacité aux dégâts de l’attaque bonus.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Il s'agit de la règle de base du combat à deux armes, permettant à un personnage de réaliser une attaque supplémentaire au prix de son action bonus. Cependant, cette attaque supplémentaire a une limitation clé quant aux dégâts qu’elle inflige."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Lorsque tu effectues l’action <b>Attaquer</b> et que tu attaques avec une arme de mêlée <b>légère</b> que tu tiens, tu peux utiliser une action bonus pour attaquer avec une autre arme de mêlée <b>légère</b> dans ton autre main.",
+                    "Tu n’ajoutes pas ton modificateur de capacité aux dégâts de l’attaque bonus, sauf si ce modificateur est négatif.",
+                    "Le style de combat <i>Combat à deux armes</i> te permet d'ajouter ton modificateur de capacité aux dégâts, et le don <i>Dual Wielder</i> supprime l'exigence d’une arme « légère »."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "N’oublie pas que tu ne peux effectuer une attaque désinvolte que si tu as déjà effectué l’action Attaque à ton tour. Tu ne peux pas, par exemple, lancer un sort avec ton action puis effectuer une attaque désinvolte."
+            }
+        ]
+    },
+    {
+        "title": "Utiliser une aptitude de classe",
+        "optional": "Standard rule",
+        "icon": "embrassedenergy",
+        "subtitle": "Certaines aptitudes utilisent des actions bonus",
+        "description": "Active une aptitude raciale ou de classe qui utilise une action bonus, comme spécifié dans la description de la aptitude.",
+        "reference": "Voir la page de classe pour plus d’infos.",
+        "summary": "Active une capacité unique de ton classe, race ou autre source dont l'utilisation nécessite une action bonus, comme spécifié dans la description de la aptitude.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "De nombreuses classes ont des aptitudes déterminantes qui utilisent une action bonus, leur permettant de compléter leur action principale par un autre effet puissant ou tactique. Ces capacités définissent souvent le rythme unique d’une classe en combat."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Les exemples incluent l’action rusée d’un voleur (se précipiter, se désengager ou se cacher), les arts martiaux ou les capacités Ki d’un moine, un barbare entrant dans une rage ou un clerc utilisant sa fonction de prêtre de guerre."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "La gestion de ton action bonus est un élément clé de la maîtrise de ces classes, car elle entre souvent en concurrence avec d’autres options comme le combat à deux armes ou les sorts d’action bonus."
+            }
+        ]
+    },
+    {
+        "title": "Visée stable*",
+        "optional": "Optional rule",
+        "icon": "archerytarget",
+        "subtitle": "Prendre l'avantage lors d’une attaque",
+        "description": "En tant que aptitude facultative de voleur de niveau 3, utilise une action bonus pour renoncer au mouvement et obtenir un avantage lors de ton prochain jet d’attaque.",
+        "reference": "TCE, p. 62.",
+        "summary": "Si tu es un voleur avec Steady Aim et que tu n’avez pas bougé ce tour-ci, tu peux utiliser ton action bonus pour obtenir un avantage lors de ton prochain jet d’attaque ce tour-ci. Ta vitesse devient 0 pour le reste du tour.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Steady Aim est une aptitude facultative de classe de voleur du Chaudron de tout de Tasha. Cela fournit un compromis tactique clair: sacrifier la mobilité pour une attaque plus précise."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu dois avoir accès à la <b>aptitude facultative de 3ème niveau</b>; il ne s'agit pas d’une action bonus générale disponible pour chaque personnage.",
+                    "Tu ne peux utiliser cette action bonus que si tu n’as pas bougé pendant ce tour.",
+                    "Après l'avoir utilisé, ta vitesse est de 0 jusqu'à la fin du tour en cours.",
+                    "Cela te donne un avantage lors du premier jet d’attaque que tu effectues au cours du tour en cours."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ceci est particulièrement pertinent pour les voleurs cherchant à améliorer les chances qu’une attaque sournoise clé atterrisse."
+            }
+        ]
+    },
+    {
+        "title": "Forcer le passage*",
+        "optional": "Optional rule",
+        "icon": "shieldbash",
+        "subtitle": "Courez à travers un espace hostile",
+        "description": "Par une action ou une action bonus, tente de te frayer un chemin à travers l'espace d’une créature hostile.",
+        "reference": "DMG, p. 272.",
+        "summary": "En guise d’action bonus, effectue un test de Force (Athlétisme) contesté par l'Athlétisme d’un ennemi. Si tu gagnes, tu pourras te déplacer dans son espace une fois ce tour-ci. Tu as un avantage si tu es plus grand.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette manœuvre du Dungeon Master's Guide te permet de toi précipiter devant un ennemi qui bloque ton chemin. Il s'appuie sur un test de Force (Athlétisme) contesté pour obtenir le passage."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "En tant qu’action ou action bonus, effectue un test de Force (Athlétisme) contesté par le test de Force (Athlétisme) de la cible.",
+                    "Tu as un <b>avantage</b> sur le test si tu es plus grand que la cible, ou un <b>désavantage</b> si tu es plus petit.",
+                    "Si tu gagnes le concours, tu peux te déplacer une fois dans l'espace de la créature hostile pendant ce tour."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Le fait d'avoir cette action disponible en tant qu’action bonus la rend beaucoup plus viable pour les personnages qui souhaitent se repositionner tout en effectuant l’action d’attaque au même tour."
+            }
+        ]
+    },
+    {
+        "title": "Se faufiler*",
+        "optional": "Optional rule",
+        "icon": "acrobatic",
+        "subtitle": "Traversez un espace hostile",
+        "description": "En tant qu’action ou action bonus, tente de te déplacer adroitement dans l'espace d’une créature hostile.",
+        "reference": "DMG, p. 272.",
+        "summary": "En guise d’action bonus, effectue un test de Dextérité (Acrobatie) contesté par l'Acrobatie d’un ennemi. Si tu gagnes, tu pourras te déplacer dans son espace une fois ce tour-ci.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "En tant qu'alternative agile au Dépassement basé sur la Force, cette manœuvre permet à un personnage adroit de passer devant un adversaire en utilisant un test de Dextérité (Acrobaties) contesté."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "En tant qu’action ou action bonus, tu effectues un test de Dextérité (Acrobatie) contesté par le test de Dextérité (Acrobatie) de la cible.",
+                    "Si tu gagnes le concours, tu peux te déplacer une fois dans l'espace de la créature hostile pendant ce tour."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Il s'agit d’une excellente action bonus pour les personnages mobiles comme les moines ou les voleurs qui souhaitent naviguer sur un champ de bataille bondé sans sacrifier leur action principale."
+            }
+        ]
+    },
+    {
+        "title": "Boire une potion**",
+        "optional": "Homebrew rule",
+        "icon": "potionball",
+        "subtitle": "Buvez une potion rapidement",
+        "description": "Une règle maison populaire qui te permet de boire une potion comme une action bonus, ce qui la rend plus utile au combat.",
+        "reference": "Homebrew courant",
+        "summary": "Une règle maison populaire qui te permet de boire une potion comme une action bonus. Administrer une potion à une autre créature reste une action à part entière.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Selon les règles standard, boire une potion nécessite l’action Utiliser un objet. Cette règle commune à la maison accélère le jeu et fait des potions une option plus attrayante et plus viable dans le feu de l’action."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Variante 1 (la plus courante):</b> Tu peux boire une potion tu-même en tant qu’action bonus. Administrer une potion à une autre créature reste une action.",
+                    "<b>Variante 2 (Peu fréquente):</b> Boire une potion en tant qu’action bonus restaure le nombre de points de vie obtenu. L’utilisation d’une action complète restaure le montant maximum possible."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "L'adoption de cette règle peut modifier considérablement l'économie du combat, permettant aux personnages de soigner et d’attaquer dans le même tour, ce qui peut conduire à des rencontres plus rapides et plus héroïques."
+            }
+        ]
+    },
+    {
+        "title": "Feinte**",
+        "optional": "Homebrew rule",
+        "icon": "liar",
+        "subtitle": "Bénéficiez d’un avantage sur ton attaque",
+        "description": "Une règle maison qui te permet d'utiliser une action bonus et un test de compétence contesté pour obtenir un avantage lors de ton prochaine attaque.",
+        "reference": "Homebrew moins courant",
+        "summary": "Utilise ton action bonus pour effectuer un test de Charisme (Tromperie) contesté par la Sagesse (Perspicacité) d’une cible. En cas de réussite, tu bénéficies d’un avantage lors de ton prochain jet d’attaque contre cette créature ce tour-ci.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cet homebrew offre une option tactique pour créer ton propre avantage grâce à des subterfuges, plutôt que de compter sur ton positionnement ou tes alliés. Cela crée un jeu d’esprit de style duel."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Par une action bonus, choisis une créature à moins de 1,50 m de toi. Effectue un test de Charisme (Tromperie) contesté par son test de Sagesse (Perspicacité).",
+                    "Si tu réussis, tu gagnes un avantage lors de ton prochain jet d’attaque contre cette créature ce tour-ci."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Il s’agit d’une thématique idéale pour les Swashbuckler Rogues ou les Battle Master Fighters, ajoutant une mécanique tactique basée sur les compétences à leur boîte à outils."
+            }
+        ]
+    },
+    {
+        "title": "Évaluation rapide**",
+        "optional": "Homebrew rule",
+        "icon": "eyeball",
+        "subtitle": "Évaluer l'état d’un ennemi",
+        "description": "Une règle maison permettant une action bonus pour effectuer un test de compétence afin d'apprendre des informations tactiques sur un ennemi.",
+        "reference": "Homebrew courant",
+        "summary": "Une règle maison pour utiliser une action bonus pour un test de compétence (par exemple, Perspicacité) afin d'apprendre une information tactique sur un ennemi, comme ses vulnérabilités ou ses PV actuels.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette règle fournit un mécanisme pour le désir commun d'évaluer l'état d’un ennemi sans dépenser une action complète. Il récompense la réflexion tactique et les compétences basées sur les connaissances en te permettant d'obtenir un aperçu rapide."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Par une action bonus, choisis une créature que tu peux voir. Fais un test de Sagesse (Perspicacité) ou d'Intelligence (Enquête) par rapport à un DD fixé par le MD (souvent 10 + le FP de la créature).",
+                    "En cas de succès, le DM t’indique une information tactique utile, comme ses vulnérabilités aux dégâts, ses résistances, ses immunités, ou s'il est supérieur ou inférieur à la moitié de ses points de vie maximum."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ceci est particulièrement utile pour les personnages dotés de statistiques mentales élevées qui souhaitent contribuer tactiquement au-delà de leur rôle principal au combat."
+            }
+        ]
+    },
+    {
+        "title": "Changer d’arme**",
+        "optional": "Homebrew rule",
+        "icon": "switchweapon",
+        "subtitle": "Gainez-en un, dessinez-en un autre",
+        "description": "Une règle maison qui permet de ranger une arme et d'en dégainer une autre en une seule action bonus.",
+        "reference": "Homebrew moins courant",
+        "summary": "Une règle maison qui te permet d'utiliser ton action bonus pour rengainer une arme que tu tiens et d'en piocher une autre, en contournant le coût d’action normal pour une deuxième interaction d'objet.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les règles standard d'interaction avec les objets peuvent être fastidieuses pour les personnages qui passent des armes de mêlée aux armes à distance. Cette règle maison rationalise ce processus en une seule action bonus."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Par une action bonus, tu peux rengainer une arme que tu tiens et dégainer une autre arme.",
+                    "Cela nécessiterait normalement ton action après avoir utilisé ta seule interaction d'objet gratuite pour le tour."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ceci est particulièrement utile pour les personnages dotés du style de combat à l'arme lancée ou pour ceux qui doivent passer d’une arme à deux mains pour avoir une main libre pour lancer des sorts."
+            }
+        ]
+    },
+    {
+        "title": "Repositionnement tactique**",
+        "optional": "Homebrew rule",
+        "icon": "move",
+        "subtitle": "Un mini-désengagement",
+        "description": "Une règle maison qui accorde un pas de 1,50 m comme action bonus, évitant ainsi une attaque d’opportunité d’une créature.",
+        "reference": "Homebrew moins courant",
+        "summary": "Une règle maison qui te permet d'utiliser ton action bonus pour te déplacer de 1,50 m. Ce mouvement ne provoque pas d’attaque d’opportunité de la part d’une créature de ton choix.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cet homebrew fournit une version plus limitée mais moins coûteuse de l’action Désengager, permettant de petits changements de position tactiques sans sacrifier ton action principale."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Par une action bonus, tu peux te déplacer de 1,50 m vers une case inoccupée.",
+                    "Ce mouvement ne provoque pas d’attaques d’opportunité d’une créature de ton choix que tu peux voir."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ceci est utile pour sortir d’un agrippement, se déplacer vers une position de flanc ou sortir d’un abri pour attaquer sans provoquer de réaction de la part de tous les ennemis proches."
+            }
+        ]
+    }
+]

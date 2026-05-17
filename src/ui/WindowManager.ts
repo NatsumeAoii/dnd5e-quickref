@@ -1,5 +1,5 @@
 import { CONFIG } from '../config.js';
-import { safeHTML, debounce } from '../utils/Utils.js';
+import { safeHTML, debounce, prefersReducedMotion } from '../utils/Utils.js';
 import type { DOMProvider } from '../services/DOMProvider.js';
 import type { A11yService } from '../services/A11yService.js';
 import type { PersistenceService } from '../services/PersistenceService.js';
@@ -157,6 +157,7 @@ export class WindowManager {
                 const id = state.data.titleLookup.get(matchText.toLowerCase());
 
                 if (id) {
+                    link.setAttribute('href', `#${this.#toShortId(id)}`);
                     link.setAttribute(CONFIG.ATTRIBUTES.POPUP_ID, id);
                     fragment.appendChild(link);
                 } else {
@@ -186,7 +187,16 @@ export class WindowManager {
         const openIds = new Set(this.#stateManager.getState().ui.openPopups.keys());
         this.#popupContainer.querySelectorAll('a.rule-link').forEach((link) => {
             const id = (link as HTMLElement).dataset.popupId;
-            if (id) link.classList.toggle(CONFIG.CSS.LINK_DISABLED, openIds.has(id));
+            if (!id) return;
+            const isOpen = openIds.has(id);
+            link.classList.toggle(CONFIG.CSS.LINK_DISABLED, isOpen);
+            if (isOpen) {
+                link.removeAttribute('href');
+                link.setAttribute('aria-disabled', 'true');
+            } else {
+                link.setAttribute('href', `#${this.#toShortId(id)}`);
+                link.removeAttribute('aria-disabled');
+            }
         });
     }
 
@@ -272,7 +282,15 @@ export class WindowManager {
         };
         header.addEventListener('mousedown', onMouseDown);
     }
+
+    #ensureLinkerDataReady(): void {
+        const state = this.#stateManager.getState();
+        if (state.data.ruleLinkerRegex || state.data.ruleMap.size === 0) return;
+        this.#dataService.buildLinkerData();
+    }
+
     #createPopup(id: string, ruleInfo: RuleInfo, pos?: { top?: string; left?: string; zIndex?: string; width?: string; height?: string }): void {
+        this.#ensureLinkerDataReady();
         const popup = this.#popupFactory.create(id, ruleInfo, this.#linkifyContent);
         if (this.#isMobileView) {
             popup.classList.add(CONFIG.CSS.POPUP_MODAL);
@@ -288,7 +306,7 @@ export class WindowManager {
         this.#popupContainer.appendChild(popup);
 
         const dialogEl = popup as unknown as HTMLDialogElement;
-        if (document.startViewTransition) {
+        if (document.startViewTransition && !prefersReducedMotion()) {
             const transition = document.startViewTransition(() => dialogEl.show());
             transition.finished.catch(() => { /* view transition superseded — safe to ignore */ });
         } else {
@@ -476,22 +494,30 @@ export class WindowManager {
 
         this.#minimizedBar.classList.remove(CONFIG.CSS.HIDDEN);
         state.ui.minimizedPopups.forEach((meta, id) => {
+            const group = document.createElement('div');
+            group.className = 'minimized-popup-tab-group';
+            group.setAttribute('role', 'group');
+            group.setAttribute('aria-label', `${meta.title} minimized popup`);
+
             const tab = document.createElement('button');
             tab.className = 'minimized-popup-tab';
+            tab.type = 'button';
             tab.textContent = meta.title;
             tab.setAttribute('aria-label', `Restore ${meta.title}`);
             tab.addEventListener('click', () => this.restorePopup(id));
 
-            const closeBtn = document.createElement('span');
+            const closeBtn = document.createElement('button');
             closeBtn.className = 'minimized-tab-close';
+            closeBtn.type = 'button';
             closeBtn.textContent = '✕';
+            closeBtn.setAttribute('aria-label', `Close minimized ${meta.title} popup`);
             closeBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 state.ui.minimizedPopups.delete(id);
                 this.#renderMinimizedBar();
             });
-            tab.appendChild(closeBtn);
-            this.#minimizedBar!.appendChild(tab);
+            group.append(tab, closeBtn);
+            this.#minimizedBar!.appendChild(group);
         });
     }
 

@@ -1,8 +1,18 @@
 {
   "name": "dnd5e-quickref",
-  "version": "1.1.6",
+  "version": "1.1.7",
+  "private": true,
   "description": "D&D 5e Quick Reference – Vite + TypeScript",
   "type": "module",
+  "module": "src/main.ts",
+  "homepage": "https://natsumeaoii.github.io/dnd5e-quickref/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NatsumeAoii/dnd5e-quickref.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NatsumeAoii/dnd5e-quickref/issues"
+  },
   "engines": {
     "node": ">=22"
   },
@@ -18,8 +28,13 @@
     "audit:data": "node scripts/audit-data.js",
     "test": "vitest run"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "dnd5e",
+    "quick-reference",
+    "vite",
+    "typescript"
+  ],
+  "author": "NatsumeAoii and contributors",
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^9.0.0",

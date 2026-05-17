@@ -1,0 +1,668 @@
+[
+    {
+        "title": "Attaquer",
+        "optional": "Standard rule",
+        "icon": "crossedswords",
+        "subtitle": "Attaque au corps à corps ou à distance",
+        "description": "Effectue une attaque au corps à corps ou à distance, une attaque à mains nues ou une manœuvre de combat spéciale comme l’agrippement ou la bousculade.",
+        "reference": "PHB 2024, p. 290, 317.",
+        "summary": "Effectue une ou plusieurs attaques avec une arme ou attaques à mains nues. Tu peux remplacer une attaque par une tentative d’agrippement ou de bousculade. Certaines armes dotées de la propriété Nick permettent une attaque supplémentaire sans utiliser d’action bonus.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L’action Attaque est la base du combat martial. Il te permet d'effectuer une ou plusieurs attaques avec des armes ou attaques à mains nues, et sert de passerelle vers les manœuvres tactiques qui contrôlent le champ de bataille."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Certaines aptitudes, telles que l'<i>Attaque supplémentaire</i> du Guerrier, te permettent de réaliser plus d’une attaque avec cette seule action. Chaque attaque est un jet distinct et peut cibler différentes créatures. Tu peux également te déplacer entre ces attaques.",
+                    "<b>Attaque à mains nues:</b> Tu peux effectuer une attaque spéciale de mêlée pour agripper, pousser ou infliger des dégâts. Pour infliger des dégâts, effectue un jet d’attaque au corps à corps. Sur un coup, il inflige 1 + ton modificateur de Force dégâts contondants.",
+                    "<b>Maîtrise des armes:</b> Lorsque tu attaques avec une arme, tu peux appliquer une propriété de maîtrise spéciale (comme Pousser, Ralentir ou Renverser) si tu es un guerrier ou si tu possèdes le don Maître d'armes.",
+                    "<b>Combat à deux armes:</b> La propriété de l'arme <i>Nick</i> (sur les cimeterres, les marteaux légers, etc.) te permet d'effectuer une attaque supplémentaire avec cette arme dans le cadre de cette action (aucune action bonus requise), mais tu n’ajoutes pas ton modificateur de capacité aux dégâts."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "N’oublie pas que diverses conditions peuvent conférer un avantage ou un désavantage à tes jets d’attaque, ce qui rend le positionnement et la conscience sur le champ de bataille cruciaux pour tout attaquant."
+            }
+        ]
+    },
+    {
+        "title": "Magie",
+        "optional": "Standard rule",
+        "icon": "magicswirl",
+        "subtitle": "Lance des sorts ou utilise la magie",
+        "description": "Lance un sort avec un temps d’incantation d’une action, ou utilise une aptitude magique ou un objet magique qui nécessite l’action magique.",
+        "reference": "PHB 2024, p. 290, 301.",
+        "summary": "Utilise l’action Magie pour lancer un sort à 1 action, activer une fonction magique ou utiliser un objet magique qui appelle cette action. Lors d’un tour, tu ne peux dépenser qu'un seul emplacement de sort pour lancer un sort.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les règles 2024 consolident le lancement de sorts en une seule action et de nombreuses activations magiques sous l’action Magique. Cela permet de maintenir la cohérence du timing des sorts, des aptitudes de classe et des objets magiques à la table."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Lance un sort dont le temps d’incantation est une action.",
+                    "Utilise une aptitude de classe magique ou un objet magique qui spécifie l’action magique.",
+                    "<b>Limite d'emplacements de sort:</b> Au cours d’un tour, tu ne peux dépenser qu'un seul emplacement de sort pour lancer un sort, que le sort utilise une action, une action bonus ou une réaction.",
+                    "<b>Concentration:</b> De nombreux sorts nécessitent de la concentration. Tu perds ta concentration si tu lances un autre sort qui nécessite de la concentration, tu subis des dégâts (ce qui demande un jet de sauvegarde de Constitution DD 10 ou la moitié des dégâts subis), tu es frappé d’incapacité ou tu meurs."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Maîtriser l’action magique signifie suivre le coût de l’action, la concentration et savoir si tu as déjà dépensé un emplacement de sort pour lancer un sort ce tour-ci."
+            }
+        ]
+    },
+    {
+        "title": "Foncer",
+        "optional": "Standard rule",
+        "icon": "sprint",
+        "subtitle": "Vitesse de déplacement doublée",
+        "description": "Gagne un mouvement supplémentaire pour le tour égal à ta vitesse, doublant ainsi ton potentiel de mouvement.",
+        "reference": "PHB 2024, p. 291.",
+        "summary": "Gagne une quantité de mouvement supplémentaire pour le tour en cours égale à ta vitesse. Cela double effectivement ta distance de mouvement totale pour le tour.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L’action Foncer est ta meilleure option pour parcourir rapidement de longues distances, que tu charges un ennemi ou que tu te replies vers une position plus sûre. Il fournit un boost simple mais significatif à ta mobilité pour le tour."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Par exemple, si ta vitesse est de 9 m, l'utilisation de l’action Foncer te donne 9 m supplémentaires de mouvement pour le tour, pour un total de 18 m.",
+                    "Ce mouvement est soumis à toutes les règles normales et peut provoquer des attaques d’opportunité."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cette action n'apporte aucun avantage défensif; pour te déplacer en toute sécurité dans une zone menacée, tu dois plutôt utiliser l’action Désengager."
+            }
+        ]
+    },
+    {
+        "title": "Désarmer*",
+        "optional": "Optional rule",
+        "icon": "swordbreak",
+        "subtitle": "Faire tomber un objet de la portée de l’ennemi",
+        "description": "Utilise une manœuvre de combat facultative pour faire tomber un objet des mains d’une créature au lieu d'infliger des dégâts.",
+        "reference": "DMG 2014, p. 271.",
+        "summary": "En guise de manœuvre facultative, effectue un jet d’attaque avec une arme contesté par la Force (Athlétisme) ou la Dextérité (Acrobatie) de la cible. Si tu gagnes, la cible lâche un objet détenu.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Le désarmement ne fait pas partie des actions standards de 2024. Cela reste utile comme manœuvre facultative pour les tables qui souhaitent un moyen direct de séparer un ennemi d’une arme, d’un focus ou d’un autre objet détenu."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Effectue un jet d’attaque avec une arme contesté par le test de <b>Force (Athlétisme)</b> ou de <b>Dextérité (Acrobatie)</b> de la cible.",
+                    "Si tu gagnes le concours, l’attaque n'inflige aucun dégât et la cible laisse tomber un objet tenu de ton choix.",
+                    "La cible a un <b>avantage</b> lors de son test si elle tient l'objet à deux mains ou plus.",
+                    "L'attaquant a un <b>désavantage</b> si la cible est plus grande qu'eux."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ceci est très efficace contre les ennemis qui s’appuient sur une seule arme puissante, mais moins contre ceux qui disposent d’armes naturelles ou de plusieurs options."
+            }
+        ]
+    },
+    {
+        "title": "Se désengager",
+        "optional": "Standard rule",
+        "icon": "journey",
+        "subtitle": "Prévenir les attaques d’opportunité",
+        "description": "Pour le reste de ton tour, ton mouvement ne provoque pas d’attaques d’opportunité, ce qui permet une retraite en toute sécurité.",
+        "reference": "PHB 2024, p. 291.",
+        "summary": "Ton mouvement pour le reste du tour en cours ne provoque aucune attaque d’opportunité, te permettant ainsi de t’éloigner des ennemis en toute sécurité.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Il s’agit d’une action purement tactique axée sur le repositionnement. Il permet de s'éloigner d’un ou plusieurs ennemis sans craindre de subir des dégâts, ce qui en fait un outil indispensable pour contrôler ta position sur le champ de bataille."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "C'est le principal moyen de se déplacer en toute sécurité hors de portée d’un ennemi en mêlée.",
+                    "L'avantage ne dure que jusqu'à la fin du tour en cours."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Il s'agit d’une option essentielle pour les personnages à distance ou les lanceurs de sorts qui ont besoin de créer de la distance, ou pour tout personnage devant échapper à un ennemi dangereux."
+            }
+        ]
+    },
+    {
+        "title": "Esquiver",
+        "optional": "Standard rule",
+        "icon": "dodging",
+        "subtitle": "Augmenter les défenses",
+        "description": "Concentre-toi entièrement sur l’évitement des attaques, en imposant un désavantage aux attaquants et en accordant un avantage sur les jets de sauvegarde de Dextérité.",
+        "reference": "PHB 2024, p. 291.",
+        "summary": "Jusqu'au début de ton prochain tour, tout jet d’attaque contre toi est désavantageux si tu peux voir l’attaquant, et tu effectues des jets de sauvegarde de Dextérité avec avantage.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Lorsque tu anticipes une attaque violente ou un sort dangereux à zone d'effet, l’action d'esquive est ta meilleure manœuvre défensive. L'avantage dure jusqu'au début de ton prochain tour, t’offrant une protection pendant un round de combat complet."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Jusqu'au début de ton prochain tour, tout jet d’attaque effectué contre toi a un <b>désavantage</b> si tu peux voir l’attaquant.",
+                    "Tu effectues également des <b>jets de sauvegarde de Dextérité avec avantage</b>.",
+                    "Tu perds cet avantage si tu es <i>Incapacité</i> ou si ta vitesse tombe à 0."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "C'est un excellent choix pour tenir un point d'étranglement, protéger un allié ou simplement essayer de survivre jusqu'à ton prochain tour."
+            }
+        ]
+    },
+    {
+        "title": "Mettre/retirer un bouclier",
+        "optional": "Standard rule",
+        "icon": "roundshield",
+        "subtitle": "Équiper ou déséquiper un bouclier",
+        "description": "Effectue l’action Utiliser pour équiper ou déséquiper un bouclier.",
+        "reference": "PHB 2024, p. 153.",
+        "summary": "Mettre ou retirer un bouclier utilise l’action Utiliser, ce qui rend la gestion du bouclier plus coûteuse qu'une interaction normale avec un objet gratuit.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Contrairement au dessin ou au rangement de nombreuses armes, la gestion d’un bouclier utilise l’action Utiliser. Cela représente le temps nécessaire pour sécuriser ou libérer correctement le bouclier avant que son bonus CA ne s'applique ou ne prenne fin."
+            }
+        ]
+    },
+    {
+        "title": "S’échapper",
+        "optional": "Standard rule",
+        "icon": "manacles",
+        "subtitle": "Échapper à une prise ou à une contention",
+        "description": "Utilise ton action pour tenter de te libérer d’un agrippement ou d’un effet similaire en effectuant un test contre un DD fixe.",
+        "reference": "PHB 2024, p. 291.",
+        "summary": "Effectue un test de Force (Athlétisme) ou de Dextérité (Acrobatie) par rapport au DD d’évasion de l'effet. Pour l’agrippement d’une créature, le DD est son DD d’agrippement (8 + mod STR + Prof Bonus).",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Lorsqu'elle est aux prises ou retenue, l’action d’évasion est ton chemin direct vers la liberté. Les règles de 2024 rationalisent cela en te faisant lancer un jet contre un DD statique défini par l'effet, plutôt qu'un test contesté."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Pour échapper à un agrippement, tu utilises ton action pour effectuer un test de <b>Force (Athlétisme)</b> ou de <b>Dextérité (Acrobatie)</b> (au choix) contre le DD d’évasion de l'effet.",
+                    "Pour un agrippement initié par une créature, le DD est le DD d’agrippement de cette créature (8 + mod STR + Prof Bonus).",
+                    "Cette action peut également être utilisée pour d’autres effets spécifiant une fuite, comme être pris dans un filet."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ce changement rend la fuite plus prévisible et moins dépendante du jet de l’adversaire, permettant une planification tactique plus fiable."
+            }
+        ]
+    },
+    {
+        "title": "Agripper",
+        "optional": "Standard rule",
+        "icon": "grab",
+        "subtitle": "Attaque spéciale à mains nues",
+        "description": "Lors de l'une de tes attaques, tente de saisir une créature, la forçant à effectuer un jet de sauvegarde de Force ou de Dextérité ou à devenir agrippée.",
+        "reference": "PHB 2024, p. 317.",
+        "summary": "Dans le cadre de l’action d’Attaque, tu peux forcer une créature à effectuer un jet de sauvegarde de Force ou de Dextérité contre ton DD d’agrippement. En cas d'échec, la cible acquiert l’état Agrippé.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L’agrippement est désormais plus rapide et plus cohérent, utilisant un jet de sauvegarde de la cible au lieu d’un test contesté. Cela en fait une tactique de contrôle plus fiable pour les personnages forts, initiée dans le cadre de l’action d’Attaque."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Ceci remplace une de tes attaques lorsque tu effectues l’action Attaque. Tu as besoin d'au moins une main libre.",
+                    "La cible ne doit pas mesurer plus d’une taille que toi et doit être à ta portée.",
+                    "La cible choisit d'effectuer un <b>jet de sauvegarde de Force ou de Dextérité</b> (DD = 8 + ton modificateur de Force + ton bonus de maîtrise).",
+                    "En cas d'échec de sauvegarde, la cible acquiert la condition <b>agripper</b>."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Un agrippement réussi est un excellent moyen de verrouiller un seul ennemi, l'empêchant d'atteindre tes alliés les plus vulnérables."
+            }
+        ]
+    },
+    {
+        "title": "Aider",
+        "optional": "Standard rule",
+        "icon": "allforone",
+        "subtitle": "Accorder un avantage à un allié",
+        "description": "Utilise ton action pour aider un allié, en lui donnant un avantage lors d’un test de capacité ou d’un jet d’attaque.",
+        "reference": "PHB 2024, p. 291.",
+        "summary": "Tu peux soit accorder un avantage à ton allié lors de son prochain test de capacité, soit accorder un avantage à ton allié lors de son prochain jet d’attaque contre une créature à moins de 1,50 m de toi.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L’action Aide te permet d'assister directement un allié, soit en distrayant un ennemi pour créer une ouverture, soit en collaborant à une tâche. Tu peux choisir l’une des deux manières distinctes d’aider une autre créature."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Aider un test de capacité:</b> Tu aides une autre créature avec un test d20. Ils gagnent un <b>avantage</b> lors du prochain test de capacité qu'ils effectuent, à condition qu'ils le fassent avant le début de ton prochain tour.",
+                    "<b>Distrayez un ennemi:</b> Alternativement, tu peux aider un allié à attaquer une créature à moins de 1,50 m de toi. Le prochain jet d’attaque d’un allié contre cette cible a un <b>avantage</b>, à condition que l’attaque ait lieu avant le début de ton prochain tour."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "C'est un moyen fantastique d'améliorer les chances d’une attaque critique, comme l’attaque sournoise d’un voleur ou le châtiment divin d’un paladin, faisant du travail d'équipe une mécanique tangible."
+            }
+        ]
+    },
+    {
+        "title": "Se cacher",
+        "optional": "Standard rule",
+        "icon": "hood",
+        "subtitle": "Tentative de se cacher",
+        "description": "Effectue un test de Dextérité (Discrétion) DD 15 pour te dissimuler et bénéficier des avantages de la condition invisible.",
+        "reference": "PHB 2024, p. 291.",
+        "summary": "Si tu es fortement obscurci ou derrière 3/4 ou couverture totale, tu peux effectuer un test de Dextérité (Furtivité) DD 15. En cas de réussite, tu bénéficies des avantages de la condition invisible jusqu'à ce que tu sois trouvé ou révélé.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les règles de dissimulation ont été clarifiées pour être plus cohérentes. La réussite d’un test contre un DD fixe te rend effectivement invisible jusqu'à ce que tu te révèles ou que tu sois trouvé."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu dois être fortement obscurci ou derrière une couverture d'au moins trois quarts ou une couverture totale pour tenter de te cacher. Tu ne peux pas te cacher d’une créature qui peut te voir.",
+                    "Effectue un test de <b>Dextérité (Discrétion) DD 15</b>.",
+                    "En cas de réussite, tu gagnes la condition <b>invisible</b> par rapport aux autres créatures. Note le total de ton chèque.",
+                    "Une créature peut utiliser l’action Rechercher pour effectuer un test de Sagesse (Perception) par rapport au total de ton test de Discrétion afin de te trouver.",
+                    "La condition invisible prend fin si tu émets un son plus fort qu'un murmure, si tu effectues un jet d’attaque, si tu lances un sort avec une composante verbale ou si tu n'êtes plus obscurci/à couvert."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ce nouveau DD standardisé fait de la furtivité une option tactique plus fiable, avec des conditions claires de succès et d’échec."
+            }
+        ]
+    },
+    {
+        "title": "Improviser",
+        "optional": "Standard rule",
+        "icon": "juggler",
+        "subtitle": "Toute action ne figurant pas sur cette liste",
+        "description": "Effectue toute action que tu peux imaginer qui n'est pas couverte par les autres actions standards, sous réserve de l'approbation du DM.",
+        "reference": "PHB 2024, p. 291.",
+        "summary": "Effectue toute action non couverte par les règles. Le DM détermine si c'est possible et quel test d20, le cas échéant, est requis pour réussir.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Lorsque tu souhaites tenter quelque chose de créatif et non conventionnel, tu utilises l’action Improviser. Il appartient au DM de décider de ce qui est possible et des vérifications nécessaires, le cas échéant."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Lorsque tu décris une action non détaillée ailleurs, le DM t’indique si elle est possible et quel type de test d20, le cas échéant, tu dois effectuer pour déterminer le succès ou l'échec."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cette action codifie la « règle du fun », garantissant qu'il y a toujours une place dans les règles pour l'ingéniosité des joueurs et les idées spontanées."
+            }
+        ]
+    },
+    {
+        "title": "Influencer",
+        "optional": "Standard rule",
+        "icon": "conversation",
+        "subtitle": "Affecter socialement une créature",
+        "description": "Utilise ton action pour persuader, tromper ou intimider une créature, modifiant potentiellement son comportement en cours de combat.",
+        "reference": "PHB 2024, p. 291.",
+        "summary": "Effectue un test de Charisme (Persuasion, Tromperie ou Intimidation) pour affecter socialement une créature. Un succès peut modifier temporairement leur comportement mais n’impose pas de condition.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L’action Influence fournit un cadre mécanique pour l'interaction sociale dans l'ordre d'initiative, permettant d'obtenir des résultats au-delà du simple combat à mort. Il s'appuie sur un test de Charisme pour influencer l'attitude d’une créature."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Par une action, tu peux essayer d'influencer une créature avec laquelle tu peux communiquer.",
+                    "Effectue un test de Charisme en utilisant Tromperie, Intimidation ou Persuasion. Le MD pourrait te demander de contester cela avec le test de Sagesse (Perspicacité) de la créature.",
+                    "L'attitude de la créature (Amicale, Indifférente, Hostile) peut affecter le DD.",
+                    "Un succès peut provoquer un changement de comportement temporaire, comme amener une créature hostile à faire une pause et à écouter, mais il n'impose pas de condition comme Charmé ou Effrayé."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Il s'agit d’un excellent outil permettant aux personnages charismatiques de désamorcer les combats, de créer des distractions ou d'atteindre leurs objectifs sans effusion de sang."
+            }
+        ]
+    },
+    {
+        "title": "Interagir avec un objet",
+        "optional": "Standard rule",
+        "icon": "snatch",
+        "subtitle": "Ta seule interaction gratuite",
+        "description": "Tu peux également interagir gratuitement avec un objet ou une caractéristique de l’environnement dans le cadre de ton mouvement ou de ton action.",
+        "reference": "PHB 2024, p. 294.",
+        "summary": "Dans le cadre de ton déplacement ou de ton action, tu peux interagir gratuitement avec un objet (par exemple, dégainer une arme, ouvrir une porte). Une deuxième interaction peut nécessiter l’action Utiliser.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Il ne s'agit pas d’une action autonome, mais d’une partie cruciale de l'économie d’action de ton tour. Si tu dois effectuer une deuxième tâche similaire ou utiliser un élément avec sa propre règle d'activation, le DM peut exiger l’action Utiliser."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tu peux effectuer cette interaction lors de ton déplacement ou de ton action.",
+                    "Exemples: dégainer ou ranger une épée, ouvrir ou fermer une porte, retirer une potion de ton sac à dos, ramasser un objet tombé ou prendre une babiole sur une table."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cette règle explique pourquoi une manipulation simple, comme dégainer une arme tout en se lançant dans un combat, s'inscrit généralement dans le reste de ton tour."
+            }
+        ]
+    },
+    {
+        "title": "Préparer",
+        "optional": "Standard rule",
+        "icon": "stopwatch",
+        "subtitle": "Choisis le déclencheur et l’action",
+        "description": "Utilise ton action pour préparer une réaction. Tu définis un déclencheur perceptible et choisis une action à effectuer lorsqu'elle se produit.",
+        "reference": "PHB 2024, p. 291.",
+        "summary": "Utilise ton action pour spécifier un déclencheur perceptible et choisis une action, une action bonus ou un mouvement. Lorsque le déclencheur se produit, tu peux utiliser ta réaction pour effectuer l'activité que tu as choisie.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L’action Prêt te permet d'agir en dehors de ton tour, interrompant le déroulement normal du combat. Il s'agit d’un processus en deux parties: tu utilises ton action pour définir les conditions et ta réaction pour exécuter le plan."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Tout d'abord, définissez un déclencheur perceptible (par exemple, « Quand un ennemi ouvre la porte »).",
+                    "Ensuite, choisis l’action que tu entreprendras en réponse (par exemple, « Je vais lancer un éclair de feu dessus ») ou choisis d'avancer à ta vitesse.",
+                    "Lorsque le déclencheur se produit, tu peux utiliser ta réaction pour effectuer l’action préparée. Cela se produit immédiatement après la fin du déclenchement.",
+                    "Si tu prépares un sort, tu le lances à ton tour mais conservez son énergie, ce qui nécessite une <b>concentration</b>. Si ta concentration est brisée, le sort et l’emplacement de sort sont perdus."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "C'est une option tactique puissante, mais si le déclencheur ne se produit jamais, tu perds à la fois ton action et ta réaction pour le tour."
+            }
+        ]
+    },
+    {
+        "title": "Chercher",
+        "optional": "Standard rule",
+        "icon": "magnifyingglass",
+        "subtitle": "Essaie de trouver quelque chose",
+        "description": "Consacrez ton attention à trouver quelque chose de caché ou de non évident, généralement avec un test de Sagesse.",
+        "reference": "PHB 2024, p. 291.",
+        "summary": "Fais un test de Sagesse pour discerner quelque chose qui n'est pas évident. Les compétences courantes incluent la perspicacité, la médecine, la perception ou la survie, selon ce que tu essaies de trouver.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Alors que la conscience passive représente ce que tu remarques sans effort, l’action Rechercher est une tentative ciblée de discerner quelque chose de caché, peu clair ou facile à ignorer."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Utilise <b>Sagesse (Perception)</b> pour repérer une créature ou un objet caché.",
+                    "Utilise <b>Sagesse (Perspicacité)</b> pour lire l'état ou l'intention d’une créature.",
+                    "Utilise <b>Sagesse (médecine)</b> pour diagnostiquer une créature ou déterminer la cause de sa mort.",
+                    "Utilise <b>Sagesse (Survie)</b> pour suivre les traces ou les panneaux dans l’environnement."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "C’est l’action à entreprendre lorsque tu sais que quelque chose ne va pas et que tu dois prendre un moment pour examiner attentivement ton environnement."
+            }
+        ]
+    },
+    {
+        "title": "bousculer",
+        "optional": "Standard rule",
+        "icon": "hand",
+        "subtitle": "Attaque spéciale à mains nues",
+        "description": "Lors de l'une de tes attaques, essayez soit de mettre une créature à terre, soit de la repousser à 1,50 m en forçant un jet de sauvegarde de Force ou de Dextérité.",
+        "reference": "PHB 2024, p. 317.",
+        "summary": "Dans le cadre de l’action d’Attaque, tu peux forcer une créature à effectuer un jet de sauvegarde de Force ou de Dextérité contre ton DD d’agrippement. En cas d'échec, tu peux mettre la cible à terre ou la repousser à 1,50 m.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Comme agripper, bousculer est désormais résolu avec un jet de sauvegarde au lieu d’un test contesté, ce qui en fait une manœuvre de contrôle du champ de bataille plus rapide et plus fiable. Elle remplace une de tes attaques de l’action Attaque."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Ceci remplace une de tes attaques lorsque tu effectues l’action Attaque. La cible ne doit pas mesurer plus d’une taille de plus que toi et être à ta portée.",
+                    "La cible choisit d'effectuer un <b>jet de sauvegarde de Force ou de Dextérité</b> (DD = 8 + ton modificateur de Force + ton bonus de maîtrise).",
+                    "En cas d'échec, tu choisis l'un des deux effets suivants: soit tu frappes la cible <b>à terre</b>, soit tu la repousses <b>1,50 m</b> directement loin de toi."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Mettre un ennemi à terre est un excellent moyen d'accorder l'avantage à tes alliés en mêlée, tandis que pousser peut créer de l'espace ou déplacer un ennemi vers un danger."
+            }
+        ]
+    },
+    {
+        "title": "Stabiliser une créature",
+        "optional": "Standard rule",
+        "icon": "firstaid",
+        "subtitle": "Aidez une créature mourante",
+        "description": "Effectue l’action Aide et effectue un test de Médecine DD 10 pour stabiliser une créature à 0 point de vie.",
+        "reference": "PHB 2024, p. 341.",
+        "summary": "Effectue l’action Aide et réussissez un test de Sagesse (Médecine) DD 10 pour rendre une créature à 0 PV stable. Un kit de guérisseur utilise l’action Utiliser et un kit pour se stabiliser sans vérification.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "C'est le moyen non magique d'empêcher une créature à 0 point de vie de continuer à effectuer des jets de sauvegarde mortels. La créature reste inconsciente jusqu'à ce qu'elle regagne des points de vie."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Sans kit, effectue l’action <b>Aide</b> et réussissez un test de <b>Sagesse (Médecine) DD 10</b>.",
+                    "Avec un <b>Kit de guérisseur</b>, effectue l’action <b>Utiliser</b>, dépensez une utilisation et stabilisez la créature sans faire de test de Sagesse (Médecine).",
+                    "Une créature stable à 0 point de vie n'effectue pas de jet de sauvegarde contre la mort, cesse d'être stable si elle subit des dégâts et récupère 1 point de vie après 1d4 heures si elle n'est pas soignée en premier."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "La magie de guérison reste le moyen le plus rapide de ramener un allié au combat, mais la stabilisation empêche une créature tombée de se rapprocher de la mort."
+            }
+        ]
+    },
+    {
+        "title": "Étudier",
+        "optional": "Standard rule",
+        "icon": "bookmarklet",
+        "subtitle": "Informations de rappel",
+        "description": "Utilise ton action et un test d'Intelligence pour rappeler des informations ou examiner des indices.",
+        "reference": "PHB 2024, p. 291.",
+        "summary": "Effectue un test d'Intelligence pour étudier un sujet ou un indice. Les compétences communes incluent Arcanes, Histoire, Enquête, Nature ou Religion, selon le sujet.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "L’action Étude couvre le raisonnement ciblé, la recherche et le rappel des connaissances. Il donne aux compétences basées sur le renseignement une place claire dans l’économie d’action sans promettre une quantité fixe d’informations tactiques."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Utilise <b>Intelligence (Arcanes)</b> pour les sorts, les objets magiques et la connaissance planaire.",
+                    "Utilise <b>Intelligence (Histoire)</b> pour les événements, les peuples ou les lieux historiques.",
+                    "Utilise <b>Intelligence (Enquête)</b> pour déduire comment les indices ou les mécanismes s'articulent.",
+                    "Utilise <b>Intelligence (Nature)</b> ou <b>Religion</b> pour les sujets naturels ou divins/morts-vivants."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Le DM définit le DD et les informations utiles apprises, en fonction de la situation et de l'approche du personnage."
+            }
+        ]
+    },
+    {
+        "title": "Utiliser",
+        "optional": "Standard rule",
+        "icon": "snatch",
+        "subtitle": "Utiliser un objet ou un objet",
+        "description": "Utilise un objet non magique ou une interaction d'objet qui nécessite une action, comme spécifié par l'objet ou le DM.",
+        "reference": "PHB 2024, p. 291.",
+        "summary": "Utilise l’action Utiliser pour les interactions d'équipement ou d'objet non magiques qui nécessitent une action, comme déployer des chausse-trappes, utiliser des outils ou manipuler un objet complexe.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Les règles 2024 utilisent l’action Utiliser pour de nombreuses interactions concrètes avec des objets. L'objet ou la situation t’indique quel test, quelle portée ou quel effet s'applique."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Utilise un équipement d'aventure non magique qui spécifie l’action Utiliser, comme des chausse-trapes, un kit d'escalade ou des menottes.",
+                    "Utilise des outils appropriés lorsqu'un objet l'exige, comme les outils des voleurs pour une serrure ou un piège.",
+                    "Les objets magiques et les potions utilisent le timing indiqué dans leurs propres descriptions; ils ne sont pas automatiquement régis par Utiliser."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cette distinction est importante car certains objets sont des actions bonus ou des actions magiques au lieu d’actions d'utilisation."
+            }
+        ]
+    },
+    {
+        "title": "Utiliser une aptitude de classe",
+        "optional": "Standard rule",
+        "icon": "embrassedenergy",
+        "subtitle": "Certaines aptitudes utilisent des actions",
+        "description": "Active une classe, une espèce ou une autre aptitude qui nécessite explicitement une action comme détaillée dans sa description.",
+        "reference": "Voir la page de classe pour plus d’infos.",
+        "summary": "Active une capacité unique de ton classe, espèce ou autre source qui nécessite une action ou une action magique, comme spécifié dans la description de la aptitude.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Il s'agit d’un fourre-tout pour les nombreuses capacités uniques accordées par les choix de ton personnage. Vérifiez toujours la description d’une aptitude pour voir quel type d’action elle nécessite, car cela peut varier considérablement."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Vérifiez le texte de la aptitude à chaque fois; de nombreuses aptitudes de 2024 ont été déplacées vers le timing des actions bonus ou magiques."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ces aptitudes sont souvent les capacités les plus puissantes et les plus déterminantes de ton personnage, ce qui en fait la pierre angulaire de ton tour."
+            }
+        ]
+    },
+    {
+        "title": "Grimper sur une créature plus grande*",
+        "optional": "Optional rule",
+        "icon": "mountainclimbing",
+        "subtitle": "Grimpe sur un ennemi plus gros",
+        "description": "Par une action, tente de grimper sur une créature d'au moins deux tailles plus grande que toi, en la traitant comme un terrain.",
+        "reference": "DMG 2014, p. 271.",
+        "summary": "Utilise l'option d’action facultative héritée pour grimper sur une créature d'au moins deux tailles plus grande, en traitant la plus grande créature comme un terrain et en te déplaçant avec elle si le DM autorise la tentative.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Il s'agit d’une action de combat facultative héritée du DMG 2014, et non d’une action principale du PHB 2024. Cela reste utile pour les tables qui souhaitent un cadre pour des combats cinématiques contre de très grosses créatures."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "La cible doit être au moins deux tailles plus grande que le grimpeur.",
+                    "Le MD décide si les circonstances nécessitent un test de capacité pour grimper sur la créature, en traitant la plus grande créature comme du terrain.",
+                    "En cas de réussite, le grimpeur se déplace dans l'espace de la cible, s'y accroche et se déplace avec elle.",
+                    "Le grimpeur a un <b>avantage</b> aux jets d’attaque contre la créature sur laquelle il grimpe.",
+                    "La plus grande créature peut tenter de déloger le grimpeur, généralement avec un test de Force (Athlétisme) contesté contre la Force (Athlétisme) ou la Dextérité (Acrobatie) du grimpeur."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Puisqu’il s’agit d’une règle facultative héritée, le DM devrait définir les attentes avant le jeu plutôt que de la traiter comme une action par défaut pour 2024."
+            }
+        ]
+    },
+    {
+        "title": "Administrer une potion**",
+        "optional": "Homebrew rule",
+        "icon": "healthpotion",
+        "subtitle": "Utiliser une potion sur un autre",
+        "description": "Une règle maison plus stricte qui fait que l'administration d’une potion coûte une action au lieu d'utiliser le timing de potion d’action bonus de 2024.",
+        "summary": "Une règle maison pour les tables qui souhaitent aider une autre créature avec une potion pour coûter une action complète, même si une potion de guérison peut normalement être administrée en tant qu’action bonus en 2024.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette règle maison ralentit intentionnellement l’utilisation des potions assistées pour les tables plus difficiles ou plus tactiques. Cela devrait être traité comme une règle de table délibérée, et non comme une règle par défaut de 2024."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>2024 par défaut:</b> Une potion de guérison peut être bue ou administrée à une autre créature dans un rayon de 1,50 m en tant qu’action bonus.",
+                    "<b>Règle maison:</b> Boire soi-même une potion reste une action bonus, mais en administrer une à une autre créature coûte une action."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cela préserve une partie de l’ancienne tension de l’économie d’action autour du sauvetage d’un allié tombé au combat tout en maintenant une utilisation personnelle rapide."
+            }
+        ]
+    },
+    {
+        "title": "Tir ciblé**",
+        "optional": "Homebrew rule",
+        "icon": "archerytarget",
+        "subtitle": "Cibler une partie spécifique du corps",
+        "description": "Une règle maison permettant à un attaquant de subir une pénalité sur son jet pour avoir une chance d'infliger un effet débilitant spécifique.",
+        "summary": "Une règle maison selon laquelle tu prends une pénalité sur ton jet d’attaque (généralement -5) pour infliger une condition spécifique à un coup, comme étourdir une cible avec un tir à la tête ou la ralentir avec un tir dans la jambe.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cet homebrew ajoute une touche cinématographique au combat, permettant des effets au-delà des simples dégâts. Il récompense la réflexion tactique mais peut ralentir le jeu s'il n'est pas géré avec un ensemble de règles claires et simples."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Par une action, déclarez un « tir annoncé » et subissez une pénalité à ton jet d’attaque (généralement -5).",
+                    "Sur un coup, tu appliques un effet supplémentaire en fonction de l’emplacement ciblé:",
+                    "<b>Tête:</b> impose la condition Étourdissement jusqu'à la fin de son prochain tour.",
+                    "<b>Bras/Main:</b> Force la cible à lâcher un objet qu'elle tenait.",
+                    "<b>Jambe/Pied:</b> impose la condition Ralentissement jusqu'à la fin de son prochain tour.",
+                    "<b>Œil:</b> impose la condition Aveugle pendant 1 round (nécessite souvent une pénalité plus élevée, comme -10)."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "L'utilisation d'effets définis par la table comme Hébété et Ralenti peut donner à cette règle maison un aspect distinct, mais ces effets doivent être convenus avant de jouer."
+            }
+        ]
+    },
+    {
+        "title": "Garde**",
+        "optional": "Homebrew rule",
+        "icon": "shield",
+        "subtitle": "Protéger un allié adjacent",
+        "description": "Une action homebrew permettant à un personnage de défendre activement un allié, imposant un désavantage aux attaques contre lui.",
+        "summary": "Utilise ton action pour protéger un allié adjacent. Les attaques contre lui ont un désavantage, mais toute attaque qui le rate peut être redirigée pour te frapper à la place. Ta vitesse devient 0.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Cette action homebrew fournit une mécanique de « tanking » dédiée, créant un risque/récompense clair pour les personnages concentrés sur la protection des autres. Cela permet à un défenseur de s’interposer activement."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Par une action, choisis un allié à moins de 1,50 m de toi. Jusqu'au début de ton prochain tour, tout jet d’attaque effectué contre cet allié est désavantagé tant que tu es à moins de 1,50 m de lui.",
+                    "Cependant, jusqu'au début de ton prochain tour, toute attaque manquant ton allié protégé peut être redirigée vers toi. L'attaquant utilise le jet d’attaque d’origine pour voir s'il atteint ta CA.",
+                    "En utilisant cette action, ta vitesse est de 0."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Cette action est un outil puissant pour les défenseurs, mais la mécanique de redirection en fait une manœuvre risquée contre des ennemis précis ou nombreux."
+            }
+        ]
+    }
+]

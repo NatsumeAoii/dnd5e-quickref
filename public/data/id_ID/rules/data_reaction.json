@@ -1,0 +1,269 @@
+[
+    {
+        "title": "Rapalkan Spell",
+        "optional": "Standard rule",
+        "icon": "magicswirl",
+        "subtitle": "Waktu casting 1 reaction",
+        "description": "Rapalkan spell seketika sebagai respons terhadap trigger spesifik seperti yang ditentukan dalam deskripsi spell.",
+        "reference": "PHB, hlm. 202.",
+        "summary": "Gunakan reaction-mu untuk merapalkan spell yang memiliki waktu casting 1 reaction. Deskripsi spell menentukan triggernya, seperti kena serangan (untuk Shield) atau melihat spell dirapalkan (untuk Counterspell).",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Spell Reaction adalah alat pertahanan dan pengganggu yang kuat, memungkinkan kamu bertindak di luar giliran untuk menggagalkan rencana musuh atau menyelamatkan diri dari bahaya. Setiap spell jenis ini memiliki trigger unik yang memungkinkan kamu merapalkannya."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "Deskripsi spell menentukan <b>trigger</b> yang memungkinkan kamu merapalkannya.",
+                    "<b>Contoh:</b> <b>Shield</b> terpicu saat kamu kena serangan, <b>Counterspell</b> terpicu saat kamu melihat makhluk merapalkan spell, dan <b>Feather Fall</b> terpicu saat kamu atau makhluk di sekitar terjatuh."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Karena kamu hanya mendapatkan satu reaction per round, kamu harus memilih dengan bijak kapan akan menggunakannya. Menggunakan <b>Shield</b> untuk memblokir serangan kecil mungkin berarti kamu tidak bisa menggunakan <b>Counterspell</b> pada spell yang jauh lebih berbahaya di ronde selanjutnya."
+            }
+        ]
+    },
+    {
+        "title": "Opportunity Attack",
+        "optional": "Standard rule",
+        "icon": "crossedswords",
+        "subtitle": "Musuh meninggalkan jangkauanmu",
+        "description": "Lakukan satu serangan jarak dekat terhadap makhluk bermusuhan yang keluar dari jangkauanmu.",
+        "reference": "PHB, hlm. 195.",
+        "summary": "Saat makhluk bermusuhan yang kamu lihat keluar dari jangkauanmu, kamu bisa menggunakan reaction untuk melakukan satu serangan jarak dekat terhadapnya. Serangan ini terjadi tepat sebelum makhluk itu meninggalkan jangkauanmu.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Ini adalah reaction yang paling umum dalam pertempuran dan merupakan aturan dasar penentuan posisi taktis. Itu membuat pergerakan di sekitar medan perang menjadi berbahaya dan memaksa karakter untuk berhati-hati terhadap keterlibatan musuh."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> Makhluk bermusuhan yang kamu lihat keluar dari jangkauanmu.",
+                    "<b>Reaction:</b> Kamu menggunakan reaction untuk melakukan satu serangan jarak dekat terhadap makhluk yang memicu. Serangan itu terjadi tepat sebelum makhluk itu meninggalkan jangkauanmu.",
+                    "Gerakan yang tidak menggunakan action, reaction, atau movement-mu (seperti didorong oleh spell) tidak memicu serangan ini. <b>Disengage</b> Action juga mencegah opportunity attack yang memicu."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Makhluk dengan jangkauan lebih dari 5 feet (menggunakan senjata seperti tombak atau tombak) mengancam area yang lebih luas dan bisa melakukan opportunity attack ketika musuh meninggalkan jangkauan yang lebih jauh."
+            }
+        ]
+    },
+    {
+        "title": "Action Siaga",
+        "optional": "Standard rule",
+        "icon": "stopwatch",
+        "subtitle": "Bagian dari Ready action-mu",
+        "description": "Gunakan reaction-mu untuk melakukan action yang kamu siapkan pada giliranmu ketika trigger yang ditentukan terjadi.",
+        "reference": "PHB, hlm. 193.",
+        "summary": "Setelah menggunakan Ready action pada giliranmu untuk menentukan trigger, kamu bisa menggunakan reaction untuk melakukan aktivitas pilihanmu saat trigger tersebut terjadi. Jika triggernya tidak pernah terjadi, kamu kehilangan reaction-mu.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Reaction ini adalah paruh kedua dari Ready action. Setelah menghabiskan action pada giliranmu untuk menyiapkan rencana, kamu menggunakan reaction untuk mengeksekusinya sebagai respons terhadap trigger tertentu."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> Keadaan yang kamu tentukan saat mengambil Ready action pada giliranmu.",
+                    "<b>Reaction:</b> Kamu menjalankan satu action atau movement yang sudah kamu siapkan. Ini terjadi segera setelah trigger selesai.",
+                    "Jika kamu menyiapkan spell, kamu melemparkannya pada giliranmu tetapi gunakan reaction untuk melepaskan energinya. Ini memerlukan concentration, yang bisa dipatahkan sebelum trigger terjadi, sehingga menyebabkan spell dan spell slot hilang."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Waktu adalah segalanya. Reaction terjadi segera setelah trigger selesai. Misalnya, jika kamu menyiapkan serangan untuk 'ketika makhluk membuka pintu', makhluk tersebut akan membuka pintu sepenuhnya, dan kemudian seranganmu terjadi."
+            }
+        ]
+    },
+    {
+        "title": "Identifikasi Spell*",
+        "optional": "Optional rule",
+        "icon": "eyeball",
+        "subtitle": "Identifikasi spell yang sedang dirapalkan",
+        "description": "Gunakan reaction dan check Intelligence (Arcana) untuk mengidentifikasi spell saat sedang dirapalkan.",
+        "reference": "XGE, hlm. 85.",
+        "summary": "Sebagai reaction ketika makhluk yang kamu lihat merapalkan spell, kamu bisa membuat check Intelligence (Arcana) (DC 15 + level spell) untuk mengidentifikasinya. Menggunakan reaction ini berarti kamu juga tidak bisa menggunakannya untuk Counterspell.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Optional rule dari Xanathar's Guide to Everything ini memberikan mekanisme yang jelas untuk mengidentifikasi spell, yang sangat penting untuk memutuskan apakah akan menggunakan sumber daya berharga seperti <b>Counterspell</b>."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> Makhluk yang kamu lihat merapalkan spell.",
+                    "<b>Reaction:</b> Lakukan check Intelligence (Arcana). DC sama dengan 15 + level spell.",
+                    "Jika berhasil, kamu mengidentifikasi spell. Check ini tidak mengungkapkan level spell slot yang digunakan untuk merapalkannya."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Perhatikan butuh action economy yang penting: menggunakan reaction untuk mengidentifikasi spell berarti kamu juga tidak bisa menggunakan reaction yang sama untuk merapalkan <b>Counterspell</b>. Spellcaster lain dalam party harus menjadi orang yang bisa melawannya."
+            }
+        ]
+    },
+    {
+        "title": "Interception*",
+        "optional": "Optional rule",
+        "icon": "shieldbash",
+        "subtitle": "Mengurangi damage pada ally",
+        "description": "Jika kamu memiliki Fighting Style Interception, gunakan reaction-mu untuk mengurangi damage yang diberikan ke target terdekat selain kamu.",
+        "reference": "TCE, hlm. 41.",
+        "summary": "Ketika makhluk yang kamu lihat mengenai target selain kamu dalam jarak 5 feet dari kamu, Fighting Style Interception memungkinkan kamu menggunakan reaction untuk mengurangi damage sebesar 1d10 + proficiency bonus kamu.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Interception adalah Fighting Style opsional, bukan reaction umum yang tersedia untuk setiap karakter. Ini memberikan cara bagi pembela martial yang terlatih untuk melindungi ally terdekat dengan menangkis sebagian serangan yang datang."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> Makhluk yang kamu lihat menyerang target selain kamu dalam jarak 5 feet dari kamu dengan sebuah serangan.",
+                    "<b>Reaction:</b> Kamu mengurangi damage yang diterima target sebesar 1d10 + proficiency bonus kamu.",
+                    "Kamu harus menggunakan perisai atau senjata sederhana atau martial untuk menggunakan reaction ini."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini adalah cara yang bisa diandalkan untuk mengurangi damage dan bisa menjadi pembeda antara ally tetap sadar atau jatuh ke 0 hit points."
+            }
+        ]
+    },
+    {
+        "title": "Parry**",
+        "optional": "Homebrew rule",
+        "icon": "shield",
+        "subtitle": "Bertahan dari serangan jarak dekat",
+        "description": "Sebagai reaction ketika kena serangan jarak dekat, tambahkan bonus pada AC kamu yang mungkin menyebabkan serangan tersebut meleset.",
+        "reference": "Diadaptasi dari trait monster",
+        "summary": "Saat makhluk lain menyerangmu dengan serangan jarak dekat, kamu bisa menggunakan reaction untuk menambahkan bonus (misalnya proficiency bonus) ke AC untuk serangan tersebut, sehingga berpotensi menyebabkan serangan tersebut meleset.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Reaction ini diadaptasi dari ciri blok stat monster dan bukan opsi pemain umum tahun 2014. Memperlakukannya sebagai homebrew membuat ketergantungan table itu menjadi eksplisit."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> Makhluk lain menyerangmu dengan serangan jarak dekat.",
+                    "<b>Reaction:</b> Kamu menambahkan bonus ke AC untuk serangan tersebut, yang berpotensi menyebabkan serangan tersebut meleset. (Bonus untuk PC sering kali disetel ke proficiency bonus).",
+                    "Kamu harus bisa melihat penyerang dan menggunakan senjata jarak dekat."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Berbeda dengan <b>Shield</b> spell, Parry hanya berfungsi melawan satu serangan jarak dekat dan bonusnya lebih kecil, namun tidak memerlukan spell slot, membuatnya alat yang berharga untuk karakter martial."
+            }
+        ]
+    },
+    {
+        "title": "Clash**",
+        "optional": "Homebrew rule",
+        "icon": "crossedswords",
+        "subtitle": "Lawan serangan jarak dekat yang masuk",
+        "description": "House rule yang mengizinkan kamu menggunakan reaction untuk membuat attack roll melawan serangan jarak dekat yang masuk.",
+        "reference": "Homebrew yang jarang dipakai",
+        "summary": "House rule di mana kamu bisa menggunakan reaction untuk membuat attack roll jarak dekat. Jika roll-mu lebih tinggi dari roll penyerang yang masuk, serangan mereka meleset.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Homebrew rule ini menambah nuansa sinematik dan duel dalam pertarungan. Alih-alih secara pasif memeriksa AC terhadap serangan, ini menciptakan contest skill aktif antara penyerang dan pembela."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> Makhluk yang kamu lihat menargetkanmu dengan serangan jarak dekat.",
+                    "<b>Reaction:</b> Kamu membuat melee weapon attack roll. Jika roll-mu lebih tinggi dari roll penyerang, serangan mereka meleset dari kamu.",
+                    "Beberapa table menambahkan efek 'riposte': Jika roll-mu juga memenuhi atau melampaui AC penyerang, mereka akan mendapat damage senjatamu."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini bisa membuat pemain lebih aktif tetapi juga memperlambat pertempuran cukup besar, karena menambah roll ekstra ke banyak serangan. Ini yang terbaik untuk pertarungan kecil dan dramatis."
+            }
+        ]
+    },
+    {
+        "title": "Dive for Cover**",
+        "optional": "Homebrew rule",
+        "icon": "falling",
+        "subtitle": "Menghindari efek area",
+        "description": "House rule yang mengizinkan makhluk menggunakan reaction miliknya untuk terjatuh dan mendapatkan advantage di Dexterity saving throw.",
+        "reference": "Homebrew umum",
+        "summary": "House rule di mana kamu bisa menggunakan reaction saat kena efek yang memerlukan DEX saving throw. Kamu mendapatkan advantage pada roll tetapi segera langsung jatuh Prone setelah saving throw.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Aturan umum ini memberi pemain lebih banyak pilihan ketika dihadapkan dengan spell area-of-effect seperti <b>Fireball</b>. Ini memberikan trade-off yang logis: mendapatkan kesempatan yang lebih baik untuk bertahan hidup sebagai imbalan jika harus berakhir Prone."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> Kamu kena efek yang mengharuskan kamu membuat Dexterity saving throw.",
+                    "<b>Reaction:</b> Kamu bisa menggunakan reaction untuk jatuh Prone.",
+                    "<b>Efek:</b> Kamu memperoleh advantage pada Dexterity saving throw tersebut."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini membuat Dexterity saving throw lebih interaktif dan memberikan karakter cara untuk menggunakan reaction mereka untuk bertahan melawan ancaman selain serangan langsung."
+            }
+        ]
+    },
+    {
+        "title": "Grapple Opportunity Attack**",
+        "optional": "Homebrew rule",
+        "icon": "grab",
+        "subtitle": "Hentikan musuh agar tidak melarikan diri",
+        "description": "House rule yang memungkinkan kamu mencoba melakukan grapple alih-alih melakukan serangan yang merusak sebagai opportunity attack.",
+        "reference": "Homebrew yang jarang dipakai",
+        "summary": "House rule yang memungkinkan kamu menggunakan reaction untuk melakukan grapple check alih-alih melakukan serangan yang merusak saat makhluk memicu opportunity attack.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "House rule ini memperluas opsi yang tersedia untuk opportunity attack, memungkinkan karakter yang dibangun untuk bergulat agar bisa mengontrol medan perang dengan lebih baik dengan menghentikan musuh di jalurnya."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> Makhluk bermusuhan yang kamu lihat keluar dari jangkauanmu.",
+                    "<b>Reaction:</b> Daripada membuat opportunity attack normal, kamu bisa melakukan grapple check (check Strength (Athletics)) terhadap makhluk tersebut."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Jika berhasil, pergerakan makhluk tersebut akan terhenti sepenuhnya saat kecepatannya menjadi 0, membuatnya alat penguncian yang sangat kuat untuk karakter berbasis Strength."
+            }
+        ]
+    },
+    {
+        "title": "Shove Opportunity Attack**",
+        "optional": "Homebrew rule",
+        "icon": "hand",
+        "subtitle": "Dorong musuh saat mereka melarikan diri",
+        "description": "House rule yang mengizinkan makhluk untuk mencoba mendorong alih-alih melakukan serangan yang merusak sebagai opportunity attack.",
+        "reference": "Homebrew yang jarang dipakai",
+        "summary": "House rule yang memungkinkan kamu menggunakan reaction untuk melakukan shove check alih-alih serangan yang merusak saat makhluk memicu opportunity attack.",
+        "bullets": [
+            {
+                "type": "paragraph",
+                "content": "Mirip dengan Grapple Opportunity Attack, house rule ini menambah variasi taktis. Ini bisa digunakan untuk membuat musuh yang melarikan diri menjadi Prone, membuat mereka sasaran empuk bagi ally-mu, atau untuk mendorong mereka ke dalam bahaya."
+            },
+            {
+                "type": "list",
+                "items": [
+                    "<b>Trigger:</b> Makhluk bermusuhan yang kamu lihat keluar dari jangkauanmu.",
+                    "<b>Reaction:</b> Daripada membuat opportunity attack normal, kamu bisa melakukan shove check (check Strength (Athletics)) terhadap makhluk tersebut untuk mendorongnya sejauh 5 feet atau menjatuhkannya dalam posisi tengkurap."
+                ]
+            },
+            {
+                "type": "paragraph",
+                "content": "Ini juga bisa digunakan untuk mendorong makhluk kembali ke area berbahaya yang ingin mereka tinggalkan, menambahkan elemen pengendalian lingkungan ke reaction-mu."
+            }
+        ]
+    }
+]

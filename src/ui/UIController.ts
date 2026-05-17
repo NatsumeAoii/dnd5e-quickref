@@ -3,11 +3,12 @@ import type { DOMProvider } from '../services/DOMProvider.js';
 import type { A11yService } from '../services/A11yService.js';
 import type { WakeLockService } from '../services/WakeLockService.js';
 import type { SettingsService } from '../services/SettingsService.js';
+import type { LocalizationService } from '../services/LocalizationService.js';
 import type { UserDataService } from '../services/UserDataService.js';
 import type { DataService } from '../services/DataService.js';
 import type { NavigationService } from '../services/NavigationService.js';
 import { ServiceWorkerMessenger } from '../services/ServiceWorkerMessenger.js';
-import { debounce } from '../utils/Utils.js';
+import { debounce, getMotionSafeScrollBehavior } from '../utils/Utils.js';
 import type { StateManager } from '../state/StateManager.js';
 import type { ViewRenderer } from './ViewRenderer.js';
 import type { WindowManager } from './WindowManager.js';
@@ -18,6 +19,7 @@ interface UIServices {
     a11y: A11yService;
     wakeLock: WakeLockService;
     settings: SettingsService;
+    localization: LocalizationService;
     userData: UserDataService;
     data: DataService;
     navigation: NavigationService;
@@ -61,7 +63,11 @@ export class UIController {
 
     #initDragDrop(): void {
         this.#dragDropManager?.destroy();
-        this.#dragDropManager = new DragDropManager(CONFIG.ELEMENT_IDS.FAVORITES_CONTAINER, this.#services.userData);
+        this.#dragDropManager = new DragDropManager(
+            CONFIG.ELEMENT_IDS.FAVORITES_CONTAINER,
+            this.#services.userData,
+            (message) => this.#services.a11y.announce(message),
+        );
     }
 
     setupEventSubscriptions(): void {
@@ -91,6 +97,11 @@ export class UIController {
         await this.renderOpenSections();
     }
 
+    async #switchLocale(): Promise<void> {
+        await this.#services.localization.loadAndApply(this.#stateManager.getState().settings.locale);
+        await this.#switchRuleset();
+    }
+
     async renderOpenSections(): Promise<void> {
         const rerenderPromises: Promise<void>[] = [];
         this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}[data-section]`).forEach((section) => {
@@ -114,6 +125,7 @@ export class UIController {
         this.#services.a11y.announce(`Setting updated: ${key.toLowerCase().replace('_', ' ')}.`);
         const { settings } = this.#stateManager.getState();
         if (key === 'RULES_2024') await this.#switchRuleset();
+        else if (key === 'LOCALE') await this.#switchLocale();
         else if (key === 'THEME' || key === 'MODE' || key === 'DENSITY') this.#components.viewRenderer.applyAppearance(settings);
         else if (key === 'REDUCE_MOTION') this.#components.viewRenderer.applyMotionReduction(value as boolean);
         else if (key === 'WAKE_LOCK') this.#services.wakeLock.setEnabled(value as boolean);
@@ -231,6 +243,10 @@ export class UIController {
         }
     }
 
+    #getSectionDisclosureControl(section: Element): HTMLElement | null {
+        return section.querySelector('.section-toggle') as HTMLElement | null;
+    }
+
     setupCollapsibleSections = (): void => {
         const savedStates = this.#loadSectionStates();
         this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_TITLE}`).forEach((header) => {
@@ -238,26 +254,32 @@ export class UIController {
             if (!section || (section as HTMLElement).dataset.section === 'settings' || (section as HTMLElement).dataset.section === 'favorites') return;
 
             const sectionKey = (section as HTMLElement).dataset.section || '';
+            const control = this.#getSectionDisclosureControl(section);
+            if (!control) return;
+            const content = section.querySelector(`.${CONFIG.CSS.SECTION_CONTENT}`) as HTMLElement | null;
+            if (content) {
+                if (!content.id && section.id) content.id = `${section.id}-content`;
+                if (content.id) control.setAttribute('aria-controls', content.id);
+            }
 
             // Restore saved state
             if (sectionKey in savedStates) {
                 section.classList.toggle(CONFIG.CSS.IS_COLLAPSED, savedStates[sectionKey]);
             }
 
-            header.setAttribute('role', 'button');
-            header.setAttribute('tabindex', '0');
+            header.removeAttribute('role');
+            header.removeAttribute('tabindex');
             const isExpanded = !section.classList.contains(CONFIG.CSS.IS_COLLAPSED);
-            header.setAttribute('aria-expanded', String(isExpanded));
+            control.setAttribute('aria-expanded', String(isExpanded));
             const handler = async (): Promise<void> => {
                 const collapsed = section.classList.toggle(CONFIG.CSS.IS_COLLAPSED);
-                header.setAttribute('aria-expanded', String(!collapsed));
+                control.setAttribute('aria-expanded', String(!collapsed));
                 this.#saveSectionState(sectionKey, collapsed);
                 if (!collapsed) await this.renderSectionContent(section as HTMLElement);
                 this.#services.a11y.announce(`${sectionKey} section ${collapsed ? 'collapsed' : 'expanded'}.`);
                 this.#services.navigation.invalidateFocusables();
             };
-            header.addEventListener('click', handler);
-            header.addEventListener('keydown', (e) => { if ((e as KeyboardEvent).key === 'Enter' || (e as KeyboardEvent).key === ' ') { e.preventDefault(); handler(); } });
+            control.addEventListener('click', handler);
         });
     };
 
@@ -322,7 +344,7 @@ export class UIController {
                     });
                 }
             }, { passive: true });
-            btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: getMotionSafeScrollBehavior() }));
         } catch { console.warn('Back-to-top button not found.'); }
     };
 
@@ -342,6 +364,19 @@ export class UIController {
         window.open(issueUrl, '_blank', 'noopener,noreferrer');
     };
 
+    #updateFavoriteButtonState(item: HTMLElement, isFavorite: boolean): void {
+        const favoriteBtn = item.querySelector('.favorite-btn') as HTMLButtonElement | null;
+        if (!favoriteBtn) return;
+        const title = item.querySelector('.item-title')?.textContent?.trim()
+            || item.getAttribute(CONFIG.ATTRIBUTES.POPUP_ID)?.split('::')[1]
+            || 'rule';
+        const label = `${isFavorite ? 'Remove' : 'Add'} ${title} ${isFavorite ? 'from' : 'to'} favorites`;
+        favoriteBtn.classList.toggle(CONFIG.CSS.IS_FAVORITED, isFavorite);
+        favoriteBtn.setAttribute('aria-pressed', String(isFavorite));
+        favoriteBtn.setAttribute('aria-label', label);
+        favoriteBtn.title = label;
+    }
+
     #handleMainAreaClick = (e: Event): void => {
         const item = (e.target as HTMLElement).closest(`.${CONFIG.CSS.ITEM_CLASS}`) as HTMLElement | null;
         if (!item) return;
@@ -352,7 +387,7 @@ export class UIController {
             this.#services.userData.toggleFavorite(id);
             const isFav = this.#services.userData.isFavorite(id);
             this.#domProvider.queryAll(`[${CONFIG.ATTRIBUTES.POPUP_ID}="${id}"]`).forEach((el) => {
-                el.querySelector('.favorite-btn')?.classList.toggle(CONFIG.CSS.IS_FAVORITED, isFav);
+                this.#updateFavoriteButtonState(el as HTMLElement, isFav);
             });
             this.#services.a11y.announce(`${id.split('::')[1]} ${isFav ? 'added to' : 'removed from'} favorites.`);
         } else if ((e.target as HTMLElement).closest('.item-content')) {
@@ -536,14 +571,14 @@ export class UIController {
     #expandSectionForSearch(section: HTMLElement): void {
         if (!section.classList.contains(CONFIG.CSS.IS_COLLAPSED)) return;
         section.classList.remove(CONFIG.CSS.IS_COLLAPSED);
-        section.querySelector(`.${CONFIG.CSS.SECTION_TITLE}`)?.setAttribute('aria-expanded', 'true');
+        this.#getSectionDisclosureControl(section)?.setAttribute('aria-expanded', 'true');
         this.#searchExpandedSections.add(section);
     }
 
     #restoreSearchExpandedSections(): void {
         this.#searchExpandedSections.forEach((section) => {
             section.classList.add(CONFIG.CSS.IS_COLLAPSED);
-            section.querySelector(`.${CONFIG.CSS.SECTION_TITLE}`)?.setAttribute('aria-expanded', 'false');
+            this.#getSectionDisclosureControl(section)?.setAttribute('aria-expanded', 'false');
         });
         this.#searchExpandedSections.clear();
     }

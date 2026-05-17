@@ -1,5 +1,5 @@
 import { CONFIG } from '../config.js';
-import { trapFocusWithin } from '../utils/Utils.js';
+import { getMotionSafeScrollBehavior, trapFocusWithin } from '../utils/Utils.js';
 import type { A11yService } from './A11yService.js';
 
 interface OnboardingStep {
@@ -75,19 +75,20 @@ export class OnboardingService {
         this.#overlay.className = 'onboarding-overlay';
         this.#overlay.setAttribute('role', 'dialog');
         this.#overlay.setAttribute('aria-modal', 'true');
-        this.#overlay.setAttribute('aria-label', 'Welcome tour');
+        this.#overlay.setAttribute('aria-labelledby', `${CONFIG.ELEMENT_IDS.ONBOARDING_OVERLAY}-title`);
+        this.#overlay.setAttribute('aria-describedby', `${CONFIG.ELEMENT_IDS.ONBOARDING_OVERLAY}-body`);
 
         const spotlight = document.createElement('div');
         spotlight.className = 'onboarding-spotlight';
 
         const tooltip = document.createElement('div');
         tooltip.className = 'onboarding-tooltip';
-        tooltip.setAttribute('role', 'alertdialog');
         tooltip.setAttribute('tabindex', '-1');
 
         const header = document.createElement('div');
         header.className = 'onboarding-tooltip-header';
         const title = document.createElement('h3');
+        title.id = `${CONFIG.ELEMENT_IDS.ONBOARDING_OVERLAY}-title`;
         title.className = 'onboarding-tooltip-title';
         const skipBtn = document.createElement('button');
         skipBtn.className = 'onboarding-skip-btn';
@@ -96,6 +97,7 @@ export class OnboardingService {
         header.append(title, skipBtn);
 
         const body = document.createElement('p');
+        body.id = `${CONFIG.ELEMENT_IDS.ONBOARDING_OVERLAY}-body`;
         body.className = 'onboarding-tooltip-body';
 
         const footer = document.createElement('div');
@@ -190,7 +192,7 @@ export class OnboardingService {
         if (!tooltip || !spotlight) return;
 
         if (targetEl) {
-            targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            targetEl.scrollIntoView({ behavior: getMotionSafeScrollBehavior(), block: 'center' });
             this.#scrollTimer = setTimeout(() => {
                 this.#scrollTimer = null;
                 if (this.#isActive) this.#positionElements(targetEl, tooltip, spotlight, step.placement);

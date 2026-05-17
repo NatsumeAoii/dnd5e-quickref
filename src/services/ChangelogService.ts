@@ -13,6 +13,7 @@ export class ChangelogService {
     #isOpen = false;
     #cachedVersions: VersionBlock[] | null = null;
     #showingAll = false;
+    #returnFocusEl: HTMLElement | null = null;
     static readonly #INITIAL_COUNT = 3;
 
     constructor(a11yService: A11yService) {
@@ -27,6 +28,7 @@ export class ChangelogService {
     async open(): Promise<void> {
         if (this.#isOpen) return;
         this.#isOpen = true;
+        this.#returnFocusEl = document.activeElement instanceof HTMLElement ? document.activeElement : null;
         this.#showingAll = false;
         await this.#createModal();
         // Guard: user may have closed the dialog during the async fetch
@@ -39,6 +41,8 @@ export class ChangelogService {
         this.#isOpen = false;
         this.#modalEl?.remove();
         this.#modalEl = null;
+        if (this.#returnFocusEl?.isConnected) this.#returnFocusEl.focus();
+        this.#returnFocusEl = null;
         this.#a11yService.announce('Changelog panel closed');
     }
 

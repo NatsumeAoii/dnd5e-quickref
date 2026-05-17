@@ -1,4 +1,5 @@
 import { CONFIG } from '../config.js';
+import { getMotionSafeScrollBehavior } from '../utils/Utils.js';
 import type { KeyboardShortcutsService } from './KeyboardShortcutsService.js';
 import type { OnboardingService } from './OnboardingService.js';
 
@@ -21,7 +22,8 @@ export class NavigationService {
     #rebuildFocusables(): HTMLElement[] {
         this.#focusablesCache = Array.from<HTMLElement>(
             document.querySelectorAll(
-                `.${CONFIG.CSS.SECTION_TITLE}, ` +
+                `.${CONFIG.CSS.SECTION_TITLE}[tabindex], ` +
+                `.section-toggle, ` +
                 `.${CONFIG.CSS.SECTION_CONTAINER}:not(.${CONFIG.CSS.IS_COLLAPSED}) .item-content, ` +
                 `.${CONFIG.CSS.SECTION_CONTAINER}:not(.${CONFIG.CSS.IS_COLLAPSED}) button:not(.favorite-btn):not([disabled]), ` +
                 `.${CONFIG.CSS.SECTION_CONTAINER}:not(.${CONFIG.CSS.IS_COLLAPSED}) select:not([disabled])`
@@ -63,33 +65,36 @@ export class NavigationService {
             if (key === 'Enter' || key === ' ') return;
 
             e.preventDefault();
+            const behavior = getMotionSafeScrollBehavior();
+            const isSectionControl = (el: HTMLElement): boolean =>
+                el.classList.contains(CONFIG.CSS.SECTION_TITLE) || el.classList.contains('section-toggle');
 
             if (key === 'ArrowRight' || key === 'ArrowDown') {
                 if (key === 'ArrowDown') {
                     const nextSection = focusables.find((el, i) =>
-                        i > currentIdx && el.classList.contains(CONFIG.CSS.SECTION_TITLE)
+                        i > currentIdx && isSectionControl(el)
                     );
                     const target = nextSection ?? focusables[0];
-                    if (target) { target.focus(); target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+                    if (target) { target.focus(); target.scrollIntoView({ behavior, block: 'center' }); }
                 } else {
                     const nextIdx = currentIdx < 0 ? 0 : Math.min(currentIdx + 1, focusables.length - 1);
                     const target = focusables[nextIdx];
-                    if (target) { target.focus(); target.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+                    if (target) { target.focus(); target.scrollIntoView({ behavior, block: 'nearest' }); }
                 }
             } else {
                 if (key === 'ArrowUp') {
                     const searchFrom = currentIdx < 0 ? focusables.length : currentIdx;
                     const prevSections = focusables.filter((el, i) =>
-                        i < searchFrom && el.classList.contains(CONFIG.CSS.SECTION_TITLE)
+                        i < searchFrom && isSectionControl(el)
                     );
                     if (prevSections.length) {
                         const prev = prevSections[prevSections.length - 1];
-                        if (prev) { prev.focus(); prev.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+                        if (prev) { prev.focus(); prev.scrollIntoView({ behavior, block: 'center' }); }
                     }
                 } else {
                     const prevIdx = currentIdx <= 0 ? focusables.length - 1 : currentIdx - 1;
                     const target = focusables[prevIdx];
-                    if (target) { target.focus(); target.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+                    if (target) { target.focus(); target.scrollIntoView({ behavior, block: 'nearest' }); }
                 }
             }
         });
