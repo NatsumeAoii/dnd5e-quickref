@@ -61,14 +61,18 @@ export class ViewRenderer {
     #ensurePrintableIcon(iconEl: HTMLElement): void {
         if (iconEl.querySelector('.item-icon-print-img')) return;
         const iconName = iconEl.getAttribute(CONFIG.ATTRIBUTES.ICON) ?? '';
-        let src = this.#printIconSrcCache.get(iconName);
-        if (!this.#printIconSrcCache.has(iconName)) {
+        // #4: Check cache BEFORE calling getComputedStyle to avoid forced style recalculation
+        if (this.#printIconSrcCache.has(iconName)) {
+            const cached = this.#printIconSrcCache.get(iconName);
+            if (!cached) return;
+        } else {
             const backgroundImage = window.getComputedStyle(iconEl).backgroundImage;
             const match = backgroundImage.match(/url\(["']?(.*?)["']?\)/);
-            src = match?.[1] ?? null;
-            this.#printIconSrcCache.set(iconName, src);
+            const resolved = match?.[1] ?? null;
+            this.#printIconSrcCache.set(iconName, resolved);
+            if (!resolved) return;
         }
-        if (!src) return;
+        const src = this.#printIconSrcCache.get(iconName)!;
 
         iconEl.setAttribute('aria-hidden', 'true');
         const img = document.createElement('img');

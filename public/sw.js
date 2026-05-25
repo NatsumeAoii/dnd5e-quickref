@@ -1,4 +1,4 @@
-const CACHE_VERSION = '1.1.7';
+const CACHE_VERSION = '1.1.8';
 const CACHE_NAME = `dnd5e-quickref-cache-v${CACHE_VERSION}`;
 const CORE_ASSETS = [
   './',
@@ -68,6 +68,29 @@ async function tryCachePut(request, response) {
   }
 }
 
+// #3: Precache only the user's active locale and ruleset first for faster offline readiness
+async function precacheForLocale(locale, ruleset) {
+  try {
+    const cache = await caches.open(CACHE_NAME);
+    await Promise.allSettled(CORE_ASSETS.map((url) => cache.add(url)));
+
+    const dataFiles = ['movement', 'action', 'bonus_action', 'reaction', 'condition', 'environment'];
+    const prefix = ruleset === '2024' ? '2024_' : '';
+    const dataPromises = [
+      cache.add(`./data/${locale}/menu.json`),
+      cache.add('./themes/themes.json'),
+    ];
+    for (const file of dataFiles) {
+      dataPromises.push(cache.add(`./data/${locale}/rules/${prefix}data_${file}.json`));
+    }
+    await Promise.allSettled(dataPromises);
+    // Background: lazily cache remaining locales/rulesets
+    await precacheAllContent();
+  } catch (error) {
+    console.error('[SW] Locale pre-caching failed:', error);
+  }
+}
+
 async function precacheAllContent() {
   try {
     const cache = await caches.open(CACHE_NAME);
@@ -91,7 +114,6 @@ async function precacheAllContent() {
     console.error('[SW] Pre-caching failed:', error);
   }
 }
-
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
@@ -116,7 +138,12 @@ self.addEventListener('message', (event) => {
   switch (event.data.type) {
     case 'SET_CACHING_POLICY':
       cachingAllowed = !!event.data.allowed;
-      if (cachingAllowed) event.waitUntil(precacheAllContent());
+      if (cachingAllowed) {
+        // #3: Precache active locale/ruleset first, then lazy-cache others on access
+        const locale = event.data.locale || 'en_US';
+        const ruleset = event.data.ruleset || '2014';
+        event.waitUntil(precacheForLocale(locale, ruleset));
+      }
       break;
     case 'CLEAR_CACHE':
       event.waitUntil(clearDataCache());

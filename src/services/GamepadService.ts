@@ -13,7 +13,18 @@ export class GamepadService {
         this.#domProvider = domProvider;
         window.addEventListener('gamepadconnected', this.#handleConnected, { signal: this.#abortController.signal });
         window.addEventListener('gamepaddisconnected', this.#handleDisconnected, { signal: this.#abortController.signal });
+        // #23: Pause polling when tab is hidden to save CPU/battery
+        document.addEventListener('visibilitychange', this.#handleVisibility, { signal: this.#abortController.signal });
     }
+
+    #handleVisibility = (): void => {
+        if (document.hidden) {
+            this.#stopPolling();
+        } else if (navigator.getGamepads?.()[0]) {
+            this.#active = true;
+            this.#poll();
+        }
+    };
 
     #handleConnected = (): void => {
         if (this.#active) return;

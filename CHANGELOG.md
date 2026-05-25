@@ -7,6 +7,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.8] - 2026-05-25
+
+### Architecture & Security Hardening
+
+A comprehensive pass focused on security, performance, accessibility, maintainability, and architectural improvements.
+
+#### Security
+- **DOMPurify Sanitizer**: Replaced the custom regex-based HTML sanitizer with DOMPurify 3.2.4, a battle-tested library that handles edge cases the regex approach could miss.
+- **Gzip Magic Byte Validation**: Note import now validates gzip file headers (`0x1f 0x8b`) before attempting decompression, providing clear error messages for misnamed files.
+- **IndexedDB Unavailability Fallback**: `DBService` now gracefully falls back to an in-memory `Map` when IndexedDB is unavailable (e.g., Firefox private browsing), preventing app crashes.
+
+#### Performance
+- **Deferred Search Indexing**: Search index construction is now deferred to `requestIdleCallback`, keeping the main thread free during initial load. Indices are built synchronously on first search query.
+- **Trie-Based Rule Matcher**: Replaced the large regex alternation pattern in rule cross-linking with an Aho-Corasick trie for O(n) text scanning regardless of rule count.
+- **Locale-Aware Service Worker Precaching**: The service worker now precaches only the user's active locale and ruleset first, then lazily caches remaining data in the background.
+- **Single-Pass Localization**: `LocalizationService` now applies all i18n attributes in a single DOM query instead of four separate passes.
+- **Batched Hash Popup Opens**: URL hash changes with multiple popup IDs now open all popups via `Promise.all` instead of sequential processing.
+- **Gamepad Visibility Pause**: Gamepad polling via `requestAnimationFrame` now pauses when the tab is hidden, saving CPU and battery.
+- **Print Icon Cache Ordering**: `ViewRenderer` now checks the icon source cache before calling `getComputedStyle`, avoiding forced style recalculation on cache hits.
+- **Trie Cache**: The trie matcher is now cached alongside the regex in the linker data cache, preventing unnecessary rebuilds on ruleset switches.
+
+#### Accessibility & UX
+- **Pointer Events for Popup Dragging**: Popup drag handling now uses Pointer Events (`pointerdown`/`pointermove`/`pointerup`) with `setPointerCapture`, enabling touch and pen input on tablets in landscape mode.
+- **Search Focus Shortcut**: Added `/` keyboard shortcut to focus and select the search input.
+- **Default Summary View**: Rule popups now default to showing the summary with bullets hidden. Users click "Tell Me More" to expand detailed content.
+
+#### Maintainability
+- **UIController Split**: Extracted `SearchController` and `CookieNoticeController` from the monolithic `UIController`, reducing it by ~200 lines.
+- **AppShortcutsController**: Extracted keyboard shortcut registration and print logic from `main.ts` into a dedicated controller, making `main.ts` a pure composition root.
+- **PopupLinkifier**: Extracted the rule cross-linking logic from `WindowManager` into a focused `PopupLinkifier` class.
+- **Typed State Events**: `StateManager` now exports a `StateEventMap` interface with typed overloads for `subscribe`/`publish`/`unsubscribe`, catching event name typos at compile time.
+- **Proper Trie Typing**: `DataState.ruleLinkerTrie` is now typed as `TrieMatcher | null` instead of `unknown`, eliminating unsafe casts.
+- **Render Pipeline Tests**: Added 5 integration tests covering rule item rendering, XSS vector stripping, table structure, optional/homebrew filtering, and default summary view behavior.
+
+#### Added
+- **New Files**: `src/ui/SearchController.ts`, `src/ui/CookieNoticeController.ts`, `src/ui/AppShortcutsController.ts`, `src/ui/PopupLinkifier.ts`, `src/utils/TrieMatcher.ts`, `src/css/critical.css`, `src/__tests__/RenderPipeline.test.ts`
+- **New Dependency**: `dompurify@3.2.4` (production dependency, ~3KB gzipped)
+
+---
+
 ## [1.1.7] - 2026-05-17
 
 ### Added

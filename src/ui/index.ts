@@ -4,3 +4,5 @@ export { ViewRenderer } from './ViewRenderer.js';
 export { PopupFactory } from './PopupFactory.js';
 export { WindowManager } from './WindowManager.js';
 export { UIController } from './UIController.js';
+export { SearchController } from './SearchController.js';
+export { CookieNoticeController } from './CookieNoticeController.js';

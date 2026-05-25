@@ -656,6 +656,7 @@ describe('DataService validation and loading', () => {
         const data = new DataService(stateManager);
 
         data.buildRuleMap();
+        data.ensureSearchIndicesReady();
 
         const searchIndex = state.data.ruleMap.get('Action::Ready')?.searchIndex ?? '';
         expect(searchIndex).toContain('reaction trigger summary');

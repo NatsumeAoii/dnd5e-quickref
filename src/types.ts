@@ -1,3 +1,5 @@
+import type { TrieMatcher } from './utils/TrieMatcher.js';
+
 export interface RuleData {
     title?: string;
     subtitle?: string;
@@ -78,6 +80,7 @@ export interface DataState {
     ruleMap: Map<string, RuleInfo>;
     ruleLinkerRegex: RegExp | null;
     titleLookup: Map<string, string>;
+    ruleLinkerTrie: TrieMatcher | null;
 }
 
 export interface AppState {

@@ -53,70 +53,8 @@
     </noscript>
 
     <link id="theme-stylesheet" rel="stylesheet" type="text/css" href="">
-    <style>
-        /* Critical CSS for skeleton loader */
-        .skeleton-loader {
-            max-width: 2000px;
-            margin: 0 auto;
-            padding: var(--spacing-md);
-        }
-
-        .skeleton-section {
-            height: 60px;
-            background-color: var(--color-card-bg);
-            border-radius: var(--border-radius-lg);
-            margin-bottom: 0.5rem;
-            opacity: 0.5;
-            animation: pulse 1.5s infinite ease-in-out;
-        }
-
-        @keyframes pulse {
-            0% {
-                background-color: var(--color-card-bg);
-            }
-
-            50% {
-                background-color: var(--color-border);
-            }
-
-            100% {
-                background-color: var(--color-card-bg);
-            }
-        }
-
-        /* Error Boundary Styles */
-        #global-error-boundary {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: var(--color-bg);
-            z-index: 20000;
-            padding: 2rem;
-            text-align: center;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-
-        #global-error-boundary.visible {
-            display: flex;
-        }
-
-        .error-actions {
-            margin-top: 1rem;
-        }
-
-        #error-text {
-            display: block;
-            max-width: 100%;
-            margin: 1rem 0;
-            padding: 0.5rem;
-            overflow: auto;
-            color: #fff;
-            background: #333;
-            border-radius: 4px;
-        }
-    </style>
+    <!-- #5: Critical CSS moved to external file to eliminate 'unsafe-inline' from CSP -->
+    <link rel="stylesheet" href="/src/css/critical.css">
 
     <!-- #11/#12: Global error handler moved to external script for CSP compliance -->
     <script type="module" src="/src/error-handler.ts"></script>

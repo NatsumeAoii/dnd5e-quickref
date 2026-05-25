@@ -3,11 +3,22 @@ export class DBService {
     #storeName = 'user_notes';
     #version = 1;
     #db: IDBDatabase | null = null;
+    #unavailable = false;
+    #fallbackStore = new Map<string, string>();
 
     async open(): Promise<IDBDatabase> {
         if (this.#db) return this.#db;
+        if (this.#unavailable) throw new Error('IndexedDB is not available in this environment.');
         return new Promise((resolve, reject) => {
-            const req = indexedDB.open(this.#dbName, this.#version);
+            let req: IDBOpenDBRequest;
+            try {
+                req = indexedDB.open(this.#dbName, this.#version);
+            } catch {
+                // #24: IndexedDB unavailable (e.g., Firefox private browsing pre-v115)
+                this.#unavailable = true;
+                reject(new Error('IndexedDB is not available in this environment.'));
+                return;
+            }
             req.onupgradeneeded = (e) => {
                 const db = (e.target as IDBOpenDBRequest).result;
                 if (!db.objectStoreNames.contains(this.#storeName)) {
@@ -29,6 +40,7 @@ export class DBService {
     }
 
     async getAll(): Promise<Record<string, string>> {
+        if (this.#unavailable) return Object.fromEntries(this.#fallbackStore);
         const db = await this.open();
         return new Promise((resolve, reject) => {
             const tx = db.transaction(this.#storeName, 'readonly');
@@ -51,6 +63,7 @@ export class DBService {
     }
 
     async put(key: string, value: string): Promise<void> {
+        if (this.#unavailable) { this.#fallbackStore.set(key, value); return; }
         const db = await this.open();
         return new Promise((resolve, reject) => {
             const tx = db.transaction(this.#storeName, 'readwrite');
@@ -65,6 +78,7 @@ export class DBService {
     }
 
     async delete(key: string): Promise<void> {
+        if (this.#unavailable) { this.#fallbackStore.delete(key); return; }
         const db = await this.open();
         return new Promise((resolve, reject) => {
             const tx = db.transaction(this.#storeName, 'readwrite');

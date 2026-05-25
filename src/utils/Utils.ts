@@ -1,6 +1,8 @@
+import DOMPurify from 'dompurify';
+
 interface TrustedTypesPolicyLike {
-    createHTML: (input: string) => string;
-    createScriptURL: (input: string) => string;
+    createHTML: (input: string) => unknown;
+    createScriptURL: (input: string) => unknown;
 }
 
 interface TrustedTypesLike {
@@ -17,85 +19,23 @@ interface TrustedTypesLike {
 let trustedPolicy: TrustedTypesPolicyLike | undefined;
 const trustedTypes = (window as Window & { trustedTypes?: TrustedTypesLike }).trustedTypes;
 
-const sanitizeHTML = (html: string): string => {
-    const safeTags = new Set([
-        'a', 'b', 'br', 'code', 'em', 'i', 'kbd', 'li', 'ol', 'p', 's', 'span',
-        'strong', 'table', 'tbody', 'td', 'th', 'thead', 'tr', 'u', 'ul',
-    ]);
-    const voidTags = new Set(['br']);
-    const allowedProtocols = new Set(['http:', 'https:', 'mailto:', 'tel:']);
-    const escapeAttr = (value: string): string => value
-        .replace(/&/g, '&amp;')
-        .replace(/"/g, '&quot;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-    const fromCodePointSafe = (value: number): string =>
-        Number.isInteger(value) && value >= 0 && value <= 0x10ffff ? String.fromCodePoint(value) : '';
-    const decodeUrlEntities = (value: string): string => value
-        .replace(/&#(\d+);?/g, (_m, code: string) => fromCodePointSafe(Number(code)))
-        .replace(/&#x([0-9a-f]+);?/gi, (_m, code: string) => fromCodePointSafe(parseInt(code, 16)))
-        .replace(/&(colon|tab|newline);?/gi, (_m, entity: string) => {
-            const normalized = entity.toLowerCase();
-            if (normalized === 'colon') return ':';
-            if (normalized === 'tab') return '\t';
-            return '\n';
-        });
-    const isSafeUrl = (value: string): boolean => {
-        const trimmed = decodeUrlEntities(value).trim();
-        if (!trimmed || trimmed.startsWith('#') || trimmed.startsWith('/') || trimmed.startsWith('./') || trimmed.startsWith('../')) return true;
-        try {
-            return allowedProtocols.has(new URL(trimmed, window.location.href).protocol);
-        } catch {
-            return false;
-        }
-    };
-    const isAllowedAttr = (tag: string, name: string, value: string): boolean => {
-        if (tag === 'a') {
-            if (name === 'href') return isSafeUrl(value);
-            if (name === 'class') return /^[\w -]{1,80}$/.test(value);
-            if (name === 'data-popup-id') return value.length <= 200 && !/[<>"`]/.test(value);
-            if (name === 'title') return value.length <= 200;
-            if (name === 'target') return value === '_blank' || value === '_self';
-            if (name === 'rel') return /^[\w -]{1,120}$/.test(value);
-        }
-        if ((tag === 'td' || tag === 'th') && (name === 'colspan' || name === 'rowspan')) {
-            const numeric = Number(value);
-            return Number.isInteger(numeric) && numeric > 0 && numeric <= 20;
-        }
-        return false;
-    };
-    const sanitizeAttrs = (tag: string, attrs: string): string => {
-        const safeAttrs: string[] = [];
-        attrs.replace(
-            /\s+([A-Za-z_:][\w:.-]*)(?:\s*=\s*("[^"]*"|'[^']*'|[^\s"'=<>`]+))?/g,
-            (_match: string, rawName: string, rawValue = '') => {
-                const name = rawName.toLowerCase();
-                if (name.startsWith('on') || name === 'style') return '';
-                const value = rawValue[0] === '"' || rawValue[0] === "'"
-                    ? rawValue.slice(1, -1)
-                    : rawValue;
-                if (rawValue && isAllowedAttr(tag, name, value)) {
-                    safeAttrs.push(`${name}="${escapeAttr(value)}"`);
-                }
-                return '';
-            },
-        );
-        return safeAttrs.length > 0 ? ` ${safeAttrs.join(' ')}` : '';
-    };
+// #18: DOMPurify-based sanitizer replaces the custom regex-based implementation
+const ALLOWED_TAGS = [
+    'a', 'b', 'br', 'code', 'em', 'i', 'kbd', 'li', 'ol', 'p', 's', 'span',
+    'strong', 'table', 'tbody', 'td', 'th', 'thead', 'tr', 'u', 'ul',
+];
+const ALLOWED_ATTR = [
+    'href', 'class', 'data-popup-id', 'title', 'target', 'rel',
+    'colspan', 'rowspan', 'scope',
+];
+const ALLOWED_URI_REGEXP = /^(?:(?:https?|mailto|tel):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i;
 
-    let clean = html
-        .replace(/<\s*(script|style|iframe|object|embed)\b[^>]*>[\s\S]*?(?:<\s*\/\s*\1\s*>|$)/gi, '')
-        .replace(/<\/?\s*(script|style|iframe|object|embed|link|meta|base)\b[^>]*>/gi, '');
-
-    clean = clean.replace(/<\/?\s*([A-Za-z][\w:-]*)([^>]*)>/g, (match: string, rawTag: string, rawAttrs: string) => {
-        const tag = rawTag.toLowerCase();
-        if (!safeTags.has(tag)) return '';
-        if (/^<\s*\//.test(match)) return voidTags.has(tag) ? '' : `</${tag}>`;
-        return voidTags.has(tag) ? `<${tag}>` : `<${tag}${sanitizeAttrs(tag, rawAttrs)}>`;
-    });
-
-    return clean;
-};
+const sanitizeHTML = (html: string): string =>
+    DOMPurify.sanitize(html, {
+        ALLOWED_TAGS,
+        ALLOWED_ATTR,
+        ALLOWED_URI_REGEXP,
+    }) as string;
 
 if (trustedTypes?.createPolicy) {
     try {
@@ -116,10 +56,10 @@ if (trustedTypes?.createPolicy) {
 }
 
 export const safeHTML = (html: string): string =>
-    trustedPolicy ? trustedPolicy.createHTML(html) : sanitizeHTML(html);
+    trustedPolicy ? String(trustedPolicy.createHTML(html)) : sanitizeHTML(html);
 
 export const safeScriptURL = (url: string): string =>
-    trustedPolicy ? trustedPolicy.createScriptURL(url) : url;
+    trustedPolicy ? String(trustedPolicy.createScriptURL(url)) : url;
 
 export const prefersReducedMotion = (): boolean =>
     document.body.classList.contains('motion-reduced') ||

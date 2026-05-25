@@ -1,5 +1,5 @@
 export class ServiceWorkerMessenger {
-    static #postMessage(message: { type: string; allowed?: boolean }): boolean {
+    static #postMessage(message: { type: string; allowed?: boolean; locale?: string; ruleset?: string }): boolean {
         if (!('serviceWorker' in navigator) || !navigator.serviceWorker.controller) return false;
         try {
             navigator.serviceWorker.controller.postMessage(message);
@@ -10,7 +10,9 @@ export class ServiceWorkerMessenger {
         }
     }
 
-    static setCachingPolicy(allowed: boolean): boolean { return this.#postMessage({ type: 'SET_CACHING_POLICY', allowed }); }
+    static setCachingPolicy(allowed: boolean, locale = 'en_US', ruleset = '2014'): boolean {
+        return this.#postMessage({ type: 'SET_CACHING_POLICY', allowed, locale, ruleset });
+    }
 
     static clearCache(): boolean { return this.#postMessage({ type: 'CLEAR_CACHE' }); }
 

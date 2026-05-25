@@ -1,5 +1,6 @@
 import { CONFIG } from '../config.js';
 import { DataLoadError } from '../utils/Utils.js';
+import { TrieMatcher } from '../utils/TrieMatcher.js';
 import type { StateManager } from '../state/StateManager.js';
 import type { RuleData } from '../types.js';
 
@@ -231,36 +232,67 @@ export class DataService {
                         if (state.data.ruleMap.has(id)) {
                             console.warn(`Duplicate rule id "${id}" while building rule map; later entry overwrites earlier entry.`);
                         }
-                        const bulletParts: string[] = [];
-                        rule.bullets?.forEach((bullet) => {
-                            if (bullet.content) bulletParts.push(bullet.content);
-                            if (Array.isArray(bullet.items)) bulletParts.push(...bullet.items);
-                            if (Array.isArray(bullet.headers)) bulletParts.push(...bullet.headers);
-                            if (Array.isArray(bullet.rows)) {
-                                bullet.rows.forEach((row) => bulletParts.push(...row.map((cell) => String(cell ?? ''))));
-                            }
-                        });
+                        // #1: Defer search index construction — store rule immediately, build index lazily
                         state.data.ruleMap.set(id, {
                             ruleData: rule,
                             type: section.type,
                             sectionId: section.id,
-                            searchIndex: [
-                                rule.title,
-                                rule.description,
-                                rule.subtitle,
-                                rule.summary,
-                                rule.reference,
-                                ...bulletParts,
-                            ].map(normalizeSearchPart).join('\0'),
+                            searchIndex: undefined,
                         });
                     }
                 });
             }
         });
+
+        // #1: Build search indices in idle time to avoid blocking the main thread
+        this.#buildSearchIndicesDeferred();
+    }
+
+    #searchIndexBuildPending = false;
+
+    #buildSearchIndicesDeferred(): void {
+        if (this.#searchIndexBuildPending) return;
+        this.#searchIndexBuildPending = true;
+        const idleCallback = (window as Window & { requestIdleCallback?: (cb: () => void) => void }).requestIdleCallback
+            ?? ((cb: () => void) => setTimeout(cb, 16));
+        idleCallback(() => {
+            this.#buildSearchIndicesSync();
+            this.#searchIndexBuildPending = false;
+        });
+    }
+
+    #buildSearchIndicesSync(): void {
+        const state = this.#stateManager.getState();
+        state.data.ruleMap.forEach((info, _id) => {
+            if (info.searchIndex !== undefined) return;
+            const rule = info.ruleData;
+            const bulletParts: string[] = [];
+            rule.bullets?.forEach((bullet) => {
+                if (bullet.content) bulletParts.push(bullet.content);
+                if (Array.isArray(bullet.items)) bulletParts.push(...bullet.items);
+                if (Array.isArray(bullet.headers)) bulletParts.push(...bullet.headers);
+                if (Array.isArray(bullet.rows)) {
+                    bullet.rows.forEach((row) => bulletParts.push(...row.map((cell) => String(cell ?? ''))));
+                }
+            });
+            info.searchIndex = [
+                rule.title,
+                rule.description,
+                rule.subtitle,
+                rule.summary,
+                rule.reference,
+                ...bulletParts,
+            ].map(normalizeSearchPart).join('\0');
+        });
+    }
+
+    /** Ensure search indices are built synchronously (called before search operations) */
+    ensureSearchIndicesReady(): void {
+        this.#buildSearchIndicesSync();
     }
 
     // #5: Persistent linker data cache keyed by ruleset
-    #linkerDataCache = new Map<string, { regex: RegExp | null; titleLookup: Map<string, string>; titleHash: string }>();
+    #linkerDataCache = new Map<string, { regex: RegExp | null; trie: TrieMatcher | null; titleLookup: Map<string, string>; titleHash: string }>();
 
     buildLinkerData(): void {
         const state = this.#stateManager.getState();
@@ -290,6 +322,7 @@ export class DataService {
         if (cached && cached.titleHash === titleHash) {
             state.data.titleLookup = cached.titleLookup;
             state.data.ruleLinkerRegex = cached.regex;
+            state.data.ruleLinkerTrie = cached.trie;
             return;
         }
 
@@ -299,13 +332,21 @@ export class DataService {
         // Guard: empty pattern would match empty strings and cause infinite loops in matchAll
         if (uniqueTitles.length === 0) {
             state.data.ruleLinkerRegex = null;
-            this.#linkerDataCache.set(rulesetKey, { regex: null, titleLookup, titleHash });
+            state.data.ruleLinkerTrie = null;
+            this.#linkerDataCache.set(rulesetKey, { regex: null, trie: null, titleLookup, titleHash });
             return;
         }
 
         const esc = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const regex = new RegExp(`(?<![\\p{L}\\p{N}_])(${uniqueTitles.map(esc).join('|')})(?![\\p{L}\\p{N}_])`, 'giu');
         state.data.ruleLinkerRegex = regex;
-        this.#linkerDataCache.set(rulesetKey, { regex, titleLookup, titleHash });
+
+        // #2: Build trie-based matcher for O(n) text scanning
+        const trie = new TrieMatcher();
+        uniqueTitles.forEach((title) => trie.addPattern(title));
+        trie.build();
+        state.data.ruleLinkerTrie = trie;
+
+        this.#linkerDataCache.set(rulesetKey, { regex, trie, titleLookup, titleHash });
     }
 }

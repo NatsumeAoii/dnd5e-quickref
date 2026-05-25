@@ -148,6 +148,13 @@ export class TemplateService {
         if (!ruleData.bullets?.length) {
             toggleBtn.classList.add(CONFIG.CSS.HIDDEN);
             if (!ruleData.summary) popup.querySelector('.popup-summary')!.classList.add(CONFIG.CSS.HIDDEN);
+        } else {
+            // #12: Default to summary view — show summary, hide detailed bullets
+            if (ruleData.summary) {
+                bulletsEl.classList.add(CONFIG.CSS.HIDDEN);
+                toggleBtn.textContent = 'Tell Me More';
+                toggleBtn.setAttribute('aria-expanded', 'false');
+            }
         }
 
         const textarea = popup.querySelector('.popup-notes-textarea') as HTMLTextAreaElement;

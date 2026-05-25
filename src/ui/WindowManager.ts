@@ -1,11 +1,12 @@
 import { CONFIG } from '../config.js';
-import { safeHTML, debounce, prefersReducedMotion } from '../utils/Utils.js';
+import { debounce, prefersReducedMotion } from '../utils/Utils.js';
 import type { DOMProvider } from '../services/DOMProvider.js';
 import type { A11yService } from '../services/A11yService.js';
 import type { PersistenceService } from '../services/PersistenceService.js';
 import type { DataService } from '../services/DataService.js';
 import type { StateManager } from '../state/StateManager.js';
 import type { PopupFactory } from './PopupFactory.js';
+import { PopupLinkifier } from './PopupLinkifier.js';
 import type { PopupState, RuleInfo } from '../types.js';
 
 interface WindowManagerServices {
@@ -27,10 +28,8 @@ export class WindowManager {
     #popupContainer!: HTMLElement;
     #closeAllBtn!: HTMLElement;
     #isMobileView = false;
-    // #3: Cache linkified HTML to avoid redundant DOM tree-walk + serialization
-    #linkifyCache = new Map<string, string>();
+    #linkifier: PopupLinkifier;
     #inflightPopups = new Set<string>();
-    static #LINKIFY_CACHE_MAX = 500;
     static #MAX_HASH_POPUPS = 10;
     static #MAX_POPUP_ID_LENGTH = 200;
 
@@ -52,12 +51,7 @@ export class WindowManager {
         this.#popupContainer = this.#domProvider.get(CONFIG.ELEMENT_IDS.POPUP_CONTAINER);
         this.#closeAllBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.CLOSE_ALL_POPUPS_BTN);
         this.#ensureMinimizedBar();
-
-        // (H) Clear linkify cache when ruleset changes — cached HTML may reference stale rule links
-        this.#stateManager.subscribe('settingChanged', (data?: unknown) => {
-            const { key } = data as { key: string };
-            if (key === 'RULES_2024') this.#linkifyCache.clear();
-        });
+        this.#linkifier = new PopupLinkifier(this.#stateManager, this.#toShortId);
     }
 
     #minimizedBar: HTMLElement | null = null;
@@ -111,76 +105,6 @@ export class WindowManager {
             id.includes('::') &&
             !/[<>"`]/.test(id);
     }
-
-    #linkifyContent = (html: string): string => {
-        const state = this.#stateManager.getState();
-        if (!html || !state.data.ruleLinkerRegex) return html;
-
-        // #3: Return cached result if available
-        const cached = this.#linkifyCache.get(html);
-        if (cached) return cached;
-
-        // Reset regex lastIndex to prevent stale state from prior matchAll calls
-        state.data.ruleLinkerRegex.lastIndex = 0;
-
-        const container = document.createElement('div');
-        container.innerHTML = safeHTML(html) as string;
-
-        const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
-        const textNodes: Text[] = [];
-        let node = walker.nextNode();
-        while (node !== null) {
-            textNodes.push(node as Text);
-            node = walker.nextNode();
-        }
-
-        textNodes.forEach((textNode) => {
-            const text = textNode.nodeValue || '';
-            const matches = Array.from(text.matchAll(state.data.ruleLinkerRegex!));
-            if (matches.length === 0) return;
-
-            const fragment = document.createDocumentFragment();
-            let lastIndex = 0;
-
-            matches.forEach((match) => {
-                const matchText = match[0];
-                const matchIndex = match.index!;
-
-                if (matchIndex > lastIndex) {
-                    fragment.appendChild(document.createTextNode(text.substring(lastIndex, matchIndex)));
-                }
-
-                const link = document.createElement('a');
-                link.className = 'rule-link';
-                link.textContent = matchText;
-                // O(1) lookup via pre-built titleLookup map
-                const id = state.data.titleLookup.get(matchText.toLowerCase());
-
-                if (id) {
-                    link.setAttribute('href', `#${this.#toShortId(id)}`);
-                    link.setAttribute(CONFIG.ATTRIBUTES.POPUP_ID, id);
-                    fragment.appendChild(link);
-                } else {
-                    fragment.appendChild(document.createTextNode(matchText));
-                }
-                lastIndex = matchIndex + matchText.length;
-            });
-
-            if (lastIndex < text.length) {
-                fragment.appendChild(document.createTextNode(text.substring(lastIndex)));
-            }
-            textNode.parentNode!.replaceChild(fragment, textNode);
-        });
-
-        const result = container.innerHTML;
-        this.#linkifyCache.set(html, result);
-        // Evict oldest entries when cache exceeds size cap
-        if (this.#linkifyCache.size > WindowManager.#LINKIFY_CACHE_MAX) {
-            const firstKey = this.#linkifyCache.keys().next().value;
-            if (firstKey !== undefined) this.#linkifyCache.delete(firstKey);
-        }
-        return result;
-    };
 
     // #9: Scope link state queries to popup container — rule-links only exist there
     #updateAllLinkStates(): void {
@@ -256,31 +180,34 @@ export class WindowManager {
     #makeDraggable(popup: HTMLElement): void {
         const header = popup.querySelector('.popup-header') as HTMLElement | null;
         if (!header) return;
-        const onMouseDown = (mdEvent: MouseEvent): void => {
+        // #10: Use Pointer Events for touch+mouse+pen support on tablets
+        const onPointerDown = (mdEvent: PointerEvent): void => {
             if (!(mdEvent.target instanceof HTMLElement) || mdEvent.target.closest(`.${CONFIG.CSS.POPUP_CLOSE_BTN}`)) return;
             mdEvent.preventDefault();
+            header.setPointerCapture(mdEvent.pointerId);
             this.#bringToFront(popup);
             header.classList.add(CONFIG.CSS.IS_DRAGGING);
             const rect = popup.getBoundingClientRect();
             const offX = mdEvent.clientX - rect.left;
             const offY = mdEvent.clientY - rect.top;
-            const onMouseMove = (mmEvent: MouseEvent): void => {
+            const onPointerMove = (mmEvent: PointerEvent): void => {
                 const PADDING = CONFIG.LAYOUT.POPUP_VIEWPORT_PADDING_PX;
                 const newLeft = Math.max(PADDING, Math.min(mmEvent.clientX - offX, window.innerWidth - popup.offsetWidth - PADDING));
                 const newTop = Math.max(PADDING, Math.min(mmEvent.clientY - offY, window.innerHeight - popup.offsetHeight - PADDING));
                 popup.style.left = `${newLeft}px`;
                 popup.style.top = `${newTop}px`;
             };
-            const onMouseUp = (): void => {
+            const onPointerUp = (): void => {
                 header.classList.remove(CONFIG.CSS.IS_DRAGGING);
-                document.removeEventListener('mousemove', onMouseMove);
-                document.removeEventListener('mouseup', onMouseUp);
+                header.removeEventListener('pointermove', onPointerMove);
+                header.removeEventListener('pointerup', onPointerUp);
                 this.#persistenceService.saveSession();
             };
-            document.addEventListener('mousemove', onMouseMove);
-            document.addEventListener('mouseup', onMouseUp);
+            header.addEventListener('pointermove', onPointerMove);
+            header.addEventListener('pointerup', onPointerUp);
         };
-        header.addEventListener('mousedown', onMouseDown);
+        header.addEventListener('pointerdown', onPointerDown);
+        header.style.touchAction = 'none';
     }
 
     #ensureLinkerDataReady(): void {
@@ -291,7 +218,7 @@ export class WindowManager {
 
     #createPopup(id: string, ruleInfo: RuleInfo, pos?: { top?: string; left?: string; zIndex?: string; width?: string; height?: string }): void {
         this.#ensureLinkerDataReady();
-        const popup = this.#popupFactory.create(id, ruleInfo, this.#linkifyContent);
+        const popup = this.#popupFactory.create(id, ruleInfo, this.#linkifier.linkify);
         if (this.#isMobileView) {
             popup.classList.add(CONFIG.CSS.POPUP_MODAL);
             this.#popupContainer.classList.add(CONFIG.CSS.POPUP_CONTAINER_MODAL_OPEN);
@@ -403,7 +330,11 @@ export class WindowManager {
 
         const openIds = new Set(state.ui.openPopups.keys());
         [...openIds].filter((id) => !idsFromHash.has(id)).forEach((id) => this.#closePopup(id));
-        [...idsFromHash].filter((id) => !openIds.has(id)).forEach((id) => this.togglePopup(id));
+        // #7: Batch popup opens to avoid sequential data fetches and DOM thrashing
+        const toOpen = [...idsFromHash].filter((id) => !openIds.has(id));
+        if (toOpen.length > 0) {
+            void Promise.all(toOpen.map((id) => this.togglePopup(id)));
+        }
         if (hashWasSanitized) this.#updateURLHash();
     };
 

@@ -225,6 +225,12 @@ export class UserDataService {
             if (typeof DecompressionStream !== 'function' || typeof file.stream !== 'function') {
                 throw new Error('Compressed note imports are not supported in this browser. Import a .json file instead.');
             }
+            // #6: Validate gzip magic bytes before attempting decompression
+            const header = await file.slice(0, 2).arrayBuffer();
+            const bytes = new Uint8Array(header);
+            if (bytes[0] !== 0x1f || bytes[1] !== 0x8b) {
+                throw new Error('File does not appear to be a valid gzip archive. Rename to .json if it is uncompressed.');
+            }
             let totalBytes = 0;
             const sizeGuard = new TransformStream<Uint8Array, Uint8Array>({
                 transform(chunk, controller) {

@@ -11,7 +11,7 @@ import {
 import {
     TemplateService, ViewRenderer, PopupFactory, WindowManager, UIController,
 } from './ui/index.js';
-import { getMotionSafeScrollBehavior, installPrintRestoreFallback } from './utils/Utils.js';
+import { AppShortcutsController } from './ui/AppShortcutsController.js';
 
 interface Services {
     domProvider: DOMProvider;
@@ -46,7 +46,7 @@ class QuickRefApplication {
     #stateManager!: StateManager;
     #services!: Services;
     #components!: Components;
-    #printInProgress = false;
+    #appShortcuts!: AppShortcutsController;
 
     constructor() {
         try {
@@ -153,7 +153,16 @@ class QuickRefApplication {
             idleCallback(() => this.#services.data.preloadAllDataSilent());
 
             // Wire keyboard shortcuts
-            this.#registerKeyboardShortcuts();
+            this.#appShortcuts = new AppShortcutsController({
+                stateManager: this.#stateManager,
+                shortcuts: this.#services.shortcuts,
+                navigation: this.#services.navigation,
+                a11y: this.#services.a11y,
+                errorService: this.#services.errorService,
+                windowManager: this.#components.windowManager,
+                controller: this.#components.controller,
+            });
+            this.#appShortcuts.register();
             this.#services.shortcuts.initialize();
             this.#services.navigation.initialize();
 
@@ -198,7 +207,11 @@ class QuickRefApplication {
                         } catch (error) {
                             console.warn('Could not read cache consent state:', error);
                         }
-                        if (ready) ServiceWorkerMessenger.setCachingPolicy(cachingAllowed);
+                        if (ready) ServiceWorkerMessenger.setCachingPolicy(
+                            cachingAllowed,
+                            this.#stateManager.getState().settings.locale,
+                            this.#stateManager.getState().settings.use2024Rules ? '2024' : '2014',
+                        );
                     });
                 } catch (error) {
                     console.error('Service Worker registration failed:', error);
@@ -210,91 +223,6 @@ class QuickRefApplication {
         }
     }
 
-    #setSectionDisclosureExpanded(section: Element, expanded: boolean): void {
-        const control = section.querySelector('.section-toggle')
-            ?? section.querySelector(`.${CONFIG.CSS.SECTION_TITLE}`);
-        control?.setAttribute('aria-expanded', String(expanded));
-    }
-
-    #registerKeyboardShortcuts(): void {
-        const s = this.#services.shortcuts;
-
-        // Close topmost popup
-        s.register('Esc', 'Close topmost popup', 'Popups', () => {
-            const topId = this.#components.windowManager.getTopMostPopupId();
-            if (topId) this.#components.windowManager.togglePopup(topId);
-        });
-
-        // Toggle all sections
-        s.register('Ctrl+E', 'Expand/collapse all sections', 'Navigation', () => {
-            const sections = document.querySelectorAll(`.${CONFIG.CSS.SECTION_CONTAINER}:not([data-section="settings"]):not([data-section="favorites"])`);
-            const allCollapsed = Array.from(sections).every((el) => el.classList.contains(CONFIG.CSS.IS_COLLAPSED));
-            sections.forEach((el) => {
-                el.classList.toggle(CONFIG.CSS.IS_COLLAPSED, !allCollapsed);
-                this.#setSectionDisclosureExpanded(el, allCollapsed);
-            });
-            // Persist all states and trigger lazy-render if expanding
-            this.#components.controller.persistAllSectionStates();
-            if (allCollapsed) this.#components.controller.renderOpenSections();
-            this.#services.navigation.invalidateFocusables();
-        });
-
-        // Print
-        s.register('Ctrl+P', 'Print quick reference', 'Tools', () => {
-            void this.#printQuickReference();
-        });
-
-        // Scroll to top
-        s.register('t', 'Scroll to top', 'Navigation', () => {
-            window.scrollTo({ top: 0, behavior: getMotionSafeScrollBehavior() });
-        });
-
-        // Close all popups
-        s.register('Ctrl+W', 'Close all popups', 'Popups', () => {
-            this.#components.windowManager.closeAllPopups();
-        });
-
-    }
-
-    async #printQuickReference(): Promise<void> {
-        if (this.#printInProgress) return;
-        this.#printInProgress = true;
-        const expandedForPrint: HTMLElement[] = [];
-        let restored = false;
-        const restorePrintState = (): void => {
-            if (restored) return;
-            restored = true;
-            document.body.classList.remove(CONFIG.CSS.PRINT_MODE);
-            expandedForPrint.forEach((el) => {
-                el.classList.add(CONFIG.CSS.IS_COLLAPSED);
-                this.#setSectionDisclosureExpanded(el, false);
-            });
-            this.#services.navigation.invalidateFocusables();
-        };
-
-        try {
-            document.body.classList.add(CONFIG.CSS.PRINT_MODE);
-            document.querySelectorAll(`.${CONFIG.CSS.SECTION_CONTAINER}.${CONFIG.CSS.IS_COLLAPSED}`).forEach((el) => {
-                const section = el as HTMLElement;
-                expandedForPrint.push(section);
-                section.classList.remove(CONFIG.CSS.IS_COLLAPSED);
-                this.#setSectionDisclosureExpanded(section, true);
-            });
-            await this.#components.controller.renderOpenSections();
-            this.#services.navigation.invalidateFocusables();
-            this.#services.a11y.announce('Print view ready');
-            installPrintRestoreFallback(
-                restorePrintState,
-                CONFIG.ANIMATION_DURATION.SECTION_TRANSITION_MS * 4,
-            );
-            window.print();
-        } catch (error) {
-            restorePrintState();
-            this.#services.errorService.warn(error instanceof Error ? error.message : String(error), 'Print');
-        } finally {
-            this.#printInProgress = false;
-        }
-    }
 }
 
 if (document.readyState === 'loading') {

@@ -46,21 +46,19 @@ export class LocalizationService {
     }
 
     #applyStrings(strings: MenuStrings): void {
-        document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((element) => {
-            const key = element.dataset.i18n;
-            if (key && strings[key]) element.textContent = strings[key];
-        });
-        document.querySelectorAll<HTMLElement>('[data-i18n-placeholder]').forEach((element) => {
-            const key = element.dataset.i18nPlaceholder;
-            if (key && strings[key]) element.setAttribute('placeholder', strings[key]);
-        });
-        document.querySelectorAll<HTMLElement>('[data-i18n-aria-label]').forEach((element) => {
-            const key = element.dataset.i18nAriaLabel;
-            if (key && strings[key]) element.setAttribute('aria-label', strings[key]);
-        });
-        document.querySelectorAll<HTMLElement>('[data-i18n-title]').forEach((element) => {
-            const key = element.dataset.i18nTitle;
-            if (key && strings[key]) element.setAttribute('title', strings[key]);
+        // #22: Single DOM pass for all i18n attributes instead of four separate queries
+        document.querySelectorAll<HTMLElement>('[data-i18n], [data-i18n-placeholder], [data-i18n-aria-label], [data-i18n-title]').forEach((element) => {
+            const i18nKey = element.dataset.i18n;
+            if (i18nKey && strings[i18nKey]) element.textContent = strings[i18nKey];
+
+            const placeholderKey = element.dataset.i18nPlaceholder;
+            if (placeholderKey && strings[placeholderKey]) element.setAttribute('placeholder', strings[placeholderKey]);
+
+            const ariaLabelKey = element.dataset.i18nAriaLabel;
+            if (ariaLabelKey && strings[ariaLabelKey]) element.setAttribute('aria-label', strings[ariaLabelKey]);
+
+            const titleKey = element.dataset.i18nTitle;
+            if (titleKey && strings[titleKey]) element.setAttribute('title', strings[titleKey]);
         });
     }
 }

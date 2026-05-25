@@ -7,12 +7,13 @@ import type { LocalizationService } from '../services/LocalizationService.js';
 import type { UserDataService } from '../services/UserDataService.js';
 import type { DataService } from '../services/DataService.js';
 import type { NavigationService } from '../services/NavigationService.js';
-import { ServiceWorkerMessenger } from '../services/ServiceWorkerMessenger.js';
-import { debounce, getMotionSafeScrollBehavior } from '../utils/Utils.js';
+import { getMotionSafeScrollBehavior } from '../utils/Utils.js';
 import type { StateManager } from '../state/StateManager.js';
 import type { ViewRenderer } from './ViewRenderer.js';
 import type { WindowManager } from './WindowManager.js';
 import { DragDropManager } from './DragDropManager.js';
+import { SearchController } from './SearchController.js';
+import { CookieNoticeController } from './CookieNoticeController.js';
 import type { ThemeManifest, SectionConfig, RuleData } from '../types.js';
 
 interface UIServices {
@@ -38,27 +39,41 @@ export class UIController {
     #dragDropManager: DragDropManager | null = null;
     // #2: Dirty flag to avoid redundant buildRuleMap() calls on every section expand
     #ruleMapDirty = true;
-    #searchStatusEl: HTMLElement | null = null;
-    #searchExpandedSections = new Set<HTMLElement>();
+    #searchController: SearchController;
+    #cookieNoticeController: CookieNoticeController;
 
     constructor(domProvider: DOMProvider, stateManager: StateManager, services: UIServices, components: UIComponents) {
         this.#domProvider = domProvider;
         this.#stateManager = stateManager;
         this.#services = services;
         this.#components = components;
+        this.#searchController = new SearchController({
+            domProvider,
+            stateManager,
+            a11y: services.a11y,
+            data: services.data,
+            navigation: services.navigation,
+            viewRenderer: components.viewRenderer,
+            renderSectionContent: (section) => this.renderSectionContent(section),
+        });
+        this.#cookieNoticeController = new CookieNoticeController({
+            domProvider,
+            stateManager,
+            viewRenderer: components.viewRenderer,
+        });
     }
 
     initialize(): void {
         this.setupEventSubscriptions();
         this.applyInitialSettings();
         this.setupSettingsHandlers();
-        this.setupCookieNoticeHandler();
+        this.#cookieNoticeController.initialize();
         this.bindGlobalEventListeners();
         this.setupBackToTop();
         this.#components.viewRenderer.updateFooterInfo();
         this.#handleShareTarget();
         this.#initDragDrop();
-        this.#setupSearch();
+        this.#searchController.initialize();
     }
 
     #initDragDrop(): void {
@@ -439,56 +454,6 @@ export class UIController {
         try { this.#components.viewRenderer.renderSection(section.id, rulesWithIds); } catch (e) { console.error(`Failed to render section "${section.id}":`, e); }
     };
 
-    setupCookieNoticeHandler = (): void => {
-        try {
-            const notice = this.#domProvider.get(CONFIG.ELEMENT_IDS.COOKIE_NOTICE);
-            const acceptBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.ACCEPT_COOKIES_BTN);
-            const remindBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.REMIND_COOKIES_LATER_BTN);
-            let hasAccepted = false;
-            let hasDismissedReminder = false;
-            try {
-                hasAccepted = window.localStorage.getItem(CONFIG.STORAGE_KEYS.COOKIES_ACCEPTED) === 'true';
-                hasDismissedReminder = window.sessionStorage.getItem(CONFIG.SESSION_STORAGE_KEYS.COOKIES_REMINDER_DISMISSED) === 'true';
-            } catch (e) {
-                console.warn('Could not read cookie notice state:', e);
-            }
-
-            if (!hasAccepted && !hasDismissedReminder) notice.style.display = 'block';
-
-            const dismissNotice = (): void => {
-                let finished = false;
-                const finish = (): void => {
-                    if (finished) return;
-                    finished = true;
-                    notice.style.display = 'none';
-                    window.dispatchEvent(new CustomEvent('quickref:cookieNoticeDismissed'));
-                };
-                notice.classList.add(CONFIG.CSS.IS_CLOSING);
-                notice.addEventListener('animationend', finish, { once: true });
-                setTimeout(finish, CONFIG.ANIMATION_DURATION.POPUP_MS + 50);
-            };
-            acceptBtn.addEventListener('click', async () => {
-                try {
-                    window.localStorage.setItem(CONFIG.STORAGE_KEYS.COOKIES_ACCEPTED, 'true');
-                } catch (e) {
-                    console.warn('Could not persist cookie consent:', e);
-                }
-                dismissNotice();
-                this.#components.viewRenderer.showNotification('Saving content for offline access…');
-                const ready = await ServiceWorkerMessenger.ensureServiceWorkerReady();
-                if (ready) ServiceWorkerMessenger.setCachingPolicy(true);
-            });
-            remindBtn.addEventListener('click', () => {
-                try {
-                    window.sessionStorage.setItem(CONFIG.SESSION_STORAGE_KEYS.COOKIES_REMINDER_DISMISSED, 'true');
-                } catch (e) {
-                    console.warn('Could not persist cookie reminder dismissal:', e);
-                }
-                dismissNotice();
-            });
-        } catch (e) { console.warn(`Could not set up cookie notice: ${(e as Error).message}`); }
-    };
-
     setupSettingsHandlers = (): void => {
         CONFIG.SETTINGS_CONFIG.forEach(({ id, key, stateProp, type }) => {
             try {
@@ -505,145 +470,4 @@ export class UIController {
         });
     };
 
-    #ensureSearchStatus(): HTMLElement | null {
-        if (this.#searchStatusEl) return this.#searchStatusEl;
-        const searchBar = document.getElementById('search-bar');
-        if (!searchBar) return null;
-        const status = document.createElement('div');
-        status.id = CONFIG.ELEMENT_IDS.SEARCH_STATUS;
-        status.className = 'search-status hidden';
-        status.setAttribute('role', 'status');
-        status.setAttribute('aria-live', 'polite');
-        searchBar.insertAdjacentElement('afterend', status);
-        this.#searchStatusEl = status;
-        return status;
-    }
-
-    #setSearchStatus(message: string): void {
-        const status = this.#ensureSearchStatus();
-        if (!status) return;
-        status.textContent = message;
-        status.classList.toggle(CONFIG.CSS.HIDDEN, message.length === 0);
-    }
-
-    #ruleMatchesCurrentFilters(ruleType: string | undefined): boolean {
-        const { showOptional, showHomebrew } = this.#stateManager.getState().settings;
-        return (!ruleType || (ruleType !== 'Optional rule' && ruleType !== 'Homebrew rule')) ||
-            (ruleType === 'Optional rule' && showOptional) ||
-            (ruleType === 'Homebrew rule' && showHomebrew);
-    }
-
-    #getMatchingSearchIds(query: string): Set<string> {
-        const ruleMap = this.#stateManager.getState().data.ruleMap;
-        const matchingIds = new Set<string>();
-        ruleMap.forEach((info, id) => {
-            if (info.searchIndex?.includes(query) && this.#ruleMatchesCurrentFilters(info.ruleData.optional)) {
-                matchingIds.add(id);
-            }
-        });
-        return matchingIds;
-    }
-
-    #getSectionMatchCount(section: Element, matchingIds: Set<string>): number {
-        let count = 0;
-        const ruleMap = this.#stateManager.getState().data.ruleMap;
-        matchingIds.forEach((id) => {
-            const info = ruleMap.get(id);
-            const parentSection = info ? document.getElementById(info.sectionId)?.closest(`.${CONFIG.CSS.SECTION_CONTAINER}`) : null;
-            if (parentSection === section) count++;
-        });
-        return count;
-    }
-
-    #applySearchToRenderedItems(section: Element, matchingIds: Set<string>): number {
-        const items = section.querySelectorAll(`.${CONFIG.CSS.ITEM_CLASS}`);
-        let visibleCount = 0;
-        items.forEach((item) => {
-            const el = item as HTMLElement;
-            const popupId = el.getAttribute(CONFIG.ATTRIBUTES.POPUP_ID) ?? '';
-            const matches = matchingIds.has(popupId);
-            el.style.display = matches ? '' : 'none';
-            if (matches) visibleCount++;
-        });
-        return visibleCount;
-    }
-
-    #expandSectionForSearch(section: HTMLElement): void {
-        if (!section.classList.contains(CONFIG.CSS.IS_COLLAPSED)) return;
-        section.classList.remove(CONFIG.CSS.IS_COLLAPSED);
-        this.#getSectionDisclosureControl(section)?.setAttribute('aria-expanded', 'true');
-        this.#searchExpandedSections.add(section);
-    }
-
-    #restoreSearchExpandedSections(): void {
-        this.#searchExpandedSections.forEach((section) => {
-            section.classList.add(CONFIG.CSS.IS_COLLAPSED);
-            this.#getSectionDisclosureControl(section)?.setAttribute('aria-expanded', 'false');
-        });
-        this.#searchExpandedSections.clear();
-    }
-
-    async #performSearch(input: HTMLInputElement, clearBtn: HTMLElement): Promise<void> {
-        const query = input.value.trim().toLowerCase();
-        clearBtn.classList.toggle(CONFIG.CSS.HIDDEN, query.length === 0);
-
-        if (query.length === 0) {
-            this.#components.viewRenderer.filterRuleItems();
-            this.#restoreSearchExpandedSections();
-            this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}:not([data-section="settings"])`).forEach((section) => {
-                section.classList.remove(CONFIG.CSS.HIDDEN);
-            });
-            const favSection = document.querySelector(`[data-section="favorites"]`);
-            if (favSection) favSection.classList.toggle(CONFIG.CSS.HIDDEN, this.#stateManager.getState().user.favorites.size === 0);
-            this.#setSearchStatus('');
-            this.#services.a11y.announce('Filter cleared');
-            this.#services.navigation.invalidateFocusables();
-            return;
-        }
-
-        const matchingIds = this.#getMatchingSearchIds(query);
-        const sections = this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}:not([data-section="settings"])`);
-        for (const section of sections) {
-            const sectionKey = (section as HTMLElement).dataset.section;
-            if (sectionKey === 'favorites') {
-                section.classList.add(CONFIG.CSS.HIDDEN);
-                continue;
-            }
-
-            const sectionMatchCount = this.#getSectionMatchCount(section, matchingIds);
-            if (sectionMatchCount > 0) {
-                this.#expandSectionForSearch(section as HTMLElement);
-                const content = section.querySelector(`.${CONFIG.CSS.SECTION_CONTENT}`);
-                if (content?.getAttribute(CONFIG.ATTRIBUTES.RENDERED) !== 'true') {
-                    await this.renderSectionContent(section as HTMLElement);
-                }
-                this.#applySearchToRenderedItems(section, matchingIds);
-                section.classList.remove(CONFIG.CSS.HIDDEN);
-            } else {
-                this.#applySearchToRenderedItems(section, matchingIds);
-                section.classList.add(CONFIG.CSS.HIDDEN);
-            }
-        }
-
-        const count = matchingIds.size;
-        this.#setSearchStatus(count === 0 ? 'No matching rules' : `${count} matching rule${count === 1 ? '' : 's'}`);
-        this.#services.a11y.announce(count === 0 ? `No results for ${query}` : `${count} results for ${query}`);
-        this.#services.navigation.invalidateFocusables();
-    }
-
-    #setupSearch(): void {
-        try {
-            const input = this.#domProvider.get(CONFIG.ELEMENT_IDS.SEARCH_INPUT) as HTMLInputElement;
-            const clearBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.SEARCH_CLEAR_BTN);
-
-            const performFilter = debounce(() => { void this.#performSearch(input, clearBtn); }, 200);
-
-            input.addEventListener('input', performFilter);
-            clearBtn.addEventListener('click', () => {
-                input.value = '';
-                performFilter();
-                input.focus();
-            });
-        } catch { console.warn('Search elements not found.'); }
-    }
 }
