@@ -6,42 +6,47 @@ on:
     branches: ["master"]
   workflow_dispatch:
 
-permissions:
-  contents: read
+# Deny all permissions by default; grant explicitly per job
+permissions: {}
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
+    permissions:
+      contents: read
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v4
         with:
           node-version-file: package.json
           cache: npm
           cache-dependency-path: package-lock.json
 
       - name: Install dependencies
+        shell: bash
         run: npm ci
 
       - name: Build production bundle
+        shell: bash
         run: npm run build
 
       - name: Add .nojekyll
+        shell: bash
         run: touch dist/.nojekyll
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v5
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
           include-hidden-files: true
@@ -49,7 +54,7 @@ jobs:
   deploy:
     name: Deploy
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
       pages: write
@@ -60,4 +65,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@v4
