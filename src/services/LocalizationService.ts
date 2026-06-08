@@ -1,4 +1,5 @@
 import { CONFIG } from '../config.js';
+import { fetchWithTimeout } from '../utils/Utils.js';
 
 interface MenuPayload {
     locale?: string;
@@ -29,7 +30,7 @@ export class LocalizationService {
         const cached = this.#cache.get(locale);
         if (cached) return cached;
 
-        const response = await fetch(`${CONFIG.LOCALE_CONFIG.PATH}${locale}/menu.json?v=${CONFIG.APP_VERSION}`);
+        const response = await fetchWithTimeout(`${CONFIG.LOCALE_CONFIG.PATH}${locale}/menu.json?v=${CONFIG.APP_VERSION}`, 10_000);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const payload = await response.json() as MenuPayload;
         const strings = this.#normalizeStrings(payload.strings);
@@ -49,16 +50,33 @@ export class LocalizationService {
         // #22: Single DOM pass for all i18n attributes instead of four separate queries
         document.querySelectorAll<HTMLElement>('[data-i18n], [data-i18n-placeholder], [data-i18n-aria-label], [data-i18n-title]').forEach((element) => {
             const i18nKey = element.dataset.i18n;
-            if (i18nKey && strings[i18nKey]) element.textContent = strings[i18nKey];
+            if (i18nKey && strings[i18nKey]) {
+                // Skip DOM write if current value already matches target (Req 8.2)
+                if (element.textContent !== strings[i18nKey]) {
+                    element.textContent = strings[i18nKey];
+                }
+            }
 
             const placeholderKey = element.dataset.i18nPlaceholder;
-            if (placeholderKey && strings[placeholderKey]) element.setAttribute('placeholder', strings[placeholderKey]);
+            if (placeholderKey && strings[placeholderKey]) {
+                if (element.getAttribute('placeholder') !== strings[placeholderKey]) {
+                    element.setAttribute('placeholder', strings[placeholderKey]);
+                }
+            }
 
             const ariaLabelKey = element.dataset.i18nAriaLabel;
-            if (ariaLabelKey && strings[ariaLabelKey]) element.setAttribute('aria-label', strings[ariaLabelKey]);
+            if (ariaLabelKey && strings[ariaLabelKey]) {
+                if (element.getAttribute('aria-label') !== strings[ariaLabelKey]) {
+                    element.setAttribute('aria-label', strings[ariaLabelKey]);
+                }
+            }
 
             const titleKey = element.dataset.i18nTitle;
-            if (titleKey && strings[titleKey]) element.setAttribute('title', strings[titleKey]);
+            if (titleKey && strings[titleKey]) {
+                if (element.getAttribute('title') !== strings[titleKey]) {
+                    element.setAttribute('title', strings[titleKey]);
+                }
+            }
         });
     }
 }

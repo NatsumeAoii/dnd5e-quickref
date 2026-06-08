@@ -28,14 +28,19 @@ export class ViewRenderer {
     renderSection(parentId: string, rules: { popupId: string; ruleInfo: RuleInfo }[]): void {
         const parent = this.#domProvider.get(parentId);
         const fragment = document.createDocumentFragment();
-        rules.forEach(({ popupId, ruleInfo }, index) => {
+        rules.forEach(({ popupId, ruleInfo }) => {
             const item = this.#templateService.createRuleItemElement(popupId, ruleInfo.ruleData, this.#userDataService.isFavorite(popupId));
-            (item as HTMLElement).style.animationDelay = `${index * CONFIG.ANIMATION_DURATION.ITEM_DELAY_MS}ms`;
             if (ruleInfo.ruleData.subtitle) (item as HTMLElement).dataset.tooltip = ruleInfo.ruleData.subtitle;
             fragment.appendChild(item);
         });
+        // Set a single CSS custom property on the parent for animation stagger calculation
+        parent.style.setProperty('--item-count', String(rules.length));
 
-        if (document.startViewTransition && !prefersReducedMotion()) {
+        // During print the view-transition callback would insert items asynchronously,
+        // after window.print() has already snapshotted the page (empty section boxes).
+        // Render synchronously in print mode so the cards exist before printing.
+        const isPrinting = document.body.classList.contains(CONFIG.CSS.PRINT_MODE);
+        if (document.startViewTransition && !prefersReducedMotion() && !isPrinting) {
             const transition = document.startViewTransition(() => {
                 parent.replaceChildren(fragment);
                 this.#postRender(parent);
@@ -61,18 +66,17 @@ export class ViewRenderer {
     #ensurePrintableIcon(iconEl: HTMLElement): void {
         if (iconEl.querySelector('.item-icon-print-img')) return;
         const iconName = iconEl.getAttribute(CONFIG.ATTRIBUTES.ICON) ?? '';
-        // #4: Check cache BEFORE calling getComputedStyle to avoid forced style recalculation
+
+        let src: string | null;
         if (this.#printIconSrcCache.has(iconName)) {
-            const cached = this.#printIconSrcCache.get(iconName);
-            if (!cached) return;
+            src = this.#printIconSrcCache.get(iconName)!;
         } else {
             const backgroundImage = window.getComputedStyle(iconEl).backgroundImage;
             const match = backgroundImage.match(/url\(["']?(.*?)["']?\)/);
-            const resolved = match?.[1] ?? null;
-            this.#printIconSrcCache.set(iconName, resolved);
-            if (!resolved) return;
+            src = match?.[1] ?? null;
+            this.#printIconSrcCache.set(iconName, src);
         }
-        const src = this.#printIconSrcCache.get(iconName)!;
+        if (!src) return;
 
         iconEl.setAttribute('aria-hidden', 'true');
         const img = document.createElement('img');
@@ -131,7 +135,8 @@ export class ViewRenderer {
     filterRuleItems(scope?: ParentNode): void {
         const { showOptional, showHomebrew } = this.#stateManager.getState().settings;
         const sectionCounts = new Map<Element, number>();
-        const queryRoot = scope ?? this.#mainScrollArea ?? document;
+        const queryRoot = scope ?? this.#mainScrollArea;
+        if (!queryRoot) return;
 
         queryRoot.querySelectorAll(`.${CONFIG.CSS.ITEM_SIZE_CLASS}`).forEach((item) => {
             if (item.getAttribute(CONFIG.ATTRIBUTES.FILTERABLE) === 'false') return;
@@ -267,13 +272,9 @@ export class ViewRenderer {
         notification.className = 'notification-toast';
         notification.dataset.level = level;
 
-        const iconMap: Record<string, string> = {
-            info: 'ℹ️', success: '✅', warning: '⚠️', error: '❌',
-        };
         const iconEl = document.createElement('div');
-        iconEl.className = 'notification-icon';
+        iconEl.className = `notification-icon notification-icon-${level}`;
         iconEl.setAttribute('aria-hidden', 'true');
-        iconEl.textContent = iconMap[level] || 'ℹ️';
 
         const msgEl = document.createElement('div');
         msgEl.className = 'notification-message';

@@ -16,9 +16,13 @@ export class PopupLinkifier {
         this.#stateManager = stateManager;
         this.#toShortId = toShortId;
 
-        // Clear cache when ruleset changes
+        // Clear cache when ruleset changes. Guard against malformed payloads
+        // (null/undefined, non-object, or missing a string key) so a bad event
+        // never throws and leaves the cache untouched.
         this.#stateManager.subscribe('settingChanged', (data?: unknown) => {
-            const { key } = data as { key: string };
+            if (!data || typeof data !== 'object') return;
+            const key = (data as { key?: unknown }).key;
+            if (typeof key !== 'string') return;
             if (key === 'RULES_2024') this.#cache.clear();
         });
     }
@@ -87,11 +91,11 @@ export class PopupLinkifier {
         });
 
         const result = container.innerHTML;
-        this.#cache.set(html, result);
-        if (this.#cache.size > PopupLinkifier.#CACHE_MAX) {
+        if (this.#cache.size >= PopupLinkifier.#CACHE_MAX) {
             const firstKey = this.#cache.keys().next().value;
             if (firstKey !== undefined) this.#cache.delete(firstKey);
         }
+        this.#cache.set(html, result);
         return result;
     };
 

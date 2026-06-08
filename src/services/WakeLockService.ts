@@ -5,19 +5,26 @@ export class WakeLockService {
     #handleRelease = (): void => {
         this.#wakeLock = null;
     };
+    #handleVisibility = (): void => {
+        if (this.#isEnabled && document.visibilityState === 'visible') {
+            void this.#requestLock();
+        }
+    };
 
     constructor() {
-        document.addEventListener('visibilitychange', () => {
-            if (this.#isEnabled && document.visibilityState === 'visible') {
-                this.#requestLock();
-            }
-        });
+        document.addEventListener('visibilitychange', this.#handleVisibility);
     }
 
     setEnabled(enabled: boolean): void {
         this.#isEnabled = enabled;
         if (enabled) this.#requestLock();
         else this.#releaseLock();
+    }
+
+    destroy(): void {
+        document.removeEventListener('visibilitychange', this.#handleVisibility);
+        this.#isEnabled = false;
+        void this.#releaseLock();
     }
 
     async #requestLock(): Promise<void> {

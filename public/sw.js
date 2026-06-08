@@ -1,4 +1,4 @@
-const CACHE_VERSION = '1.1.8';
+const CACHE_VERSION = '1.2.0';
 const CACHE_NAME = `dnd5e-quickref-cache-v${CACHE_VERSION}`;
 const CORE_ASSETS = [
   './',

@@ -476,6 +476,8 @@ body.motion-reduced *::after {
     flex-wrap: wrap;
     gap: var(--spacing-sm);
     align-items: flex-start;
+
+    --stagger-delay: 20ms;
 }
 
 #section-settings .item {
@@ -521,6 +523,41 @@ body.motion-reduced *::after {
     opacity: 0;
     animation: pop-in 0.3s var(--transition-curve) forwards;
 }
+
+/* CSS-driven staggered animation delays based on DOM index.
+   The parent .section-row receives --item-count via JS (single property write).
+   Individual items derive their delay from nth-child position — zero inline styles. */
+.section-row > .item:nth-child(1) { animation-delay: calc(0 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(2) { animation-delay: calc(1 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(3) { animation-delay: calc(2 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(4) { animation-delay: calc(3 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(5) { animation-delay: calc(4 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(6) { animation-delay: calc(5 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(7) { animation-delay: calc(6 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(8) { animation-delay: calc(7 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(9) { animation-delay: calc(8 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(10) { animation-delay: calc(9 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(11) { animation-delay: calc(10 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(12) { animation-delay: calc(11 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(13) { animation-delay: calc(12 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(14) { animation-delay: calc(13 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(15) { animation-delay: calc(14 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(16) { animation-delay: calc(15 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(17) { animation-delay: calc(16 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(18) { animation-delay: calc(17 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(19) { animation-delay: calc(18 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(20) { animation-delay: calc(19 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(21) { animation-delay: calc(20 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(22) { animation-delay: calc(21 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(23) { animation-delay: calc(22 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(24) { animation-delay: calc(23 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(25) { animation-delay: calc(24 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(26) { animation-delay: calc(25 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(27) { animation-delay: calc(26 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(28) { animation-delay: calc(27 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(29) { animation-delay: calc(28 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(30) { animation-delay: calc(29 * var(--stagger-delay, 20ms)); }
+.section-row > .item:nth-child(n+31) { animation-delay: calc(30 * var(--stagger-delay, 20ms)); }
 
 .item:hover,
 .item:focus-within {
@@ -1659,6 +1696,8 @@ html:not([data-density]) {
     #cookie-notice,
     #close-all-popups-btn,
     #back-to-top-btn,
+    .search-bar,
+    #shortcuts-fab-btn,
     .favorite-btn,
     .popup-copy-link-btn,
     .section-item-count,
@@ -1821,6 +1860,7 @@ body.print-mode #popup-container,
 body.print-mode #close-all-popups-btn,
 body.print-mode #back-to-top-btn,
 body.print-mode #shortcuts-fab-btn,
+body.print-mode .search-bar,
 body.print-mode .favorite-btn,
 body.print-mode .cookie-notice,
 body.print-mode .minimized-popups-bar,
@@ -2571,4 +2611,27 @@ kbd {
 
 .notification-toast[data-level="warning"] {
     border-inline-start: 4px solid var(--color-condition);
+}
+
+.notification-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.notification-icon-info {
+    background-color: var(--color-settings);
+}
+
+.notification-icon-success {
+    background-color: var(--color-accept);
+}
+
+.notification-icon-warning {
+    background-color: var(--color-condition);
+}
+
+.notification-icon-error {
+    background-color: var(--color-movement);
 }

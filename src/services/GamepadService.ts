@@ -56,7 +56,8 @@ export class GamepadService {
                     this.#navigate(x, y);
                     this.#lastMove = now;
                 }
-                if (gp.buttons[0].pressed) {
+                const primaryButton = gp.buttons[0];
+                if (primaryButton?.pressed) {
                     const focused = document.activeElement as HTMLElement | null;
                     if (focused?.click) {
                         focused.click();
@@ -90,7 +91,7 @@ export class GamepadService {
         if (!parentEl) return;
         const itemWidth = parentEl.offsetWidth;
         if (itemWidth === 0) return;
-        const cols = Math.floor(containerWidth / itemWidth);
+        const cols = Math.max(1, Math.floor(containerWidth / itemWidth));
 
         if (Math.abs(x) > 0.5) { index += (x > 0 ? 1 : -1); } else if (Math.abs(y) > 0.5) { index += (y > 0 ? cols : -cols); }
 

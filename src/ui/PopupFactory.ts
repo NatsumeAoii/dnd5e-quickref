@@ -9,13 +9,13 @@ export class PopupFactory {
     #templateService: TemplateService;
     #userDataService: UserDataService;
 
-    constructor(templateService: TemplateService, userDataService: UserDataService, _stateManager: StateManager) {
+    constructor(templateService: TemplateService, userDataService: UserDataService, _stateManager?: StateManager) {
         this.#templateService = templateService;
         this.#userDataService = userDataService;
     }
 
-    create(id: string, ruleInfo: RuleInfo, linkifyFn: (html: string) => string): HTMLElement {
-        const popup = this.#templateService.createPopupElement(id, ruleInfo, linkifyFn, this.#userDataService.getNote);
+    create(id: string, ruleInfo: RuleInfo, linkifyFn: (html: string) => string, sectionColors?: { borderColor: string; headerTextColor: string }): HTMLElement {
+        const popup = this.#templateService.createPopupElement(id, ruleInfo, linkifyFn, this.#userDataService.getNote, sectionColors);
         this.#attachNoteHandlers(popup, id);
         return popup;
     }

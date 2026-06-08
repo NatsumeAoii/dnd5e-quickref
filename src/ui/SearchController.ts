@@ -24,6 +24,8 @@ export class SearchController {
     #deps: SearchDeps;
     #searchStatusEl: HTMLElement | null = null;
     #searchExpandedSections = new Set<HTMLElement>();
+    #lastExecutedQuery: string | null = null;
+    #pendingRafId: number | null = null;
 
     constructor(deps: SearchDeps) {
         this.#deps = deps;
@@ -73,27 +75,22 @@ export class SearchController {
             (ruleType === 'Homebrew rule' && showHomebrew);
     }
 
-    #getMatchingSearchIds(query: string): Set<string> {
+    #getMatchingSearchIds(query: string): { matchingIds: Set<string>; sectionCounts: Map<Element, number> } {
         this.#deps.data.ensureSearchIndicesReady();
         const ruleMap = this.#deps.stateManager.getState().data.ruleMap;
         const matchingIds = new Set<string>();
+        // Pre-compute section counts in a single pass instead of O(matchingIds × sections)
+        const sectionCounts = new Map<Element, number>();
         ruleMap.forEach((info, id) => {
             if (info.searchIndex?.includes(query) && this.#ruleMatchesCurrentFilters(info.ruleData.optional)) {
                 matchingIds.add(id);
+                const sectionEl = document.getElementById(info.sectionId)?.closest(`.${CONFIG.CSS.SECTION_CONTAINER}`);
+                if (sectionEl) {
+                    sectionCounts.set(sectionEl, (sectionCounts.get(sectionEl) ?? 0) + 1);
+                }
             }
         });
-        return matchingIds;
-    }
-
-    #getSectionMatchCount(section: Element, matchingIds: Set<string>): number {
-        let count = 0;
-        const ruleMap = this.#deps.stateManager.getState().data.ruleMap;
-        matchingIds.forEach((id) => {
-            const info = ruleMap.get(id);
-            const parentSection = info ? document.getElementById(info.sectionId)?.closest(`.${CONFIG.CSS.SECTION_CONTAINER}`) : null;
-            if (parentSection === section) count++;
-        });
-        return count;
+        return { matchingIds, sectionCounts };
     }
 
     #applySearchToRenderedItems(section: Element, matchingIds: Set<string>): number {
@@ -130,47 +127,80 @@ export class SearchController {
         const query = input.value.trim().toLowerCase();
         clearBtn.classList.toggle(CONFIG.CSS.HIDDEN, query.length === 0);
 
-        if (query.length === 0) {
-            this.#deps.viewRenderer.filterRuleItems();
-            this.#restoreSearchExpandedSections();
-            this.#deps.domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}:not([data-section="settings"])`).forEach((section) => {
-                section.classList.remove(CONFIG.CSS.HIDDEN);
-            });
-            const favSection = document.querySelector(`[data-section="favorites"]`);
-            if (favSection) favSection.classList.toggle(CONFIG.CSS.HIDDEN, this.#deps.stateManager.getState().user.favorites.size === 0);
-            this.#setSearchStatus('');
-            this.#deps.a11y.announce('Filter cleared');
-            this.#deps.navigation.invalidateFocusables();
+        // Skip recomputation when query unchanged between consecutive debounce intervals
+        if (query.length >= 2 && query === this.#lastExecutedQuery) {
             return;
         }
 
-        const matchingIds = this.#getMatchingSearchIds(query);
+        // Cancel any pending RAF from a previous search cycle
+        if (this.#pendingRafId !== null) {
+            cancelAnimationFrame(this.#pendingRafId);
+            this.#pendingRafId = null;
+        }
+
+        if (query.length < 2) {
+            this.#lastExecutedQuery = null;
+            // Batch DOM visibility restoration into RAF to prevent layout thrashing
+            this.#pendingRafId = requestAnimationFrame(() => {
+                this.#pendingRafId = null;
+                this.#deps.viewRenderer.filterRuleItems();
+                this.#restoreSearchExpandedSections();
+                this.#deps.domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}:not([data-section="settings"])`).forEach((section) => {
+                    section.classList.remove(CONFIG.CSS.HIDDEN);
+                });
+                const favSection = document.querySelector(`[data-section="favorites"]`);
+                if (favSection) favSection.classList.toggle(CONFIG.CSS.HIDDEN, this.#deps.stateManager.getState().user.favorites.size === 0);
+                this.#setSearchStatus('');
+                this.#deps.a11y.announce('Filter cleared');
+                this.#deps.navigation.invalidateFocusables();
+            });
+            return;
+        }
+
+        // Compute matching IDs and section counts in one pass (read phase)
+        const { matchingIds, sectionCounts } = this.#getMatchingSearchIds(query);
         const sections = this.#deps.domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}:not([data-section="settings"])`);
+
+        // Ensure unrendered sections are rendered before DOM visibility writes
         for (const section of sections) {
             const sectionKey = (section as HTMLElement).dataset.section;
-            if (sectionKey === 'favorites') {
-                section.classList.add(CONFIG.CSS.HIDDEN);
-                continue;
-            }
-
-            const sectionMatchCount = this.#getSectionMatchCount(section, matchingIds);
+            if (sectionKey === 'favorites') continue;
+            const sectionMatchCount = sectionCounts.get(section) ?? 0;
             if (sectionMatchCount > 0) {
-                this.#expandSectionForSearch(section as HTMLElement);
                 const content = section.querySelector(`.${CONFIG.CSS.SECTION_CONTENT}`);
                 if (content?.getAttribute(CONFIG.ATTRIBUTES.RENDERED) !== 'true') {
                     await this.#deps.renderSectionContent(section as HTMLElement);
                 }
-                this.#applySearchToRenderedItems(section, matchingIds);
-                section.classList.remove(CONFIG.CSS.HIDDEN);
-            } else {
-                this.#applySearchToRenderedItems(section, matchingIds);
-                section.classList.add(CONFIG.CSS.HIDDEN);
             }
         }
 
-        const count = matchingIds.size;
-        this.#setSearchStatus(count === 0 ? 'No matching rules' : `${count} matching rule${count === 1 ? '' : 's'}`);
-        this.#deps.a11y.announce(count === 0 ? `No results for ${query}` : `${count} results for ${query}`);
-        this.#deps.navigation.invalidateFocusables();
+        // Batch all DOM visibility writes in a single RAF callback (write phase)
+        this.#pendingRafId = requestAnimationFrame(() => {
+            this.#pendingRafId = null;
+            for (const section of sections) {
+                const sectionKey = (section as HTMLElement).dataset.section;
+                if (sectionKey === 'favorites') {
+                    section.classList.add(CONFIG.CSS.HIDDEN);
+                    continue;
+                }
+
+                const sectionMatchCount = sectionCounts.get(section) ?? 0;
+                if (sectionMatchCount > 0) {
+                    this.#expandSectionForSearch(section as HTMLElement);
+                    this.#applySearchToRenderedItems(section, matchingIds);
+                    section.classList.remove(CONFIG.CSS.HIDDEN);
+                } else {
+                    this.#applySearchToRenderedItems(section, matchingIds);
+                    section.classList.add(CONFIG.CSS.HIDDEN);
+                }
+            }
+
+            const count = matchingIds.size;
+            this.#setSearchStatus(count === 0 ? 'No matching rules' : `${count} matching rule${count === 1 ? '' : 's'}`);
+            this.#deps.a11y.announce(count === 0 ? `No results for ${query}` : `${count} results for ${query}`);
+            this.#deps.navigation.invalidateFocusables();
+        });
+
+        this.#lastExecutedQuery = query;
     }
 }

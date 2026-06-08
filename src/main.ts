@@ -12,6 +12,9 @@ import {
     TemplateService, ViewRenderer, PopupFactory, WindowManager, UIController,
 } from './ui/index.js';
 import { AppShortcutsController } from './ui/AppShortcutsController.js';
+import { ensureDOMPurifyLoaded } from './utils/Utils.js';
+import { benchmarkUtility } from './utils/BenchmarkUtility.js';
+import { reportWebVitals } from './utils/webVitals.js';
 
 interface Services {
     domProvider: DOMProvider;
@@ -120,22 +123,29 @@ class QuickRefApplication {
 
     async start(): Promise<void> {
         try {
+            benchmarkUtility.mark('domContentLoaded');
+
             this.#services.settings.initialize();
             await this.#services.localization.loadAndApply(this.#stateManager.getState().settings.locale);
             await this.#services.userData.initialize();
             this.#components.controller.applyInitialSettings();
 
-            // Theme manifest + data loading fire in parallel
+            // Load DOMPurify async chunk, theme manifest, and data in parallel
             await Promise.all([
+                ensureDOMPurifyLoaded(),
                 this.#components.controller.loadAndPopulateThemes(),
                 this.#services.data.ensureAllDataLoadedForActiveRuleset(),
             ]);
+
+            benchmarkUtility.mark('dataLoaded');
 
             this.#services.data.buildRuleMap();
             this.#components.viewRenderer.renderFavoritesSection();
             this.#components.controller.setupCollapsibleSections();
             await this.#components.controller.renderOpenSections();
             this.#services.navigation.invalidateFocusables();
+
+            benchmarkUtility.mark('firstSectionRendered');
 
             const restoredPopups = this.#services.persistence.loadSession();
             restoredPopups.forEach((p) => this.#components.windowManager.createPopupFromState(p));
@@ -144,6 +154,13 @@ class QuickRefApplication {
             this.#components.controller.initialize();
             this.#components.windowManager.initialize();
             this.#components.viewRenderer.showApp();
+
+            benchmarkUtility.mark('appVisible');
+
+            // Report Core Web Vitals in production mode
+            reportWebVitals((metric) => {
+                console.info(`[WebVitals] ${metric.name}:`, metric.value.toFixed(2), `(id: ${metric.id})`);
+            });
 
             // Deferred: build linker data after UI is visible (only needed for popup cross-references)
             this.#services.data.buildLinkerData();

@@ -46,7 +46,7 @@ Report abusive, harassing, or otherwise unacceptable behavior to the project own
 
 https://github.com/NatsumeAoii
 
-[FILL IN: private maintainer email address or private conduct report form before publishing this file for a larger contributor community.]
+For sensitive reports, use GitHub's private vulnerability reporting flow for this repository (see `SECURITY.md`) or contact the repository owner through the GitHub profile above to request a private channel before sharing details. Maintainers may add a dedicated conduct email here if the contributor community grows.
 
 All complaints should be reviewed and investigated promptly and fairly. Maintainers are obligated to respect the privacy and security of the reporter of any incident.
 
@@ -81,4 +81,3 @@ Consequence: A permanent ban from public interaction within the project.
 ## Attribution
 
 This Code of Conduct is adapted from the Contributor Covenant, version 2.1, available at https://www.contributor-covenant.org/version/2/1/code_of_conduct.html.
-

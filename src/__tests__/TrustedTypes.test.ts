@@ -44,7 +44,8 @@ describe('Trusted Types sanitizer policy', () => {
     it('does not recurse when a default Trusted Types policy protects innerHTML sinks', async () => {
         installDefaultPolicySink();
 
-        const { safeHTML } = await import('../utils/Utils.js');
+        const { safeHTML, ensureDOMPurifyLoaded } = await import('../utils/Utils.js');
+        await ensureDOMPurifyLoaded();
 
         expect(() => safeHTML('<p onclick="evil()">Text</p><script>alert(1)</script>')).not.toThrow();
         expect(String(safeHTML('<p onclick="evil()">Text</p><script>alert(1)</script>'))).toBe('<p>Text</p>');

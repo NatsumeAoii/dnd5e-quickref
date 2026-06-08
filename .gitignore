@@ -50,6 +50,8 @@ pnpm-debug.log*
 *.sqlite3
 *.sql
 *.dump
+*.kiro
+
 
 # Archives / generated packages
 *.zip

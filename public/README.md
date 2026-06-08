@@ -11,27 +11,29 @@ Built on [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref) with a 
 ## Features
 
 ### Core
+
 - **Dual Ruleset Support** — Switch between 2014 and 2024 rules instantly
 - **Offline PWA** — Service Worker caches everything for full offline use
 - **Customization** — Linking, Favorites, Notes (with import/export), and Themes
 - **Deep Linking** — Share specific rules directly via URL
 
 ### Technical
+
 - **Modern Stack** — Built with Vite 6 + TypeScript 5.7
-- **Performance** — LightningCSS optimizations + zero runtime dependencies
+- **Performance** — LightningCSS optimizations + minimal runtime dependencies (DOMPurify and web-vitals, both lazy-loaded)
 - **Accessibility** — Full keyboard support, screen reader optimized, reduced motion
 
 ---
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| Build | [Vite](https://vite.dev/) 6 |
-| Language | TypeScript 5.7 (strict) |
-| CSS | Vanilla CSS + [LightningCSS](https://lightningcss.dev/) |
-| Icons | [Game-icons.net](https://game-icons.net/) (WebP images) |
-| Hosting | GitHub Pages (static) |
+| Layer    | Technology                                              |
+| -------- | ------------------------------------------------------- |
+| Build    | [Vite](https://vite.dev/) 6                             |
+| Language | TypeScript 5.7 (strict)                                 |
+| CSS      | Vanilla CSS + [LightningCSS](https://lightningcss.dev/) |
+| Icons    | [Game-icons.net](https://game-icons.net/) (WebP images) |
+| Hosting  | GitHub Pages (static)                                   |
 
 ---
 
@@ -46,12 +48,14 @@ Built on [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref) with a 
 ### Development
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/natsumeaoii/dnd5e-quickref.git
    cd dnd5e-quickref
    ```
 
 2. **Install dependencies:**
+
    ```bash
    npm install
    ```
@@ -65,15 +69,19 @@ Built on [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref) with a 
 ### Production Build
 
 1. **Build the project:**
+
    ```bash
    npm run build
    ```
+
    npm runs `prebuild` first, which syncs the app version from `CHANGELOG.md`, copies the changelog into `public/`, updates service-worker cache version metadata, then type-checks with `tsc --noEmit` and produces an optimized bundle in `dist/`.
 
    For release version changes, update the top semantic-version heading in `CHANGELOG.md`, then run:
+
    ```bash
    npm run sync-version
    ```
+
    `sync-version` also keeps the root package-lock metadata aligned.
 
 2. **Preview the build locally:**
@@ -96,18 +104,18 @@ For environments without Node.js:
 
 ## npm Scripts
 
-| Script | Command | Description |
-|--------|---------|-------------|
-| `dev` | `vite` | Start the Vite dev server with HMR |
-| `sync-version` | `node scripts/prebuild.js` | Sync version from `CHANGELOG.md` to `package.json`, `package-lock.json`, `src/config.ts`, `public/sw.js`, and copy `CHANGELOG.md` to `public/` |
-| `prebuild` | `npm run sync-version` | Automatic version/changelog sync before `npm run build` |
-| `build` | `tsc --noEmit && vite build` | Type-check then produce production bundle in `dist/`; npm runs `prebuild` first |
-| `preview` | `vite preview` | Serve the production build locally |
-| `type-check` | `tsc --noEmit` | Run TypeScript type-checking without emitting |
-| `lint` | `eslint "src/**/*.ts"` | Lint TypeScript files via ESLint |
-| `lint:css` | `stylelint "src/**/*.css"` | Lint CSS files via Stylelint |
-| `audit:data` | `node scripts/audit-data.js` | Validate rule data mirrors, icon mappings, optional markers, environment tags, and bullet/table shapes |
-| `test` | `vitest run` | Run the Vitest test suite once |
+| Script         | Command                      | Description                                                                                                                                    |
+| -------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `dev`          | `vite`                       | Start the Vite dev server with HMR                                                                                                             |
+| `sync-version` | `node scripts/prebuild.js`   | Sync version from `CHANGELOG.md` to `package.json`, `package-lock.json`, `src/config.ts`, `public/sw.js`, and copy `CHANGELOG.md` to `public/` |
+| `prebuild`     | `npm run sync-version`       | Automatic version/changelog sync before `npm run build`                                                                                        |
+| `build`        | `tsc --noEmit && vite build` | Type-check then produce production bundle in `dist/`; npm runs `prebuild` first                                                                |
+| `preview`      | `vite preview`               | Serve the production build locally                                                                                                             |
+| `type-check`   | `tsc --noEmit`               | Run TypeScript type-checking without emitting                                                                                                  |
+| `lint`         | `eslint "src/**/*.ts"`       | Lint TypeScript files via ESLint                                                                                                               |
+| `lint:css`     | `stylelint "src/**/*.css"`   | Lint CSS files via Stylelint                                                                                                                   |
+| `audit:data`   | `node scripts/audit-data.js` | Validate rule data mirrors, icon mappings, optional markers, environment tags, and bullet/table shapes                                         |
+| `test`         | `vitest run`                 | Run the Vitest test suite once                                                                                                                 |
 
 > `npm run build` can mutate tracked version/changelog files through `prebuild`. Check `git status` after release builds.
 
@@ -139,14 +147,19 @@ dnd5e-quickref/
 │   ├── state/                    # StateManager pub/sub state container
 │   ├── ui/                       # Rendering, popup, template, and drag/drop UI modules
 │   ├── utils/                    # Shared utilities and Trusted Types helpers
+│   ├── finalization/             # Standalone pre-ship code-analysis toolkit (dev/test only;
+│   │                             #   NOT imported by the app, runs under `npm test`)
 │   └── __tests__/                # Vitest regression tests
 ├── data/
-│   ├── en_US/
+│   ├── en_US/                    # English (source of truth, full rule set)
 │   │   ├── menu.json             # English UI/menu strings
 │   │   └── rules/                # English 2014 and 2024 rule JSON
-│   └── id_ID/
-│       ├── menu.json             # Indonesian UI/menu strings with English fallbacks where clearer
-│       └── rules/                # Indonesian rule data slot; initially seeded from en_US
+│   ├── id_ID/
+│   │   ├── menu.json             # Indonesian UI/menu strings with English fallbacks where clearer
+│   │   └── rules/                # Indonesian rule data slot; initially seeded from en_US
+│   └── fr_FR/
+│       ├── menu.json             # French UI/menu strings
+│       └── rules/                # French rule data
 ├── public/
 │   ├── sw.js                     # Service worker
 │   ├── manifest.json             # PWA manifest
@@ -172,6 +185,7 @@ The active app is a static Vite + TypeScript browser application. `index.html` l
 Rule content is JSON data rather than TypeScript. `data/<locale>/rules/` is the source data directory, and `public/data/` is generated by `npm run sync-version` for runtime fetches and service-worker caching. Do not edit `public/data/` directly.
 
 Data flows through a service-oriented architecture:
+
 1. `LocalizationService` loads `data/<locale>/menu.json` and applies menu/UI labels with `en_US` fallback.
 2. `DataService` fetches and caches JSON rule data from `data/<locale>/rules/`.
 3. `StateManager` provides a pub/sub event bus.
@@ -193,31 +207,31 @@ Rules are stored in `data/<locale>/rules/`. To add your own:
 
    ```json
    {
-       "title": "My Custom Rule**",
-       "optional": "Homebrew rule",
-       "icon": "magicswirl",
-       "subtitle": "Short card subtitle",
-       "reference": "PHB p. 123",
-       "description": "One sentence shown near the top of the popup.",
-       "summary": "A concise quick-reference ruling for the popup summary box.",
-       "bullets": [
-           {
-               "type": "paragraph",
-               "content": "Use paragraph bullets for short explanatory text."
-           },
-           {
-               "type": "list",
-               "items": [
-                   "Use list bullets for compact rule steps.",
-                   "Limited inline markup such as <b>bold</b> and <i>italic</i> is supported."
-               ]
-           },
-           {
-               "type": "table",
-               "headers": ["Case", "Result"],
-               "rows": [["Example", "Outcome"]]
-           }
-       ]
+     "title": "My Custom Rule**",
+     "optional": "Homebrew rule",
+     "icon": "magicswirl",
+     "subtitle": "Short card subtitle",
+     "reference": "PHB p. 123",
+     "description": "One sentence shown near the top of the popup.",
+     "summary": "A concise quick-reference ruling for the popup summary box.",
+     "bullets": [
+       {
+         "type": "paragraph",
+         "content": "Use paragraph bullets for short explanatory text."
+       },
+       {
+         "type": "list",
+         "items": [
+           "Use list bullets for compact rule steps.",
+           "Limited inline markup such as <b>bold</b> and <i>italic</i> is supported."
+         ]
+       },
+       {
+         "type": "table",
+         "headers": ["Case", "Result"],
+         "rows": [["Example", "Outcome"]]
+       }
+     ]
    }
    ```
 
@@ -244,11 +258,15 @@ Rules are stored in `data/<locale>/rules/`. To add your own:
 
 ### Adding or Updating Translations
 
+Supported locales are declared in `src/config.ts` (`LOCALE_CONFIG.SUPPORTED`): `en_US` (default), `id_ID`, and `fr_FR`. The language selector in Settings exposes English (US), Bahasa Indonesia, and Français.
+
 1. Add or update menu strings in `data/<locale>/menu.json`.
 2. Add rule files under `data/<locale>/rules/` using the same filenames as `data/en_US/rules/`.
 3. Keep rule filenames lowercase: `data_<category>.json` and `2024_data_<category>.json`.
-4. If an Indonesian translation is ambiguous, uncommon at the table, or likely to confuse D&D players, keep the English term.
+4. If a translation is ambiguous, uncommon at the table, or likely to confuse D&D players, keep the English term.
 5. Run `npm run sync-version` to refresh `public/data/`, then run `npm run audit:data`.
+
+To add a brand-new locale: append its code to `LOCALE_CONFIG.SUPPORTED` in `src/config.ts`, add an `<option>` to the `#locale-select` dropdown in `index.html`, and create `data/<locale>/menu.json` plus `data/<locale>/rules/` mirroring `data/en_US/`.
 
 ---
 
@@ -314,17 +332,17 @@ Yes. Notes are stored in your browser's IndexedDB.
 
 Press `?` (or click the floating **?** button on desktop) to open the shortcuts panel. Available shortcuts:
 
-| Shortcut | Action |
-|----------|--------|
-| `?` | Toggle keyboard shortcuts panel |
-| `Esc` | Close topmost popup |
-| `Ctrl+W` | Close all popups |
-| `Ctrl+E` | Expand/collapse all sections |
-| `Ctrl+P` | Toggle print mode |
-| `T` | Scroll to top |
-| `← →` | Navigate between items in a section |
-| `↑ ↓` | Navigate between sections |
-| `Enter` / `Space` | Activate focused item |
+| Shortcut          | Action                              |
+| ----------------- | ----------------------------------- |
+| `?`               | Toggle keyboard shortcuts panel     |
+| `Esc`             | Close topmost popup                 |
+| `Ctrl+W`          | Close all popups                    |
+| `Ctrl+E`          | Expand/collapse all sections        |
+| `Ctrl+P`          | Toggle print mode                   |
+| `T`               | Scroll to top                       |
+| `← →`             | Navigate between items in a section |
+| `↑ ↓`             | Navigate between sections           |
+| `Enter` / `Space` | Activate focused item               |
 
 Shortcuts are disabled while typing in inputs, textareas, or select fields.
 
@@ -417,6 +435,13 @@ Run `npm test`, `npm run type-check`, `npm run lint`, `npm run lint:css`, `npm r
 
 </details>
 
+<details>
+<summary><strong>What is `src/finalization/` and why does it run during `npm test`?</strong></summary>
+
+`src/finalization/` is a standalone, pure-TypeScript code-analysis toolkit (detectors, fixers, and an orchestrator) with its own property-based test suite. It is **not imported by the application** (`main.ts` never references it) and is **not included in the production bundle**. It is referenced only by `vitest.config.ts`, whose `include` glob covers `src/finalization/__tests__/**/*.test.ts`, so its tests run alongside the app tests when you run `npm test`. If you are only working on the D&D app, you can ignore this directory; it does not affect the built site in `dist/`.
+
+</details>
+
 ---
 
 ## Contributing
@@ -448,6 +473,7 @@ npm run dev
 ### Testing
 
 > **Note**: This project uses **Vitest** for unit testing core logic (services, utilities, state handlers).
+>
 > - Run tests once: `npm run test`
 > - Run tests in watch mode: `npx vitest`
 
@@ -466,14 +492,14 @@ npm run dev
 ## Credits & Acknowledgements
 
 - **Original Project** — [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref)
-   - Live Demo: https://crobi.github.io/dnd5e-quickref/preview/quickref.html
-   - License: [MIT](https://github.com/crobi/dnd5e-quickref/blob/master/LICENSE.md)
+  - Live Demo: https://crobi.github.io/dnd5e-quickref/preview/quickref.html
+  - License: [MIT](https://github.com/crobi/dnd5e-quickref/blob/master/LICENSE.md)
 - **2024 Rules Content** — [nico-713/dnd5e-quickref-2024](https://github.com/nico-713/dnd5e-quickref-2024)
-   - Live Demo: https://nico-713.github.io/dnd5e-quickref-2024/
-   - License: [MIT](https://github.com/nico-713/dnd5e-quickref-2024/blob/master/LICENSE.md)
+  - Live Demo: https://nico-713.github.io/dnd5e-quickref-2024/
+  - License: [MIT](https://github.com/nico-713/dnd5e-quickref-2024/blob/master/LICENSE.md)
 - **Based Inspiration** — [mfriik/dnd5e-quickref](https://github.com/mfriik/dnd5e-quickref)
-   - Live Demo: https://dnd.milobedzki.pl/
-   - License: [MIT](https://github.com/mfriik/dnd5e-quickref/blob/master/LICENSE.md)
+  - Live Demo: https://dnd.milobedzki.pl/
+  - License: [MIT](https://github.com/mfriik/dnd5e-quickref/blob/master/LICENSE.md)
 - **Icons** — [Game-icons.net](https://game-icons.net/)
 - **Favicon** — [IconDuck](https://iconduck.com/icons/21871/dragon)
 - **Sources**:

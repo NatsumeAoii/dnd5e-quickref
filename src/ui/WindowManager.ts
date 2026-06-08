@@ -30,6 +30,7 @@ export class WindowManager {
     #isMobileView = false;
     #linkifier: PopupLinkifier;
     #inflightPopups = new Set<string>();
+    #sectionColorCache = new Map<string, { borderColor: string; headerTextColor: string }>();
     static #MAX_HASH_POPUPS = 10;
     static #MAX_POPUP_ID_LENGTH = 200;
 
@@ -163,6 +164,10 @@ export class WindowManager {
 
     #handleKeyDown = (e: KeyboardEvent): void => {
         if (e.key !== 'Escape' || this.#stateManager.getState().ui.openPopups.size === 0) return;
+        // Don't intercept Escape if focus is inside an overlay that handles its own Escape
+        if (e.target instanceof Element && e.target.closest(
+            `#${CONFIG.ELEMENT_IDS.SHORTCUTS_MODAL}, #${CONFIG.ELEMENT_IDS.CHANGELOG_MODAL}, #${CONFIG.ELEMENT_IDS.README_MODAL}, #${CONFIG.ELEMENT_IDS.ONBOARDING_OVERLAY}`
+        )) return;
         const topId = this.getTopMostPopupId();
         if (topId) this.#closePopup(topId);
     };
@@ -216,9 +221,30 @@ export class WindowManager {
         this.#dataService.buildLinkerData();
     }
 
+    #getSectionColors(sectionId: string): { borderColor: string; headerTextColor: string } {
+        const cached = this.#sectionColorCache.get(sectionId);
+        if (cached) return cached;
+
+        const sourceSection = document.getElementById(sectionId)?.closest(`.${CONFIG.CSS.SECTION_CONTAINER}`);
+        if (!sourceSection) {
+            const fallback = { borderColor: 'var(--color-hr)', headerTextColor: 'var(--color-header-text)' };
+            this.#sectionColorCache.set(sectionId, fallback);
+            return fallback;
+        }
+
+        const sourceStyle = window.getComputedStyle(sourceSection);
+        const colors = {
+            borderColor: sourceStyle.borderColor || 'var(--color-hr)',
+            headerTextColor: sourceStyle.getPropertyValue('--section-header-text').trim() || 'var(--color-header-text)',
+        };
+        this.#sectionColorCache.set(sectionId, colors);
+        return colors;
+    }
+
     #createPopup(id: string, ruleInfo: RuleInfo, pos?: { top?: string; left?: string; zIndex?: string; width?: string; height?: string }): void {
         this.#ensureLinkerDataReady();
-        const popup = this.#popupFactory.create(id, ruleInfo, this.#linkifier.linkify);
+        const sectionColors = this.#getSectionColors(ruleInfo.sectionId);
+        const popup = this.#popupFactory.create(id, ruleInfo, this.#linkifier.linkify, sectionColors);
         if (this.#isMobileView) {
             popup.classList.add(CONFIG.CSS.POPUP_MODAL);
             this.#popupContainer.classList.add(CONFIG.CSS.POPUP_CONTAINER_MODAL_OPEN);
@@ -333,10 +359,63 @@ export class WindowManager {
         // #7: Batch popup opens to avoid sequential data fetches and DOM thrashing
         const toOpen = [...idsFromHash].filter((id) => !openIds.has(id));
         if (toOpen.length > 0) {
-            void Promise.all(toOpen.map((id) => this.togglePopup(id)));
+            void this.#batchOpenPopups(toOpen);
         }
         if (hashWasSanitized) this.#updateURLHash();
     };
+
+    /**
+     * Resolves rule data for all popup IDs, then batches DOM insertions
+     * into a single requestAnimationFrame callback to avoid layout thrashing
+     * when the URL hash contains multiple popup IDs.
+     */
+    async #batchOpenPopups(ids: string[]): Promise<void> {
+        // Single popup — no batching needed, use direct path
+        if (ids.length === 1) {
+            await this.togglePopup(ids[0]);
+            return;
+        }
+
+        // Resolve all rule data concurrently before any DOM work
+        const resolved: Array<{ id: string; rule: RuleInfo }> = [];
+        for (const id of ids) {
+            if (!this.#isValidPopupId(id)) continue;
+            if (this.#stateManager.getState().ui.openPopups.has(id)) continue;
+            if (this.#inflightPopups.has(id)) continue;
+
+            this.#inflightPopups.add(id);
+            try {
+                let rule = this.#stateManager.getState().data.ruleMap.get(id);
+                if (!rule) {
+                    await this.#dataService.ensureAllDataLoadedForActiveRuleset();
+                    this.#dataService.buildRuleMap();
+                    rule = this.#stateManager.getState().data.ruleMap.get(id);
+                }
+                if (rule) {
+                    resolved.push({ id, rule });
+                } else {
+                    console.warn(`Rule not found: "${id}". Removing from URL hash.`);
+                }
+            } finally {
+                this.#inflightPopups.delete(id);
+            }
+        }
+
+        if (resolved.length === 0) {
+            this.#updateURLHash();
+            return;
+        }
+
+        // Batch all DOM insertions into a single RAF callback
+        requestAnimationFrame(() => {
+            for (const { id, rule } of resolved) {
+                // Guard against race conditions — popup may have been opened between await and RAF
+                if (!this.#stateManager.getState().ui.openPopups.has(id)) {
+                    this.#createPopup(id, rule);
+                }
+            }
+        });
+    }
 
     async togglePopup(id: string): Promise<void> {
         if (!this.#isValidPopupId(id)) {

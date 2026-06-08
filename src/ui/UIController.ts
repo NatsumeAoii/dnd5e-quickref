@@ -7,7 +7,7 @@ import type { LocalizationService } from '../services/LocalizationService.js';
 import type { UserDataService } from '../services/UserDataService.js';
 import type { DataService } from '../services/DataService.js';
 import type { NavigationService } from '../services/NavigationService.js';
-import { getMotionSafeScrollBehavior } from '../utils/Utils.js';
+import { getMotionSafeScrollBehavior, fetchWithTimeout } from '../utils/Utils.js';
 import type { StateManager } from '../state/StateManager.js';
 import type { ViewRenderer } from './ViewRenderer.js';
 import type { WindowManager } from './WindowManager.js';
@@ -41,6 +41,7 @@ export class UIController {
     #ruleMapDirty = true;
     #searchController: SearchController;
     #cookieNoticeController: CookieNoticeController;
+    #cachedThemeManifest: ThemeManifest | null = null;
 
     constructor(domProvider: DOMProvider, stateManager: StateManager, services: UIServices, components: UIComponents) {
         this.#domProvider = domProvider;
@@ -109,11 +110,25 @@ export class UIController {
         this.#ruleMapDirty = false;
         this.#services.data.buildLinkerData();
         this.#components.viewRenderer.renderFavoritesSection();
+        this.#initDragDrop();
         await this.renderOpenSections();
     }
 
     async #switchLocale(): Promise<void> {
-        await this.#services.localization.loadAndApply(this.#stateManager.getState().settings.locale);
+        // Req 8.4: Apply localized UI strings to DOM FIRST
+        const locale = this.#stateManager.getState().settings.locale;
+        try {
+            await this.#services.localization.loadAndApply(locale);
+        } catch {
+            // Req 8.5: On locale fetch failure, fall back to default locale strings.
+            // Existing DOM text is preserved for any keys not present in the fallback.
+            try {
+                await this.#services.localization.loadAndApply(CONFIG.DEFAULTS.LOCALE);
+            } catch {
+                // If even the default locale fails, preserve existing DOM text (no-op)
+            }
+        }
+        // Req 8.4: THEN clear and re-render section content with new locale's rule data
         await this.#switchRuleset();
     }
 
@@ -185,9 +200,15 @@ export class UIController {
 
     async loadAndPopulateThemes(): Promise<void> {
         try {
-            const response = await fetch(CONFIG.THEME_CONFIG.MANIFEST);
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            const manifest = await response.json() as ThemeManifest;
+            let manifest: ThemeManifest;
+            if (this.#cachedThemeManifest) {
+                manifest = this.#cachedThemeManifest;
+            } else {
+                const response = await fetchWithTimeout(CONFIG.THEME_CONFIG.MANIFEST);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                manifest = await response.json() as ThemeManifest;
+                this.#cachedThemeManifest = manifest;
+            }
             const selectEl = this.#domProvider.get(CONFIG.ELEMENT_IDS.THEME_SELECT) as HTMLSelectElement;
             const safeThemes = Array.isArray(manifest.themes)
                 ? manifest.themes.filter((theme) =>
@@ -290,7 +311,16 @@ export class UIController {
                 const collapsed = section.classList.toggle(CONFIG.CSS.IS_COLLAPSED);
                 control.setAttribute('aria-expanded', String(!collapsed));
                 this.#saveSectionState(sectionKey, collapsed);
-                if (!collapsed) await this.renderSectionContent(section as HTMLElement);
+                if (!collapsed) {
+                    const sectionContent = section.querySelector(`.${CONFIG.CSS.SECTION_CONTENT}`);
+                    if (sectionContent?.getAttribute(CONFIG.ATTRIBUTES.RENDERED) === 'true') {
+                        // Already rendered — skip data fetching and DOM re-rendering,
+                        // just re-apply visibility filters scoped to this section's content
+                        this.#components.viewRenderer.filterRuleItems(sectionContent as HTMLElement);
+                    } else {
+                        await this.renderSectionContent(section as HTMLElement);
+                    }
+                }
                 this.#services.a11y.announce(`${sectionKey} section ${collapsed ? 'collapsed' : 'expanded'}.`);
                 this.#services.navigation.invalidateFocusables();
             };

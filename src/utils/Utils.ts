@@ -1,4 +1,4 @@
-import DOMPurify from 'dompurify';
+import type * as DOMPurifyNamespace from 'dompurify';
 
 interface TrustedTypesPolicyLike {
     createHTML: (input: string) => unknown;
@@ -30,17 +30,39 @@ const ALLOWED_ATTR = [
 ];
 const ALLOWED_URI_REGEXP = /^(?:(?:https?|mailto|tel):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i;
 
-const sanitizeHTML = (html: string): string =>
-    DOMPurify.sanitize(html, {
+// DOMPurify is loaded via dynamic import() on first safeHTML() call and cached for subsequent use.
+// This keeps DOMPurify out of the main entry chunk (Requirement 2.1). The module shape is
+// referenced via a top-level `import type` so no `import()` type annotation is needed.
+type DOMPurifyModule = typeof DOMPurifyNamespace;
+let cachedDOMPurify: DOMPurifyModule | null = null;
+let domPurifyLoadPromise: Promise<DOMPurifyModule> | null = null;
+
+async function loadDOMPurify(): Promise<DOMPurifyModule> {
+    if (cachedDOMPurify) return cachedDOMPurify;
+    if (!domPurifyLoadPromise) {
+        domPurifyLoadPromise = import('dompurify').then((mod) => {
+            cachedDOMPurify = mod;
+            return mod;
+        });
+    }
+    return domPurifyLoadPromise;
+}
+
+function sanitizeHTMLSync(html: string): string {
+    if (!cachedDOMPurify) {
+        throw new Error('DOMPurify not loaded. Call ensureDOMPurifyLoaded() or safeHTML() first.');
+    }
+    return cachedDOMPurify.default.sanitize(html, {
         ALLOWED_TAGS,
         ALLOWED_ATTR,
         ALLOWED_URI_REGEXP,
     }) as string;
+}
 
 if (trustedTypes?.createPolicy) {
     try {
         trustedPolicy = trustedTypes.createPolicy('default', {
-            createHTML: (s: string) => sanitizeHTML(s),
+            createHTML: (s: string) => sanitizeHTMLSync(s),
             createScriptURL: (s: string) => {
                 const url = new URL(s, window.location.href);
                 if (url.origin === window.location.origin) return s;
@@ -55,8 +77,25 @@ if (trustedTypes?.createPolicy) {
     } catch (e) { console.warn('Trusted Types policy creation failed:', e); }
 }
 
-export const safeHTML = (html: string): string =>
-    trustedPolicy ? String(trustedPolicy.createHTML(html)) : sanitizeHTML(html);
+/**
+ * Ensures DOMPurify is loaded and cached. Call this before any synchronous safeHTML usage.
+ * After this resolves, safeHTML can be called synchronously.
+ */
+export async function ensureDOMPurifyLoaded(): Promise<void> {
+    await loadDOMPurify();
+}
+
+/**
+ * Sanitizes HTML using DOMPurify. DOMPurify is loaded via dynamic import on first call
+ * and cached for all subsequent calls. After the first await resolves, the function
+ * operates synchronously from the cache.
+ */
+export const safeHTML = (html: string): string => {
+    if (!cachedDOMPurify) {
+        throw new Error('DOMPurify not loaded. Call ensureDOMPurifyLoaded() before using safeHTML().');
+    }
+    return trustedPolicy ? String(trustedPolicy.createHTML(html)) : sanitizeHTMLSync(html);
+};
 
 export const safeScriptURL = (url: string): string =>
     trustedPolicy ? String(trustedPolicy.createScriptURL(url)) : url;
@@ -156,3 +195,32 @@ export const debounce = <T extends (...args: unknown[]) => void>(func: T, delay:
         timeoutId = setTimeout(() => func.apply(this, args), delay);
     };
 };
+
+/**
+ * Performs a `fetch` bounded by an explicit timeout. Centralizes the
+ * `AbortController` + `setTimeout(abort, ms)` + `clearTimeout` pattern so every
+ * data, markdown, and theme boundary shares one contract (Requirements 5.5, 6.1, 6.2).
+ *
+ * The effective timeout is capped at 10 seconds so a stalled request always settles
+ * within that bound. On timeout the request is aborted and the returned promise
+ * rejects with the abort error, letting callers retain their previous state instead
+ * of hanging indefinitely.
+ *
+ * @param url - The resource to fetch.
+ * @param timeoutMs - Requested timeout in milliseconds (capped at 10000). Defaults to 10000.
+ * @param init - Optional `RequestInit`; its `signal` is overridden by the internal controller.
+ * @returns The `Response` when the request completes before the timeout.
+ */
+export async function fetchWithTimeout(
+    url: string,
+    timeoutMs = 10_000,
+    init?: RequestInit,
+): Promise<Response> {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), Math.min(timeoutMs, 10_000));
+    try {
+        return await fetch(url, { ...init, signal: controller.signal });
+    } finally {
+        clearTimeout(timer);
+    }
+}

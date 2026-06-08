@@ -1,5 +1,5 @@
 import { CONFIG } from '../config.js';
-import { trapFocusWithin } from '../utils/Utils.js';
+import { fetchWithTimeout, trapFocusWithin } from '../utils/Utils.js';
 import type { A11yService } from './A11yService.js';
 
 interface ReadmeSection {
@@ -49,7 +49,7 @@ export class ReadmeService {
         if (this.#cachedSections) return this.#cachedSections;
 
         try {
-            const res = await fetch(`README.md?v=${CONFIG.APP_VERSION}`);
+            const res = await fetchWithTimeout(`README.md?v=${CONFIG.APP_VERSION}`, 10_000);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const text = await res.text();
             this.#cachedSections = this.#parseReadme(text);

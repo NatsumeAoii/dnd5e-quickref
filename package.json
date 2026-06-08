@@ -1,9 +1,10 @@
 {
   "name": "dnd5e-quickref",
-  "version": "1.1.8",
+  "version": "1.2.0",
   "private": true,
   "description": "D&D 5e Quick Reference – Vite + TypeScript",
   "type": "module",
+  "sideEffects": false,
   "module": "src/main.ts",
   "homepage": "https://natsumeaoii.github.io/dnd5e-quickref/",
   "repository": {
@@ -39,6 +40,7 @@
   "devDependencies": {
     "@eslint/js": "^9.0.0",
     "eslint": "^9.0.0",
+    "fast-check": "^4.8.0",
     "jsdom": "^29.0.1",
     "lightningcss": "^1.32.0",
     "stylelint": "^16.10.0",
@@ -50,6 +52,7 @@
     "vitest": "^4.1.2"
   },
   "dependencies": {
-    "dompurify": "3.2.4"
+    "dompurify": "^3.4.8",
+    "web-vitals": "^5.3.0"
   }
 }

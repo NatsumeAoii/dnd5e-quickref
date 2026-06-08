@@ -43,6 +43,325 @@ const loadServiceWorkerInternals = () => {
     }).__swTest;
 };
 
+describe('service worker stale-while-revalidate strategy', () => {
+    it('serves data JSON from cache and revalidates in background when caching is enabled', async () => {
+        const source = readFileSync(new URL('../../public/sw.js', import.meta.url), 'utf8');
+        const listeners: Record<string, (event: unknown) => void> = {};
+        const cachedResponse = new Response(JSON.stringify([{ title: 'cached' }]), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+        });
+        const networkResponse = new Response(JSON.stringify([{ title: 'fresh' }]), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        const cacheStore = new Map<string, Response>();
+        const mockCache = {
+            match: vi.fn(async (req: Request) => {
+                const key = typeof req === 'string' ? req : req.url;
+                return cacheStore.get(key) ?? undefined;
+            }),
+            put: vi.fn(async (req: Request, res: Response) => {
+                const key = typeof req === 'string' ? req : req.url;
+                cacheStore.set(key, res);
+            }),
+            add: vi.fn(async () => undefined),
+            keys: vi.fn(async () => []),
+            delete: vi.fn(async () => true),
+        };
+
+        const context = createContext({
+            URL,
+            Response,
+            Request,
+            Promise,
+            console: { log: vi.fn(), warn: vi.fn(), error: vi.fn(), info: vi.fn() },
+            caches: { open: vi.fn(async () => mockCache), keys: vi.fn(async () => []) },
+            fetch: vi.fn(async () => networkResponse.clone()),
+            self: {
+                registration: { scope: 'https://example.test/app/' },
+                addEventListener: vi.fn((type: string, handler: (event: unknown) => void) => { listeners[type] = handler; }),
+                clients: { claim: vi.fn(async () => undefined) },
+                skipWaiting: vi.fn(async () => undefined),
+            },
+            setTimeout: globalThis.setTimeout,
+        });
+
+        new Script(source).runInContext(context);
+
+        // Enable caching via SET_CACHING_POLICY message
+        const msgEvent = {
+            data: { type: 'SET_CACHING_POLICY', allowed: true, locale: 'en_US', ruleset: '2014' },
+            waitUntil: vi.fn((p: Promise<unknown>) => p.catch(() => undefined)),
+        };
+        listeners.message(msgEvent);
+
+        // Simulate a cached data JSON response
+        const dataUrl = 'https://example.test/app/data/en_US/rules/data_action.json?v=1.1.8';
+        cacheStore.set(dataUrl, cachedResponse.clone());
+
+        // Issue a fetch for the data JSON
+        let respondedWith: Response | undefined;
+        const fetchEvent = {
+            request: new Request(dataUrl, { method: 'GET' }),
+            respondWith: vi.fn((responsePromise: Promise<Response>) => {
+                responsePromise.then((r) => { respondedWith = r; });
+            }),
+        };
+
+        listeners.fetch(fetchEvent);
+        expect(fetchEvent.respondWith).toHaveBeenCalled();
+
+        // Resolve the response promise
+        await new Promise((r) => setTimeout(r, 10));
+
+        // Should serve from cache (stale)
+        expect(respondedWith).toBeDefined();
+        const body = await respondedWith!.json();
+        expect(body).toEqual([{ title: 'cached' }]);
+    });
+
+    it('falls back to network when no cached response exists', async () => {
+        const source = readFileSync(new URL('../../public/sw.js', import.meta.url), 'utf8');
+        const listeners: Record<string, (event: unknown) => void> = {};
+        const networkResponse = new Response(JSON.stringify([{ title: 'fresh' }]), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        const mockCache = {
+            match: vi.fn(async () => undefined),
+            put: vi.fn(async () => undefined),
+            add: vi.fn(async () => undefined),
+            keys: vi.fn(async () => []),
+            delete: vi.fn(async () => true),
+        };
+
+        const context = createContext({
+            URL,
+            Response,
+            Request,
+            Promise,
+            console: { log: vi.fn(), warn: vi.fn(), error: vi.fn(), info: vi.fn() },
+            caches: { open: vi.fn(async () => mockCache), keys: vi.fn(async () => []) },
+            fetch: vi.fn(async () => networkResponse.clone()),
+            self: {
+                registration: { scope: 'https://example.test/app/' },
+                addEventListener: vi.fn((type: string, handler: (event: unknown) => void) => { listeners[type] = handler; }),
+                clients: { claim: vi.fn(async () => undefined) },
+                skipWaiting: vi.fn(async () => undefined),
+            },
+            setTimeout: globalThis.setTimeout,
+        });
+
+        new Script(source).runInContext(context);
+
+        // Enable caching
+        listeners.message({
+            data: { type: 'SET_CACHING_POLICY', allowed: true, locale: 'en_US', ruleset: '2014' },
+            waitUntil: vi.fn((p: Promise<unknown>) => p.catch(() => undefined)),
+        });
+
+        // Issue fetch for uncached data
+        const dataUrl = 'https://example.test/app/data/en_US/rules/data_action.json?v=1.1.8';
+        let respondedWith: Response | undefined;
+        const fetchEvent = {
+            request: new Request(dataUrl, { method: 'GET' }),
+            respondWith: vi.fn((responsePromise: Promise<Response>) => {
+                responsePromise.then((r) => { respondedWith = r; });
+            }),
+        };
+
+        listeners.fetch(fetchEvent);
+        await new Promise((r) => setTimeout(r, 10));
+
+        // Should fall back to network response
+        expect(respondedWith).toBeDefined();
+        const body = await respondedWith!.json();
+        expect(body).toEqual([{ title: 'fresh' }]);
+    });
+
+    it('enables and disables caching based on SET_CACHING_POLICY message', () => {
+        const source = readFileSync(new URL('../../public/sw.js', import.meta.url), 'utf8');
+        const listeners: Record<string, (event: unknown) => void> = {};
+
+        const mockCache = {
+            match: vi.fn(async () => undefined),
+            put: vi.fn(async () => undefined),
+            add: vi.fn(async () => undefined),
+            keys: vi.fn(async () => []),
+            delete: vi.fn(async () => true),
+        };
+
+        const context = createContext({
+            URL,
+            Response,
+            Request,
+            Promise,
+            console: { log: vi.fn(), warn: vi.fn(), error: vi.fn(), info: vi.fn() },
+            caches: { open: vi.fn(async () => mockCache), keys: vi.fn(async () => []) },
+            fetch: vi.fn(async () => new Response('ok')),
+            self: {
+                registration: { scope: 'https://example.test/app/' },
+                addEventListener: vi.fn((type: string, handler: (event: unknown) => void) => { listeners[type] = handler; }),
+                clients: { claim: vi.fn(async () => undefined) },
+                skipWaiting: vi.fn(async () => undefined),
+            },
+            setTimeout: globalThis.setTimeout,
+        });
+
+        new Script(`${source}\n;globalThis.__sw = { get cachingAllowed() { return cachingAllowed; } };`).runInContext(context);
+        const sw = (context as { __sw: { cachingAllowed: boolean } }).__sw;
+
+        // Initially disabled
+        expect(sw.cachingAllowed).toBe(false);
+
+        // Enable
+        listeners.message({
+            data: { type: 'SET_CACHING_POLICY', allowed: true, locale: 'en_US', ruleset: '2014' },
+            waitUntil: vi.fn((p: Promise<unknown>) => p.catch(() => undefined)),
+        });
+        expect(sw.cachingAllowed).toBe(true);
+
+        // Disable
+        listeners.message({
+            data: { type: 'SET_CACHING_POLICY', allowed: false },
+            waitUntil: vi.fn(),
+        });
+        expect(sw.cachingAllowed).toBe(false);
+    });
+});
+
+describe('service worker graceful fallback', () => {
+    it('fetch handler ignores non-GET requests gracefully', () => {
+        const source = readFileSync(new URL('../../public/sw.js', import.meta.url), 'utf8');
+        const listeners: Record<string, (event: unknown) => void> = {};
+
+        const mockCache = {
+            match: vi.fn(async () => undefined),
+            put: vi.fn(async () => undefined),
+            add: vi.fn(async () => undefined),
+            keys: vi.fn(async () => []),
+            delete: vi.fn(async () => true),
+        };
+
+        const context = createContext({
+            URL,
+            Response,
+            Request,
+            Promise,
+            console: { log: vi.fn(), warn: vi.fn(), error: vi.fn(), info: vi.fn() },
+            caches: { open: vi.fn(async () => mockCache), keys: vi.fn(async () => []) },
+            fetch: vi.fn(async () => new Response('ok')),
+            self: {
+                registration: { scope: 'https://example.test/app/' },
+                addEventListener: vi.fn((type: string, handler: (event: unknown) => void) => { listeners[type] = handler; }),
+                clients: { claim: vi.fn(async () => undefined) },
+                skipWaiting: vi.fn(async () => undefined),
+            },
+            setTimeout: globalThis.setTimeout,
+        });
+
+        new Script(source).runInContext(context);
+
+        // POST request should not be intercepted
+        const respondWith = vi.fn();
+        listeners.fetch({
+            request: new Request('https://example.test/app/data/en_US/rules/data_action.json', { method: 'POST' }),
+            respondWith,
+        });
+
+        expect(respondWith).not.toHaveBeenCalled();
+    });
+
+    it('fetch handler ignores non-http protocol requests', () => {
+        const source = readFileSync(new URL('../../public/sw.js', import.meta.url), 'utf8');
+        const listeners: Record<string, (event: unknown) => void> = {};
+
+        const mockCache = {
+            match: vi.fn(async () => undefined),
+            put: vi.fn(async () => undefined),
+            add: vi.fn(async () => undefined),
+            keys: vi.fn(async () => []),
+            delete: vi.fn(async () => true),
+        };
+
+        const context = createContext({
+            URL,
+            Response,
+            Request,
+            Promise,
+            console: { log: vi.fn(), warn: vi.fn(), error: vi.fn(), info: vi.fn() },
+            caches: { open: vi.fn(async () => mockCache), keys: vi.fn(async () => []) },
+            fetch: vi.fn(async () => new Response('ok')),
+            self: {
+                registration: { scope: 'https://example.test/app/' },
+                addEventListener: vi.fn((type: string, handler: (event: unknown) => void) => { listeners[type] = handler; }),
+                clients: { claim: vi.fn(async () => undefined) },
+                skipWaiting: vi.fn(async () => undefined),
+            },
+            setTimeout: globalThis.setTimeout,
+        });
+
+        new Script(source).runInContext(context);
+
+        // Chrome extension request should not be intercepted
+        const respondWith = vi.fn();
+        listeners.fetch({
+            request: { url: 'chrome-extension://abc/page.html', method: 'GET', mode: 'cors' },
+            respondWith,
+        });
+
+        expect(respondWith).not.toHaveBeenCalled();
+    });
+
+    it('returns network error when both cache and network fail for data JSON', async () => {
+        const source = readFileSync(new URL('../../public/sw.js', import.meta.url), 'utf8');
+        const listeners: Record<string, (event: unknown) => void> = {};
+
+        const mockCache = {
+            match: vi.fn(async () => undefined),
+            put: vi.fn(async () => undefined),
+            add: vi.fn(async () => undefined),
+            keys: vi.fn(async () => []),
+            delete: vi.fn(async () => true),
+        };
+
+        const context = createContext({
+            URL,
+            Response,
+            Request,
+            Promise,
+            console: { log: vi.fn(), warn: vi.fn(), error: vi.fn(), info: vi.fn() },
+            caches: { open: vi.fn(async () => mockCache), keys: vi.fn(async () => []) },
+            fetch: vi.fn(async () => { throw new TypeError('NetworkError'); }),
+            self: {
+                registration: { scope: 'https://example.test/app/' },
+                addEventListener: vi.fn((type: string, handler: (event: unknown) => void) => { listeners[type] = handler; }),
+                clients: { claim: vi.fn(async () => undefined) },
+                skipWaiting: vi.fn(async () => undefined),
+            },
+            setTimeout: globalThis.setTimeout,
+        });
+
+        new Script(source).runInContext(context);
+
+        const dataUrl = 'https://example.test/app/data/en_US/rules/data_action.json?v=1.1.8';
+        let respondedWith: Response | undefined;
+        listeners.fetch({
+            request: new Request(dataUrl, { method: 'GET' }),
+            respondWith: vi.fn((p: Promise<Response>) => { p.then((r) => { respondedWith = r; }); }),
+        });
+
+        await new Promise((r) => setTimeout(r, 10));
+
+        // Response.error() returns a response with type 'error'
+        expect(respondedWith).toBeDefined();
+        expect(respondedWith!.type).toBe('error');
+    });
+});
+
 describe('service worker cache policy', () => {
     it('does not emit debug logs in production', () => {
         const source = readFileSync(new URL('../../public/sw.js', import.meta.url), 'utf8');

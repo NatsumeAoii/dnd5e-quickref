@@ -1,5 +1,5 @@
 import { CONFIG } from '../config.js';
-import { trapFocusWithin } from '../utils/Utils.js';
+import { fetchWithTimeout, trapFocusWithin } from '../utils/Utils.js';
 import type { A11yService } from './A11yService.js';
 
 interface VersionBlock {
@@ -52,7 +52,7 @@ export class ChangelogService {
         if (this.#cachedVersions) return this.#cachedVersions;
 
         try {
-            const res = await fetch(`CHANGELOG.md?v=${CONFIG.APP_VERSION}`);
+            const res = await fetchWithTimeout(`CHANGELOG.md?v=${CONFIG.APP_VERSION}`);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const text = await res.text();
             this.#cachedVersions = this.#parseChangelog(text);

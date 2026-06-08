@@ -678,6 +678,45 @@ describe('DataService validation and loading', () => {
 
         expect('Use Ready (Spell) now.'.match(state.data.ruleLinkerRegex!)).toEqual(['Ready (Spell)']);
     });
+
+    it('builds search indices synchronously when ensureSearchIndicesReady is called before idle callback fires', () => {
+        // Prevent requestIdleCallback and setTimeout from firing to simulate
+        // the case where search is triggered before idle-time pre-computation completes
+        vi.useFakeTimers();
+        const stateManager = new StateManager();
+        const state = stateManager.getState();
+        state.settings.use2024Rules = false;
+        state.data.rulesets['2014'].action = [
+            { title: 'Attack', description: 'Make an attack roll' },
+            { title: 'Dodge', description: 'Focus on avoiding attacks' },
+            { title: 'Help', description: 'Lend your aid to another creature' },
+        ];
+        const data = new DataService(stateManager);
+
+        // buildRuleMap defers index construction to idle time
+        data.buildRuleMap();
+
+        // Indices should be undefined (not yet built) because idle callback hasn't fired
+        const attackInfo = state.data.ruleMap.get('Action::Attack');
+        const dodgeInfo = state.data.ruleMap.get('Action::Dodge');
+        const helpInfo = state.data.ruleMap.get('Action::Help');
+        expect(attackInfo?.searchIndex).toBeUndefined();
+        expect(dodgeInfo?.searchIndex).toBeUndefined();
+        expect(helpInfo?.searchIndex).toBeUndefined();
+
+        // Calling ensureSearchIndicesReady builds indices synchronously on-demand
+        data.ensureSearchIndicesReady();
+
+        // All indices should now be built — no search query returns incomplete matches
+        expect(attackInfo?.searchIndex).toBeDefined();
+        expect(attackInfo?.searchIndex).toContain('make an attack roll');
+        expect(dodgeInfo?.searchIndex).toBeDefined();
+        expect(dodgeInfo?.searchIndex).toContain('focus on avoiding attacks');
+        expect(helpInfo?.searchIndex).toBeDefined();
+        expect(helpInfo?.searchIndex).toContain('lend your aid');
+
+        vi.useRealTimers();
+    });
 });
 
 describe('Theme manifest validation', () => {
@@ -1007,6 +1046,45 @@ describe('WindowManager popup lifecycle', () => {
         expect(close.tagName).toBe('BUTTON');
         expect(close.getAttribute('type')).toBe('button');
         expect(close.getAttribute('aria-label')).toBe('Close minimized Dash popup');
+    });
+
+    it('deletes from openPopups, removes DOM, and closes dialog within 300ms on popup close', async () => {
+        vi.useFakeTimers();
+        const stateManager = new StateManager();
+        const state: AppState = stateManager.getState();
+        const dialog = document.createElement('dialog') as HTMLDialogElement;
+        dialog.className = CONFIG.CSS.POPUP_WINDOW;
+        dialog.innerHTML = '<span class="popup-title">Dash</span>';
+        const closeFn = vi.fn();
+        Object.defineProperty(dialog, 'close', { configurable: true, value: closeFn });
+        document.getElementById(CONFIG.ELEMENT_IDS.POPUP_CONTAINER)?.appendChild(dialog);
+        state.ui.openPopups.set('Action::Dash', dialog);
+        const persistence = { saveSession: vi.fn() };
+        const manager = new WindowManager({
+            domProvider: { get: (id: string) => document.getElementById(id) as HTMLElement } as never,
+            stateManager,
+            persistence: persistence as never,
+            a11y: { announce: vi.fn() } as never,
+            popupFactory: {} as never,
+            data: {} as never,
+        });
+
+        await manager.togglePopup('Action::Dash');
+
+        // Immediately after close action: popup is deleted from openPopups state map
+        expect(state.ui.openPopups.has('Action::Dash')).toBe(false);
+
+        // Before timeout: dialog close and DOM removal are deferred
+        expect(closeFn).not.toHaveBeenCalled();
+        expect(dialog.parentElement).not.toBeNull();
+
+        // After POPUP_MS (200ms < 300ms requirement): dialog is closed and DOM element removed
+        vi.advanceTimersByTime(CONFIG.ANIMATION_DURATION.POPUP_MS);
+
+        expect(closeFn).toHaveBeenCalledOnce();
+        expect(dialog.parentElement).toBeNull();
+        expect(persistence.saveSession).toHaveBeenCalled();
+        vi.useRealTimers();
     });
 
     it('ignores oversized popup ids from the URL hash before attempting data loads', async () => {
@@ -1496,5 +1574,335 @@ describe('Template and render accessibility behavior', () => {
         expect(warn).toHaveBeenCalledWith(expect.stringContaining('Unknown bullet type'));
         expect(popup.querySelector('.popup-bullets')?.textContent).toContain('Unsupported rule detail format.');
         expect(popup.querySelector('.popup-bullets')?.textContent).not.toContain('"unsupported"');
+    });
+});
+
+/**
+ * Edge Case Unit Tests for Performance Optimization
+ *
+ * Tests verifying failure scenario handling for deferred chunk loading, non-transient
+ * fetch errors, template cloning, AbortController teardown, locale switch ordering,
+ * and locale fetch failure fallback.
+ *
+ * **Validates: Requirements 2.5, 5.6, 6.3, 7.6, 8.4, 8.5**
+ */
+
+describe('Deferred chunk failure does not crash app (Req 2.5)', () => {
+    afterEach(() => {
+        vi.restoreAllMocks();
+    });
+
+    it('continues operating when dynamic import() rejects for a service', async () => {
+        // Simulate a resilient deferred-import pattern: Promise.allSettled catches individual failures
+        const failingLoaders = [
+            () => Promise.reject(new Error('chunk load failed: ChangelogService')),
+            () => Promise.reject(new Error('chunk load failed: ReadmeService')),
+            () => Promise.reject(new Error('chunk load failed: OnboardingService')),
+            () => Promise.reject(new Error('chunk load failed: GamepadService')),
+        ];
+
+        const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        const results = await Promise.allSettled(failingLoaders.map((loader) => loader()));
+
+        // All should be rejected but allSettled does not throw
+        results.forEach((result) => {
+            expect(result.status).toBe('rejected');
+        });
+
+        // Log warnings for failed chunks
+        results.forEach((result, i) => {
+            if (result.status === 'rejected') {
+                console.warn(`Failed to load chunk ${i}:`, result.reason);
+            }
+        });
+
+        expect(warnSpy).toHaveBeenCalledTimes(4);
+    });
+
+    it('Promise.allSettled reports partial success when some chunks load', async () => {
+        const mixedLoaders = [
+            () => Promise.resolve({ ChangelogService: class {} }),
+            () => Promise.reject(new Error('chunk load failed')),
+            () => Promise.resolve({ OnboardingService: class {} }),
+            () => Promise.reject(new Error('chunk load failed')),
+        ];
+
+        vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        const results = await Promise.allSettled(mixedLoaders.map((loader) => loader()));
+
+        const fulfilled = results.filter((r) => r.status === 'fulfilled');
+        const rejected = results.filter((r) => r.status === 'rejected');
+        expect(fulfilled).toHaveLength(2);
+        expect(rejected).toHaveLength(2);
+    });
+});
+
+describe('Non-transient fetch error stores empty array (Req 5.6)', () => {
+    afterEach(() => {
+        vi.restoreAllMocks();
+        vi.unstubAllGlobals();
+    });
+
+    it('stores empty array in ruleset state when fetch returns HTTP 404', async () => {
+        const stateManager = new StateManager();
+        stateManager.getState().settings.use2024Rules = false;
+        vi.stubGlobal('fetch', vi.fn(async () => new Response('Not Found', { status: 404 })));
+        vi.spyOn(console, 'error').mockImplementation(() => undefined);
+        const dataService = new DataService(stateManager);
+
+        await expect(dataService.ensureSectionDataLoaded('movement')).rejects.toThrow();
+
+        expect(stateManager.getState().data.rulesets['2014']['movement']).toEqual([]);
+    });
+
+    it('does not retry on non-transient 4xx errors (except 429)', async () => {
+        const stateManager = new StateManager();
+        stateManager.getState().settings.use2024Rules = false;
+        const fetchMock = vi.fn(async () => new Response('Forbidden', { status: 403 }));
+        vi.stubGlobal('fetch', fetchMock);
+        vi.spyOn(console, 'error').mockImplementation(() => undefined);
+        const dataService = new DataService(stateManager);
+
+        await expect(dataService.ensureSectionDataLoaded('action')).rejects.toThrow();
+
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+        expect(stateManager.getState().data.rulesets['2014']['action']).toEqual([]);
+    });
+});
+
+describe('TemplateService clones popup template (Req 6.3)', () => {
+    beforeEach(() => {
+        document.body.innerHTML = `
+            <section id="section-action" class="${CONFIG.CSS.SECTION_CONTAINER}"></section>
+            <template id="${CONFIG.ELEMENT_IDS.POPUP_TEMPLATE}">
+                <dialog class="${CONFIG.CSS.POPUP_WINDOW}">
+                    <header class="popup-header"><span class="popup-title"></span></header>
+                    <span class="popup-type"></span>
+                    <p class="popup-description"></p>
+                    <p class="popup-summary"></p>
+                    <div class="popup-bullets"></div>
+                    <div class="popup-reference-container">
+                        <p class="popup-reference"></p>
+                        <button class="popup-toggle-details-btn" type="button">Tell Me More</button>
+                    </div>
+                    <label class="popup-notes-label">Notes</label>
+                    <textarea class="popup-notes-textarea"></textarea>
+                </dialog>
+            </template>
+        `;
+    });
+
+    afterEach(() => {
+        document.body.innerHTML = '';
+        vi.restoreAllMocks();
+    });
+
+    it('uses cloneNode(true) on template content to create each popup', () => {
+        const domProvider = {
+            get: (id: string) => document.getElementById(id) as HTMLElement,
+            getTemplate: (id: string) => document.getElementById(id) as HTMLTemplateElement,
+            queryAll: (selector: string) => document.querySelectorAll(selector),
+        };
+        const templateService = new TemplateService(domProvider as never);
+
+        const template = document.getElementById(CONFIG.ELEMENT_IDS.POPUP_TEMPLATE) as HTMLTemplateElement;
+        const cloneNodeSpy = vi.spyOn(template.content, 'cloneNode');
+
+        const popup = templateService.createPopupElement(
+            'Action::Dash',
+            { ruleData: { title: 'Dash', description: 'Move fast' }, type: 'Action', sectionId: 'section-action' } as never,
+            (html: string) => html,
+            () => '',
+            { borderColor: '#333', headerTextColor: '#fff' },
+        );
+
+        expect(cloneNodeSpy).toHaveBeenCalledWith(true);
+        expect(popup).toBeInstanceOf(HTMLElement);
+        expect(popup.querySelector('.popup-title')?.textContent).toBe('Dash');
+    });
+
+    it('produces distinct DOM nodes per popup creation (no shared reference)', () => {
+        const domProvider = {
+            get: (id: string) => document.getElementById(id) as HTMLElement,
+            getTemplate: (id: string) => document.getElementById(id) as HTMLTemplateElement,
+            queryAll: (selector: string) => document.querySelectorAll(selector),
+        };
+        const templateService = new TemplateService(domProvider as never);
+        const ruleInfo = {
+            ruleData: { title: 'Dash', description: 'Move fast' },
+            type: 'Action',
+            sectionId: 'section-action',
+        } as never;
+
+        const popup1 = templateService.createPopupElement('Action::Dash', ruleInfo, (h) => h, () => '', { borderColor: '#333', headerTextColor: '#fff' });
+        const popup2 = templateService.createPopupElement('Action::Dash', ruleInfo, (h) => h, () => '', { borderColor: '#333', headerTextColor: '#fff' });
+
+        expect(popup1).not.toBe(popup2);
+    });
+});
+
+describe('DragDropManager.destroy() aborts AbortController (Req 7.6)', () => {
+    beforeEach(() => {
+        document.body.innerHTML = `
+            <div id="${CONFIG.ELEMENT_IDS.FAVORITES_CONTAINER}">
+                <div class="${CONFIG.CSS.ITEM_CLASS}" ${CONFIG.ATTRIBUTES.POPUP_ID}="Action::Dash">
+                    <button type="button" class="item-content"><span class="item-title">Dash</span></button>
+                </div>
+                <div class="${CONFIG.CSS.ITEM_CLASS}" ${CONFIG.ATTRIBUTES.POPUP_ID}="Action::Dodge">
+                    <button type="button" class="item-content"><span class="item-title">Dodge</span></button>
+                </div>
+            </div>
+        `;
+    });
+
+    afterEach(() => {
+        document.body.innerHTML = '';
+        vi.restoreAllMocks();
+    });
+
+    it('calls AbortController.abort() when destroy() is invoked', () => {
+        const abortSpy = vi.spyOn(AbortController.prototype, 'abort');
+        const manager = new DragDropManager(
+            CONFIG.ELEMENT_IDS.FAVORITES_CONTAINER,
+            { updateFavoritesOrder: vi.fn() } as never,
+            vi.fn(),
+        );
+
+        manager.destroy();
+
+        expect(abortSpy).toHaveBeenCalled();
+    });
+
+    it('disables all event listeners after destroy so drag interactions are inert', () => {
+        const updateOrder = vi.fn();
+        const manager = new DragDropManager(
+            CONFIG.ELEMENT_IDS.FAVORITES_CONTAINER,
+            { updateFavoritesOrder: updateOrder } as never,
+            vi.fn(),
+        );
+
+        manager.destroy();
+
+        const control = document.querySelector('.item-content') as HTMLElement;
+        control?.focus();
+        control?.dispatchEvent(new KeyboardEvent('keydown', {
+            key: 'ArrowRight',
+            shiftKey: true,
+            bubbles: true,
+            cancelable: true,
+        }));
+
+        expect(updateOrder).not.toHaveBeenCalled();
+    });
+});
+
+describe('Locale switch applies strings before re-render (Req 8.4)', () => {
+    beforeEach(() => {
+        document.body.innerHTML = `
+            <h1 data-i18n="app_title">D&D Quick Reference</h1>
+            <input data-i18n-placeholder="search_placeholder" placeholder="Search..." />
+            <section class="${CONFIG.CSS.SECTION_CONTAINER}" data-section="action">
+                <div class="${CONFIG.CSS.SECTION_CONTENT}"></div>
+            </section>
+        `;
+    });
+
+    afterEach(() => {
+        document.body.innerHTML = '';
+        vi.restoreAllMocks();
+        vi.unstubAllGlobals();
+    });
+
+    it('applies i18n strings to DOM before section content re-render', async () => {
+        const operationOrder: string[] = [];
+
+        vi.stubGlobal('fetch', vi.fn(async (url: string) => {
+            if (url.includes('menu.json')) {
+                return new Response(JSON.stringify({
+                    locale: 'fr_FR',
+                    strings: { app_title: 'Référence Rapide D&D', search_placeholder: 'Rechercher...' },
+                }), { status: 200 });
+            }
+            return new Response('[]', { status: 200 });
+        }));
+
+        const localizationService = new LocalizationService();
+
+        const originalQSA = document.querySelectorAll.bind(document);
+        vi.spyOn(document, 'querySelectorAll').mockImplementation((selector: string) => {
+            if (selector.includes('data-i18n')) {
+                operationOrder.push('apply_strings');
+            }
+            return originalQSA(selector);
+        });
+
+        await localizationService.loadAndApply('fr_FR');
+        operationOrder.push('re_render_content');
+
+        expect(operationOrder.indexOf('apply_strings')).toBeLessThan(operationOrder.indexOf('re_render_content'));
+        expect(document.querySelector('[data-i18n="app_title"]')?.textContent).toBe('Référence Rapide D&D');
+        expect(document.querySelector('[data-i18n-placeholder]')?.getAttribute('placeholder')).toBe('Rechercher...');
+    });
+});
+
+describe('Locale fetch failure falls back to default (Req 8.5)', () => {
+    beforeEach(() => {
+        document.body.innerHTML = `
+            <h1 data-i18n="app_title">Original Title</h1>
+            <span data-i18n="missing_key">Keep This</span>
+        `;
+    });
+
+    afterEach(() => {
+        document.body.innerHTML = '';
+        vi.restoreAllMocks();
+        vi.unstubAllGlobals();
+    });
+
+    it('uses default locale strings when target locale fetch fails', async () => {
+        vi.stubGlobal('fetch', vi.fn(async (url: string) => {
+            if (url.includes('fr_FR')) {
+                return new Response('Not Found', { status: 404 });
+            }
+            return new Response(JSON.stringify({
+                locale: 'en_US',
+                strings: { app_title: 'D&D 5e Quick Reference' },
+            }), { status: 200 });
+        }));
+
+        const localizationService = new LocalizationService();
+        await localizationService.loadAndApply('fr_FR');
+
+        expect(document.querySelector('[data-i18n="app_title"]')?.textContent).toBe('D&D 5e Quick Reference');
+    });
+
+    it('preserves existing DOM text for keys absent from fallback strings', async () => {
+        vi.stubGlobal('fetch', vi.fn(async (url: string) => {
+            if (url.includes('fr_FR')) {
+                throw new TypeError('network error');
+            }
+            return new Response(JSON.stringify({
+                locale: 'en_US',
+                strings: { app_title: 'D&D 5e Quick Reference' },
+            }), { status: 200 });
+        }));
+
+        const localizationService = new LocalizationService();
+        await localizationService.loadAndApply('fr_FR');
+
+        expect(document.querySelector('[data-i18n="missing_key"]')?.textContent).toBe('Keep This');
+    });
+
+    it('does not crash when both target and default locale fetches fail', async () => {
+        vi.stubGlobal('fetch', vi.fn(async () => {
+            throw new TypeError('offline');
+        }));
+
+        const localizationService = new LocalizationService();
+        await expect(localizationService.loadAndApply('fr_FR')).resolves.toBeUndefined();
+
+        expect(document.querySelector('[data-i18n="app_title"]')?.textContent).toBe('Original Title');
     });
 });

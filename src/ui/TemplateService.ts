@@ -5,8 +5,24 @@ import type { RuleData, RuleInfo, Bullet } from '../types.js';
 
 export class TemplateService {
     #domProvider: DOMProvider;
+    #popupTemplateNode: HTMLTemplateElement | null = null;
+    #ruleItemTemplateNode: HTMLTemplateElement | null = null;
 
     constructor(domProvider: DOMProvider) { this.#domProvider = domProvider; }
+
+    #getPopupTemplate(): HTMLTemplateElement {
+        if (!this.#popupTemplateNode) {
+            this.#popupTemplateNode = this.#domProvider.getTemplate(CONFIG.ELEMENT_IDS.POPUP_TEMPLATE);
+        }
+        return this.#popupTemplateNode;
+    }
+
+    #getRuleItemTemplate(): HTMLTemplateElement {
+        if (!this.#ruleItemTemplateNode) {
+            this.#ruleItemTemplateNode = this.#domProvider.getTemplate(CONFIG.ELEMENT_IDS.RULE_ITEM_TEMPLATE);
+        }
+        return this.#ruleItemTemplateNode;
+    }
 
     #toDomId(prefix: string, value: string): string {
         const encoded = encodeURIComponent(value).replace(/%/g, '-').replace(/[^A-Za-z0-9_-]/g, '-');
@@ -81,7 +97,7 @@ export class TemplateService {
     }
 
     createRuleItemElement(popupId: string, ruleData: RuleData, isFavorite: boolean): HTMLElement {
-        const tpl = this.#domProvider.getTemplate(CONFIG.ELEMENT_IDS.RULE_ITEM_TEMPLATE);
+        const tpl = this.#getRuleItemTemplate();
         const item = (tpl.content.cloneNode(true) as DocumentFragment).firstElementChild as HTMLElement;
         const ruleType = ruleData.optional || CONFIG.DEFAULTS.RULE_TYPE;
         const title = ruleData.title || CONFIG.DEFAULTS.TITLE;
@@ -105,13 +121,20 @@ export class TemplateService {
         return item;
     }
 
-    createPopupElement(popupId: string, { ruleData, type, sectionId }: RuleInfo, linkifyFn: (html: string) => string, getNoteFn: (id: string) => string): HTMLElement {
-        const tpl = this.#domProvider.getTemplate(CONFIG.ELEMENT_IDS.POPUP_TEMPLATE);
+    createPopupElement(popupId: string, { ruleData, type, sectionId }: RuleInfo, linkifyFn: (html: string) => string, getNoteFn: (id: string) => string, sectionColors?: { borderColor: string; headerTextColor: string }): HTMLElement {
+        const tpl = this.#getPopupTemplate();
         const popup = (tpl.content.cloneNode(true) as DocumentFragment).firstElementChild as HTMLElement;
-        const sourceSection = document.getElementById(sectionId)?.closest(`.${CONFIG.CSS.SECTION_CONTAINER}`);
-        const sourceStyle = sourceSection ? window.getComputedStyle(sourceSection) : null;
-        const borderColor = sourceStyle?.borderColor || 'var(--color-hr)';
-        const headerTextColor = sourceStyle?.getPropertyValue('--section-header-text').trim() || 'var(--color-header-text)';
+        let borderColor: string;
+        let headerTextColor: string;
+        if (sectionColors) {
+            borderColor = sectionColors.borderColor;
+            headerTextColor = sectionColors.headerTextColor;
+        } else {
+            const sourceSection = document.getElementById(sectionId)?.closest(`.${CONFIG.CSS.SECTION_CONTAINER}`);
+            const sourceStyle = sourceSection ? window.getComputedStyle(sourceSection) : null;
+            borderColor = sourceStyle?.borderColor || 'var(--color-hr)';
+            headerTextColor = sourceStyle?.getPropertyValue('--section-header-text').trim() || 'var(--color-header-text)';
+        }
         const title = ruleData.title || CONFIG.DEFAULTS.TITLE;
         const titleId = this.#toDomId('popup-title', popupId);
         const notesId = this.#toDomId('notes', popupId);

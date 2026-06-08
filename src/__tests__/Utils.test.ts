@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { debounce, DOMElementNotFoundError, DataLoadError, getFocusableElements, installPrintRestoreFallback, safeHTML, trapFocusWithin } from '../utils/Utils.js';
+import { describe, it, expect, vi, beforeEach, afterEach, beforeAll } from 'vitest';
+import { debounce, DOMElementNotFoundError, DataLoadError, ensureDOMPurifyLoaded, getFocusableElements, installPrintRestoreFallback, safeHTML, trapFocusWithin } from '../utils/Utils.js';
 
 describe('debounce', () => {
     beforeEach(() => { vi.useFakeTimers(); });
@@ -53,6 +53,10 @@ describe('Custom Error Classes', () => {
 });
 
 describe('safeHTML', () => {
+    beforeAll(async () => {
+        await ensureDOMPurifyLoaded();
+    });
+
     it('removes active content, event handlers, and unsafe URL protocols', () => {
         const clean = safeHTML(`
             <p onclick="steal()">Text</p>
