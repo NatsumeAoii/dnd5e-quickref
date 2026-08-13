@@ -10,13 +10,13 @@ const requiredPaths = [
     'SECURITY.md',
     'docs/QUICK_START.md',
     'docs/TROUBLESHOOTING.md',
+    'docs/ARCHITECTURE.md',
     'data/coverage.json',
-    'wiki/Home.md',
-    'wiki/Build-and-Versioning.md',
-    'wiki/Testing.md',
 ];
 const errors = requiredPaths.filter((file) => !fs.existsSync(path.join(root, file))).map((file) => `missing documented path: ${file}`);
-const docs = ['README.md', 'CONTRIBUTING.md', 'docs/QUICK_START.md', 'docs/TROUBLESHOOTING.md', 'wiki/Build-and-Versioning.md', 'wiki/Development-Workflow.md', 'wiki/Testing.md'].map((file) => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
+const docs = ['README.md', 'CONTRIBUTING.md', 'docs/QUICK_START.md', 'docs/TROUBLESHOOTING.md', 'docs/ARCHITECTURE.md']
+    .map((file) => fs.readFileSync(path.join(root, file), 'utf8'))
+    .join('\n');
 for (const script of ['build', 'test', 'type-check', 'audit:data', 'check:generated', 'check:docs', 'check:sw', 'test:browser']) {
     if (!packageJson.scripts?.[script] || !docs.includes(`npm run ${script}`)) errors.push(`documented command missing or not declared: npm run ${script}`);
 }
