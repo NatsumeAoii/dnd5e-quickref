@@ -1,6 +1,7 @@
 import { CONFIG } from '../config.js';
 import { trapFocusWithin } from '../utils/Utils.js';
 import type { A11yService } from './A11yService.js';
+import type { LocalizationService } from './LocalizationService.js';
 
 export interface ShortcutEntry {
     keys: string;
@@ -25,13 +26,21 @@ export class KeyboardShortcutsService {
     #a11yService: A11yService;
     #isOpen = false;
     #returnFocusEl: HTMLElement | null = null;
+    #localization?: LocalizationService;
 
-    constructor(a11yService: A11yService) {
+    constructor(a11yService: A11yService, localization?: LocalizationService) {
         this.#a11yService = a11yService;
+        this.#localization = localization;
     }
+    #t(key: string, fallback: string, variables: Record<string, string | number> = {}): string { return this.#localization?.translate(key, fallback, variables) ?? Object.entries(variables).reduce((text, [name, value]) => text.replaceAll(`{${name}}`, String(value)), fallback); }
 
     initialize(): void {
         document.addEventListener('keydown', this.#handleKeyDown);
+    }
+
+    destroy(): void {
+        document.removeEventListener('keydown', this.#handleKeyDown);
+        this.#shortcuts.length = 0;
     }
 
     register(keys: string, description: string, category: string, action: ActionCallback): void {
@@ -90,7 +99,7 @@ export class KeyboardShortcutsService {
         this.#isOpen = true;
         this.#returnFocusEl = document.activeElement instanceof HTMLElement ? document.activeElement : null;
         this.#createModal();
-        this.#a11yService.announce('Keyboard shortcuts panel opened');
+        this.#a11yService.announce(this.#t('shortcuts.opened', 'Keyboard shortcuts panel opened'));
     }
 
     close(): void {
@@ -100,7 +109,7 @@ export class KeyboardShortcutsService {
         this.#modalEl = null;
         if (this.#returnFocusEl?.isConnected) this.#returnFocusEl.focus();
         this.#returnFocusEl = null;
-        this.#a11yService.announce('Keyboard shortcuts panel closed');
+        this.#a11yService.announce(this.#t('shortcuts.closed', 'Keyboard shortcuts panel closed'));
     }
 
     #appendKeys(parent: HTMLElement, keys: string): void {
@@ -131,13 +140,13 @@ export class KeyboardShortcutsService {
         this.#modalEl.className = 'shortcuts-modal-overlay';
         this.#modalEl.setAttribute('role', 'dialog');
         this.#modalEl.setAttribute('aria-modal', 'true');
-        this.#modalEl.setAttribute('aria-label', 'Keyboard shortcuts');
+        this.#modalEl.setAttribute('aria-label', this.#t('shortcuts.title', 'Keyboard shortcuts'));
 
         const groups = new Map<string, ShortcutEntry[]>();
         const allEntries: ShortcutEntry[] = [
-            { keys: '?', description: 'Toggle this shortcuts panel', category: 'General' },
-            { keys: 'Left Right', description: 'Navigate between items in sections', category: 'General' },
-            { keys: 'Up Down', description: 'Navigate between sections', category: 'General' },
+            { keys: '?', description: this.#t('shortcuts.toggle', 'Toggle this shortcuts panel'), category: this.#t('shortcuts.general', 'General') },
+            { keys: 'Left Right', description: this.#t('shortcuts.itemNavigation', 'Navigate between items in sections'), category: this.#t('shortcuts.general', 'General') },
+            { keys: 'Up Down', description: this.#t('shortcuts.sectionNavigation', 'Navigate between sections'), category: this.#t('shortcuts.general', 'General') },
             ...this.#shortcuts.map((s) => s.entry),
         ];
 
@@ -153,10 +162,10 @@ export class KeyboardShortcutsService {
         const header = document.createElement('div');
         header.className = 'shortcuts-modal-header';
         const title = document.createElement('h2');
-        title.textContent = 'Keyboard Shortcuts';
+        title.textContent = this.#t('shortcuts.title', 'Keyboard Shortcuts');
         const closeBtn = document.createElement('button');
         closeBtn.className = 'shortcuts-close-btn';
-        closeBtn.setAttribute('aria-label', 'Close shortcuts');
+        closeBtn.setAttribute('aria-label', this.#t('shortcuts.close', 'Close shortcuts'));
         closeBtn.textContent = 'x';
         header.append(title, closeBtn);
 

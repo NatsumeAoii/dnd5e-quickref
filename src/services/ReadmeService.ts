@@ -1,6 +1,7 @@
 import { CONFIG } from '../config.js';
 import { fetchWithTimeout, trapFocusWithin } from '../utils/Utils.js';
 import type { A11yService } from './A11yService.js';
+import type { LocalizationService } from './LocalizationService.js';
 
 interface ReadmeSection {
     heading: string;
@@ -14,10 +15,13 @@ export class ReadmeService {
     #isOpen = false;
     #cachedSections: ReadmeSection[] | null = null;
     #returnFocusEl: HTMLElement | null = null;
+    #localization?: LocalizationService;
 
-    constructor(a11yService: A11yService) {
+    constructor(a11yService: A11yService, localization?: LocalizationService) {
         this.#a11yService = a11yService;
+        this.#localization = localization;
     }
+    #t(key: string, fallback: string): string { return this.#localization?.translate(key, fallback) ?? fallback; }
 
     toggle(): void {
         if (this.#isOpen) { this.close(); return; }
@@ -30,7 +34,7 @@ export class ReadmeService {
         this.#returnFocusEl = document.activeElement instanceof HTMLElement ? document.activeElement : null;
         await this.#createModal();
         if (!this.#isOpen) return;
-        this.#a11yService.announce('README panel opened');
+        this.#a11yService.announce(this.#t('readme.opened', 'README panel opened'));
     }
 
     close(): void {
@@ -40,7 +44,7 @@ export class ReadmeService {
         this.#modalEl = null;
         if (this.#returnFocusEl?.isConnected) this.#returnFocusEl.focus();
         this.#returnFocusEl = null;
-        this.#a11yService.announce('README panel closed');
+        this.#a11yService.announce(this.#t('readme.closed', 'README panel closed'));
     }
 
     get isModalOpen(): boolean { return this.#isOpen; }
@@ -56,9 +60,9 @@ export class ReadmeService {
         } catch (e) {
             console.warn('Failed to fetch README.md:', e);
             this.#cachedSections = [{
-                heading: 'Could not load README',
+                heading: this.#t('readme.loadFailedTitle', 'Could not load README'),
                 level: 1,
-                body: ['Visit the project repository for the full documentation.'],
+                body: [this.#t('readme.loadFailedBody', 'Visit the project repository for the full documentation.')],
             }];
         }
 
@@ -106,7 +110,7 @@ export class ReadmeService {
         this.#modalEl.className = 'readme-modal-overlay';
         this.#modalEl.setAttribute('role', 'dialog');
         this.#modalEl.setAttribute('aria-modal', 'true');
-        this.#modalEl.setAttribute('aria-label', 'README');
+        this.#modalEl.setAttribute('aria-label', this.#t('readme.title', 'README'));
 
         const modal = document.createElement('div');
         modal.className = 'readme-modal';
@@ -117,11 +121,11 @@ export class ReadmeService {
         header.className = 'readme-modal-header';
 
         const title = document.createElement('h2');
-        title.textContent = 'About This Project';
+        title.textContent = this.#t('readme.about', 'About This Project');
 
         const closeBtn = document.createElement('button');
         closeBtn.className = 'readme-close-btn';
-        closeBtn.setAttribute('aria-label', 'Close README');
+        closeBtn.setAttribute('aria-label', this.#t('readme.close', 'Close README'));
         closeBtn.textContent = '✕';
         closeBtn.addEventListener('click', () => this.close());
 

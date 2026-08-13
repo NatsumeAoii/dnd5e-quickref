@@ -40,7 +40,7 @@ describe('Integration: web-vitals callback receives LCP/CLS/INP in production mo
 
         // Import reportWebVitals with production mode override
         // We need to test the actual wiring — mock isProductionMode by reimplementing
-        const { reportWebVitals } = await import('../utils/webVitals.js');
+        await import('../utils/webVitals.js');
 
         // In test environment, import.meta.env.PROD is false, so reportWebVitals won't fire.
         // Instead, we directly verify the module's production behavior by calling the
@@ -497,5 +497,28 @@ describe('Integration: SearchController full cycle under 50ms p95 for 500 rules'
         // Single character
         const singleCharResults = executeFullSearchCycle('a');
         expect(singleCharResults.size).toBeGreaterThan(0);
+    });
+});
+
+describe('Integration: DataService cache retention is bounded and observable', () => {
+    it('reports cache size and pending retention without exposing mutable cache data', async () => {
+        const stateManager = new StateManager();
+        stateManager.getState().settings.use2024Rules = false;
+        stateManager.getState().settings.locale = 'en_US';
+        vi.stubGlobal('fetch', vi.fn(async () => ({
+            ok: true,
+            headers: new Headers({ 'content-type': 'application/json' }),
+            json: async () => [{ title: 'Cached rule', optional: 'Standard rule' }],
+        }) as Response));
+        const dataService = new DataService(stateManager);
+
+        await dataService.ensureSectionDataLoaded('action');
+
+        expect(dataService.getCacheMetrics()).toEqual({ entries: 1, pendingEvictions: 0 });
+        stateManager.getState().settings.locale = 'fr_FR';
+        stateManager.publish('settingChanged', { key: 'LOCALE', value: 'fr_FR' });
+        expect(dataService.getCacheMetrics().pendingEvictions).toBe(1);
+        dataService.destroy();
+        vi.unstubAllGlobals();
     });
 });

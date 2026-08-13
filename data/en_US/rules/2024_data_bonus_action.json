@@ -1,5 +1,6 @@
 [
     {
+        "id": "core.2024.bonus_action.1-cast-a-spell",
         "title": "Cast a Spell",
         "optional": "Standard rule",
         "icon": "magicswirl",
@@ -27,6 +28,7 @@
         ]
     },
     {
+        "id": "core.2024.bonus_action.2-two-weapon-fighting",
         "title": "Two-Weapon Fighting",
         "optional": "Standard rule",
         "icon": "crossedswords",
@@ -55,6 +57,7 @@
         ]
     },
     {
+        "id": "core.2024.bonus_action.3-use-class-feature",
         "title": "Use Class Feature",
         "optional": "Standard rule",
         "icon": "embrassedenergy",
@@ -80,6 +83,7 @@
         ]
     },
     {
+        "id": "core.2024.bonus_action.4-aim",
         "title": "Aim**",
         "optional": "Homebrew rule",
         "icon": "archerytarget",
@@ -107,6 +111,7 @@
         ]
     },
     {
+        "id": "core.2024.bonus_action.5-overrun",
         "title": "Overrun*",
         "optional": "Optional rule",
         "icon": "shieldbash",
@@ -134,6 +139,7 @@
         ]
     },
     {
+        "id": "core.2024.bonus_action.6-tumble",
         "title": "Tumble*",
         "optional": "Optional rule",
         "icon": "acrobatic",
@@ -160,6 +166,7 @@
         ]
     },
     {
+        "id": "core.2024.bonus_action.7-potion-of-healing",
         "title": "Potion of Healing",
         "optional": "Standard rule",
         "icon": "potionball",
@@ -188,6 +195,7 @@
         ]
     },
     {
+        "id": "core.2024.bonus_action.8-feint",
         "title": "Feint**",
         "optional": "Homebrew rule",
         "icon": "liar",
@@ -214,6 +222,7 @@
         ]
     },
     {
+        "id": "core.2024.bonus_action.9-swap-weapons",
         "title": "Swap Weapons**",
         "optional": "Homebrew rule",
         "icon": "switchweapon",

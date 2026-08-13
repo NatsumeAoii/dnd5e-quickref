@@ -1,5 +1,6 @@
 [
     {
+        "id": "core.2024.movement.1-climb",
         "title": "Memanjat",
         "optional": "Standard rule",
         "icon": "crags",
@@ -26,6 +27,7 @@
         ]
     },
     {
+        "id": "core.2024.movement.2-crawl",
         "title": "Merangkak",
         "optional": "Standard rule",
         "icon": "crawl",
@@ -52,6 +54,7 @@
         ]
     },
     {
+        "id": "core.2024.movement.3-difficult-terrain",
         "title": "Difficult Terrain",
         "optional": "Standard rule",
         "icon": "stonepile",
@@ -78,6 +81,7 @@
         ]
     },
     {
+        "id": "core.2024.movement.4-drop-prone",
         "title": "Jatuh Prone",
         "optional": "Standard rule",
         "icon": "falling",
@@ -105,6 +109,7 @@
         ]
     },
     {
+        "id": "core.2024.movement.5-flying",
         "title": "Terbang",
         "optional": "Standard rule",
         "icon": "angelwings",
@@ -132,6 +137,7 @@
         ]
     },
     {
+        "id": "core.2024.movement.6-grapple-move",
         "title": "Gerak sambil Grapple",
         "optional": "Standard rule",
         "icon": "grab",
@@ -158,6 +164,7 @@
         ]
     },
     {
+        "id": "core.2024.movement.7-improvise",
         "title": "Improvisasi",
         "optional": "Standard rule",
         "icon": "juggler",
@@ -183,6 +190,7 @@
         ]
     },
     {
+        "id": "core.2024.movement.8-jump",
         "title": "Lompat",
         "optional": "Standard rule",
         "icon": "wingfoot",
@@ -211,6 +219,7 @@
         ]
     },
     {
+        "id": "core.2024.movement.9-move",
         "title": "Bergerak",
         "optional": "Standard rule",
         "icon": "run",
@@ -239,6 +248,7 @@
         ]
     },
     {
+        "id": "core.2024.movement.10-mount-dismount",
         "title": "Naik/Turun Mount",
         "optional": "Standard rule",
         "icon": "horsehead",
@@ -267,6 +277,7 @@
         ]
     },
     {
+        "id": "core.2024.movement.11-narrow-opening",
         "title": "Pembukaan Sempit",
         "optional": "Standard rule",
         "icon": "resize",
@@ -294,6 +305,7 @@
         ]
     },
     {
+        "id": "core.2024.movement.12-stand-up",
         "title": "Berdiri",
         "optional": "Standard rule",
         "icon": "strong",
@@ -320,6 +332,7 @@
         ]
     },
     {
+        "id": "core.2024.movement.13-swim",
         "title": "Berenang",
         "optional": "Standard rule",
         "icon": "atsea",
@@ -346,6 +359,7 @@
         ]
     },
     {
+        "id": "core.2024.movement.14-travel-pace",
         "title": "Pace Perjalanan",
         "optional": "Standard rule",
         "icon": "trail",

@@ -1,5 +1,6 @@
 [
     {
+        "id": "core.2024.environment.1-blindsight",
         "title": "Vision aveugle",
         "optional": "Standard rule",
         "icon": "echoripples",
@@ -30,6 +31,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.2-bright-light",
         "title": "Lumière vive",
         "optional": "Standard rule",
         "icon": "starpupil",
@@ -59,6 +61,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.3-burning",
         "title": "En feu",
         "optional": "Standard rule",
         "icon": "sun",
@@ -85,6 +88,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.4-darkness",
         "title": "Ténèbres",
         "optional": "Standard rule",
         "icon": "worriedeyes",
@@ -115,6 +119,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.5-darkvision",
         "title": "Vision dans le noir",
         "optional": "Standard rule",
         "icon": "semiclosedeye",
@@ -146,6 +151,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.6-dehydration",
         "title": "Déshydratation",
         "optional": "Standard rule",
         "icon": "atsea",
@@ -173,6 +179,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.7-dim-light",
         "title": "Lumière faible",
         "optional": "Standard rule",
         "icon": "semiclosedeye",
@@ -203,6 +210,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.8-falling",
         "title": "Chute",
         "optional": "Standard rule",
         "icon": "falling",
@@ -234,6 +242,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.9-half-cover",
         "title": "Demi-abri",
         "optional": "Standard rule",
         "icon": "brokenshield",
@@ -263,6 +272,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.10-heavily-obscured",
         "title": "Zone fortement obscurcie",
         "optional": "Standard rule",
         "icon": "fog",
@@ -292,6 +302,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.11-lightly-obscured",
         "title": "Zone légèrement obscurcie",
         "optional": "Standard rule",
         "icon": "dustcloud",
@@ -321,6 +332,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.12-malnutrition",
         "title": "Malnutrition",
         "optional": "Standard rule",
         "icon": "journey",
@@ -348,6 +360,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.13-suffocation",
         "title": "Suffocation",
         "optional": "Standard rule",
         "icon": "drowning",
@@ -379,6 +392,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.14-three-quarters-cover",
         "title": "Abri aux trois quarts",
         "optional": "Standard rule",
         "icon": "crackedshield",
@@ -409,6 +423,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.15-total-cover",
         "title": "Abri total",
         "optional": "Standard rule",
         "icon": "shield",
@@ -439,6 +454,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.16-tremorsense",
         "title": "Perception des vibrations",
         "optional": "Standard rule",
         "icon": "groundbreaker",
@@ -469,6 +485,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.17-truesight",
         "title": "Vision véritable",
         "optional": "Standard rule",
         "icon": "eyeshield",
@@ -501,6 +518,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.18-underwater-combat",
         "title": "Combat sous l’eau",
         "optional": "Standard rule",
         "icon": "atsea",
@@ -531,6 +549,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.19-chase-rules",
         "title": "Règles de poursuite*",
         "optional": "Optional rule",
         "icon": "sprint",
@@ -562,6 +581,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.20-deep-water",
         "title": "Eau profonde*",
         "optional": "Optional rule",
         "icon": "atsea",
@@ -588,6 +608,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.21-extreme-cold",
         "title": "Froid extrême*",
         "optional": "Optional rule",
         "icon": "thermometercold",
@@ -617,6 +638,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.22-extreme-heat",
         "title": "Chaleur extrême*",
         "optional": "Optional rule",
         "icon": "sun",
@@ -648,6 +670,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.23-frigid-water",
         "title": "Eau glaciale*",
         "optional": "Optional rule",
         "icon": "thermometercold",
@@ -674,6 +697,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.24-heavy-precipitation",
         "title": "Fortes précipitations*",
         "optional": "Optional rule",
         "icon": "raining",
@@ -704,6 +728,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.25-high-altitude",
         "title": "Haute altitude*",
         "optional": "Optional rule",
         "icon": "mountainclimbing",
@@ -734,6 +759,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.26-lingering-injuries",
         "title": "Blessures persistantes*",
         "optional": "Optional rule",
         "icon": "swordbreak",
@@ -764,6 +790,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.27-massive-damage",
         "title": "Dégâts massifs*",
         "optional": "Optional rule",
         "icon": "internalinjury",
@@ -793,6 +820,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.28-rest-variants",
         "title": "Variantes de repos*",
         "optional": "Optional rule",
         "icon": "nightsleep",
@@ -822,6 +850,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.29-slippery-ice",
         "title": "Glace glissante*",
         "optional": "Optional rule",
         "icon": "icecube",
@@ -851,6 +880,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.30-strong-wind",
         "title": "Vent fort*",
         "optional": "Optional rule",
         "icon": "windsock",
@@ -882,6 +912,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.31-thin-ice",
         "title": "Glace fine*",
         "optional": "Optional rule",
         "icon": "icecube",
@@ -908,6 +939,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.32-traps",
         "title": "Pièges*",
         "optional": "Optional rule",
         "icon": "tripwire",
@@ -937,6 +969,7 @@
         ]
     },
     {
+        "id": "core.2024.environment.33-critical-hit-fumble-effects",
         "title": "Effets de coup critique / échec critique**",
         "optional": "Homebrew rule",
         "icon": "swordbreak",

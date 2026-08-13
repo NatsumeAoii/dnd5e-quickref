@@ -5,7 +5,27 @@ import type { PerformanceOptimizer } from './PerformanceOptimizer.js';
 
 const ALLOWED_DENSITIES = new Set(['normal', 'compact', 'comfortable']);
 const ALLOWED_LOCALES = new Set<string>(CONFIG.LOCALE_CONFIG.SUPPORTED);
-const SAFE_THEME_ID_RE = /^[a-z0-9_-]{1,64}$/i;
+const ALLOWED_THEMES = new Set(['original', 'sepia', 'high-contrast', 'nord', 'cyberpunk', 'steampunk']);
+
+export interface ImportedSettings {
+    locale: string;
+    use2024Rules: boolean;
+    theme: string;
+    density: string;
+    darkMode: boolean;
+    reduceMotion: boolean;
+}
+
+export const isValidImportedSettings = (value: unknown): value is ImportedSettings => {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+    const settings = value as Record<string, unknown>;
+    return typeof settings.locale === 'string' && ALLOWED_LOCALES.has(settings.locale)
+        && typeof settings.use2024Rules === 'boolean'
+        && typeof settings.theme === 'string' && ALLOWED_THEMES.has(settings.theme)
+        && typeof settings.density === 'string' && ALLOWED_DENSITIES.has(settings.density)
+        && typeof settings.darkMode === 'boolean'
+        && typeof settings.reduceMotion === 'boolean';
+};
 
 export class SettingsService {
     #storage: Storage;
@@ -33,7 +53,7 @@ export class SettingsService {
 
     #readTheme = (key: string, def: string): string => {
         const value = this.#read(key);
-        return value && SAFE_THEME_ID_RE.test(value) ? value : def;
+        return value && ALLOWED_THEMES.has(value) ? value : def;
     };
 
     #readDensity = (key: string, def: string): string => {
@@ -50,7 +70,7 @@ export class SettingsService {
         if (type === 'checkbox') return typeof value === 'boolean';
         if (typeof value !== 'string') return false;
         if (key === 'DENSITY') return ALLOWED_DENSITIES.has(value);
-        if (key === 'THEME') return SAFE_THEME_ID_RE.test(value);
+        if (key === 'THEME') return ALLOWED_THEMES.has(value);
         if (key === 'LOCALE') return ALLOWED_LOCALES.has(value);
         return true;
     }
@@ -93,5 +113,12 @@ export class SettingsService {
             this.#stateManager.publish('settingChanged', { key: cfg.key, value });
             if (broadcast) this.#syncService.broadcast('SETTING_CHANGE', { key: cfg.key, value });
         }
+    }
+
+    restore(key: string, value: boolean | string): void {
+        const cfg = CONFIG.SETTINGS_CONFIG.find((c) => CONFIG.STORAGE_KEYS[c.key as keyof typeof CONFIG.STORAGE_KEYS] === key);
+        if (!cfg || !this.#isValidValue(cfg.key, cfg.type, value)) return;
+        this.#stateManager.getState().settings[cfg.stateProp] = value;
+        try { this.#storage.setItem(key, String(value)); } catch (error) { console.warn(`Failed to restore setting "${key}":`, error); }
     }
 }

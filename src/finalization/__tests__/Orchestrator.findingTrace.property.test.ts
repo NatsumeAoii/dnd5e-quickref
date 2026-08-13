@@ -49,17 +49,6 @@ const DOMAINS: readonly Domain[] = [
   'config',
 ];
 
-/** Languages a generated record may report. */
-const LANGUAGES: readonly SourceLanguage[] = [
-  'typescript',
-  'javascript',
-  'css',
-  'html',
-  'json',
-  'markdown',
-  'other',
-];
-
 /**
  * Distinct repo-relative paths that may belong to a generated record. Kept
  * disjoint from {@link OUT_OF_SET_PATHS} so an "out" path can never accidentally

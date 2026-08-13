@@ -8,6 +8,7 @@ import type { StateManager } from '../state/StateManager.js';
 import type { PopupFactory } from './PopupFactory.js';
 import { PopupLinkifier } from './PopupLinkifier.js';
 import type { PopupState, RuleInfo } from '../types.js';
+import type { LocalizationService } from '../services/LocalizationService.js';
 
 interface WindowManagerServices {
     domProvider: DOMProvider;
@@ -16,6 +17,7 @@ interface WindowManagerServices {
     a11y: A11yService;
     popupFactory: PopupFactory;
     data: DataService;
+    localization?: LocalizationService;
 }
 
 export class WindowManager {
@@ -25,6 +27,7 @@ export class WindowManager {
     #a11yService: A11yService;
     #popupFactory: PopupFactory;
     #dataService: DataService;
+    #localization?: LocalizationService;
     #popupContainer!: HTMLElement;
     #closeAllBtn!: HTMLElement;
     #isMobileView = false;
@@ -49,6 +52,7 @@ export class WindowManager {
         this.#a11yService = services.a11y;
         this.#popupFactory = services.popupFactory;
         this.#dataService = services.data;
+        this.#localization = services.localization;
         this.#popupContainer = this.#domProvider.get(CONFIG.ELEMENT_IDS.POPUP_CONTAINER);
         this.#closeAllBtn = this.#domProvider.get(CONFIG.ELEMENT_IDS.CLOSE_ALL_POPUPS_BTN);
         this.#ensureMinimizedBar();
@@ -57,6 +61,8 @@ export class WindowManager {
 
     #minimizedBar: HTMLElement | null = null;
 
+    #t(key: string, fallback: string, variables: Record<string, string | number> = {}): string { return this.#localization?.translate(key, fallback, variables) ?? Object.entries(variables).reduce((text, [name, value]) => text.replaceAll(`{${name}}`, String(value)), fallback); }
+
     #ensureMinimizedBar(): void {
         this.#minimizedBar = document.getElementById(CONFIG.ELEMENT_IDS.MINIMIZED_BAR);
         if (!this.#minimizedBar) {
@@ -64,7 +70,7 @@ export class WindowManager {
             this.#minimizedBar.id = CONFIG.ELEMENT_IDS.MINIMIZED_BAR;
             this.#minimizedBar.className = 'minimized-popups-bar hidden';
             this.#minimizedBar.setAttribute('role', 'toolbar');
-            this.#minimizedBar.setAttribute('aria-label', 'Minimized popups');
+            this.#minimizedBar.setAttribute('aria-label', this.#t('popup.minimized.label', 'Minimized popups'));
             document.body.appendChild(this.#minimizedBar);
         }
     }
@@ -76,6 +82,14 @@ export class WindowManager {
         window.addEventListener('resize', debounce(this.#handleResize, CONFIG.DEBOUNCE_DELAY.RESIZE_MS));
         document.addEventListener('keydown', this.#handleKeyDown);
         window.addEventListener('hashchange', this.#handleHashChange);
+    }
+
+    destroy(): void {
+        this.#popupContainer.removeEventListener('click', this.#handleContainerClick);
+        this.#closeAllBtn.removeEventListener('click', this.closeAllPopups);
+        document.removeEventListener('keydown', this.#handleKeyDown);
+        window.removeEventListener('hashchange', this.#handleHashChange);
+        this.closeAllPopups();
     }
 
     #toShortId = (fullId: string): string => {
@@ -100,10 +114,17 @@ export class WindowManager {
         }
     };
 
+    #resolveRuleId = (id: string): string => {
+        const state = this.#stateManager.getState();
+        const migrated = state.data.legacyRuleIds.get(id);
+        if (migrated && state.data.ruleMap.has(migrated)) return migrated;
+        return state.data.ruleMap.has(id) ? id : [...state.data.ruleMap.entries()].find(([, info]) => info.id === migrated)?.[0] ?? id;
+    };
+
     #isValidPopupId(id: string): boolean {
         return id.length > 0 &&
             id.length <= WindowManager.#MAX_POPUP_ID_LENGTH &&
-            id.includes('::') &&
+            (id.includes('::') || /^[a-z0-9][a-z0-9_.-]*$/i.test(id)) &&
             !/[<>"`]/.test(id);
     }
 
@@ -149,7 +170,8 @@ export class WindowManager {
         if (!popup) return;
         popup.classList.add(CONFIG.CSS.IS_CLOSING);
         state.ui.openPopups.delete(id);
-        this.#a11yService.announce(`Closed popup for ${id.split('::')[1]}`);
+        this.#stateManager.publish('popupStateChanged', { id, state: 'closed' });
+        this.#a11yService.announce(this.#t('popup.closed', 'Closed popup for {title}', { title: id.split('::')[1] ?? id }));
         this.#updateAllLinkStates();
         if (this.#isMobileView) this.#popupContainer.classList.remove(CONFIG.CSS.POPUP_CONTAINER_MODAL_OPEN);
         document.body.style.setProperty('--is-modal-open', state.ui.openPopups.size > 0 ? '1' : '0');
@@ -279,8 +301,9 @@ export class WindowManager {
         const state = this.#stateManager.getState();
         popup.style.zIndex = pos?.zIndex || String(++state.ui.activeZIndex);
         state.ui.openPopups.set(id, dialogEl);
+        this.#stateManager.publish('popupStateChanged', { id, state: 'opened' });
         document.body.style.setProperty('--is-modal-open', '1');
-        this.#a11yService.announce(`Opened popup for ${ruleInfo.ruleData.title || 'Unknown'}`);
+        this.#a11yService.announce(this.#t('popup.opened', 'Opened popup for {title}', { title: ruleInfo.ruleData.title || 'Unknown' }));
         this.#updateAllLinkStates();
         this.#updateCloseBtnVisibility();
         this.#persistenceService.saveSession();
@@ -310,7 +333,7 @@ export class WindowManager {
                 const isCurrentlyHidden = bullets.classList.contains('hidden');
                 bullets.classList.toggle('hidden', !isCurrentlyHidden);
                 summary.classList.toggle('hidden', isCurrentlyHidden);
-                toggleBtn.textContent = isCurrentlyHidden ? 'Tell Me Less' : 'Tell Me More';
+                toggleBtn.textContent = isCurrentlyHidden ? this.#t('popup.tellLess', 'Tell Me Less') : this.#t('popup.tellMore', 'Tell Me More');
                 toggleBtn.setAttribute('aria-expanded', String(isCurrentlyHidden));
             }
         }
@@ -349,6 +372,7 @@ export class WindowManager {
             const boundedIds = rawIds.slice(0, WindowManager.#MAX_HASH_POPUPS);
             const validIds = boundedIds
                 .map(this.#fromShortId)
+                .map(this.#resolveRuleId)
                 .filter((id) => this.#isValidPopupId(id));
             hashWasSanitized = rawIds.length !== boundedIds.length || validIds.length !== boundedIds.length;
             idsFromHash = new Set(validIds);
@@ -447,8 +471,12 @@ export class WindowManager {
     }
 
     createPopupFromState(popupState: PopupState): void {
-        const rule = this.#stateManager.getState().data.ruleMap.get(popupState.id);
-        if (rule) this.#createPopup(popupState.id, rule, popupState);
+        const id = this.#resolveRuleId(popupState.id);
+        const rule = this.#stateManager.getState().data.ruleMap.get(id);
+        if (rule) {
+            const geometry = { top: popupState.top, left: popupState.left, zIndex: popupState.zIndex, width: popupState.width, height: popupState.height };
+            this.#createPopup(id, rule, geometry);
+        }
     }
 
     loadPopupsFromURL(): void { this.#handleHashChange(); }
@@ -477,6 +505,8 @@ export class WindowManager {
             width: popup.style.width,
             height: popup.style.height,
         });
+        popup.dataset.popupMinimized = 'true';
+        this.#stateManager.publish('popupStateChanged', { id, state: 'minimized' });
 
         popup.close();
         popup.remove();
@@ -489,7 +519,7 @@ export class WindowManager {
         this.#updateCloseBtnVisibility();
         this.#updateURLHash();
         this.#persistenceService.saveSession();
-        this.#a11yService.announce(`${title} minimized`);
+        this.#a11yService.announce(this.#t('popup.minimized', '{title} minimized', { title }));
     }
 
     #renderMinimizedBar(): void {
@@ -507,20 +537,20 @@ export class WindowManager {
             const group = document.createElement('div');
             group.className = 'minimized-popup-tab-group';
             group.setAttribute('role', 'group');
-            group.setAttribute('aria-label', `${meta.title} minimized popup`);
+            group.setAttribute('aria-label', this.#t('popup.minimized.group', '{title} minimized popup', { title: meta.title }));
 
             const tab = document.createElement('button');
             tab.className = 'minimized-popup-tab';
             tab.type = 'button';
             tab.textContent = meta.title;
-            tab.setAttribute('aria-label', `Restore ${meta.title}`);
+            tab.setAttribute('aria-label', this.#t('popup.minimized.restore', 'Restore {title}', { title: meta.title }));
             tab.addEventListener('click', () => this.restorePopup(id));
 
             const closeBtn = document.createElement('button');
             closeBtn.className = 'minimized-tab-close';
             closeBtn.type = 'button';
             closeBtn.textContent = '✕';
-            closeBtn.setAttribute('aria-label', `Close minimized ${meta.title} popup`);
+            closeBtn.setAttribute('aria-label', this.#t('popup.minimized.close', 'Close minimized {title} popup', { title: meta.title }));
             closeBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 state.ui.minimizedPopups.delete(id);
@@ -537,6 +567,7 @@ export class WindowManager {
         if (!meta) return;
 
         state.ui.minimizedPopups.delete(id);
+        this.#stateManager.publish('popupStateChanged', { id, state: 'restored' });
         this.#renderMinimizedBar();
 
         const rule = state.data.ruleMap.get(id);

@@ -1,5 +1,6 @@
 [
     {
+        "id": "core.2024.action.1-attack",
         "title": "Attaquer",
         "optional": "Standard rule",
         "icon": "crossedswords",
@@ -28,6 +29,7 @@
         ]
     },
     {
+        "id": "core.2024.action.2-magic",
         "title": "Magie",
         "optional": "Standard rule",
         "icon": "magicswirl",
@@ -56,6 +58,7 @@
         ]
     },
     {
+        "id": "core.2024.action.3-dash",
         "title": "Foncer",
         "optional": "Standard rule",
         "icon": "sprint",
@@ -82,6 +85,7 @@
         ]
     },
     {
+        "id": "core.2024.action.4-disarm",
         "title": "Désarmer*",
         "optional": "Optional rule",
         "icon": "swordbreak",
@@ -110,6 +114,7 @@
         ]
     },
     {
+        "id": "core.2024.action.5-disengage",
         "title": "Se désengager",
         "optional": "Standard rule",
         "icon": "journey",
@@ -136,6 +141,7 @@
         ]
     },
     {
+        "id": "core.2024.action.6-dodge",
         "title": "Esquiver",
         "optional": "Standard rule",
         "icon": "dodging",
@@ -163,6 +169,7 @@
         ]
     },
     {
+        "id": "core.2024.action.7-don-doff-a-shield",
         "title": "Mettre/retirer un bouclier",
         "optional": "Standard rule",
         "icon": "roundshield",
@@ -178,6 +185,7 @@
         ]
     },
     {
+        "id": "core.2024.action.8-escape",
         "title": "S’échapper",
         "optional": "Standard rule",
         "icon": "manacles",
@@ -205,6 +213,7 @@
         ]
     },
     {
+        "id": "core.2024.action.9-grapple",
         "title": "Agripper",
         "optional": "Standard rule",
         "icon": "grab",
@@ -233,6 +242,7 @@
         ]
     },
     {
+        "id": "core.2024.action.10-help",
         "title": "Aider",
         "optional": "Standard rule",
         "icon": "allforone",
@@ -259,6 +269,7 @@
         ]
     },
     {
+        "id": "core.2024.action.11-hide",
         "title": "Se cacher",
         "optional": "Standard rule",
         "icon": "hood",
@@ -288,6 +299,7 @@
         ]
     },
     {
+        "id": "core.2024.action.12-improvise",
         "title": "Improviser",
         "optional": "Standard rule",
         "icon": "juggler",
@@ -313,6 +325,7 @@
         ]
     },
     {
+        "id": "core.2024.action.13-influence",
         "title": "Influencer",
         "optional": "Standard rule",
         "icon": "conversation",
@@ -341,6 +354,7 @@
         ]
     },
     {
+        "id": "core.2024.action.14-interact-with-an-object",
         "title": "Interagir avec un objet",
         "optional": "Standard rule",
         "icon": "snatch",
@@ -367,6 +381,7 @@
         ]
     },
     {
+        "id": "core.2024.action.15-ready",
         "title": "Préparer",
         "optional": "Standard rule",
         "icon": "stopwatch",
@@ -395,6 +410,7 @@
         ]
     },
     {
+        "id": "core.2024.action.16-search",
         "title": "Chercher",
         "optional": "Standard rule",
         "icon": "magnifyingglass",
@@ -423,6 +439,7 @@
         ]
     },
     {
+        "id": "core.2024.action.17-shove",
         "title": "bousculer",
         "optional": "Standard rule",
         "icon": "hand",
@@ -450,6 +467,7 @@
         ]
     },
     {
+        "id": "core.2024.action.18-stabilize-a-creature",
         "title": "Stabiliser une créature",
         "optional": "Standard rule",
         "icon": "firstaid",
@@ -477,6 +495,7 @@
         ]
     },
     {
+        "id": "core.2024.action.19-study",
         "title": "Étudier",
         "optional": "Standard rule",
         "icon": "bookmarklet",
@@ -505,6 +524,7 @@
         ]
     },
     {
+        "id": "core.2024.action.20-utilize",
         "title": "Utiliser",
         "optional": "Standard rule",
         "icon": "snatch",
@@ -532,6 +552,7 @@
         ]
     },
     {
+        "id": "core.2024.action.21-use-class-feature",
         "title": "Utiliser une aptitude de classe",
         "optional": "Standard rule",
         "icon": "embrassedenergy",
@@ -557,6 +578,7 @@
         ]
     },
     {
+        "id": "core.2024.action.22-climb-onto-a-bigger-creature",
         "title": "Grimper sur une créature plus grande*",
         "optional": "Optional rule",
         "icon": "mountainclimbing",
@@ -586,6 +608,7 @@
         ]
     },
     {
+        "id": "core.2024.action.23-administer-potion",
         "title": "Administrer une potion**",
         "optional": "Homebrew rule",
         "icon": "healthpotion",
@@ -611,6 +634,7 @@
         ]
     },
     {
+        "id": "core.2024.action.24-called-shot",
         "title": "Tir ciblé**",
         "optional": "Homebrew rule",
         "icon": "archerytarget",
@@ -640,6 +664,7 @@
         ]
     },
     {
+        "id": "core.2024.action.25-guard",
         "title": "Garde**",
         "optional": "Homebrew rule",
         "icon": "shield",

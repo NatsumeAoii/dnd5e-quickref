@@ -1,6 +1,6 @@
 # Contributor Code of Conduct
 
-This project follows the Contributor Covenant as a baseline, adapted for a small open-source repository focused on D&D quick-reference data, browser UI, documentation, accessibility, and release workflow.
+This project follows the Contributor Covenant as a baseline, adapted for a small open-source repository focused on D&D quick-reference data, browser UI, documentation, accessibility, security, and release workflow.
 
 ## Our Pledge
 
@@ -18,6 +18,7 @@ Examples of behavior that contributes to a positive environment include:
 - Accepting responsibility and apologizing to those affected by mistakes.
 - Focusing on what is best for the overall project and community.
 - Keeping discussion grounded in code, rules data, UX, accessibility, security, documentation, or release workflow.
+- Respecting the project's privacy, content-safety, and accessibility boundaries when proposing changes.
 
 Examples of unacceptable behavior include:
 
@@ -46,7 +47,7 @@ Report abusive, harassing, or otherwise unacceptable behavior to the project own
 
 https://github.com/NatsumeAoii
 
-For sensitive reports, use GitHub's private vulnerability reporting flow for this repository (see `SECURITY.md`) or contact the repository owner through the GitHub profile above to request a private channel before sharing details. Maintainers may add a dedicated conduct email here if the contributor community grows.
+For sensitive reports, do not post personal information, exploit details, or private user data in a public issue. Use GitHub's private vulnerability reporting flow for security issues (see `SECURITY.md`) or contact the repository owner through the GitHub profile above to request a private channel before sharing details. Maintainers may add a dedicated conduct email here if the contributor community grows.
 
 All complaints should be reviewed and investigated promptly and fairly. Maintainers are obligated to respect the privacy and security of the reporter of any incident.
 

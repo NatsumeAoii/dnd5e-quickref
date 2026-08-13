@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "lastUpdated": "2026-08-12",
+  "rulesets": ["2014", "2024"],
+  "locales": ["en_US", "id_ID", "fr_FR"],
+  "categories": ["movement", "action", "bonus_action", "reaction", "condition", "environment"],
+  "sourcePolicy": "Project-authored quick-reference summaries. Source references are listed per rule; this app does not redistribute complete non-SRD sourcebooks.",
+  "exclusions": ["spells", "equipment", "classes", "species", "backgrounds", "feats", "monsters", "campaign state", "accounts", "cloud sync"],
+  "corpusExpansionPolicy": "The current project scope intentionally excludes adding extra reference categories; identity, search, and reliability work applies to the included corpus only."
+}

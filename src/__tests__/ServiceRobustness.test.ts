@@ -8,6 +8,7 @@ import { ErrorService } from '../services/ErrorService.js';
 import { GamepadService } from '../services/GamepadService.js';
 import { PerformanceOptimizer } from '../services/PerformanceOptimizer.js';
 import { ServiceWorkerMessenger } from '../services/ServiceWorkerMessenger.js';
+import type { CacheStatusMessage } from '../services/ServiceWorkerMessenger.js';
 import { SettingsService } from '../services/SettingsService.js';
 import { UserDataService } from '../services/UserDataService.js';
 import { WakeLockService } from '../services/WakeLockService.js';
@@ -194,6 +195,34 @@ describe('ServiceWorkerMessenger resilience', () => {
 
         expect(ServiceWorkerMessenger.setCachingPolicy(true)).toBe(false);
         expect(ServiceWorkerMessenger.clearCache()).toBe(false);
+    });
+
+    it('adds a correlation id to cache commands and accepts detailed status metadata', () => {
+        const postMessage = vi.fn();
+        const worker = new EventTarget();
+        Object.defineProperty(navigator, 'serviceWorker', {
+            configurable: true,
+            value: { controller: { postMessage }, addEventListener: worker.addEventListener.bind(worker) },
+        });
+
+        const received: CacheStatusMessage[] = [];
+        const unsubscribe = ServiceWorkerMessenger.subscribeStatus((status) => received.push(status));
+        expect(ServiceWorkerMessenger.refreshCache('en_US', '2014')).toBeTruthy();
+        const requestId = postMessage.mock.calls[0][0].requestId;
+        expect(requestId).toMatch(/^cache-/);
+        expect(ServiceWorkerMessenger.clearCache()).toBeTruthy();
+        expect(postMessage.mock.calls[1][0]).toMatchObject({ type: 'CLEAR_CACHE', requestId: expect.stringMatching(/^cache-/) });
+
+        worker.dispatchEvent(new MessageEvent('message', {
+            data: {
+                type: 'CACHE_STATUS', status: 'ready', requestId, locale: 'en_US', ruleset: '2014',
+                file: './data/en_US/menu.json', fileIndex: 1, totalCount: 8,
+                cachedCount: 8, totalBytes: 1024, lastSuccessfulCacheAt: '2026-08-13T00:00:00.000Z',
+            },
+        }));
+
+        expect(received[0]).toMatchObject({ requestId, file: './data/en_US/menu.json', totalBytes: 1024 });
+        unsubscribe();
     });
 });
 

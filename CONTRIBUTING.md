@@ -42,10 +42,14 @@ npm run type-check
 npm run lint
 npm run lint:css
 npm run audit:data
+npm run check:sw
 npm run build
+npm run check:generated
+npm run check:docs
+npm run test:browser
 ```
 
-For release/version changes, `npm run build` runs `prebuild`, which calls `npm run sync-version`. That syncs the top version in `CHANGELOG.md` into `package.json`, `package-lock.json`, `src/config.ts`, and `public/sw.js`, and copies `CHANGELOG.md` to `public/CHANGELOG.md`.
+For release/version changes, update the top section in `CHANGELOG.md`, then run `npm run build`. npm runs the `prebuild` lifecycle hook automatically, which synchronizes release metadata and regenerates the public README, changelog, and data mirror. Use `npm run sync-version` alone when you only want synchronization without a production build.
 
 ## Development Guidelines
 
@@ -56,7 +60,7 @@ For release/version changes, `npm run build` runs `prebuild`, which calls `npm r
 - Validate user-controlled input at boundaries: URL hashes, storage, imports, service worker messages, BroadcastChannel messages, and fetched JSON.
 - Use `textContent`, `createElement`, and `replaceChildren` for static DOM where possible.
 - Only use `safeHTML` for trusted app-rendered rule markup that needs limited inline formatting.
-- Keep accessibility intact: semantic controls, keyboard support, focus-visible states, live region announcements, and reduced-motion behavior.
+- Keep accessibility intact: semantic controls, keyboard support, focus-visible states, live region announcements, responsive layout, and reduced-motion behavior. Native controls such as the search, language, theme, and density dropdowns should retain their keyboard and mobile behavior when styled.
 - Avoid leaking internal error details in user-facing notifications.
 - Do not add runtime dependencies unless the benefit clearly outweighs bundle and maintenance cost.
 
@@ -107,6 +111,7 @@ Check:
 - Print mode.
 - Mobile modal popup behavior.
 - Dark mode, themes, density, and reduced motion.
+- Styled native controls, including dropdown hover, focus, disabled, and mobile states.
 
 ## Pull Request Checklist
 
@@ -117,6 +122,9 @@ Check:
 - `npm run lint` passes.
 - `npm run lint:css` passes.
 - `npm run build` passes.
+- `npm run check:generated` passes when generated docs/data or release metadata are involved.
+- `npm run check:docs` passes when documentation or npm scripts change.
+- `npm run test:browser` passes for user-visible browser behavior when the local Playwright browser is available.
 - Changelog updated when the change is user-visible, release-relevant, or behavior-changing.
 - No hardcoded secrets, private data, or unrelated generated files are included.
 

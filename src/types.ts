@@ -1,6 +1,8 @@
 import type { TrieMatcher } from './utils/TrieMatcher.js';
 
 export interface RuleData {
+    /** Locale-independent source identity. Optional only for legacy fixtures. */
+    id?: string;
     title?: string;
     subtitle?: string;
     description?: string;
@@ -10,6 +12,7 @@ export interface RuleData {
     reference?: string;
     bullets?: Bullet[];
     tags?: string[];
+    aliases?: string[];
 }
 
 export interface Bullet {
@@ -21,9 +24,13 @@ export interface Bullet {
 }
 
 export interface RuleInfo {
+    id?: string;
     ruleData: RuleData;
     type: string;
     sectionId: string;
+    /** Optional for legacy test fixtures and externally constructed view data. */
+    categoryId?: string;
+    ruleset?: '2014' | '2024';
     searchIndex?: string;
 }
 
@@ -31,6 +38,16 @@ export interface SectionConfig {
     id: string;
     dataKey: string;
     type: string;
+}
+
+export interface CategoryDescriptor extends SectionConfig {
+    localizationKey: string;
+    displayOrder: number;
+    iconKey: string;
+    rulesets: readonly ('2014' | '2024')[];
+    searchable: boolean;
+    parentId?: string;
+    schemaVersion: number;
 }
 
 export interface SettingsConfig {
@@ -81,6 +98,7 @@ export interface DataState {
     ruleLinkerRegex: RegExp | null;
     titleLookup: Map<string, string>;
     ruleLinkerTrie: TrieMatcher | null;
+    legacyRuleIds: Map<string, string>;
 }
 
 export interface AppState {

@@ -1,5 +1,6 @@
 [
     {
+        "id": "core.2024.condition.1-blinded",
         "title": "Blinded",
         "optional": "Standard rule",
         "icon": "oneeyed",
@@ -27,6 +28,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.2-charmed",
         "title": "Charmed",
         "optional": "Standard rule",
         "icon": "smitten",
@@ -53,6 +55,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.3-dazed",
         "title": "Dazed**",
         "optional": "Homebrew rule",
         "icon": "internalinjury",
@@ -78,6 +81,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.4-deafened",
         "title": "Deafened",
         "optional": "Standard rule",
         "icon": "mute",
@@ -103,6 +107,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.5-dying",
         "title": "Dying",
         "optional": "Standard rule",
         "icon": "deadhead",
@@ -132,6 +137,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.6-exhaustion",
         "title": "Exhaustion",
         "optional": "Standard rule",
         "icon": "crawl",
@@ -160,6 +166,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.7-frightened",
         "title": "Frightened",
         "optional": "Standard rule",
         "icon": "sharpsmile",
@@ -186,6 +193,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.8-grappled",
         "title": "Grappled",
         "optional": "Standard rule",
         "icon": "grab",
@@ -213,6 +221,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.9-incapacitated",
         "title": "Incapacitated",
         "optional": "Standard rule",
         "icon": "internalinjury",
@@ -237,6 +246,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.10-invisible",
         "title": "Invisible",
         "optional": "Standard rule",
         "icon": "invisible",
@@ -265,6 +275,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.11-paralyzed",
         "title": "Paralyzed",
         "optional": "Standard rule",
         "icon": "spiderweb",
@@ -293,6 +304,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.12-petrified",
         "title": "Petrified",
         "optional": "Standard rule",
         "icon": "stonepile",
@@ -324,6 +336,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.13-poisoned",
         "title": "Poisoned",
         "optional": "Standard rule",
         "icon": "poisonbottle",
@@ -349,6 +362,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.14-prone",
         "title": "Prone",
         "optional": "Standard rule",
         "icon": "crawl",
@@ -377,6 +391,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.15-restrained",
         "title": "Restrained",
         "optional": "Standard rule",
         "icon": "imprisoned",
@@ -405,6 +420,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.16-slowed",
         "title": "Slowed**",
         "optional": "Homebrew rule",
         "icon": "snail",
@@ -432,6 +448,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.17-stunned",
         "title": "Stunned",
         "optional": "Standard rule",
         "icon": "knockedoutstars",
@@ -459,6 +476,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.18-suffocation",
         "title": "Suffocation",
         "optional": "Standard rule",
         "icon": "drowning",
@@ -487,6 +505,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.19-unconscious",
         "title": "Unconscious",
         "optional": "Standard rule",
         "icon": "coma",
@@ -517,6 +536,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.20-mental-stress",
         "title": "Mental Stress*",
         "optional": "Optional rule",
         "icon": "architectmask",
@@ -545,6 +565,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.21-rattled",
         "title": "Rattled**",
         "optional": "Homebrew rule",
         "icon": "headshot",
@@ -571,6 +592,7 @@
         ]
     },
     {
+        "id": "core.2024.condition.22-sundered",
         "title": "Sundered**",
         "optional": "Homebrew rule",
         "icon": "swordbreak",

@@ -1,6 +1,7 @@
 import { CONFIG } from '../config.js';
 import { getMotionSafeScrollBehavior, trapFocusWithin } from '../utils/Utils.js';
 import type { A11yService } from './A11yService.js';
+import type { LocalizationService } from './LocalizationService.js';
 
 interface OnboardingStep {
     target: string;
@@ -47,11 +48,14 @@ export class OnboardingService {
     #isActive = false;
     #scrollTimer: ReturnType<typeof setTimeout> | null = null;
     #boundReposition: (() => void) | null = null;
+    #localization?: LocalizationService;
 
-    constructor(storage: Storage, a11yService: A11yService) {
+    constructor(storage: Storage, a11yService: A11yService, localization?: LocalizationService) {
         this.#storage = storage;
         this.#a11yService = a11yService;
+        this.#localization = localization;
     }
+    #t(key: string, fallback: string, variables: Record<string, string | number> = {}): string { return this.#localization?.translate(key, fallback, variables) ?? Object.entries(variables).reduce((text, [name, value]) => text.replaceAll(`{${name}}`, String(value)), fallback); }
 
     shouldShow(): boolean {
         try {
@@ -92,7 +96,7 @@ export class OnboardingService {
         title.className = 'onboarding-tooltip-title';
         const skipBtn = document.createElement('button');
         skipBtn.className = 'onboarding-skip-btn';
-        skipBtn.setAttribute('aria-label', 'Skip tour');
+        skipBtn.setAttribute('aria-label', this.#t('onboarding.skip', 'Skip tour'));
         skipBtn.textContent = 'x';
         header.append(title, skipBtn);
 
@@ -108,10 +112,10 @@ export class OnboardingService {
         nav.className = 'onboarding-nav';
         const prevBtn = document.createElement('button');
         prevBtn.className = 'onboarding-prev-btn';
-        prevBtn.textContent = 'Back';
+        prevBtn.textContent = this.#t('onboarding.back', 'Back');
         const nextBtn = document.createElement('button');
         nextBtn.className = 'onboarding-next-btn';
-        nextBtn.textContent = 'Next';
+        nextBtn.textContent = this.#t('onboarding.next', 'Next');
         nav.append(prevBtn, nextBtn);
         footer.append(dots, nav);
 
@@ -156,7 +160,7 @@ export class OnboardingService {
         STEPS.forEach((_step, stepIndex) => {
             const dot = document.createElement('span');
             dot.className = `onboarding-dot${stepIndex === index ? ' is-active' : ''}`;
-            dot.setAttribute('aria-label', `Step ${stepIndex + 1}`);
+            dot.setAttribute('aria-label', this.#t('onboarding.step', `Step ${stepIndex + 1}`, { step: stepIndex + 1 }));
             fragment.appendChild(dot);
         });
         container.replaceChildren(fragment);
@@ -184,7 +188,7 @@ export class OnboardingService {
         const prevBtn = this.#overlay.querySelector('.onboarding-prev-btn') as HTMLElement | null;
         const nextBtn = this.#overlay.querySelector('.onboarding-next-btn') as HTMLElement | null;
         if (prevBtn) prevBtn.style.visibility = index === 0 ? 'hidden' : 'visible';
-        if (nextBtn) nextBtn.textContent = index === STEPS.length - 1 ? 'Done' : 'Next';
+        if (nextBtn) nextBtn.textContent = index === STEPS.length - 1 ? this.#t('onboarding.done', 'Done') : this.#t('onboarding.next', 'Next');
 
         const targetEl = document.querySelector(step.target) as HTMLElement | null;
         const tooltip = this.#overlay.querySelector('.onboarding-tooltip') as HTMLElement | null;
@@ -202,7 +206,7 @@ export class OnboardingService {
             this.#showCentered(tooltip, spotlight);
         }
 
-        this.#a11yService.announce(`Step ${index + 1} of ${STEPS.length}: ${step.title}`);
+        this.#a11yService.announce(this.#t('onboarding.announcement', `Step ${index + 1} of ${STEPS.length}: ${step.title}`, { current: index + 1, total: STEPS.length, title: step.title }));
         tooltip.focus();
     }
 
@@ -304,7 +308,7 @@ export class OnboardingService {
 
         this.#overlay?.remove();
         this.#overlay = null;
-        this.#a11yService.announce('Welcome tour completed.');
+        this.#a11yService.announce(this.#t('onboarding.completed', 'Welcome tour completed.'));
     }
 
     get isActive(): boolean { return this.#isActive; }

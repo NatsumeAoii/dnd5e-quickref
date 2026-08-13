@@ -1,6 +1,7 @@
 type ErrorLevel = 'warn' | 'error' | 'fatal';
 
 interface ErrorEntry {
+    id: string;
     level: ErrorLevel;
     message: string;
     context?: string;
@@ -14,6 +15,7 @@ export class ErrorService {
     #log: ErrorEntry[] = [];
     #maxLogSize = 50;
     #notifyFn: NotifyFn | null = null;
+    #nextId = 0;
 
     setNotifier(fn: NotifyFn): void { this.#notifyFn = fn; }
 
@@ -26,7 +28,8 @@ export class ErrorService {
     report(error: unknown, context?: string, level: ErrorLevel = 'error'): void {
         const message = error instanceof Error ? error.message : String(error);
         const stack = error instanceof Error ? error.stack : undefined;
-        const entry: ErrorEntry = { level, message, context, timestamp: Date.now(), stack };
+        const id = `ERR-${Date.now().toString(36).toUpperCase()}-${(++this.#nextId).toString(36).toUpperCase()}`;
+        const entry: ErrorEntry = { id, level, message, context, timestamp: Date.now(), stack };
 
         this.#log.push(entry);
         if (this.#log.length > this.#maxLogSize) this.#log.shift();
@@ -40,7 +43,7 @@ export class ErrorService {
         }
 
         if ((level === 'fatal' || level === 'error') && this.#notifyFn) {
-            this.#notifyFn(this.#getUserMessage(level), 'error');
+            this.#notifyFn(`${this.#getUserMessage(level)} (Reference: ${id})`, 'error');
         }
     }
 
@@ -50,11 +53,13 @@ export class ErrorService {
 
     getLastError(): ErrorEntry | undefined { return this.#log.at(-1); }
 
+    getLastErrorId(): string | undefined { return this.#log.at(-1)?.id; }
+
     clear(): void { this.#log.length = 0; }
 
     formatForReport(): string {
         return this.#log.map((e) =>
-            `[${new Date(e.timestamp).toISOString()}] [${e.level.toUpperCase()}]${e.context ? ` [${e.context}]` : ''} ${e.message}`
+            `[${new Date(e.timestamp).toISOString()}] [${e.level.toUpperCase()}] [${e.id}]${e.context ? ` [${e.context}]` : ''} ${e.message}`
         ).join('\n');
     }
 }

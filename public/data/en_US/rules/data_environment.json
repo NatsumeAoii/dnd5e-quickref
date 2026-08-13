@@ -1,5 +1,6 @@
 [
     {
+        "id": "core.2014.environment.1-blindsight",
         "title": "Blindsight",
         "optional": "Standard rule",
         "icon": "echoripples",
@@ -7,7 +8,9 @@
         "description": "A creature with blindsight perceives its surroundings within a specific radius without relying on sight, negating invisibility and darkness.",
         "reference": "PHB, pg. 183, MM pg. 8.",
         "summary": "Allows a creature to perceive its surroundings within a specific radius without sight. This sense penetrates normal and magical darkness, and reveals invisible creatures.",
-        "tags": ["environment_vision"],
+        "tags": [
+            "environment_vision"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -28,6 +31,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.2-bright-light",
         "title": "Bright light",
         "optional": "Standard rule",
         "icon": "starpupil",
@@ -35,7 +39,9 @@
         "description": "In bright light, such as direct sunlight or the area of a torch, most creatures can see normally.",
         "reference": "PHB, pg. 183.",
         "summary": "Normal lighting conditions where most creatures can see without penalty. Some creatures, like Drow, may suffer from Sunlight Sensitivity in these conditions.",
-        "tags": ["environment_light"],
+        "tags": [
+            "environment_light"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -55,6 +61,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.3-darkness",
         "title": "Darkness",
         "optional": "Standard rule",
         "icon": "worriedeyes",
@@ -62,7 +69,9 @@
         "description": "Darkness creates a heavily obscured area, effectively blinding any creature trying to see within or through it without special senses.",
         "reference": "PHB, pg. 183.",
         "summary": "Creates a heavily obscured area, effectively blinding creatures within it. Darkvision allows a creature to see in non-magical darkness as if it were dim light.",
-        "tags": ["environment_light"],
+        "tags": [
+            "environment_light"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -83,6 +92,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.4-darkvision",
         "title": "Darkvision",
         "optional": "Standard rule",
         "icon": "semiclosedeye",
@@ -90,7 +100,9 @@
         "description": "This common trait allows a creature to see in darkness as if it were dim light, and in dim light as if it were bright light.",
         "reference": "PHB, pg. 183.",
         "summary": "Within a specified range, you can see in dim light as if it were bright light, and in darkness as if it were dim light. Seeing in darkness this way is in shades of gray and imposes disadvantage on Perception checks.",
-        "tags": ["environment_vision"],
+        "tags": [
+            "environment_vision"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -111,6 +123,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.5-dim-light",
         "title": "Dim light",
         "optional": "Standard rule",
         "icon": "semiclosedeye",
@@ -118,7 +131,9 @@
         "description": "Dim light, also called shadows, creates a lightly obscured area where creatures have disadvantage on sight-based Perception checks.",
         "reference": "PHB, pg. 183.",
         "summary": "Creates a lightly obscured area, such as at twilight or in moonlight. Creatures in dim light have disadvantage on Wisdom (Perception) checks that rely on sight.",
-        "tags": ["environment_light"],
+        "tags": [
+            "environment_light"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -139,6 +154,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.6-falling",
         "title": "Falling",
         "optional": "Standard rule",
         "icon": "falling",
@@ -146,7 +162,9 @@
         "description": "A creature takes 1d6 bludgeoning damage for every 10 feet it falls, to a maximum of 20d6, and lands prone.",
         "reference": "PHB, pg. 183; XGE, pg. 77.",
         "summary": "You take 1d6 bludgeoning damage for every 10 feet fallen, up to a maximum of 20d6. You land Prone unless you avoid taking damage from the fall.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -166,6 +184,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.7-half-cover",
         "title": "Half cover",
         "optional": "Standard rule",
         "icon": "brokenshield",
@@ -173,7 +192,9 @@
         "description": "An obstacle covering at least half of your body grants a +2 bonus to AC and Dexterity saving throws.",
         "reference": "PHB, pg. 196.",
         "summary": "An obstacle that covers at least half of your body (like a low wall or another creature) grants you a +2 bonus to your Armor Class and all Dexterity saving throws.",
-        "tags": ["environment_cover"],
+        "tags": [
+            "environment_cover"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -193,6 +214,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.8-heavily-obscured",
         "title": "Heavily obscured",
         "optional": "Standard rule",
         "icon": "fog",
@@ -200,7 +222,9 @@
         "description": "An area is heavily obscured if it blocks vision entirely, such as in darkness, opaque fog, or dense foliage.",
         "reference": "PHB, pg. 183.",
         "summary": "An area that blocks vision entirely, such as darkness or thick fog. A creature trying to see through a heavily obscured area is effectively Blinded.",
-        "tags": ["environment_obscurance"],
+        "tags": [
+            "environment_obscurance"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -221,6 +245,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.9-lightly-obscured",
         "title": "Lightly obscured",
         "optional": "Standard rule",
         "icon": "dustcloud",
@@ -228,7 +253,9 @@
         "description": "An area is lightly obscured if something hinders sight, such as dim light, light fog, or moderate foliage.",
         "reference": "PHB, pg. 183.",
         "summary": "An area that hinders sight, such as dim light or light fog. Creatures in the area have disadvantage on Wisdom (Perception) checks that rely on sight.",
-        "tags": ["environment_obscurance"],
+        "tags": [
+            "environment_obscurance"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -248,6 +275,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.10-suffocating",
         "title": "Suffocating",
         "optional": "Standard rule",
         "icon": "drowning",
@@ -255,7 +283,9 @@
         "description": "Deprived of air, you can survive for a limited time before you drop to 0 hit points and begin dying.",
         "reference": "PHB, pg. 183.",
         "summary": "You can hold your breath for 1+CON mod minutes. After that, you survive for CON mod rounds, then drop to 0 HP and are Dying. You cannot be stabilized or healed until you can breathe.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -276,6 +306,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.11-food-and-water",
         "title": "Food and Water",
         "optional": "Standard rule",
         "icon": "journey",
@@ -283,7 +314,9 @@
         "description": "Characters who lack enough food or water suffer exhaustion that cannot be removed until they eat and drink enough.",
         "reference": "PHB, pg. 185; DMG, pg. 111.",
         "summary": "A character needs 1 pound of food and 1 gallon of water per day, or 2 gallons of water in hot weather. Too little food or water can cause Exhaustion.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -302,6 +335,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.12-three-quarters-cover",
         "title": "Three-quarters cover",
         "optional": "Standard rule",
         "icon": "crackedshield",
@@ -309,7 +343,9 @@
         "description": "An obstacle covering about three-quarters of your body grants a significant +5 bonus to AC and Dexterity saving throws.",
         "reference": "PHB, pg. 196.",
         "summary": "An obstacle that covers about three-quarters of your body (like an arrow slit) grants a +5 bonus to your Armor Class and all Dexterity saving throws.",
-        "tags": ["environment_cover"],
+        "tags": [
+            "environment_cover"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -329,6 +365,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.13-total-cover",
         "title": "Total cover",
         "optional": "Standard rule",
         "icon": "shield",
@@ -336,7 +373,9 @@
         "description": "You are completely concealed by an obstacle, making you immune to being directly targeted by attacks or spells.",
         "reference": "PHB, pg. 196.",
         "summary": "An obstacle completely conceals you, meaning you cannot be targeted directly by any attack or spell. You can still be affected by area effects that spread around the cover.",
-        "tags": ["environment_cover"],
+        "tags": [
+            "environment_cover"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -356,6 +395,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.14-truesight",
         "title": "Truesight",
         "optional": "Standard rule",
         "icon": "eyeshield",
@@ -363,7 +403,9 @@
         "description": "This powerful sense allows a creature to see through darkness, invisibility, illusions, and transformations to perceive reality as it is.",
         "reference": "PHB, pg. 184, MM pg. 9.",
         "summary": "Allows a creature to see in all forms of darkness, see invisible creatures, automatically detect illusions, and perceive the true form of shapechangers or transformed creatures.",
-        "tags": ["environment_vision"],
+        "tags": [
+            "environment_vision"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -386,6 +428,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.15-underwater-combat",
         "title": "Underwater Combat",
         "optional": "Standard rule",
         "icon": "atsea",
@@ -393,7 +436,9 @@
         "description": "Combat while fully submerged is difficult for creatures without a swim speed, imposing penalties on most weapon attacks.",
         "reference": "PHB, pg. 198.",
         "summary": "Without a swim speed, melee attacks have disadvantage unless using specific weapons (daggers, spears, etc.). Ranged attacks automatically miss beyond normal range and have disadvantage within it.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -414,6 +459,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.16-extreme-cold",
         "title": "Extreme Cold*",
         "optional": "Optional rule",
         "icon": "thermometercold",
@@ -421,7 +467,9 @@
         "description": "Prolonged exposure to temperatures at or below 0° F (-18° C) forces Constitution saves to resist gaining levels of exhaustion.",
         "reference": "DMG, pg. 110.",
         "summary": "When exposed to temperatures at or below 0° F, a creature must make a DC 10 Constitution save at the end of each hour or gain one level of Exhaustion.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -430,6 +478,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.17-extreme-heat",
         "title": "Extreme Heat*",
         "optional": "Optional rule",
         "icon": "sun",
@@ -437,7 +486,9 @@
         "description": "Prolonged exposure to temperatures at or above 100° F (38° C) without drinkable water forces Constitution saves to resist exhaustion.",
         "reference": "DMG, pg. 110.",
         "summary": "In temperatures at or above 100° F, an exposed creature without access to drinkable water must make an hourly Constitution save or gain a level of Exhaustion. The DC starts at 5 and increases by 1 each hour.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -458,6 +509,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.18-fear-and-horror",
         "title": "Fear and Horror*",
         "optional": "Optional rule",
         "icon": "terror",
@@ -465,7 +517,9 @@
         "description": "Optional rules for calling for Wisdom or Charisma saves when characters face overwhelming fear or reality-shaking horror.",
         "reference": "DMG, pg. 266.",
         "summary": "Fear can require a Wisdom save or impose Frightened for 1 minute. Horror can require a Charisma save or inflict short-term or long-term Madness.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -483,6 +537,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.19-flanking",
         "title": "Flanking*",
         "optional": "Optional rule",
         "icon": "confrontation",
@@ -490,7 +545,9 @@
         "description": "A popular optional rule where two allies on opposite sides of an enemy gain advantage on their melee attacks against it.",
         "reference": "DMG, pg. 251.",
         "summary": "An optional rule where, if you and an ally are on opposite sides of an enemy, you both gain advantage on melee attack rolls against that enemy.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -511,6 +568,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.20-heavy-precipitation",
         "title": "Heavy Precipitation*",
         "optional": "Optional rule",
         "icon": "raining",
@@ -518,7 +576,9 @@
         "description": "Heavy rain or snowfall lightly obscures the area; heavy rain also hinders hearing and extinguishes open flames.",
         "reference": "DMG, pg. 110.",
         "summary": "Heavy rain or heavy snowfall creates a lightly obscured area and imposes disadvantage on sight-based Perception checks. Heavy rain also extinguishes open flames and hinders hearing.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -539,6 +599,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.21-high-altitude",
         "title": "High Altitude*",
         "optional": "Optional rule",
         "icon": "mountainclimbing",
@@ -546,7 +607,9 @@
         "description": "At altitudes of 10,000 feet or higher, travel is more taxing for creatures that need to breathe.",
         "reference": "DMG, pg. 110.",
         "summary": "At 10,000 feet or higher, each hour of travel counts as 2 hours for determining how long a breathing creature can travel. Acclimation takes 30 days and is impossible above 20,000 feet unless native.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -563,6 +626,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.22-hitting-cover",
         "title": "Hitting Cover*",
         "optional": "Optional rule",
         "icon": "roundshield",
@@ -570,7 +634,9 @@
         "description": "When a ranged attack misses a target with cover, this optional rule determines whether the cover is hit instead.",
         "reference": "DMG, pg. 272.",
         "summary": "If a ranged attack misses a covered target but would have hit without the cover bonus, the cover is struck. A covering creature can be hit if the attack roll exceeds its AC.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -587,6 +653,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.23-desecrated-ground",
         "title": "Desecrated Ground*",
         "optional": "Optional rule",
         "icon": "deadhead",
@@ -594,7 +661,9 @@
         "description": "Desecrated ground empowers undead and can be purified with holy water or hallow.",
         "reference": "DMG, pg. 110.",
         "summary": "Undead standing on desecrated ground have advantage on all saving throws. Detect evil and good reveals the ground, and holy water or hallow can purify it.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -611,6 +680,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.24-frigid-water",
         "title": "Frigid Water*",
         "optional": "Optional rule",
         "icon": "thermometercold",
@@ -618,7 +688,9 @@
         "description": "Immersion in frigid water can quickly cause exhaustion once a creature exceeds its Constitution-based tolerance.",
         "reference": "DMG, pg. 110.",
         "summary": "A creature can endure frigid water for minutes equal to its Constitution score. Each additional minute requires a DC 10 Constitution save or 1 Exhaustion level.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -635,6 +707,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.25-quicksand",
         "title": "Quicksand*",
         "optional": "Optional rule",
         "icon": "imprisoned",
@@ -642,7 +715,9 @@
         "description": "A quicksand pit restrains creatures and pulls them deeper until they escape or are submerged.",
         "reference": "DMG, pg. 110.",
         "summary": "Entering quicksand restrains a creature and sinks it 1d4 + 1 feet, then another 1d4 feet at the start of each turn. Escaping requires an action and a Strength check.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -661,6 +736,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.26-razorvine",
         "title": "Razorvine*",
         "optional": "Optional rule",
         "icon": "bleedingeye",
@@ -668,7 +744,9 @@
         "description": "Razorvine damages creatures that come into direct contact with its bladelike thorns.",
         "reference": "DMG, pg. 110.",
         "summary": "The first time on a turn a creature directly contacts razorvine, it must succeed on a DC 10 Dexterity save or take 1d10 slashing damage.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -684,6 +762,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.27-lingering-injuries",
         "title": "Lingering Injuries*",
         "optional": "Optional rule",
         "icon": "swordbreak",
@@ -691,7 +770,9 @@
         "description": "An optional rule to add lasting mechanical consequences when a creature suffers a critical hit or drops to 0 HP.",
         "reference": "DMG, pg. 272.",
         "summary": "An optional rule for gritty campaigns where taking a critical hit or dropping to 0 HP can inflict a lasting mechanical penalty, such as a limp or a lost eye, determined by a table roll.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -710,6 +791,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.28-massive-damage",
         "title": "Massive Damage*",
         "optional": "Optional rule",
         "icon": "internalinjury",
@@ -717,7 +799,9 @@
         "description": "This optional rule forces a DC 15 Constitution save when a creature takes damage equal to or greater than half its HP maximum from a single source.",
         "reference": "DMG, pg. 273.",
         "summary": "An optional rule where taking damage equal to or greater than half your maximum HP from a single source forces a DC 15 Constitution save. On a failure, you suffer a random shock effect.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -737,6 +821,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.29-morale",
         "title": "Morale*",
         "optional": "Optional rule",
         "icon": "terror",
@@ -744,7 +829,9 @@
         "description": "An optional rule providing a mechanic for determining if NPCs flee or surrender when a fight turns against them.",
         "reference": "DMG, pg. 273.",
         "summary": "An optional rule for the DM to make a DC 10 Wisdom save for a group of NPCs when the fight turns against them (e.g., their leader falls). On a failure, the group breaks and flees.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -765,6 +852,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.30-healer-s-kit-dependency",
         "title": "Healer's Kit Dependency*",
         "optional": "Optional rule",
         "icon": "firstaidkit",
@@ -772,7 +860,9 @@
         "description": "A character cannot spend Hit Dice after a short rest unless someone expends one use of a healer's kit.",
         "reference": "DMG, pg. 266.",
         "summary": "After a short rest, a character can't spend Hit Dice until someone expends one use of a healer's kit to bandage and treat the character's wounds.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -789,6 +879,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.31-slow-natural-healing",
         "title": "Slow Natural Healing*",
         "optional": "Optional rule",
         "icon": "nightsleep",
@@ -796,7 +887,9 @@
         "description": "Characters do not automatically regain hit points at the end of a long rest; they spend Hit Dice instead.",
         "reference": "DMG, pg. 267.",
         "summary": "At the end of a long rest, characters don't automatically regain hit points. Instead, they can spend Hit Dice to heal as they would after a short rest.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -813,6 +906,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.32-rest-variants",
         "title": "Rest Variants*",
         "optional": "Optional rule",
         "icon": "nightsleep",
@@ -820,7 +914,9 @@
         "description": "These optional rules change the duration of short and long rests to fundamentally alter the pacing of a campaign.",
         "reference": "DMG, pg. 267.",
         "summary": "Optional rules to change campaign pacing. 'Epic Heroism' makes a short rest 5 minutes and a long rest 1 hour. 'Gritty Realism' makes a short rest 8 hours and a long rest 7 days.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -840,6 +936,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.33-slippery-ice",
         "title": "Slippery Ice*",
         "optional": "Optional rule",
         "icon": "icecube",
@@ -847,7 +944,9 @@
         "description": "Slippery ice is difficult terrain and requires a DC 10 Dexterity (Acrobatics) check to cross without falling prone.",
         "reference": "DMG, pg. 110.",
         "summary": "Slippery ice is difficult terrain. When a creature moves onto it for the first time on a turn, they must succeed on a DC 10 Dexterity (Acrobatics) check or fall Prone.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -867,6 +966,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.34-thin-ice",
         "title": "Thin Ice*",
         "optional": "Optional rule",
         "icon": "icecube",
@@ -874,7 +974,9 @@
         "description": "Thin ice breaks when the total weight on a 10-foot-square area exceeds its random tolerance.",
         "reference": "DMG, pg. 111.",
         "summary": "Thin ice supports 3d10 x 10 pounds per 10-foot-square area. If total weight exceeds that tolerance, the ice breaks and creatures on it fall through.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -891,6 +993,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.35-strong-wind",
         "title": "Strong Wind*",
         "optional": "Optional rule",
         "icon": "windsock",
@@ -898,7 +1001,9 @@
         "description": "Strong wind imposes disadvantage on ranged weapon attacks and hearing-based Perception checks, extinguishes flames, disperses fog, and hinders flight.",
         "reference": "DMG, pg. 110.",
         "summary": "Strong wind imposes disadvantage on ranged weapon attacks and hearing-based Perception checks, extinguishes open flames, disperses fog, and forces flying creatures to land at the end of their turn or fall.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -920,6 +1025,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.36-traps",
         "title": "Traps*",
         "optional": "Optional rule",
         "icon": "tripwire",
@@ -927,7 +1033,9 @@
         "description": "Traps are hidden hazards, either mechanical or magical, that require Perception to spot and specific skills to disable.",
         "reference": "DMG, pgs. 120-121; XGE, pgs. 113-123.",
         "summary": "Hidden hazards that require a Wisdom (Perception) check to spot and a relevant skill check (e.g., Thieves' Tools, Dispel Magic) to disable. Complex traps act on initiative.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",
@@ -948,6 +1056,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.37-critical-fumbles",
         "title": "Critical Fumbles**",
         "optional": "Homebrew rule",
         "icon": "brokenshield",
@@ -955,7 +1064,9 @@
         "description": "A popular house rule where rolling a natural 1 on an attack roll results in a negative consequence beyond merely missing.",
         "reference": "Common Homebrew",
         "summary": "A house rule where a natural 1 on an attack roll has a negative consequence beyond just missing, such as dropping your weapon or falling prone.",
-        "tags": ["environment_other"],
+        "tags": [
+            "environment_other"
+        ],
         "bullets": [
             {
                 "type": "paragraph",

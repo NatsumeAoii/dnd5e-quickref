@@ -1,5 +1,6 @@
 [
     {
+        "id": "core.2014.condition.1-blinded",
         "title": "Aveuglé",
         "optional": "Standard rule",
         "icon": "oneeyed",
@@ -27,6 +28,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.2-charmed",
         "title": "Charmé",
         "optional": "Standard rule",
         "icon": "smitten",
@@ -53,6 +55,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.3-deafened",
         "title": "Assourdi",
         "optional": "Standard rule",
         "icon": "mute",
@@ -78,6 +81,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.4-dying",
         "title": "Mourant",
         "optional": "Standard rule",
         "icon": "deadhead",
@@ -106,6 +110,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.5-exhaustion",
         "title": "Épuisement",
         "optional": "Standard rule",
         "icon": "crawl",
@@ -158,6 +163,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.6-frightened",
         "title": "Effrayé",
         "optional": "Standard rule",
         "icon": "sharpsmile",
@@ -184,6 +190,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.7-grappled",
         "title": "Agrippé",
         "optional": "Standard rule",
         "icon": "grab",
@@ -211,6 +218,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.8-incapacitated",
         "title": "Neutralisé",
         "optional": "Standard rule",
         "icon": "internalinjury",
@@ -236,6 +244,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.9-invisible",
         "title": "Invisible",
         "optional": "Standard rule",
         "icon": "invisible",
@@ -264,6 +273,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.10-paralyzed",
         "title": "Paralysé",
         "optional": "Standard rule",
         "icon": "spiderweb",
@@ -292,6 +302,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.11-petrified",
         "title": "Pétrifié",
         "optional": "Standard rule",
         "icon": "stonepile",
@@ -322,6 +333,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.12-poisoned",
         "title": "Empoisonné",
         "optional": "Standard rule",
         "icon": "poisonbottle",
@@ -347,6 +359,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.13-prone",
         "title": "À terre",
         "optional": "Standard rule",
         "icon": "falling",
@@ -375,6 +388,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.14-restrained",
         "title": "Entravé",
         "optional": "Standard rule",
         "icon": "imprisoned",
@@ -403,6 +417,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.15-stunned",
         "title": "Étourdi",
         "optional": "Standard rule",
         "icon": "knockedoutstars",
@@ -430,6 +445,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.16-unconscious",
         "title": "Inconscient",
         "optional": "Standard rule",
         "icon": "coma",
@@ -459,6 +475,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.17-madness",
         "title": "Folie*",
         "optional": "Optional rule",
         "icon": "architectmask",
@@ -486,6 +503,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.18-bleeding",
         "title": "Saignement**",
         "optional": "Homebrew rule",
         "icon": "bleedingeye",
@@ -513,6 +531,7 @@
         ]
     },
     {
+        "id": "core.2014.condition.19-stress-sanity-system",
         "title": "Stress / santé mentale**",
         "optional": "Homebrew rule",
         "icon": "brainleak",

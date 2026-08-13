@@ -282,6 +282,44 @@ body.motion-reduced *::after {
 }
 
 /* Notification System */
+.connectivity-status {
+    position: fixed;
+    inset-block-end: var(--spacing-md);
+    inset-inline-start: var(--spacing-md);
+    z-index: var(--z-index-notification);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    background: var(--color-card-bg);
+    color: var(--color-text);
+    font-size: 0.8rem;
+}
+
+.update-available { position: fixed; inset-block-start: var(--spacing-md); inset-inline: 50% auto; transform: translateX(-50%); z-index: var(--z-index-notification); padding: var(--spacing-sm) var(--spacing-md); background: var(--color-card-bg); border: 1px solid var(--color-settings); border-radius: var(--border-radius-md); }
+.update-available button { margin-inline-start: var(--spacing-sm); }
+
+.offline-status-panel {
+    flex: 1 1 100%;
+    min-width: 0;
+    margin-block-start: var(--spacing-sm);
+    padding: var(--spacing-md);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    background-color: color-mix(in srgb, var(--color-card-bg) 72%, var(--color-bg));
+}
+
+.offline-status {
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.offline-cache-details {
+    margin-block-start: var(--spacing-xs);
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-sm);
+    overflow-wrap: anywhere;
+}
+
 #notification-container {
     position: fixed;
     top: var(--spacing-md);
@@ -478,6 +516,17 @@ body.motion-reduced *::after {
     align-items: flex-start;
 
     --stagger-delay: 20ms;
+}
+
+.section-load-state {
+    flex: 1 1 100%;
+    margin: 0;
+    color: var(--color-text-muted, var(--color-text));
+}
+
+.section-retry-btn {
+    min-height: 44px;
+    margin-block-end: var(--spacing-sm);
 }
 
 #section-settings .item {
@@ -691,6 +740,46 @@ button.item {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+select {
+    min-height: 44px;
+    min-width: 9rem;
+    padding: var(--spacing-sm) 2.25rem var(--spacing-sm) var(--spacing-md);
+    color: var(--color-text);
+    font: inherit;
+    line-height: 1.2;
+    background-color: var(--color-card-bg);
+    background-image: linear-gradient(45deg, transparent 50%, var(--color-settings) 50%),
+        linear-gradient(135deg, var(--color-settings) 50%, transparent 50%);
+    background-position: calc(100% - 1rem) 50%, calc(100% - 0.7rem) 50%;
+    background-repeat: no-repeat;
+    background-size: 0.35rem 0.35rem, 0.35rem 0.35rem;
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    appearance: none;
+    transition: border-color var(--transition-speed-fast), box-shadow var(--transition-speed-fast), background-color var(--transition-speed-fast);
+}
+
+select:hover {
+    border-color: var(--color-settings);
+    background-color: var(--color-item-hover-bg);
+}
+
+select:focus {
+    border-color: var(--color-settings);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-settings) 25%, transparent);
+}
+
+select:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+select option {
+    color: var(--color-text);
+    background-color: var(--color-card-bg);
 }
 
 /* --- Popup/Modal Window --- */
@@ -1267,6 +1356,26 @@ input:checked+.slider::before {
 }
 
 @media (width <=480px) {
+    .search-bar {
+        align-items: stretch;
+        flex-wrap: wrap;
+        gap: var(--spacing-xs);
+        padding: var(--spacing-xs);
+    }
+
+    .search-input {
+        flex: 1 0 100%;
+        min-width: 0;
+    }
+
+    .search-bar select {
+        flex: 1 1 0;
+        width: 100%;
+        max-width: none;
+        min-height: 44px;
+        min-width: 0;
+    }
+
     .itemsize {
         flex: 0 0 100%;
     }
@@ -1398,6 +1507,12 @@ html:not([data-density]) {
     padding: var(--spacing-sm) var(--spacing-md);
     background-color: var(--color-bg);
     border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.search-bar select {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 28%;
 }
 
 .search-input {

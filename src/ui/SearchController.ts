@@ -6,6 +6,7 @@ import type { DataService } from '../services/DataService.js';
 import type { NavigationService } from '../services/NavigationService.js';
 import type { StateManager } from '../state/StateManager.js';
 import type { ViewRenderer } from './ViewRenderer.js';
+import type { LocalizationService } from '../services/LocalizationService.js';
 
 interface SearchDeps {
     domProvider: DOMProvider;
@@ -15,6 +16,7 @@ interface SearchDeps {
     navigation: NavigationService;
     viewRenderer: ViewRenderer;
     renderSectionContent: (section: HTMLElement) => Promise<void>;
+    localization?: LocalizationService;
 }
 
 /**
@@ -26,6 +28,9 @@ export class SearchController {
     #searchExpandedSections = new Set<HTMLElement>();
     #lastExecutedQuery: string | null = null;
     #pendingRafId: number | null = null;
+    #filter: 'all' | 'favorites' | 'notes' = 'all';
+    #categoryFilter = 'all';
+    #t = (key: string, fallback: string, variables: Record<string, string | number> = {}): string => this.#deps.localization?.translate(key, fallback, variables) ?? Object.entries(variables).reduce((text, [name, value]) => text.replaceAll(`{${name}}`, String(value)), fallback);
 
     constructor(deps: SearchDeps) {
         this.#deps = deps;
@@ -43,6 +48,15 @@ export class SearchController {
                 input.value = '';
                 performFilter();
                 input.focus();
+            });
+            document.getElementById('search-filter-select')?.addEventListener('change', (event) => {
+                const value = (event.target as HTMLSelectElement).value;
+                this.#filter = value === 'favorites' || value === 'notes' ? value : 'all';
+                void this.#performSearch(input, clearBtn);
+            });
+            document.getElementById('search-category-select')?.addEventListener('change', (event) => {
+                this.#categoryFilter = (event.target as HTMLSelectElement).value || 'all';
+                void this.#performSearch(input, clearBtn);
             });
         } catch { console.warn('Search elements not found.'); }
     }
@@ -77,12 +91,17 @@ export class SearchController {
 
     #getMatchingSearchIds(query: string): { matchingIds: Set<string>; sectionCounts: Map<Element, number> } {
         this.#deps.data.ensureSearchIndicesReady();
-        const ruleMap = this.#deps.stateManager.getState().data.ruleMap;
+        const state = this.#deps.stateManager.getState();
+        const ruleMap = state.data.ruleMap;
         const matchingIds = new Set<string>();
         // Pre-compute section counts in a single pass instead of O(matchingIds × sections)
         const sectionCounts = new Map<Element, number>();
         ruleMap.forEach((info, id) => {
-            if (info.searchIndex?.includes(query) && this.#ruleMatchesCurrentFilters(info.ruleData.optional)) {
+            const passesCollection = this.#filter === 'all'
+                || (this.#filter === 'favorites' && state.user.favorites.has(id))
+                || (this.#filter === 'notes' && state.user.notes.has(id));
+            const passesCategory = this.#categoryFilter === 'all' || info.categoryId === this.#categoryFilter;
+            if (info.searchIndex?.includes(query) && passesCollection && passesCategory && this.#ruleMatchesCurrentFilters(info.ruleData.optional)) {
                 matchingIds.add(id);
                 const sectionEl = document.getElementById(info.sectionId)?.closest(`.${CONFIG.CSS.SECTION_CONTAINER}`);
                 if (sectionEl) {
@@ -151,7 +170,7 @@ export class SearchController {
                 const favSection = document.querySelector(`[data-section="favorites"]`);
                 if (favSection) favSection.classList.toggle(CONFIG.CSS.HIDDEN, this.#deps.stateManager.getState().user.favorites.size === 0);
                 this.#setSearchStatus('');
-                this.#deps.a11y.announce('Filter cleared');
+                this.#deps.a11y.announce(this.#t('search.status.cleared', 'Filter cleared'));
                 this.#deps.navigation.invalidateFocusables();
             });
             return;
@@ -196,8 +215,8 @@ export class SearchController {
             }
 
             const count = matchingIds.size;
-            this.#setSearchStatus(count === 0 ? 'No matching rules' : `${count} matching rule${count === 1 ? '' : 's'}`);
-            this.#deps.a11y.announce(count === 0 ? `No results for ${query}` : `${count} results for ${query}`);
+            this.#setSearchStatus(count === 0 ? this.#t('search.status.noMatches', 'No matching rules') : this.#t(count === 1 ? 'search.status.matchingOne' : 'search.status.matchingMany', count === 1 ? '1 matching rule' : '{count} matching rules', { count }));
+            this.#deps.a11y.announce(count === 0 ? this.#t('search.status.noResults', 'No results for {query}', { query }) : this.#t(count === 1 ? 'search.status.resultsOne' : 'search.status.resultsMany', count === 1 ? '1 result' : '{count} results', { count, query }));
             this.#deps.navigation.invalidateFocusables();
         });
 

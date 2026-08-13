@@ -15,6 +15,7 @@ const packageJsonPath = path.join(rootDir, 'package.json');
 const packageLockPath = path.join(rootDir, 'package-lock.json');
 const configTsPath = path.join(rootDir, 'src', 'config.ts');
 const serviceWorkerPath = path.join(rootDir, 'public', 'sw.js');
+const checkOnly = process.argv.includes('--check');
 
 const copyDirectory = (source, target) => {
     fs.mkdirSync(target, { recursive: true });
@@ -29,20 +30,40 @@ const copyDirectory = (source, target) => {
     }
 };
 
-// 1. Sync static content to public/
+// 1. Sync static content to public/ unless CI requested a read-only check.
 try {
     if (!fs.existsSync(path.join(rootDir, 'public'))) {
         fs.mkdirSync(path.join(rootDir, 'public'));
     }
-    fs.copyFileSync(changelogPath, publicChangelogPath);
-    console.log('Copied CHANGELOG.md to public/CHANGELOG.md');
-    fs.copyFileSync(readmePath, publicReadmePath);
-    console.log('Copied README.md to public/README.md');
-    fs.rmSync(publicDataPath, { recursive: true, force: true });
-    copyDirectory(dataPath, publicDataPath);
-    console.log('Copied data/ to public/data/');
+    if (checkOnly) {
+        const same = (source, target) => fs.existsSync(target) && fs.readFileSync(source).equals(fs.readFileSync(target));
+        if (!same(changelogPath, publicChangelogPath) || !same(readmePath, publicReadmePath)) throw new Error('generated README or changelog is stale');
+        if (!fs.existsSync(publicDataPath)) throw new Error('generated public/data mirror is missing');
+    } else fs.copyFileSync(changelogPath, publicChangelogPath);
+    if (!checkOnly) {
+        console.log('Copied CHANGELOG.md to public/CHANGELOG.md');
+        fs.copyFileSync(readmePath, publicReadmePath);
+        console.log('Copied README.md to public/README.md');
+        fs.rmSync(publicDataPath, { recursive: true, force: true });
+        copyDirectory(dataPath, publicDataPath);
+        console.log('Copied data/ to public/data/');
+    }
 } catch (e) {
     console.warn('Could not copy static content to public:', e.message);
+}
+
+if (checkOnly) {
+    const packageData = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+    const changelog = fs.readFileSync(changelogPath, 'utf8');
+    const versionMatch = changelog.match(/^## \[(\d+\.\d+\.\d+)\]/m);
+    const config = fs.readFileSync(configTsPath, 'utf8');
+    const worker = fs.readFileSync(serviceWorkerPath, 'utf8');
+    if (!versionMatch || packageData.version !== versionMatch[1] || !config.includes(`APP_VERSION: '${versionMatch[1]}'`) || !worker.includes(`CACHE_VERSION = '${versionMatch[1]}'`)) {
+        console.error('Generated/version metadata is stale. Run npm run sync-version.');
+        process.exit(1);
+    }
+    console.log('Generated files and release metadata are current.');
+    process.exit(0);
 }
 
 // 2. Extract latest version from CHANGELOG.md

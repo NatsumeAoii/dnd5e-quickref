@@ -1,6 +1,6 @@
 # D&D 5e / 2024 Interactive Quick Reference
 
-A modern, interactive quick reference sheet for **Dungeons & Dragons 5th Edition**, supporting both the **2014** and **2024** rulesets.
+A modern, interactive quick reference sheet for **Dungeons & Dragons 5th Edition**, supporting both the **2014** and **2024** rulesets. It currently covers the full set of categories included by this project: movement, actions, bonus actions, reactions, conditions, and environment.
 
 Built on [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref) with a revamped TypeScript architecture, offline PWA support, and a rich feature set for players and DMs.
 
@@ -15,13 +15,17 @@ Built on [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref) with a 
 - **Dual Ruleset Support** — Switch between 2014 and 2024 rules instantly
 - **Offline PWA** — Service Worker caches everything for full offline use
 - **Customization** — Linking, Favorites, Notes (with import/export), and Themes
+- **Polished native controls** — Search, language, theme, and density dropdowns use themed, keyboard-friendly native selects with responsive focus and disabled states
 - **Deep Linking** — Share specific rules directly via URL
+- **Coverage contract** — See `data/coverage.json` for supported locales, rulesets, source policy, and exclusions.
+- **Stable rule identity** — Every record in the included source corpus carries a locale-independent ID, enforced by `npm run audit:data`; the runtime fallback remains only for legacy links, fixtures, and externally constructed data.
 
 ### Technical
 
 - **Modern Stack** — Built with Vite 6 + TypeScript 5.7
 - **Performance** — LightningCSS optimizations + minimal runtime dependencies (DOMPurify and web-vitals, both lazy-loaded)
 - **Accessibility** — Full keyboard support, screen reader optimized, reduced motion
+- **Browser verification** — Chromium browser smoke tests run in CI; Firefox, Safari, and other browsers are not verified in CI
 
 ---
 
@@ -74,15 +78,15 @@ Built on [crobi/dnd5e-quickref](https://github.com/crobi/dnd5e-quickref) with a 
    npm run build
    ```
 
-   npm runs `prebuild` first, which syncs the app version from `CHANGELOG.md`, copies the changelog into `public/`, updates service-worker cache version metadata, then type-checks with `tsc --noEmit` and produces an optimized bundle in `dist/`.
+   `npm run build` automatically synchronizes release metadata and generated public files through npm's `prebuild` lifecycle hook, then validates and produces an optimized bundle in `dist/`. Generated-file freshness is checked with `npm run check:generated`.
 
-   For release version changes, update the top semantic-version heading in `CHANGELOG.md`, then run:
+   For release version changes or to regenerate `public/README.md`, `public/CHANGELOG.md`, and `public/data/`, update the top semantic-version heading in `CHANGELOG.md`, then run:
 
    ```bash
    npm run sync-version
    ```
 
-   `sync-version` also keeps the root package-lock metadata aligned.
+   `sync-version` also keeps the root package-lock metadata aligned. If the first changelog section is `Unreleased`, it uses the next numeric release heading as the active version.
 
 2. **Preview the build locally:**
    ```bash
@@ -107,17 +111,24 @@ For environments without Node.js:
 | Script         | Command                      | Description                                                                                                                                    |
 | -------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `dev`          | `vite`                       | Start the Vite dev server with HMR                                                                                                             |
-| `sync-version` | `node scripts/prebuild.js`   | Sync version from `CHANGELOG.md` to `package.json`, `package-lock.json`, `src/config.ts`, `public/sw.js`, and copy `CHANGELOG.md` to `public/` |
-| `prebuild`     | `npm run sync-version`       | Automatic version/changelog sync before `npm run build`                                                                                        |
-| `build`        | `tsc --noEmit && vite build` | Type-check then produce production bundle in `dist/`; npm runs `prebuild` first                                                                |
+| `sync-version` | `node scripts/prebuild.js`   | Sync version from `CHANGELOG.md` to release metadata and regenerate public files |
+| `release:build` | `npm run build` | Build with automatic release synchronization |
+| `prebuild`     | `npm run sync-version` | Automatically run before `npm run build` |
+| `build`        | `tsc --noEmit && vite build` | Synchronize release metadata, then type-check and produce the production bundle in `dist/` |
 | `preview`      | `vite preview`               | Serve the production build locally                                                                                                             |
 | `type-check`   | `tsc --noEmit`               | Run TypeScript type-checking without emitting                                                                                                  |
 | `lint`         | `eslint "src/**/*.ts"`       | Lint TypeScript files via ESLint                                                                                                               |
 | `lint:css`     | `stylelint "src/**/*.css"`   | Lint CSS files via Stylelint                                                                                                                   |
 | `audit:data`   | `node scripts/audit-data.js` | Validate rule data mirrors, icon mappings, optional markers, environment tags, and bullet/table shapes                                         |
+| `check:sw`     | `node --check public/sw.js && node --check public/404.js` | Syntax-check public runtime scripts |
+| `check:generated` | `node scripts/prebuild.js --check` | Verify generated docs/data and release metadata without rewriting files |
+| `check:docs` | `node scripts/check-docs.js` | Verify required docs, documented commands, and changelog/package version consistency |
+| `migrate:ids` | `node scripts/migrate-stable-ids.js && npm run sync-version` | Backfill canonical IDs across supported locale/ruleset data |
 | `test`         | `vitest run`                 | Run the Vitest test suite once                                                                                                                 |
+| `test:single`   | `vitest run --maxWorkers=1`  | Run Vitest with one worker for deterministic local/CI diagnostics                                                                              |
+| `test:browser`  | `playwright test`            | Run Chromium browser smoke tests                                                                                                                |
 
-> `npm run build` can mutate tracked version/changelog files through `prebuild`. Check `git status` after release builds.
+> `npm run build` and `npm run release:build` intentionally update generated/release metadata before building. Use `npm run check:generated` for a read-only check.
 
 ---
 
@@ -151,7 +162,7 @@ dnd5e-quickref/
 │   │                             #   NOT imported by the app, runs under `npm test`)
 │   └── __tests__/                # Vitest regression tests
 ├── data/
-│   ├── en_US/                    # English (source of truth, full rule set)
+│   ├── en_US/                    # English source data for included categories
 │   │   ├── menu.json             # English UI/menu strings
 │   │   └── rules/                # English 2014 and 2024 rule JSON
 │   ├── id_ID/
@@ -182,7 +193,7 @@ dnd5e-quickref/
 
 The active app is a static Vite + TypeScript browser application. `index.html` loads `src/error-handler.ts` first, then `src/main.ts`; `QuickRefApplication` constructs services, UI components, renders rule sections, restores popup state, registers shortcuts, and registers the service worker.
 
-Rule content is JSON data rather than TypeScript. `data/<locale>/rules/` is the source data directory, and `public/data/` is generated by `npm run sync-version` for runtime fetches and service-worker caching. Do not edit `public/data/` directly.
+Rule content is JSON data rather than TypeScript. `data/<locale>/rules/` is the source data directory, and `public/data/` is generated by `npm run sync-version` for runtime fetches and service-worker caching. Do not edit `public/data/` directly. The supported corpus and exclusions are defined in `data/coverage.json`.
 
 Data flows through a service-oriented architecture:
 
@@ -278,8 +289,9 @@ Pushing to `master` triggers the GitHub Actions workflow (`.github/workflows/dep
 
 1. Checks out the repository.
 2. Sets up Node.js (version read from `package.json` `engines` field).
-3. Runs `npm ci` and `npm run build`.
-4. Deploys `dist/` to GitHub Pages.
+3. Runs the type-check, lint, CSS lint, service-worker check, data audit, tests, build, generated-file, and documentation gates.
+4. Runs the Chromium browser smoke suite.
+5. Deploys `dist/` to GitHub Pages after all gates pass.
 
 ### Manual Deployment
 
@@ -415,9 +427,9 @@ Edit `data/<locale>/rules/` as the source data directory. `npm run sync-version`
 </details>
 
 <details>
-<summary><strong>Why can `npm run build` change files?</strong></summary>
+<summary><strong>How are release files synchronized?</strong></summary>
 
-`npm run build` runs `prebuild`, which calls `npm run sync-version`. That script reads the latest semantic version heading from `CHANGELOG.md`, syncs version metadata into `package.json`, `package-lock.json`, `src/config.ts`, and `public/sw.js`, then copies `README.md` and `CHANGELOG.md` into `public/` for the in-app modals.
+`npm run build` automatically runs `prebuild`, which reads the first numeric semantic version heading from `CHANGELOG.md`, syncs release metadata, and copies `README.md`, `CHANGELOG.md`, and `data/` into `public/` for runtime use. A leading `Unreleased` section is skipped in favor of the next numeric release. `npm run check:generated` verifies freshness without rewriting files.
 
 </details>
 
@@ -431,7 +443,7 @@ No. The app uses ES modules, `fetch()`, and a service worker, so it must be serv
 <details>
 <summary><strong>What should I run before opening a pull request?</strong></summary>
 
-Run `npm test`, `npm run type-check`, `npm run lint`, `npm run lint:css`, `npm run audit:data`, and `npm run build`. These commands are all defined in `package.json`; GitHub Pages deployment currently runs `npm ci` and `npm run build`.
+Run `npm test`, `npm run type-check`, `npm run lint`, `npm run lint:css`, `npm run audit:data`, `npm run check:sw`, `npm run build`, `npm run check:generated`, `npm run check:docs`, and `npm run test:browser`. These commands are all defined in `package.json`; the browser command requires the Playwright Chromium browser to be installed.
 
 </details>
 
@@ -481,9 +493,10 @@ npm run dev
 
 ## Known Limitations & Pitfalls
 
-- **Test coverage is incomplete**: Vitest coverage is focused on core state, services, utilities, data guardrails, and selected runtime behaviors. Full end-to-end and visual regression coverage are not present.
+- **Test coverage is incomplete**: Vitest coverage is focused on core state, services, utilities, data guardrails, and selected runtime behaviors. Chromium end-to-end smoke coverage is present through Playwright; cross-browser visual regression coverage is not present.
+- **Browser support verification**: Chromium is verified by the Playwright smoke suite in CI. Firefox, Safari, and other browsers are not verified by CI.
 - **Duplicated public data is intentional**: `data/` is the source data directory, while `public/data/` is the runtime/static mirror used by browser fetches and service-worker caching.
-- **Generated public docs can drift locally**: `public/README.md` and `public/CHANGELOG.md` are copied from the root docs by `npm run sync-version`, which also runs automatically before `npm run build`.
+- **Generated public docs can drift locally**: `public/README.md` and `public/CHANGELOG.md` are copied from the root docs by the automatic `prebuild` hook; use `npm run check:generated` to detect stale files without rewriting them.
 - **Service Worker caching**: The SW uses a stale-while-revalidate strategy. Users may see stale content until the background update completes on next navigation. Hard-refresh forces a fresh load.
 - **`file://` protocol unsupported**: ES modules and Service Workers require HTTP(S).
 

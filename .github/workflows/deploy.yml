@@ -37,9 +37,41 @@ jobs:
         shell: bash
         run: npm ci
 
+      - name: Type-check
+        shell: bash
+        run: npm run type-check
+
+      - name: Lint TypeScript
+        shell: bash
+        run: npm run lint
+
+      - name: Lint CSS
+        shell: bash
+        run: npm run lint:css
+
+      - name: Check scripts and service worker
+        shell: bash
+        run: npm run check:sw
+
+      - name: Audit data
+        shell: bash
+        run: npm run audit:data
+
+      - name: Test
+        shell: bash
+        run: npm test
+
       - name: Build production bundle
         shell: bash
         run: npm run build
+
+      - name: Verify generated files
+        shell: bash
+        run: npm run check:generated
+
+      - name: Check documentation consistency
+        shell: bash
+        run: npm run check:docs
 
       - name: Add .nojekyll
         shell: bash
@@ -51,9 +83,45 @@ jobs:
           path: ./dist
           include-hidden-files: true
 
+  browser-smoke:
+    name: Browser smoke
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        shell: bash
+        run: npm ci
+
+      - name: Install Chromium
+        shell: bash
+        run: npx playwright install --with-deps chromium
+
+      - name: Build production bundle
+        shell: bash
+        run: npm run build
+
+      - name: Run browser smoke tests
+        shell: bash
+        run: npm run test:browser
+
   deploy:
     name: Deploy
-    needs: build
+    needs: [build, browser-smoke]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:

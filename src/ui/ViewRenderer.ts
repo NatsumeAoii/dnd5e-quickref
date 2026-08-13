@@ -5,6 +5,7 @@ import type { StateManager } from '../state/StateManager.js';
 import type { TemplateService } from './TemplateService.js';
 import type { RuleInfo } from '../types.js';
 import { prefersReducedMotion } from '../utils/Utils.js';
+import type { LocalizationService } from '../services/LocalizationService.js';
 
 export class ViewRenderer {
     #domProvider: DOMProvider;
@@ -15,15 +16,19 @@ export class ViewRenderer {
     // #5: Cached reference for scoped DOM queries
     #mainScrollArea: HTMLElement | null = null;
     #printIconSrcCache = new Map<string, string | null>();
+    #localization?: LocalizationService;
 
-    constructor(domProvider: DOMProvider, stateManager: StateManager, userDataService: UserDataService, templateService: TemplateService) {
+    constructor(domProvider: DOMProvider, stateManager: StateManager, userDataService: UserDataService, templateService: TemplateService, localization?: LocalizationService) {
         this.#domProvider = domProvider;
         this.#stateManager = stateManager;
         this.#userDataService = userDataService;
         this.#templateService = templateService;
+        this.#localization = localization;
         try { this.#notificationContainer = this.#domProvider.get(CONFIG.ELEMENT_IDS.NOTIFICATION_CONTAINER); } catch { console.error('Notification container not found.'); }
         try { this.#mainScrollArea = this.#domProvider.get(CONFIG.ELEMENT_IDS.MAIN_SCROLL_AREA); } catch { console.error('Main scroll area not found.'); }
     }
+
+    #t(key: string, fallback: string, variables: Record<string, string | number> = {}): string { return this.#localization?.translate(key, fallback, variables) ?? Object.entries(variables).reduce((text, [name, value]) => text.replaceAll(`{${name}}`, String(value)), fallback); }
 
     renderSection(parentId: string, rules: { popupId: string; ruleInfo: RuleInfo }[]): void {
         const parent = this.#domProvider.get(parentId);
@@ -169,11 +174,11 @@ export class ViewRenderer {
 
         const title = document.createElement('h1');
         title.className = 'fatal-error-title';
-        title.textContent = 'Critical Error';
+        title.textContent = this.#t('fatal.title', 'Critical Error');
 
         const message = document.createElement('p');
         message.className = 'fatal-error-message';
-        message.textContent = 'The application encountered a problem it couldn\'t recover from. Please try refreshing the page.';
+        message.textContent = this.#t('fatal.message', 'The application encountered a problem it couldn\'t recover from. Please try refreshing the page.');
 
         const codeBlock = document.createElement('div');
         codeBlock.className = 'fatal-error-code';
@@ -184,22 +189,22 @@ export class ViewRenderer {
 
         const reloadBtn = document.createElement('button');
         reloadBtn.className = 'btn-error-action btn-primary';
-        reloadBtn.textContent = 'Reload Page';
+        reloadBtn.textContent = this.#t('fatal.reload', 'Reload Page');
         reloadBtn.addEventListener('click', () => window.location.reload());
 
         const resetBtn = document.createElement('button');
         resetBtn.className = 'btn-error-action btn-secondary';
-        resetBtn.textContent = 'Reset App';
+        resetBtn.textContent = this.#t('fatal.reset', 'Reset App');
         let resetPending = false;
         let resetTimer: ReturnType<typeof setTimeout> | null = null;
         resetBtn.addEventListener('click', async () => {
             if (!resetPending) {
                 resetPending = true;
-                resetBtn.textContent = 'Confirm Reset?';
+                resetBtn.textContent = this.#t('fatal.confirmReset', 'Confirm Reset?');
                 resetBtn.classList.add('btn-confirm');
                 resetTimer = setTimeout(() => {
                     resetPending = false;
-                    resetBtn.textContent = 'Reset App';
+                    resetBtn.textContent = this.#t('fatal.reset', 'Reset App');
                     resetBtn.classList.remove('btn-confirm');
                 }, 3000);
                 return;
@@ -218,23 +223,23 @@ export class ViewRenderer {
                 sessionStorage.clear();
                 window.location.reload();
             } catch {
-                resetBtn.textContent = 'Reset failed. Clear browser data manually.';
+                resetBtn.textContent = this.#t('fatal.resetFailed', 'Reset failed. Clear browser data manually.');
             }
         });
 
         const copyBtn = document.createElement('button');
         copyBtn.className = 'btn-error-action btn-secondary';
-        copyBtn.textContent = 'Copy Error';
+        copyBtn.textContent = this.#t('fatal.copy', 'Copy Error');
         copyBtn.addEventListener('click', () => {
             navigator.clipboard.writeText(msg).then(() => {
-                copyBtn.textContent = 'Copied';
-                setTimeout(() => { copyBtn.textContent = 'Copy Error'; }, 2000);
+                copyBtn.textContent = this.#t('fatal.copied', 'Copied');
+                setTimeout(() => { copyBtn.textContent = this.#t('fatal.copy', 'Copy Error'); }, 2000);
             });
         });
 
         const reportBtn = document.createElement('button');
         reportBtn.className = 'btn-error-action btn-secondary';
-        reportBtn.textContent = 'Report Issue';
+        reportBtn.textContent = this.#t('fatal.report', 'Report Issue');
         reportBtn.addEventListener('click', () => {
             const body = `Error Report:\n\n${msg}\n\nUser Agent: ${navigator.userAgent}`;
             window.open(`https://github.com/NatsumeAoii/dnd5e-quickref/issues/new?title=Critical+Error&body=${encodeURIComponent(body)}`, '_blank');
@@ -263,7 +268,6 @@ export class ViewRenderer {
         this.#domProvider.get(CONFIG.ELEMENT_IDS.SKELETON_LOADER).classList.add(CONFIG.CSS.HIDDEN);
         const app = this.#domProvider.get(CONFIG.ELEMENT_IDS.APP_CONTAINER);
         app.classList.remove(CONFIG.CSS.HIDDEN);
-        app.style.opacity = '1';
     }
 
     showNotification(message: string, level = 'info'): void {

@@ -1,7 +1,20 @@
-import type { SectionConfig, SettingsConfig } from './types.js';
+import type { CategoryDescriptor, SettingsConfig } from './types.js';
+
+const CATEGORY_REGISTRY: readonly CategoryDescriptor[] = Object.freeze([
+    { id: 'basic-movement', dataKey: 'movement', type: 'Move', localizationKey: 'sections.movement', displayOrder: 10, iconKey: 'movement', rulesets: ['2014', '2024'], searchable: true, schemaVersion: 1 },
+    { id: 'basic-actions', dataKey: 'action', type: 'Action', localizationKey: 'sections.action', displayOrder: 20, iconKey: 'action', rulesets: ['2014', '2024'], searchable: true, schemaVersion: 1 },
+    { id: 'basic-bonus-actions', dataKey: 'bonus_action', type: 'Bonus action', localizationKey: 'sections.bonusAction', displayOrder: 30, iconKey: 'bonus-action', rulesets: ['2014', '2024'], searchable: true, schemaVersion: 1 },
+    { id: 'basic-reactions', dataKey: 'reaction', type: 'Reaction', localizationKey: 'sections.reaction', displayOrder: 40, iconKey: 'reaction', rulesets: ['2014', '2024'], searchable: true, schemaVersion: 1 },
+    { id: 'basic-conditions', dataKey: 'condition', type: 'Condition', localizationKey: 'sections.condition', displayOrder: 50, iconKey: 'condition', rulesets: ['2014', '2024'], searchable: true, schemaVersion: 1 },
+    { id: 'environment-obscurance', dataKey: 'environment_obscurance', type: 'Environment', localizationKey: 'sections.environment.obscurance', displayOrder: 60, iconKey: 'environment', rulesets: ['2014', '2024'], searchable: true, parentId: 'environment', schemaVersion: 1 },
+    { id: 'environment-light', dataKey: 'environment_light', type: 'Environment', localizationKey: 'sections.environment.light', displayOrder: 70, iconKey: 'environment', rulesets: ['2014', '2024'], searchable: true, parentId: 'environment', schemaVersion: 1 },
+    { id: 'environment-vision', dataKey: 'environment_vision', type: 'Environment', localizationKey: 'sections.environment.vision', displayOrder: 80, iconKey: 'environment', rulesets: ['2014', '2024'], searchable: true, parentId: 'environment', schemaVersion: 1 },
+    { id: 'environment-cover', dataKey: 'environment_cover', type: 'Environment', localizationKey: 'sections.environment.cover', displayOrder: 90, iconKey: 'environment', rulesets: ['2014', '2024'], searchable: true, parentId: 'environment', schemaVersion: 1 },
+    { id: 'environment-other', dataKey: 'environment_other', type: 'Environment', localizationKey: 'sections.environment.other', displayOrder: 100, iconKey: 'environment', rulesets: ['2014', '2024'], searchable: true, parentId: 'environment', schemaVersion: 1 },
+]);
 
 export const CONFIG = Object.freeze({
-    APP_VERSION: '1.2.0',
+    APP_VERSION: '1.3.0',
     STORAGE_KEYS: Object.freeze({
         RULES_2024: 'rules2024',
         OPTIONAL: 'optional',
@@ -71,18 +84,9 @@ export const CONFIG = Object.freeze({
         SUPPORTED: ['en_US', 'id_ID', 'fr_FR'],
     } as const),
     DATA_FILES: Object.freeze(['movement', 'action', 'bonus_action', 'reaction', 'condition', 'environment'] as const),
-    SECTION_CONFIG: Object.freeze([
-        { id: 'basic-movement', dataKey: 'movement', type: 'Move' },
-        { id: 'basic-actions', dataKey: 'action', type: 'Action' },
-        { id: 'basic-bonus-actions', dataKey: 'bonus_action', type: 'Bonus action' },
-        { id: 'basic-reactions', dataKey: 'reaction', type: 'Reaction' },
-        { id: 'basic-conditions', dataKey: 'condition', type: 'Condition' },
-        { id: 'environment-obscurance', dataKey: 'environment_obscurance', type: 'Environment' },
-        { id: 'environment-light', dataKey: 'environment_light', type: 'Environment' },
-        { id: 'environment-vision', dataKey: 'environment_vision', type: 'Environment' },
-        { id: 'environment-cover', dataKey: 'environment_cover', type: 'Environment' },
-        { id: 'environment-other', dataKey: 'environment_other', type: 'Environment' },
-    ] as const) as readonly SectionConfig[],
+    CATEGORY_REGISTRY,
+    // Compatibility alias retained while consumers migrate to CATEGORY_REGISTRY.
+    SECTION_CONFIG: CATEGORY_REGISTRY,
     SETTINGS_CONFIG: Object.freeze([
         { id: 'optional-switch', key: 'OPTIONAL', stateProp: 'showOptional', type: 'checkbox' },
         { id: 'homebrew-switch', key: 'HOMEBREW', stateProp: 'showHomebrew', type: 'checkbox' },

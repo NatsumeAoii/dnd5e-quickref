@@ -1,5 +1,6 @@
 [
     {
+        "id": "core.2014.bonus_action.1-cast-a-spell",
         "title": "Rapalkan Spell",
         "optional": "Standard rule",
         "icon": "magicswirl",
@@ -26,6 +27,7 @@
         ]
     },
     {
+        "id": "core.2014.bonus_action.2-offhand-attack",
         "title": "Offhand Attack",
         "optional": "Standard rule",
         "icon": "crossedswords",
@@ -53,6 +55,7 @@
         ]
     },
     {
+        "id": "core.2014.bonus_action.3-use-class-feature",
         "title": "Pakai Class Feature",
         "optional": "Standard rule",
         "icon": "embrassedenergy",
@@ -78,6 +81,7 @@
         ]
     },
     {
+        "id": "core.2014.bonus_action.4-steady-aim",
         "title": "Steady Aim*",
         "optional": "Optional rule",
         "icon": "archerytarget",
@@ -106,6 +110,7 @@
         ]
     },
     {
+        "id": "core.2014.bonus_action.5-overrun",
         "title": "Overrun*",
         "optional": "Optional rule",
         "icon": "shieldbash",
@@ -133,6 +138,7 @@
         ]
     },
     {
+        "id": "core.2014.bonus_action.6-tumble",
         "title": "Tumble*",
         "optional": "Optional rule",
         "icon": "acrobatic",
@@ -159,6 +165,7 @@
         ]
     },
     {
+        "id": "core.2014.bonus_action.7-drink-a-potion",
         "title": "Minum Potion**",
         "optional": "Homebrew rule",
         "icon": "potionball",
@@ -185,6 +192,7 @@
         ]
     },
     {
+        "id": "core.2014.bonus_action.8-feint",
         "title": "Feint**",
         "optional": "Homebrew rule",
         "icon": "liar",
@@ -211,6 +219,7 @@
         ]
     },
     {
+        "id": "core.2014.bonus_action.9-quick-assessment",
         "title": "Penilaian Cepat**",
         "optional": "Homebrew rule",
         "icon": "eyeball",
@@ -237,6 +246,7 @@
         ]
     },
     {
+        "id": "core.2014.bonus_action.10-swap-weapons",
         "title": "Ganti Senjata**",
         "optional": "Homebrew rule",
         "icon": "switchweapon",
@@ -263,6 +273,7 @@
         ]
     },
     {
+        "id": "core.2014.bonus_action.11-tactical-repositioning",
         "title": "Reposisi Taktis**",
         "optional": "Homebrew rule",
         "icon": "move",

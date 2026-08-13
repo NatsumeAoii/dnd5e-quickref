@@ -1,5 +1,6 @@
 [
     {
+        "id": "core.2014.action.1-attack",
         "title": "Serang",
         "optional": "Standard rule",
         "icon": "crossedswords",
@@ -27,6 +28,7 @@
         ]
     },
     {
+        "id": "core.2014.action.2-cast-a-spell",
         "title": "Rapalkan Spell",
         "optional": "Standard rule",
         "icon": "magicswirl",
@@ -54,6 +56,7 @@
         ]
     },
     {
+        "id": "core.2014.action.3-dash",
         "title": "Dash",
         "optional": "Standard rule",
         "icon": "sprint",
@@ -81,6 +84,7 @@
         ]
     },
     {
+        "id": "core.2014.action.4-disengage",
         "title": "Disengage",
         "optional": "Standard rule",
         "icon": "journey",
@@ -96,6 +100,7 @@
         ]
     },
     {
+        "id": "core.2014.action.5-dodge",
         "title": "Dodge",
         "optional": "Standard rule",
         "icon": "dodging",
@@ -123,6 +128,7 @@
         ]
     },
     {
+        "id": "core.2014.action.6-don-doff-a-shield",
         "title": "Pakai/Lepas Perisai",
         "optional": "Standard rule",
         "icon": "shield",
@@ -150,6 +156,7 @@
         ]
     },
     {
+        "id": "core.2014.action.7-escape",
         "title": "Lepas",
         "optional": "Standard rule",
         "icon": "manacles",
@@ -176,6 +183,7 @@
         ]
     },
     {
+        "id": "core.2014.action.8-grapple",
         "title": "Grapple",
         "optional": "Standard rule",
         "icon": "grab",
@@ -203,6 +211,7 @@
         ]
     },
     {
+        "id": "core.2014.action.9-help",
         "title": "Bantu",
         "optional": "Standard rule",
         "icon": "allforone",
@@ -229,6 +238,7 @@
         ]
     },
     {
+        "id": "core.2014.action.10-hide",
         "title": "Sembunyi",
         "optional": "Standard rule",
         "icon": "hood",
@@ -256,6 +266,7 @@
         ]
     },
     {
+        "id": "core.2014.action.11-improvise",
         "title": "Improvisasi",
         "optional": "Standard rule",
         "icon": "juggler",
@@ -271,6 +282,7 @@
         ]
     },
     {
+        "id": "core.2014.action.12-interact-with-an-object",
         "title": "Interaksi dengan Objek",
         "optional": "Standard rule",
         "icon": "snatch",
@@ -298,6 +310,7 @@
         ]
     },
     {
+        "id": "core.2014.action.13-ready",
         "title": "Siaga",
         "optional": "Standard rule",
         "icon": "stopwatch",
@@ -325,6 +338,7 @@
         ]
     },
     {
+        "id": "core.2014.action.14-search",
         "title": "Cari",
         "optional": "Standard rule",
         "icon": "magnifyingglass",
@@ -340,6 +354,7 @@
         ]
     },
     {
+        "id": "core.2014.action.15-shove",
         "title": "Dorong",
         "optional": "Standard rule",
         "icon": "hand",
@@ -367,6 +382,7 @@
         ]
     },
     {
+        "id": "core.2014.action.16-stabilize-a-creature",
         "title": "Stabilkan Makhluk",
         "optional": "Standard rule",
         "icon": "firstaidkit",
@@ -394,6 +410,7 @@
         ]
     },
     {
+        "id": "core.2014.action.17-use-class-feature",
         "title": "Pakai Class Feature",
         "optional": "Standard rule",
         "icon": "embrassedenergy",
@@ -409,6 +426,7 @@
         ]
     },
     {
+        "id": "core.2014.action.18-administer-potion",
         "title": "Berikan Potion",
         "optional": "Standard rule",
         "icon": "healthpotion",
@@ -436,6 +454,7 @@
         ]
     },
     {
+        "id": "core.2014.action.19-climb-onto-a-bigger-creature",
         "title": "Naik ke Makhluk yang Lebih Besar*",
         "optional": "Optional rule",
         "icon": "mountainclimbing",
@@ -463,6 +482,7 @@
         ]
     },
     {
+        "id": "core.2014.action.20-disarm",
         "title": "Lucuti*",
         "optional": "Optional rule",
         "icon": "swordbreak",
@@ -491,6 +511,7 @@
         ]
     },
     {
+        "id": "core.2014.action.21-mark",
         "title": "Mark*",
         "optional": "Optional rule",
         "icon": "crossmark",
@@ -519,6 +540,7 @@
         ]
     },
     {
+        "id": "core.2014.action.22-overrun",
         "title": "Overrun*",
         "optional": "Optional rule",
         "icon": "shieldbash",
@@ -546,6 +568,7 @@
         ]
     },
     {
+        "id": "core.2014.action.23-parley",
         "title": "Parley*",
         "optional": "Optional rule",
         "icon": "conversation",
@@ -573,6 +596,7 @@
         ]
     },
     {
+        "id": "core.2014.action.24-shove-aside",
         "title": "Singkirkan*",
         "optional": "Optional rule",
         "icon": "push",
@@ -600,6 +624,7 @@
         ]
     },
     {
+        "id": "core.2014.action.25-tumble",
         "title": "Tumble*",
         "optional": "Optional rule",
         "icon": "acrobatic",
@@ -626,6 +651,7 @@
         ]
     },
     {
+        "id": "core.2014.action.26-healing-surge",
         "title": "Gelombang Penyembuhan*",
         "optional": "Optional rule",
         "icon": "firstaid",
@@ -651,6 +677,7 @@
         ]
     },
     {
+        "id": "core.2014.action.27-brace",
         "title": "Penjepit**",
         "optional": "Homebrew rule",
         "icon": "pikeman",
@@ -678,6 +705,7 @@
         ]
     },
     {
+        "id": "core.2014.action.28-called-shot",
         "title": "Called Shot**",
         "optional": "Homebrew rule",
         "icon": "archerytarget",
@@ -704,6 +732,7 @@
         ]
     },
     {
+        "id": "core.2014.action.29-cleave",
         "title": "Membelah*",
         "optional": "Optional rule",
         "icon": "axeswing",
@@ -731,6 +760,7 @@
         ]
     },
     {
+        "id": "core.2014.action.30-intimidating-presence",
         "title": "Kehadiran yang Mengintimidasi**",
         "optional": "Homebrew rule",
         "icon": "sharpsmile",

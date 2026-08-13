@@ -51,7 +51,7 @@ pnpm-debug.log*
 *.sql
 *.dump
 *.kiro
-
+*.kilo
 
 # Archives / generated packages
 *.zip
@@ -62,6 +62,8 @@ pnpm-debug.log*
 *.tar.gz
 
 # Temporary / backup files
+/dev/
+/scratch/
 .cache
 .vite
 tmp/
@@ -72,6 +74,22 @@ temp/
 *.backup
 *.swp
 *.swo
+*wiki
+
+# Local browser-test output
+/.playwright/
+/.playwright-mcp/
+/.playwright-*/
+/.pw-*/
+/playwright-report/
+/blob-report/
+/test-results/
+*.playwright-mcp
+*./.pw-*/
 
 # TypeScript cache
 *.tsbuildinfo
+
+
+# Local UI/UX workspace
+.worktree/

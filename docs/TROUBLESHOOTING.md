@@ -16,7 +16,7 @@ The service worker caches aggressively (stale-while-revalidate). Force a refresh
 
 ## `npm run build` modified my tracked files
 
-Expected. `prebuild` runs `scripts/prebuild.js`, which syncs the version from the top `## [x.y.z]` heading in `CHANGELOG.md` into `package.json`, `package-lock.json`, `src/config.ts`, and `public/sw.js`, and regenerates `public/README.md`, `public/CHANGELOG.md`, and `public/data/`. Review with `git status` / `git diff` after building. To bump the release version, edit the top heading in `CHANGELOG.md` first, then run `npm run sync-version`.
+Expected. `npm run build` runs the `prebuild` lifecycle hook, which reads the first numeric `## [x.y.z]` heading in `CHANGELOG.md`, skips a leading `## [Unreleased]` section when present, updates release metadata, and regenerates `public/README.md`, `public/CHANGELOG.md`, and `public/data/`. Review with `git status` / `git diff` after the build.
 
 ## `npm run audit:data` fails
 

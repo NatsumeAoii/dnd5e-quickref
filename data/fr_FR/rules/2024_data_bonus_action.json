@@ -1,5 +1,6 @@
 [
     {
+        "id": "core.2024.bonus_action.1-cast-a-spell",
         "title": "Lancer un sort",
         "optional": "Standard rule",
         "icon": "magicswirl",
@@ -27,6 +28,7 @@
         ]
     },
     {
+        "id": "core.2024.bonus_action.2-two-weapon-fighting",
         "title": "Combat à deux armes",
         "optional": "Standard rule",
         "icon": "crossedswords",
@@ -55,6 +57,7 @@
         ]
     },
     {
+        "id": "core.2024.bonus_action.3-use-class-feature",
         "title": "Utiliser une aptitude de classe",
         "optional": "Standard rule",
         "icon": "embrassedenergy",
@@ -80,6 +83,7 @@
         ]
     },
     {
+        "id": "core.2024.bonus_action.4-aim",
         "title": "Viser**",
         "optional": "Homebrew rule",
         "icon": "archerytarget",
@@ -107,6 +111,7 @@
         ]
     },
     {
+        "id": "core.2024.bonus_action.5-overrun",
         "title": "Forcer le passage*",
         "optional": "Optional rule",
         "icon": "shieldbash",
@@ -134,6 +139,7 @@
         ]
     },
     {
+        "id": "core.2024.bonus_action.6-tumble",
         "title": "Se faufiler*",
         "optional": "Optional rule",
         "icon": "acrobatic",
@@ -160,6 +166,7 @@
         ]
     },
     {
+        "id": "core.2024.bonus_action.7-potion-of-healing",
         "title": "Potion de soins",
         "optional": "Standard rule",
         "icon": "potionball",
@@ -188,6 +195,7 @@
         ]
     },
     {
+        "id": "core.2024.bonus_action.8-feint",
         "title": "Feinte**",
         "optional": "Homebrew rule",
         "icon": "liar",
@@ -214,6 +222,7 @@
         ]
     },
     {
+        "id": "core.2024.bonus_action.9-swap-weapons",
         "title": "Changer d’arme**",
         "optional": "Homebrew rule",
         "icon": "switchweapon",

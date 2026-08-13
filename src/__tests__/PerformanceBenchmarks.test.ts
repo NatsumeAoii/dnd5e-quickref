@@ -176,7 +176,7 @@ describe('Performance Benchmark Harness', () => {
 
     it('computes average as totalMs divided by iteration count', async () => {
         const fn = (): void => {
-            const _x = Math.random();
+            Math.random();
         };
 
         const result = await runBenchmark(fn);

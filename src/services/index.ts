@@ -1,4 +1,5 @@
 export { ServiceWorkerMessenger } from './ServiceWorkerMessenger.js';
+export type { CacheStatusMessage } from './ServiceWorkerMessenger.js';
 export { DOMProvider } from './DOMProvider.js';
 export { A11yService } from './A11yService.js';
 export { DBService } from './DBService.js';
@@ -17,3 +18,5 @@ export { KeyboardShortcutsService } from './KeyboardShortcutsService.js';
 export { ChangelogService } from './ChangelogService.js';
 export { ReadmeService } from './ReadmeService.js';
 export { NavigationService } from './NavigationService.js';
+export { BackupService, validateBackupBundle } from './BackupService.js';
+export { StorageCapabilityService } from './StorageCapabilityService.js';

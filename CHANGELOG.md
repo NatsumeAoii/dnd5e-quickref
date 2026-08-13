@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.3.0]
+
+### Added
+
+- **Stable Rule Identity**: Added explicit stable IDs across the current 36 source files, three locales, and both 2014/2024 rulesets. Added `scripts/migrate-stable-ids.js`, the `npm run migrate:ids` command, cross-locale parity auditing, and legacy title-based link compatibility.
+- **Search Scopes and Metadata**: Added all-rules, favorites, and notes scopes plus category filtering. Search indexing now covers aliases, normalized/diacritic-insensitive titles, summaries, descriptions, subtitles, references, tags, bullet content, and table cells.
+- **Local Backup and Restore**: Added a versioned local backup bundle for settings, favorites, notes, and section state, including bounded validation, preview counts, unresolved-reference reporting, and rollback on persistence failure.
+- **Storage Capability Feedback**: Added detection and user feedback for persistent storage, session-only fallback, and restricted browser storage environments.
+- **Lifecycle and Domain Events**: Added typed event contracts for favorite reorder, note mutations, popup lifecycle, section changes, and transitions. Added teardown paths for application services, controllers, subscriptions, timers, and cross-tab channels.
+- **Browser Verification**: Added Chromium Playwright smoke coverage for app loading, search/filtering, popup lifecycle, keyboard focus, persistence, locale/ruleset switching, print mode, service-worker behavior, cache operations, responsive overflow, CSP/Trusted Types, and performance sanity checks.
+- **Documentation and Release Checks**: Added documentation consistency and generated-file checks, including `npm run check:docs` and `npm run check:generated`.
+
+### Changed
+
+- **Reference UI**: Styled the search, language, theme, and display-density native `<select>` controls with themed surfaces, custom CSS chevrons, hover/focus/disabled states, and responsive touch sizing while preserving native keyboard and mobile behavior.
+- **Search and Localization**: Added localized search controls, result counts, empty states, no-match messages, interpolation, and English fallback behavior for the supported English, Indonesian, and French locales.
+- **Offline and Cache Behavior**: Added consent-aware cache-policy synchronization on locale/ruleset changes, cache status/recovery messaging, update handling, retry paths, request correlation, persistent offline indication, and safer cache cleanup limited to application-owned caches.
+- **Responsive Layout**: Fixed narrow-screen search controls so the input and filters wrap cleanly at 320px without page-level horizontal overflow while preserving 44px touch targets.
+- **Accessibility**: Added skip-to-content navigation, localized announcements, semantic native controls, focus-visible states, reduced-motion handling, and browser coverage for keyboard and responsive behavior.
+- **Security Policy**: Removed development-only CSP regressions, moved 404 styling out of inline HTML, aligned 404 security directives, disabled public production source maps, and sanitized fatal-error report links so raw exception text and full user-agent data are not exposed.
+- **Release Workflow**: `npm run build` now automatically runs the `prebuild` lifecycle hook to synchronize release metadata and generated public files. A leading `Unreleased` changelog section falls back to the next numeric release heading; CI includes type-checking, TypeScript/CSS linting, service-worker checks, data audits, tests, builds, generated-file checks, documentation checks, and Chromium smoke tests.
+- **Contributor Documentation**: Updated the README, contribution guide, security policy, code of conduct, quick-start/troubleshooting guidance, and generated public documentation to match the current static Vite app and release workflow.
+- **Repository Hygiene**: Ignored local Playwright output, temporary browser-test artifacts, build output, caches, and local workspace files without ignoring tracked source or generated public assets.
+
+### Fixed
+
+- **Data Mirror Consistency**: Synchronized all locale menu/data mirrors and corrected stable-ID migration so 2014 and 2024 records retain the correct edition-specific identities.
+- **Popup Compatibility**: Preserved legacy `Type::Title` lookup compatibility while resolving stable IDs for popup links, favorites, notes, sessions, exports, URL hashes, and localized records.
+- **Transition Races**: Prevented stale locale/ruleset requests from overwriting active state or rebuilding the UI after a newer transition completes; failed transitions restore the previous valid settings.
+- **Backup Safety**: Prevented malformed imports, partial writes, and failed deletes from corrupting existing local user data.
+- **Browser Test Isolation**: Made smoke tests deterministic around onboarding overlays, delegated interactions, popup minimized state, persistence checks, and generated production-preview behavior.
+- **CSP Development Loading**: Kept strict production CSP while allowing the Vite development runtime to use the connections and inline styles required by HMR and the checker, restoring application CSS during local development.
+
 ## [1.2.0]
 
 ### Added

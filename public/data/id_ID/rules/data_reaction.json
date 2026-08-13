@@ -1,5 +1,6 @@
 [
     {
+        "id": "core.2014.reaction.1-cast-a-spell",
         "title": "Rapalkan Spell",
         "optional": "Standard rule",
         "icon": "magicswirl",
@@ -26,6 +27,7 @@
         ]
     },
     {
+        "id": "core.2014.reaction.2-opportunity-attack",
         "title": "Opportunity Attack",
         "optional": "Standard rule",
         "icon": "crossedswords",
@@ -53,6 +55,7 @@
         ]
     },
     {
+        "id": "core.2014.reaction.3-readied-action",
         "title": "Action Siaga",
         "optional": "Standard rule",
         "icon": "stopwatch",
@@ -80,6 +83,7 @@
         ]
     },
     {
+        "id": "core.2014.reaction.4-identify-a-spell",
         "title": "Identifikasi Spell*",
         "optional": "Optional rule",
         "icon": "eyeball",
@@ -107,6 +111,7 @@
         ]
     },
     {
+        "id": "core.2014.reaction.5-interception",
         "title": "Interception*",
         "optional": "Optional rule",
         "icon": "shieldbash",
@@ -134,6 +139,7 @@
         ]
     },
     {
+        "id": "core.2014.reaction.6-parry",
         "title": "Parry**",
         "optional": "Homebrew rule",
         "icon": "shield",
@@ -161,6 +167,7 @@
         ]
     },
     {
+        "id": "core.2014.reaction.7-clash",
         "title": "Clash**",
         "optional": "Homebrew rule",
         "icon": "crossedswords",
@@ -188,6 +195,7 @@
         ]
     },
     {
+        "id": "core.2014.reaction.8-dive-for-cover",
         "title": "Dive for Cover**",
         "optional": "Homebrew rule",
         "icon": "falling",
@@ -215,6 +223,7 @@
         ]
     },
     {
+        "id": "core.2014.reaction.9-grapple-opportunity-attack",
         "title": "Grapple Opportunity Attack**",
         "optional": "Homebrew rule",
         "icon": "grab",
@@ -241,6 +250,7 @@
         ]
     },
     {
+        "id": "core.2014.reaction.10-shove-opportunity-attack",
         "title": "Shove Opportunity Attack**",
         "optional": "Homebrew rule",
         "icon": "hand",

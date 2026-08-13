@@ -8,6 +8,7 @@ const dataDir = path.join(rootDir, 'data');
 const publicDataDir = path.join(rootDir, 'public', 'data');
 const iconsCssPath = path.join(rootDir, 'src', 'css', 'icons.css');
 const publicDir = path.join(rootDir, 'public');
+const coveragePath = path.join(dataDir, 'coverage.json');
 
 const allowedRuleTypes = new Set(['Standard rule', 'Optional rule', 'Homebrew rule']);
 const allowedBulletTypes = new Set(['paragraph', 'list', 'table']);
@@ -32,6 +33,26 @@ const addError = (message) => {
     errors.push(message);
 };
 
+const stableIdsBySource = new Map();
+const canonicalStableIds = new Map();
+
+if (!fs.existsSync(coveragePath)) addError('missing data/coverage.json coverage manifest');
+else {
+    const coverage = readJson(coveragePath);
+    const expectedCategories = ['movement', 'action', 'bonus_action', 'reaction', 'condition', 'environment'];
+    if (!Array.isArray(coverage.categories) || expectedCategories.some((category) => !coverage.categories.includes(category))) {
+        addError('coverage.json categories do not describe the supported corpus');
+    }
+    if (!Array.isArray(coverage.locales) || coverage.locales.some((locale) => !localeDirs.includes(locale))) {
+        addError('coverage.json locales do not match data directories');
+    }
+    if (!Array.isArray(coverage.rulesets) || !coverage.rulesets.includes('2014') || !coverage.rulesets.includes('2024')) {
+        addError('coverage.json must list both supported rulesets');
+    }
+    if (typeof coverage.sourcePolicy !== 'string' || !coverage.sourcePolicy.trim()) addError('coverage.json is missing sourcePolicy');
+    if (typeof coverage.lastUpdated !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(coverage.lastUpdated)) addError('coverage.json lastUpdated must be YYYY-MM-DD');
+}
+
 const iconsCss = fs.readFileSync(iconsCssPath, 'utf8');
 const iconClasses = new Map();
 iconsCss.replace(
@@ -43,6 +64,7 @@ iconsCss.replace(
 );
 
 let auditedFileCount = 0;
+let auditedRecordCount = 0;
 
 for (const locale of localeDirs) {
     const rulesDir = path.join(dataDir, locale, 'rules');
@@ -82,10 +104,24 @@ for (const locale of localeDirs) {
         }
 
         rows.forEach((row, index) => {
+            auditedRecordCount++;
             const title = typeof row?.title === 'string' ? row.title : '';
             const location = `${locale}/${fileName}[${index}] ${title || '(untitled)'}`;
 
             if (!title.trim()) addError(`${location}: missing title`);
+            if (row?.id !== undefined) {
+                if (typeof row.id !== 'string' || !/^(?:[a-z0-9][a-z0-9_-]*\.){1,4}[a-z0-9_-]+(?:-[a-z0-9-]+)*$/.test(row.id)) addError(`${location}: invalid stable id`);
+                else {
+                    const sourceKey = `${locale}/${fileName}`;
+                    const fileIds = stableIdsBySource.get(sourceKey) ?? new Set();
+                    if (fileIds.has(row.id)) addError(`${location}: duplicate stable id "${row.id}"`);
+                    fileIds.add(row.id);
+                    stableIdsBySource.set(sourceKey, fileIds);
+                }
+            } else addError(`${location}: missing stable id`);
+            const parityKey = `${fileName}[${index}]`;
+            if (locale === 'en_US') canonicalStableIds.set(parityKey, row.id);
+            else if (canonicalStableIds.get(parityKey) !== row.id) addError(`${location}: stable id differs from en_US at ${parityKey}`);
             if (typeof row?.icon !== 'string' || !row.icon.trim()) {
                 addError(`${location}: missing icon`);
             } else {
@@ -143,4 +179,4 @@ if (errors.length > 0) {
     process.exit(1);
 }
 
-console.log(`Data audit passed for ${auditedFileCount} rule data file(s) across ${localeDirs.length} locale(s).`);
+console.log(`Data audit passed for ${auditedRecordCount} rule record(s) in ${auditedFileCount} rule data file(s) across ${localeDirs.length} locale(s); every audited record has a stable ID and matching public mirror.`);

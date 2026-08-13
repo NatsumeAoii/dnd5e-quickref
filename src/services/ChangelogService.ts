@@ -1,6 +1,7 @@
 import { CONFIG } from '../config.js';
 import { fetchWithTimeout, trapFocusWithin } from '../utils/Utils.js';
 import type { A11yService } from './A11yService.js';
+import type { LocalizationService } from './LocalizationService.js';
 
 interface VersionBlock {
     heading: string;
@@ -15,10 +16,13 @@ export class ChangelogService {
     #showingAll = false;
     #returnFocusEl: HTMLElement | null = null;
     static readonly #INITIAL_COUNT = 3;
+    #localization?: LocalizationService;
 
-    constructor(a11yService: A11yService) {
+    constructor(a11yService: A11yService, localization?: LocalizationService) {
         this.#a11yService = a11yService;
+        this.#localization = localization;
     }
+    #t(key: string, fallback: string, variables: Record<string, string | number> = {}): string { return this.#localization?.translate(key, fallback, variables) ?? Object.entries(variables).reduce((text, [name, value]) => text.replaceAll(`{${name}}`, String(value)), fallback); }
 
     toggle(): void {
         if (this.#isOpen) { this.close(); return; }
@@ -33,7 +37,7 @@ export class ChangelogService {
         await this.#createModal();
         // Guard: user may have closed the dialog during the async fetch
         if (!this.#isOpen) return;
-        this.#a11yService.announce('Changelog panel opened');
+        this.#a11yService.announce(this.#t('changelog.opened', 'Changelog panel opened'));
     }
 
     close(): void {
@@ -43,7 +47,7 @@ export class ChangelogService {
         this.#modalEl = null;
         if (this.#returnFocusEl?.isConnected) this.#returnFocusEl.focus();
         this.#returnFocusEl = null;
-        this.#a11yService.announce('Changelog panel closed');
+        this.#a11yService.announce(this.#t('changelog.closed', 'Changelog panel closed'));
     }
 
     get isModalOpen(): boolean { return this.#isOpen; }
@@ -59,8 +63,8 @@ export class ChangelogService {
         } catch (e) {
             console.warn('Failed to fetch CHANGELOG.md:', e);
             this.#cachedVersions = [{
-                heading: 'Could not load changelog',
-                body: ['Visit the project repository for the full changelog.'],
+                heading: this.#t('changelog.loadFailedTitle', 'Could not load changelog'),
+                body: [this.#t('changelog.loadFailedBody', 'Visit the project repository for the full changelog.')],
             }];
         }
 
@@ -107,7 +111,7 @@ export class ChangelogService {
         this.#modalEl.className = 'changelog-modal-overlay';
         this.#modalEl.setAttribute('role', 'dialog');
         this.#modalEl.setAttribute('aria-modal', 'true');
-        this.#modalEl.setAttribute('aria-label', 'Changelog');
+        this.#modalEl.setAttribute('aria-label', this.#t('changelog.title', 'Changelog'));
 
         const modal = document.createElement('div');
         modal.className = 'changelog-modal';
@@ -118,11 +122,11 @@ export class ChangelogService {
         header.className = 'changelog-modal-header';
 
         const title = document.createElement('h2');
-        title.textContent = "What's New";
+        title.textContent = this.#t('changelog.whatsNew', "What's New");
 
         const closeBtn = document.createElement('button');
         closeBtn.className = 'changelog-close-btn';
-        closeBtn.setAttribute('aria-label', 'Close changelog');
+        closeBtn.setAttribute('aria-label', this.#t('changelog.close', 'Close changelog'));
         closeBtn.textContent = '✕';
         closeBtn.addEventListener('click', () => this.close());
 
@@ -163,7 +167,7 @@ export class ChangelogService {
         if (!this.#showingAll && versions.length > ChangelogService.#INITIAL_COUNT) {
             const showAllBtn = document.createElement('button');
             showAllBtn.className = 'changelog-show-all-btn';
-            showAllBtn.textContent = `Show All Versions (${versions.length - ChangelogService.#INITIAL_COUNT} more)`;
+            showAllBtn.textContent = this.#t('changelog.showAll', `Show All Versions (${versions.length - ChangelogService.#INITIAL_COUNT} more)`, { count: versions.length - ChangelogService.#INITIAL_COUNT });
             showAllBtn.addEventListener('click', () => {
                 this.#showingAll = true;
                 this.#renderVersionBlocks(container, versions);

@@ -137,11 +137,11 @@ export class BenchmarkUtilityImpl {
     #logSummary(): void {
         const metrics = this.getMetrics();
 
-        console.log(
+        console.info(
             '%c[Startup Performance]',
             'color: #4CAF50; font-weight: bold;',
         );
-        console.table({
+        console.info({
             'DOMContentLoaded': { 'Duration (ms)': metrics.domContentLoaded.toFixed(2) },
             'Data Loaded': { 'Duration (ms)': metrics.dataLoaded.toFixed(2) },
             'First Section Rendered': { 'Duration (ms)': metrics.firstSectionRendered.toFixed(2) },

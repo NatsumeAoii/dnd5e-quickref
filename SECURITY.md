@@ -6,7 +6,7 @@ This is a static browser app. Security fixes are expected to target the current 
 
 | Version          | Supported                                                                 |
 | ---------------- | ------------------------------------------------------------------------- |
-| 1.1.x            | Yes                                                                       |
+| 1.2.x            | Yes                                                                       |
 | Earlier versions | No, unless a maintainer explicitly marks a branch or release as supported |
 
 ## Reporting a Vulnerability
@@ -44,5 +44,7 @@ Include:
 - Keep the Content Security Policy in `index.html` restrictive when adding new assets or integrations.
 - Treat rule JSON as content that can affect rendered UI. Preserve `DataService` validation and `safeHTML`/Trusted Types protections when changing rendering paths.
 - User notes and favorites are stored client-side in IndexedDB and `localStorage`; do not treat them as server-backed or encrypted.
+- The app has no project backend or authentication boundary. Do not add credentials, tokens, private APIs, or sensitive data to client-side code or static assets; anything shipped in `src/`, `data/`, `public/`, or `dist/` is downloadable.
+- Styling native controls, including the language, theme, density, and search dropdowns, must not remove their semantic `<select>` behavior or bypass existing validation and persistence logic.
 - Service-worker cache changes can affect update behavior and offline availability. Test first load, reload after deploy, and offline load when changing `public/sw.js`.
 - If deploying under a subdirectory, keep Vite's relative base behavior (`base: './'`) or test all asset and service-worker paths after changing it.

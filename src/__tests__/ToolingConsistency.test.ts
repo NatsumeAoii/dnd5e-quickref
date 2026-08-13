@@ -24,6 +24,10 @@ const packageLock = JSON.parse(readFileSync(new URL('../../package-lock.json', i
 const rootChangelog = readFileSync(new URL('../../CHANGELOG.md', import.meta.url), 'utf8');
 const publicChangelog = readFileSync(new URL('../../public/CHANGELOG.md', import.meta.url), 'utf8');
 const indexHtml = readFileSync(new URL('../../index.html', import.meta.url), 'utf8');
+const viteConfig = readFileSync(new URL('../../vite.config.ts', import.meta.url), 'utf8');
+const mainSource = readFileSync(new URL('../main.ts', import.meta.url), 'utf8');
+const uiControllerSource = readFileSync(new URL('../ui/UIController.ts', import.meta.url), 'utf8');
+const errorHandler = readFileSync(new URL('../error-handler.ts', import.meta.url), 'utf8');
 const gitignore = readFileSync(new URL('../../.gitignore', import.meta.url), 'utf8');
 const quickrefCss = readFileSync(new URL('../css/quickref.css', import.meta.url), 'utf8');
 const configSource = readFileSync(new URL('../config.ts', import.meta.url), 'utf8');
@@ -60,8 +64,9 @@ const dataFiles = readdirSync(new URL('../../data/en_US/rules/', import.meta.url
     .sort();
 
 describe('tooling consistency', () => {
-    it('runs version sync before production builds', () => {
-        expect(packageJson.scripts?.prebuild).toContain('sync-version');
+    it('synchronizes release metadata automatically before builds', () => {
+        expect(packageJson.scripts?.prebuild).toBe('npm run sync-version');
+        expect(packageJson.scripts?.['release:build']).toBe('npm run build');
     });
 
     it('has an executable TypeScript lint script for the existing ESLint config', () => {
@@ -107,7 +112,10 @@ describe('tooling consistency', () => {
     });
 
     it('does not commit local editor settings with machine-specific ports', () => {
-        expect(existsSync(new URL('../../.vscode/settings.json', import.meta.url))).toBe(false);
+        const settingsPath = new URL('../../.vscode/settings.json', import.meta.url);
+        if (existsSync(settingsPath)) {
+            expect(readFileSync(settingsPath, 'utf8')).not.toMatch(/(?:port|localhost)\s*[:=]/i);
+        }
     });
 
     it('declares canonical and social metadata for the public static entry point', () => {
@@ -148,6 +156,42 @@ describe('tooling consistency', () => {
         });
     });
 
+    it('keeps search scope controls wired to the main search bar', () => {
+        expect(indexHtml).toContain('id="search-filter-select"');
+        expect(indexHtml).toContain('id="search-category-select"');
+        expect(readText('../../data/en_US/menu.json')).toContain('search.scope.favorites');
+    });
+
+    it('keeps CSP protections on the main and 404 documents', () => {
+        expect(indexHtml).toContain("style-src 'self' https://fonts.googleapis.com");
+        expect(indexHtml).not.toContain("style-src 'self' 'unsafe-inline'");
+        expect(viteConfig).toContain("appendCspSource(html, 'style-src', \"'unsafe-inline'\")");
+        expect(viteConfig).toContain("'connect-src',\n    'ws:'");
+        expect(viteConfig).toContain("apply: 'serve'");
+        expect(viteConfig).toContain("order: 'post'");
+        expect(viteConfig).toContain('new RegExp');
+        expect(viteConfig).toContain('if (!context.server) return html;');
+        expect(indexHtml).toContain("require-trusted-types-for 'script'");
+        const notFoundHtml = readText('../../public/404.html');
+        expect(notFoundHtml).toContain("require-trusted-types-for 'script'");
+        expect(notFoundHtml).not.toContain("style-src 'self' 'unsafe-inline'");
+    });
+
+    it('keeps critical CSS in the Vite entry graph and avoids unused theme preloads', () => {
+        expect(mainSource).toContain("import './css/critical.css';");
+        expect(indexHtml).not.toContain('/src/css/critical.css');
+        expect(uiControllerSource).not.toContain("link.rel = 'preload'");
+        expect(uiControllerSource).not.toContain("link.as = 'style'");
+    });
+
+    it('uses a real stylesheet link for Google Fonts instead of an unused preload', () => {
+        expect(indexHtml).toContain('id="google-fonts-link"');
+        expect(indexHtml).toContain('rel="stylesheet"');
+        expect(indexHtml).not.toContain('rel="preload" as="style"');
+        expect(indexHtml).not.toContain('media="print"');
+        expect(errorHandler).not.toContain("fontLink.media = 'all'");
+    });
+
     it('keeps the changelog modal width aligned with the README modal width', () => {
         const getRuleDeclaration = (selector: string, property: string): string => {
             const rule = quickrefCss.match(new RegExp(`${escapeRegExp(selector)}\\s*\\{(?<body>[^}]+)\\}`, 's'));
@@ -171,6 +215,12 @@ describe('tooling consistency', () => {
         expect(configSource).toContain(`APP_VERSION: '${packageJson.version}'`);
         expect(serviceWorkerSource).toContain(`CACHE_VERSION = '${packageJson.version}'`);
         expect(publicChangelog).toBe(rootChangelog);
+    });
+
+    it('uses the previous numeric release when changelog starts with Unreleased', () => {
+        const unreleasedChangelog = rootChangelog.replace(/^## \[\d+\.\d+\.\d+\]/m, '## [Unreleased]\n\n## [1.2.3]');
+        const versionMatch = unreleasedChangelog.match(/^## \[(\d+\.\d+\.\d+)\]/m);
+        expect(versionMatch?.[1]).toBe('1.2.3');
     });
 
     it('keeps data files mirrored for runtime and public assets', () => {

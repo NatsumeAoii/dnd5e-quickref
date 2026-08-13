@@ -1,5 +1,6 @@
 [
     {
+        "id": "core.2024.reaction.1-cast-a-spell",
         "title": "Rapalkan Spell",
         "optional": "Standard rule",
         "icon": "magicswirl",
@@ -26,6 +27,7 @@
         ]
     },
     {
+        "id": "core.2024.reaction.2-identify-a-spell",
         "title": "Identifikasi Spell*",
         "optional": "Optional rule",
         "icon": "eyeball",
@@ -53,6 +55,7 @@
         ]
     },
     {
+        "id": "core.2024.reaction.3-opportunity-attack",
         "title": "Opportunity Attack",
         "optional": "Standard rule",
         "icon": "crossedswords",
@@ -82,6 +85,7 @@
         ]
     },
     {
+        "id": "core.2024.reaction.4-readied-action",
         "title": "Action Siaga",
         "optional": "Standard rule",
         "icon": "stopwatch",
@@ -109,6 +113,7 @@
         ]
     },
     {
+        "id": "core.2024.reaction.5-parry",
         "title": "Parry**",
         "optional": "Homebrew rule",
         "icon": "shield",
@@ -136,6 +141,7 @@
         ]
     },
     {
+        "id": "core.2024.reaction.6-dive-for-cover",
         "title": "Dive for Cover**",
         "optional": "Homebrew rule",
         "icon": "falling",
@@ -162,6 +168,7 @@
         ]
     },
     {
+        "id": "core.2024.reaction.7-grapple-opportunity-attack",
         "title": "Grapple Opportunity Attack",
         "optional": "Standard rule",
         "icon": "grab",

@@ -67,6 +67,10 @@ export class AppShortcutsController {
         });
     }
 
+    destroy(): void {
+        this.#deps.shortcuts.destroy();
+    }
+
     #setSectionDisclosureExpanded(section: Element, expanded: boolean): void {
         const control = section.querySelector('.section-toggle')
             ?? section.querySelector(`.${CONFIG.CSS.SECTION_TITLE}`);

@@ -11,7 +11,7 @@ Tracing a load from trigger to first paint (grounded in `index.html` and `src/ma
 1. `index.html` loads `/src/css/critical.css`, then `/src/error-handler.ts` as a module. `error-handler.ts` installs `window.onerror` and `window.onunhandledrejection` handlers that reveal the `#global-error-boundary` element, and wires the "Reload Page" / "Factory Reset" buttons.
 2. `main.ts` runs on `DOMContentLoaded` (or immediately if already parsed) and constructs `QuickRefApplication`, the composition root.
 3. `QuickRefApplication`:
-   - `#initializeServices()` — instantiates all 18 services (see below).
+   - `#initializeServices()` — instantiates all application services (see below).
    - `#initializeComponents()` — instantiates `TemplateService`, `ViewRenderer`, `PopupFactory`, `WindowManager`.
    - `#initializeController()` — instantiates `UIController`.
    - `start()` — initializes settings, loads localization, loads user data, loads DOMPurify + themes + active-ruleset rule data in parallel, builds the rule map, renders favorites and open sections, restores popups from session and URL hash, wires keyboard shortcuts and modals, then registers the service worker (`./sw.js`).

@@ -6,3 +6,7 @@ export { WindowManager } from './WindowManager.js';
 export { UIController } from './UIController.js';
 export { SearchController } from './SearchController.js';
 export { CookieNoticeController } from './CookieNoticeController.js';
+export { SectionCategoryController } from './SectionCategoryController.js';
+export { SettingsTransitionController } from './SettingsTransitionController.js';
+export { DataUserActionController } from './DataUserActionController.js';
+export { GlobalInteractionController } from './GlobalInteractionController.js';

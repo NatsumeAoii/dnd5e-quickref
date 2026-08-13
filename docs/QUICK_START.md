@@ -21,11 +21,11 @@ Vite opens `http://localhost:5173/` automatically (`server.open: true` in `vite.
 ## Verify a production build
 
 ```bash
-npm run build      # type-checks, syncs version, builds to dist/
+npm run build      # type-checks and builds to dist/
 npm run preview    # serves dist/ over local HTTP for final checks
 ```
 
-> `npm run build` runs `prebuild` first, which **rewrites tracked files** (`package.json`, `package-lock.json`, `src/config.ts`, `public/sw.js`, `public/CHANGELOG.md`, `public/README.md`, and the `public/data/` mirror) to match the top version in `CHANGELOG.md`. Run `git status` after a build.
+> `npm run build` automatically runs the `prebuild` lifecycle hook, which synchronizes release metadata and generated public files. If the first changelog section is `Unreleased`, synchronization uses the next numeric release heading. Run `npm run check:generated` for a read-only freshness check.
 
 ## Before opening a pull request
 
@@ -38,7 +38,7 @@ npm run audit:data
 npm run build
 ```
 
-All six commands are defined in `package.json`. CI (`.github/workflows/deploy.yml`) currently runs only `npm ci` and `npm run build` on push to `master`.
+All six commands are defined in `package.json`. CI (`.github/workflows/deploy.yml`) runs the repository quality gates before deployment.
 
 ## Important: do not open index.html via file://
 

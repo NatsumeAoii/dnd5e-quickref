@@ -231,6 +231,60 @@ describe('service worker stale-while-revalidate strategy', () => {
         });
         expect(sw.cachingAllowed).toBe(false);
     });
+
+    it('propagates CLEAR_CACHE request correlation on failure', async () => {
+        const source = readFileSync(new URL('../../public/sw.js', import.meta.url), 'utf8');
+        const listeners: Record<string, (event: unknown) => void> = {};
+        const postMessage = vi.fn();
+        const context = createContext({
+            URL,
+            Response,
+            Promise,
+            console: { log: vi.fn(), warn: vi.fn(), error: vi.fn(), info: vi.fn() },
+            caches: { open: vi.fn(async () => { throw new Error('clear failed'); }), keys: vi.fn(async () => []) },
+            self: {
+                registration: { scope: 'https://example.test/app/' },
+                addEventListener: vi.fn((type: string, handler: (event: unknown) => void) => { listeners[type] = handler; }),
+                clients: { matchAll: vi.fn(async () => [{ postMessage }]), claim: vi.fn(), skipWaiting: vi.fn() },
+            },
+        });
+
+        new Script(source).runInContext(context);
+        let operation: Promise<unknown> | undefined;
+        listeners.message({
+            data: { type: 'CLEAR_CACHE', requestId: 'cache-clear-test' },
+            waitUntil: vi.fn((promise: Promise<unknown>) => { operation = promise; }),
+        });
+        await operation;
+        await Promise.resolve();
+
+        expect(postMessage).toHaveBeenCalledWith(expect.objectContaining({
+            type: 'CACHE_STATUS', status: 'error', errorCode: 'CACHE_CLEAR_FAILED', requestId: 'cache-clear-test',
+        }));
+    });
+
+    it('does not delete unrelated origin caches during activation', async () => {
+        const source = readFileSync(new URL('../../public/sw.js', import.meta.url), 'utf8');
+        const listeners: Record<string, (event: unknown) => void> = {};
+        const deleteCache = vi.fn(async () => true);
+        const context = createContext({
+            URL, Response, Request, Promise,
+            console: { log: vi.fn(), warn: vi.fn(), error: vi.fn(), info: vi.fn() },
+            caches: { open: vi.fn(async () => ({ keys: vi.fn(async () => []), add: vi.fn(), match: vi.fn(), put: vi.fn(), delete: vi.fn() })), keys: vi.fn(async () => ['dnd5e-quickref-cache-v1.0.0', 'unrelated-cache']), delete: deleteCache },
+            self: {
+                registration: { scope: 'https://example.test/app/' },
+                addEventListener: vi.fn((type: string, handler: (event: unknown) => void) => { listeners[type] = handler; }),
+                clients: { claim: vi.fn(async () => undefined) },
+                skipWaiting: vi.fn(async () => undefined),
+            },
+        });
+        new Script(`${source}`).runInContext(context);
+        const waitUntil = vi.fn((promise: Promise<unknown>) => promise);
+        listeners.activate({ waitUntil });
+        await waitUntil.mock.results[0]?.value;
+        expect(deleteCache).toHaveBeenCalledWith('dnd5e-quickref-cache-v1.0.0');
+        expect(deleteCache).not.toHaveBeenCalledWith('unrelated-cache');
+    });
 });
 
 describe('service worker graceful fallback', () => {

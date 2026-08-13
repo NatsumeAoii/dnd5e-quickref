@@ -7,14 +7,21 @@ import type { LocalizationService } from '../services/LocalizationService.js';
 import type { UserDataService } from '../services/UserDataService.js';
 import type { DataService } from '../services/DataService.js';
 import type { NavigationService } from '../services/NavigationService.js';
-import { getMotionSafeScrollBehavior, fetchWithTimeout } from '../utils/Utils.js';
+import { fetchWithTimeout } from '../utils/Utils.js';
 import type { StateManager } from '../state/StateManager.js';
 import type { ViewRenderer } from './ViewRenderer.js';
 import type { WindowManager } from './WindowManager.js';
 import { DragDropManager } from './DragDropManager.js';
 import { SearchController } from './SearchController.js';
 import { CookieNoticeController } from './CookieNoticeController.js';
-import type { ThemeManifest, SectionConfig, RuleData } from '../types.js';
+import type { ThemeManifest, SectionConfig } from '../types.js';
+import type { BackupService } from '../services/BackupService.js';
+import type { StorageCapabilityService } from '../services/StorageCapabilityService.js';
+import { SectionCategoryController } from './SectionCategoryController.js';
+import { SettingsTransitionController } from './SettingsTransitionController.js';
+import { DataUserActionController } from './DataUserActionController.js';
+import { GlobalInteractionController } from './GlobalInteractionController.js';
+import { ServiceWorkerMessenger } from '../services/ServiceWorkerMessenger.js';
 
 interface UIServices {
     a11y: A11yService;
@@ -24,6 +31,8 @@ interface UIServices {
     userData: UserDataService;
     data: DataService;
     navigation: NavigationService;
+    backup: BackupService;
+    storageCapability: StorageCapabilityService;
 }
 
 interface UIComponents {
@@ -38,16 +47,32 @@ export class UIController {
     #components: UIComponents;
     #dragDropManager: DragDropManager | null = null;
     // #2: Dirty flag to avoid redundant buildRuleMap() calls on every section expand
-    #ruleMapDirty = true;
     #searchController: SearchController;
     #cookieNoticeController: CookieNoticeController;
     #cachedThemeManifest: ThemeManifest | null = null;
+    #unsubscribeStateEvents: (() => void)[] = [];
+    #cleanupCallbacks: (() => void)[] = [];
+    #sections: SectionCategoryController;
+    #settingsTransitions: SettingsTransitionController;
+    #dataUserActions: DataUserActionController;
+    #globalInteractions: GlobalInteractionController;
 
     constructor(domProvider: DOMProvider, stateManager: StateManager, services: UIServices, components: UIComponents) {
         this.#domProvider = domProvider;
         this.#stateManager = stateManager;
         this.#services = services;
         this.#components = components;
+        this.#globalInteractions = new GlobalInteractionController(domProvider);
+        this.#dataUserActions = new DataUserActionController({ domProvider, userData: services.userData, a11y: services.a11y, localization: services.localization, windowManager: components.windowManager });
+        this.#sections = new SectionCategoryController({
+            domProvider, stateManager, data: services.data, a11y: services.a11y, navigation: services.navigation,
+            viewRenderer: components.viewRenderer, renderSingleSection: (section) => this.#renderSingleSection(section), localization: services.localization,
+        });
+        this.#settingsTransitions = new SettingsTransitionController({
+            domProvider, stateManager, settings: services.settings, localization: services.localization, wakeLock: services.wakeLock,
+            data: services.data, navigation: services.navigation, a11y: services.a11y, viewRenderer: components.viewRenderer,
+            sections: this.#sections, closePopups: () => components.windowManager.closeAllPopups(), refreshFavorites: () => { components.viewRenderer.renderFavoritesSection(); this.#initDragDrop(); },
+        });
         this.#searchController = new SearchController({
             domProvider,
             stateManager,
@@ -56,25 +81,29 @@ export class UIController {
             navigation: services.navigation,
             viewRenderer: components.viewRenderer,
             renderSectionContent: (section) => this.renderSectionContent(section),
+            localization: services.localization,
         });
         this.#cookieNoticeController = new CookieNoticeController({
             domProvider,
             stateManager,
+            localization: services.localization,
             viewRenderer: components.viewRenderer,
         });
     }
 
     initialize(): void {
+        this.#settingsTransitions.initialize();
         this.setupEventSubscriptions();
         this.applyInitialSettings();
-        this.setupSettingsHandlers();
+        this.#settingsTransitions.setupHandlers();
         this.#cookieNoticeController.initialize();
         this.bindGlobalEventListeners();
-        this.setupBackToTop();
+        this.#globalInteractions.setupBackToTop();
         this.#components.viewRenderer.updateFooterInfo();
         this.#handleShareTarget();
         this.#initDragDrop();
         this.#searchController.initialize();
+        this.#setupBackupControls();
     }
 
     #initDragDrop(): void {
@@ -87,81 +116,20 @@ export class UIController {
     }
 
     setupEventSubscriptions(): void {
-        this.#stateManager.subscribe('settingChanged', this.#handleSettingChangeEvent);
-        this.#stateManager.subscribe('favoritesChanged', () => {
+        this.#unsubscribeStateEvents.push(this.#stateManager.subscribe('favoritesChanged', () => {
             this.#components.viewRenderer.renderFavoritesSection();
             this.#initDragDrop();
-        });
-        this.#stateManager.subscribe('externalStateChange', this.#handleExternalStateChange as (data?: unknown) => void);
+        }));
+        this.#unsubscribeStateEvents.push(this.#stateManager.subscribe('externalStateChange', this.#handleExternalStateChange as (data?: unknown) => void));
     }
 
     applyInitialSettings(): void {
-        const { settings } = this.#stateManager.getState();
-        this.#components.viewRenderer.applyAppearance(settings);
-        this.#components.viewRenderer.applyMotionReduction(settings.reduceMotion);
-        this.#services.wakeLock.setEnabled(settings.keepScreenOn);
-    }
-
-    async #switchRuleset(): Promise<void> {
-        this.#components.windowManager.closeAllPopups();
-        this.#ruleMapDirty = true;
-        await this.#services.data.ensureAllDataLoadedForActiveRuleset();
-        this.#services.data.buildRuleMap();
-        this.#ruleMapDirty = false;
-        this.#services.data.buildLinkerData();
-        this.#components.viewRenderer.renderFavoritesSection();
-        this.#initDragDrop();
-        await this.renderOpenSections();
-    }
-
-    async #switchLocale(): Promise<void> {
-        // Req 8.4: Apply localized UI strings to DOM FIRST
-        const locale = this.#stateManager.getState().settings.locale;
-        try {
-            await this.#services.localization.loadAndApply(locale);
-        } catch {
-            // Req 8.5: On locale fetch failure, fall back to default locale strings.
-            // Existing DOM text is preserved for any keys not present in the fallback.
-            try {
-                await this.#services.localization.loadAndApply(CONFIG.DEFAULTS.LOCALE);
-            } catch {
-                // If even the default locale fails, preserve existing DOM text (no-op)
-            }
-        }
-        // Req 8.4: THEN clear and re-render section content with new locale's rule data
-        await this.#switchRuleset();
+        this.#settingsTransitions.applyInitialSettings();
     }
 
     async renderOpenSections(): Promise<void> {
-        const rerenderPromises: Promise<void>[] = [];
-        this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}[data-section]`).forEach((section) => {
-            const sectionId = section.getAttribute('id');
-            if (sectionId === CONFIG.ELEMENT_IDS.SECTION_FAVORITES || sectionId === 'section-settings') return;
-            if (section.classList.contains(CONFIG.CSS.IS_COLLAPSED)) return;
-            const content = section.querySelector(`.${CONFIG.CSS.SECTION_CONTENT}`);
-            if (content) {
-                content.setAttribute(CONFIG.ATTRIBUTES.RENDERED, 'false');
-                const row = content.querySelector('.section-row');
-                if (row) row.replaceChildren();
-            }
-            rerenderPromises.push(this.renderSectionContent(section as HTMLElement));
-        });
-        await Promise.all(rerenderPromises);
+        await this.#sections.renderOpenSections();
     }
-
-    #handleSettingChangeEvent = async (data?: unknown): Promise<void> => {
-        if (!data || typeof data !== 'object') return;
-        const { key, value } = data as { key: string; value: boolean | string };
-        this.#services.a11y.announce(`Setting updated: ${key.toLowerCase().replace('_', ' ')}.`);
-        const { settings } = this.#stateManager.getState();
-        if (key === 'RULES_2024') await this.#switchRuleset();
-        else if (key === 'LOCALE') await this.#switchLocale();
-        else if (key === 'THEME' || key === 'MODE' || key === 'DENSITY') this.#components.viewRenderer.applyAppearance(settings);
-        else if (key === 'REDUCE_MOTION') this.#components.viewRenderer.applyMotionReduction(value as boolean);
-        else if (key === 'WAKE_LOCK') this.#services.wakeLock.setEnabled(value as boolean);
-        else this.#components.viewRenderer.filterRuleItems();
-        this.#services.navigation.invalidateFocusables();
-    };
 
     #handleExternalStateChange = (data?: unknown): void => {
         if (!data || typeof data !== 'object') return;
@@ -192,7 +160,7 @@ export class UIController {
         if (title || text) {
             const query = (text || title || '').trim();
             if (query) {
-                this.#components.viewRenderer.showNotification(`Shared content received: ${query}`);
+                this.#components.viewRenderer.showNotification(this.#services.localization.translate('shared.received', 'Shared content received: {query}', { query }));
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
         }
@@ -227,14 +195,6 @@ export class UIController {
                 option.textContent = theme.displayName;
                 selectEl.appendChild(option);
 
-                // Preload non-original theme CSS so switching is instant
-                if (theme.id !== 'original') {
-                    const link = document.createElement('link');
-                    link.rel = 'preload';
-                    link.as = 'style';
-                    link.href = `${CONFIG.THEME_CONFIG.PATH}${theme.id}.css`;
-                    document.head.appendChild(link);
-                }
             });
             const state = this.#stateManager.getState();
             if (!themes.some((theme) => theme.id === state.settings.theme)) {
@@ -256,96 +216,116 @@ export class UIController {
         }
     }
 
-    #loadSectionStates(): Record<string, boolean> {
-        try {
-            const raw = localStorage.getItem(CONFIG.STORAGE_KEYS.SECTION_STATES);
-            if (!raw) return {};
-            const parsed = JSON.parse(raw) as unknown;
-            if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
-            return Object.fromEntries(
-                Object.entries(parsed as Record<string, unknown>)
-                    .filter((entry): entry is [string, boolean] => typeof entry[1] === 'boolean'),
-            );
-        } catch { return {}; }
+    #setupBackupControls(): void {
+        const backup = this.#services.backup;
+        const capability = this.#services.storageCapability.detect();
+        const t = (key: string, fallback: string): string => this.#services.localization.translate(key, fallback);
+        this.#components.viewRenderer.showNotification(t('settings.storage.' + capability.capability, capability.message), capability.capability === 'persistent' ? 'info' : 'warning');
+        const exportButton = document.getElementById('export-backup-btn');
+        exportButton?.addEventListener('click', () => {
+            const blob = new Blob([JSON.stringify(backup.createBundle(), null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const anchor = document.createElement('a');
+            anchor.href = url;
+            anchor.download = `quickref-backup-${new Date().toISOString().slice(0, 10)}.json`;
+            anchor.click();
+            URL.revokeObjectURL(url);
+        });
+        const input = document.getElementById('import-backup-input') as HTMLInputElement | null;
+        const importButton = document.getElementById('import-backup-btn');
+        importButton?.addEventListener('click', () => input?.click());
+        input?.addEventListener('change', async () => {
+            const file = input.files?.[0];
+            if (!file) return;
+            try {
+                const parsed = JSON.parse(await file.text()) as unknown;
+                const preview = backup.preview(parsed);
+                const mode = window.confirm(this.#services.localization.translate('backup.confirmImport', 'Import {favorites} favorites and {notes} notes? Cancel keeps existing data.', { favorites: preview.favorites, notes: preview.notes })) ? 'merge' : null;
+                if (mode) await backup.apply(parsed, mode);
+                this.#components.viewRenderer.showNotification(this.#services.localization.translate(mode ? 'backup.imported' : 'backup.cancelled', mode ? 'Backup imported successfully.' : 'Backup import cancelled.'), mode ? 'success' : 'info');
+            } catch { this.#components.viewRenderer.showNotification(this.#services.localization.translate('backup.importFailed', 'Backup import failed. Check the file and try again.'), 'error'); }
+            input.value = '';
+        });
+        const offlineStatus = document.getElementById('offline-status');
+        const cacheDetails = document.getElementById('offline-cache-details');
+        const retryButton = document.getElementById('retry-cache-btn');
+        const setOfflineStatus = (message: string): void => { if (offlineStatus) offlineStatus.textContent = message; };
+        this.#cleanupCallbacks.push(ServiceWorkerMessenger.subscribeStatus((status) => {
+            const messages: Record<string, string> = {
+                disabled: t('settings.offline.status.disabled', 'Offline content is disabled.'),
+                starting: t('settings.offline.status.starting', 'Preparing offline content…'),
+                refreshing: t('settings.offline.status.refreshing', 'Refreshing offline content…'),
+                ready: t('settings.offline.status.ready', 'Offline content is ready.'),
+                error: t('settings.offline.status.error', 'Offline content could not be prepared.'),
+            };
+            const progress = status.totalCount ? ` ${status.cachedCount ?? 0}/${status.totalCount}` : '';
+            setOfflineStatus(`${messages[status.status] ?? t('settings.offline.status', 'Offline content status unavailable.')}${progress}`);
+            if (cacheDetails) {
+                const timestamp = status.lastSuccessfulCacheAt ? new Date(status.lastSuccessfulCacheAt).toLocaleString() : t('settings.offline.lastUpdated.unknown', 'No successful cache yet.');
+                const size = status.totalBytes ? `${(status.totalBytes / 1024).toFixed(1)} KB` : t('settings.offline.size.unknown', 'Size unavailable');
+                cacheDetails.textContent = `${t('settings.offline.lastUpdated.label', 'Last successful cache')}: ${timestamp} | ${t('settings.offline.size.label', 'Cache size')}: ${size}`;
+            }
+            retryButton?.classList.toggle('hidden', status.status !== 'error');
+        }));
+        ServiceWorkerMessenger.getStatus();
+        document.getElementById('refresh-cache-btn')?.addEventListener('click', () => {
+            const state = this.#stateManager.getState();
+            setOfflineStatus(t('settings.offline.status.starting', 'Preparing offline content…'));
+            const sent = ServiceWorkerMessenger.refreshCache(state.settings.locale, state.settings.use2024Rules ? '2024' : '2014');
+            if (!sent) setOfflineStatus(t('settings.storage.restricted', 'Offline content is unavailable in this browser.'));
+        });
+        retryButton?.addEventListener('click', () => {
+            const state = this.#stateManager.getState();
+            ServiceWorkerMessenger.retryCache(state.settings.locale, state.settings.use2024Rules ? '2024' : '2014');
+        });
+        document.getElementById('clear-cache-btn')?.addEventListener('click', () => {
+            setOfflineStatus(ServiceWorkerMessenger.clearCache() ? t('settings.offline.status.clearing', 'Clearing offline content…') : t('settings.storage.restricted', 'Offline content is unavailable in this browser.'));
+        });
+        const connectivity = document.getElementById('connectivity-status');
+        const setConnectivity = (): void => { if (connectivity) connectivity.textContent = navigator.onLine ? t('settings.offline.connectivity.online', 'Online') : t('settings.offline.connectivity.offline', 'Offline'); };
+        const offline = (): void => { setConnectivity(); this.#components.viewRenderer.showNotification(t('settings.offline.notice.offline', 'You are offline. Cached content remains available.'), 'warning'); };
+        const online = (): void => { setConnectivity(); this.#components.viewRenderer.showNotification(t('settings.offline.notice.online', 'You are back online. Checking for updates…'), 'info'); };
+        setConnectivity();
+        window.addEventListener('offline', offline);
+        window.addEventListener('online', online);
+        this.#cleanupCallbacks.push(() => window.removeEventListener('offline', offline), () => window.removeEventListener('online', online));
     }
 
-    #saveSectionState(sectionKey: string, collapsed: boolean): void {
-        const states = this.#loadSectionStates();
-        states[sectionKey] = collapsed;
-        try {
-            localStorage.setItem(CONFIG.STORAGE_KEYS.SECTION_STATES, JSON.stringify(states));
-        } catch (e) {
-            console.warn('Could not persist section state:', e);
-        }
-    }
-
-    #getSectionDisclosureControl(section: Element): HTMLElement | null {
-        return section.querySelector('.section-toggle') as HTMLElement | null;
+    destroy(): void {
+        this.#settingsTransitions.destroy();
+        this.#globalInteractions.destroy();
+        this.#unsubscribeStateEvents.splice(0).forEach((unsubscribe) => unsubscribe());
+        this.#cleanupCallbacks.splice(0).forEach((cleanup) => cleanup());
+        this.#dragDropManager?.destroy();
+        this.#dragDropManager = null;
     }
 
     setupCollapsibleSections = (): void => {
-        const savedStates = this.#loadSectionStates();
-        this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_TITLE}`).forEach((header) => {
-            const section = header.closest(`.${CONFIG.CSS.SECTION_CONTAINER}`);
-            if (!section || (section as HTMLElement).dataset.section === 'settings' || (section as HTMLElement).dataset.section === 'favorites') return;
+        this.#sections.setupCollapsibleSections();
+    };
 
-            const sectionKey = (section as HTMLElement).dataset.section || '';
-            const control = this.#getSectionDisclosureControl(section);
-            if (!control) return;
-            const content = section.querySelector(`.${CONFIG.CSS.SECTION_CONTENT}`) as HTMLElement | null;
-            if (content) {
-                if (!content.id && section.id) content.id = `${section.id}-content`;
-                if (content.id) control.setAttribute('aria-controls', content.id);
-            }
-
-            // Restore saved state
-            if (sectionKey in savedStates) {
-                section.classList.toggle(CONFIG.CSS.IS_COLLAPSED, savedStates[sectionKey]);
-            }
-
-            header.removeAttribute('role');
-            header.removeAttribute('tabindex');
-            const isExpanded = !section.classList.contains(CONFIG.CSS.IS_COLLAPSED);
-            control.setAttribute('aria-expanded', String(isExpanded));
-            const handler = async (): Promise<void> => {
-                const collapsed = section.classList.toggle(CONFIG.CSS.IS_COLLAPSED);
-                control.setAttribute('aria-expanded', String(!collapsed));
-                this.#saveSectionState(sectionKey, collapsed);
-                if (!collapsed) {
-                    const sectionContent = section.querySelector(`.${CONFIG.CSS.SECTION_CONTENT}`);
-                    if (sectionContent?.getAttribute(CONFIG.ATTRIBUTES.RENDERED) === 'true') {
-                        // Already rendered — skip data fetching and DOM re-rendering,
-                        // just re-apply visibility filters scoped to this section's content
-                        this.#components.viewRenderer.filterRuleItems(sectionContent as HTMLElement);
-                    } else {
-                        await this.renderSectionContent(section as HTMLElement);
-                    }
-                }
-                this.#services.a11y.announce(`${sectionKey} section ${collapsed ? 'collapsed' : 'expanded'}.`);
-                this.#services.navigation.invalidateFocusables();
-            };
-            control.addEventListener('click', handler);
-        });
+    #renderSingleSection = (section: SectionConfig): void => {
+        this.#sections.renderSingleSection(section);
     };
 
     persistAllSectionStates(): void {
-        this.#domProvider.queryAll(`.${CONFIG.CSS.SECTION_CONTAINER}[data-section]`).forEach((section) => {
-            const key = (section as HTMLElement).dataset.section;
-            if (!key || key === 'settings' || key === 'favorites') return;
-            this.#saveSectionState(key, section.classList.contains(CONFIG.CSS.IS_COLLAPSED));
-        });
+        this.#sections.persistAllSectionStates();
     }
 
     bindGlobalEventListeners = (): void => {
         const mainArea = this.#domProvider.get(CONFIG.ELEMENT_IDS.MAIN_SCROLL_AREA);
-        mainArea.addEventListener('click', this.#handleMainAreaClick);
-        mainArea.addEventListener('keydown', this.#handleMainAreaKeydown);
+        mainArea.addEventListener('click', this.#dataUserActions.handleItemClick);
+        mainArea.addEventListener('keydown', this.#dataUserActions.handleItemKeydown);
+        this.#cleanupCallbacks.push(
+            () => mainArea.removeEventListener('click', this.#dataUserActions.handleItemClick),
+            () => mainArea.removeEventListener('keydown', this.#dataUserActions.handleItemKeydown),
+        );
         try { this.#domProvider.get(CONFIG.ELEMENT_IDS.REPORT_RULE_BTN).addEventListener('click', this.#handleReportClick); } catch { console.warn('Report rule button not found.'); }
         try {
             this.#domProvider.get(CONFIG.ELEMENT_IDS.EXPORT_NOTES_BTN).addEventListener('click', () => {
                 void this.#services.userData.exportNotes().catch((e) => {
                     console.warn('Export notes failed:', e);
-                    this.#components.viewRenderer.showNotification('Export failed. Please try again.', 'error');
+                    this.#components.viewRenderer.showNotification(this.#services.localization.translate('export.failed', 'Export failed. Please try again.'), 'error');
                 });
             });
         } catch { console.warn('Export notes button not found.'); }
@@ -359,9 +339,9 @@ export class UIController {
                 if (!file) return;
                 try {
                     const count = await this.#services.userData.importNotes(file);
-                    this.#components.viewRenderer.showNotification(`Imported ${count} note(s) successfully.`, 'success');
-                } catch (e) {
-                    this.#components.viewRenderer.showNotification(`Import failed: ${(e as Error).message}`, 'error');
+                    this.#components.viewRenderer.showNotification(this.#services.localization.translate('notes.imported', 'Imported {count} note(s) successfully.', { count }), 'success');
+                } catch {
+                    this.#components.viewRenderer.showNotification(this.#services.localization.translate('notes.importFailed', 'Import failed. Check the file and try again.'), 'error');
                 }
                 importInput.value = '';
             });
@@ -370,27 +350,14 @@ export class UIController {
             this.#domProvider.get(CONFIG.ELEMENT_IDS.EXPORT_FAVORITES_BTN).addEventListener('click', () => {
                 void this.#services.userData.exportFavorites().catch((e) => {
                     console.warn('Export favorites failed:', e);
-                    this.#components.viewRenderer.showNotification('Export failed. Please try again.', 'error');
+                    this.#components.viewRenderer.showNotification(this.#services.localization.translate('export.failed', 'Export failed. Please try again.'), 'error');
                 });
             });
         } catch { console.warn('Export favorites button not found.'); }
     };
 
     setupBackToTop = (): void => {
-        try {
-            const btn = this.#domProvider.get(CONFIG.ELEMENT_IDS.BACK_TO_TOP_BTN);
-            let ticking = false;
-            window.addEventListener('scroll', () => {
-                if (!ticking) {
-                    ticking = true;
-                    requestAnimationFrame(() => {
-                        btn.classList.toggle(CONFIG.CSS.IS_VISIBLE, window.scrollY > 400);
-                        ticking = false;
-                    });
-                }
-            }, { passive: true });
-            btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: getMotionSafeScrollBehavior() }));
-        } catch { console.warn('Back-to-top button not found.'); }
+        this.#globalInteractions.setupBackToTop();
     };
 
     #handleReportClick = (): void => {
@@ -409,95 +376,12 @@ export class UIController {
         window.open(issueUrl, '_blank', 'noopener,noreferrer');
     };
 
-    #updateFavoriteButtonState(item: HTMLElement, isFavorite: boolean): void {
-        const favoriteBtn = item.querySelector('.favorite-btn') as HTMLButtonElement | null;
-        if (!favoriteBtn) return;
-        const title = item.querySelector('.item-title')?.textContent?.trim()
-            || item.getAttribute(CONFIG.ATTRIBUTES.POPUP_ID)?.split('::')[1]
-            || 'rule';
-        const label = `${isFavorite ? 'Remove' : 'Add'} ${title} ${isFavorite ? 'from' : 'to'} favorites`;
-        favoriteBtn.classList.toggle(CONFIG.CSS.IS_FAVORITED, isFavorite);
-        favoriteBtn.setAttribute('aria-pressed', String(isFavorite));
-        favoriteBtn.setAttribute('aria-label', label);
-        favoriteBtn.title = label;
-    }
-
-    #handleMainAreaClick = (e: Event): void => {
-        const item = (e.target as HTMLElement).closest(`.${CONFIG.CSS.ITEM_CLASS}`) as HTMLElement | null;
-        if (!item) return;
-        const id = item.getAttribute(CONFIG.ATTRIBUTES.POPUP_ID);
-        if (!id) return;
-
-        if ((e.target as HTMLElement).closest('.favorite-btn')) {
-            this.#services.userData.toggleFavorite(id);
-            const isFav = this.#services.userData.isFavorite(id);
-            this.#domProvider.queryAll(`[${CONFIG.ATTRIBUTES.POPUP_ID}="${id}"]`).forEach((el) => {
-                this.#updateFavoriteButtonState(el as HTMLElement, isFav);
-            });
-            this.#services.a11y.announce(`${id.split('::')[1]} ${isFav ? 'added to' : 'removed from'} favorites.`);
-        } else if ((e.target as HTMLElement).closest('.item-content')) {
-            this.#components.windowManager.togglePopup(id);
-        }
-    };
-
-    #handleMainAreaKeydown = (e: Event): void => {
-        const ke = e as KeyboardEvent;
-        if (ke.key !== 'Enter' && ke.key !== ' ') return;
-        const target = (ke.target as HTMLElement).closest('.item-content') as HTMLElement | null;
-        if (target) { ke.preventDefault(); target.click(); }
-    };
-
     async renderSectionContent(section: HTMLElement): Promise<void> {
-        const content = section.querySelector(`.${CONFIG.CSS.SECTION_CONTENT}`);
-        if (!content || content.getAttribute(CONFIG.ATTRIBUTES.RENDERED) === 'true') return;
-        const dataSectionKey = section.getAttribute(CONFIG.ATTRIBUTES.SECTION_KEY);
-        if (!dataSectionKey) return;
-
-        if (dataSectionKey === 'environment') {
-            await this.#services.data.ensureSectionDataLoaded('environment');
-            // #2: Only rebuild ruleMap when data has actually changed
-            if (this.#ruleMapDirty) { this.#services.data.buildRuleMap(); this.#ruleMapDirty = false; }
-            (CONFIG.SECTION_CONFIG as readonly SectionConfig[]).filter((c) => c.type === 'Environment').forEach(this.#renderSingleSection);
-        } else {
-            const dataKey = dataSectionKey.replace('-', '_');
-            await this.#services.data.ensureSectionDataLoaded(dataKey);
-            if (this.#ruleMapDirty) { this.#services.data.buildRuleMap(); this.#ruleMapDirty = false; }
-            const sectionConfig = CONFIG.SECTION_CONFIG.find((c) => c.dataKey === dataKey);
-            if (sectionConfig) this.#renderSingleSection(sectionConfig);
-        }
-        content.setAttribute(CONFIG.ATTRIBUTES.RENDERED, 'true');
+        await this.#sections.renderSectionContent(section);
     }
-
-    #renderSingleSection = (section: SectionConfig): void => {
-        const state = this.#stateManager.getState();
-        const srcKey = this.#services.data.getDataSourceKey(section.dataKey);
-        const { use2024Rules } = state.settings;
-        const rulesetKey = use2024Rules ? '2024' : '2014';
-        const src = state.data.rulesets[rulesetKey][srcKey];
-        if (!Array.isArray(src)) { console.warn(`Data source for "${section.dataKey}" is missing.`); return; }
-        let rules = src;
-        if (section.dataKey.startsWith('environment_')) rules = src.filter((d: RuleData) => d.tags?.includes(section.dataKey));
-        const rulesWithIds = rules.map((rule: RuleData) => ({
-            popupId: `${section.type}::${rule.title}`,
-            ruleInfo: { ruleData: rule, type: section.type, sectionId: section.id },
-        }));
-        try { this.#components.viewRenderer.renderSection(section.id, rulesWithIds); } catch (e) { console.error(`Failed to render section "${section.id}":`, e); }
-    };
 
     setupSettingsHandlers = (): void => {
-        CONFIG.SETTINGS_CONFIG.forEach(({ id, key, stateProp, type }) => {
-            try {
-                const el = this.#domProvider.get(id);
-                const { settings } = this.#stateManager.getState();
-                if (type === 'checkbox' && el instanceof HTMLInputElement) {
-                    el.checked = settings[stateProp] as boolean;
-                    el.addEventListener('change', () => this.#services.settings.update(CONFIG.STORAGE_KEYS[key as keyof typeof CONFIG.STORAGE_KEYS], el.checked));
-                } else if (type === 'select' && el instanceof HTMLSelectElement) {
-                    el.value = settings[stateProp] as string;
-                    el.addEventListener('change', () => this.#services.settings.update(CONFIG.STORAGE_KEYS[key as keyof typeof CONFIG.STORAGE_KEYS], el.value));
-                }
-            } catch (e) { console.warn(`Failed to set up setting #${id}: ${(e as Error).message}`); }
-        });
+        this.#settingsTransitions.setupHandlers();
     };
 
 }

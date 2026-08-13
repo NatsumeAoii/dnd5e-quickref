@@ -1,5 +1,6 @@
 [
     {
+        "id": "core.2014.environment.1-blindsight",
         "title": "Vision aveugle",
         "optional": "Standard rule",
         "icon": "echoripples",
@@ -30,6 +31,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.2-bright-light",
         "title": "Lumière vive",
         "optional": "Standard rule",
         "icon": "starpupil",
@@ -59,6 +61,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.3-darkness",
         "title": "Ténèbres",
         "optional": "Standard rule",
         "icon": "worriedeyes",
@@ -89,6 +92,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.4-darkvision",
         "title": "Vision dans le noir",
         "optional": "Standard rule",
         "icon": "semiclosedeye",
@@ -119,6 +123,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.5-dim-light",
         "title": "Lumière faible",
         "optional": "Standard rule",
         "icon": "semiclosedeye",
@@ -149,6 +154,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.6-falling",
         "title": "Chute",
         "optional": "Standard rule",
         "icon": "falling",
@@ -178,6 +184,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.7-half-cover",
         "title": "Demi-abri",
         "optional": "Standard rule",
         "icon": "brokenshield",
@@ -207,6 +214,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.8-heavily-obscured",
         "title": "Zone fortement obscurcie",
         "optional": "Standard rule",
         "icon": "fog",
@@ -237,6 +245,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.9-lightly-obscured",
         "title": "Zone légèrement obscurcie",
         "optional": "Standard rule",
         "icon": "dustcloud",
@@ -266,6 +275,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.10-suffocating",
         "title": "Suffocation",
         "optional": "Standard rule",
         "icon": "drowning",
@@ -296,6 +306,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.11-food-and-water",
         "title": "Nourriture et eau",
         "optional": "Standard rule",
         "icon": "journey",
@@ -324,6 +335,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.12-three-quarters-cover",
         "title": "Abri aux trois quarts",
         "optional": "Standard rule",
         "icon": "crackedshield",
@@ -353,6 +365,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.13-total-cover",
         "title": "Abri total",
         "optional": "Standard rule",
         "icon": "shield",
@@ -382,6 +395,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.14-truesight",
         "title": "Vision véritable",
         "optional": "Standard rule",
         "icon": "eyeshield",
@@ -414,6 +428,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.15-underwater-combat",
         "title": "Combat sous l’eau",
         "optional": "Standard rule",
         "icon": "atsea",
@@ -444,6 +459,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.16-extreme-cold",
         "title": "Froid extrême*",
         "optional": "Optional rule",
         "icon": "thermometercold",
@@ -462,6 +478,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.17-extreme-heat",
         "title": "Chaleur extrême*",
         "optional": "Optional rule",
         "icon": "sun",
@@ -492,6 +509,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.18-fear-and-horror",
         "title": "Peur et horreur*",
         "optional": "Optional rule",
         "icon": "terror",
@@ -519,6 +537,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.19-flanking",
         "title": "Prise en tenaille*",
         "optional": "Optional rule",
         "icon": "confrontation",
@@ -549,6 +568,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.20-heavy-precipitation",
         "title": "Fortes précipitations*",
         "optional": "Optional rule",
         "icon": "raining",
@@ -579,6 +599,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.21-high-altitude",
         "title": "Haute altitude*",
         "optional": "Optional rule",
         "icon": "mountainclimbing",
@@ -605,6 +626,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.22-hitting-cover",
         "title": "Toucher l’abri*",
         "optional": "Optional rule",
         "icon": "roundshield",
@@ -631,6 +653,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.23-desecrated-ground",
         "title": "Sol profané*",
         "optional": "Optional rule",
         "icon": "deadhead",
@@ -657,6 +680,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.24-frigid-water",
         "title": "Eau glaciale*",
         "optional": "Optional rule",
         "icon": "thermometercold",
@@ -683,6 +707,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.25-quicksand",
         "title": "Sables mouvants*",
         "optional": "Optional rule",
         "icon": "imprisoned",
@@ -711,6 +736,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.26-razorvine",
         "title": "Vigne-rasoir*",
         "optional": "Optional rule",
         "icon": "bleedingeye",
@@ -736,6 +762,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.27-lingering-injuries",
         "title": "Blessures persistantes*",
         "optional": "Optional rule",
         "icon": "swordbreak",
@@ -764,6 +791,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.28-massive-damage",
         "title": "Dégâts massifs*",
         "optional": "Optional rule",
         "icon": "internalinjury",
@@ -793,6 +821,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.29-morale",
         "title": "Moral*",
         "optional": "Optional rule",
         "icon": "terror",
@@ -823,6 +852,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.30-healer-s-kit-dependency",
         "title": "Dépendance au kit de soins*",
         "optional": "Optional rule",
         "icon": "firstaidkit",
@@ -849,6 +879,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.31-slow-natural-healing",
         "title": "Guérison naturelle lente*",
         "optional": "Optional rule",
         "icon": "nightsleep",
@@ -875,6 +906,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.32-rest-variants",
         "title": "Variantes de repos*",
         "optional": "Optional rule",
         "icon": "nightsleep",
@@ -904,6 +936,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.33-slippery-ice",
         "title": "Glace glissante*",
         "optional": "Optional rule",
         "icon": "icecube",
@@ -933,6 +966,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.34-thin-ice",
         "title": "Glace fine*",
         "optional": "Optional rule",
         "icon": "icecube",
@@ -959,6 +993,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.35-strong-wind",
         "title": "Vent fort*",
         "optional": "Optional rule",
         "icon": "windsock",
@@ -990,6 +1025,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.36-traps",
         "title": "Pièges*",
         "optional": "Optional rule",
         "icon": "tripwire",
@@ -1020,6 +1056,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.37-critical-fumbles",
         "title": "Échecs critiques**",
         "optional": "Homebrew rule",
         "icon": "brokenshield",

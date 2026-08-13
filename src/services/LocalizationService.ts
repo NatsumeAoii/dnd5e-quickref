@@ -13,11 +13,21 @@ const isSupportedLocale = (locale: string): boolean =>
 
 export class LocalizationService {
     #cache = new Map<string, MenuStrings>();
+    #activeLocale: string = CONFIG.DEFAULTS.LOCALE;
 
     async loadAndApply(locale: string): Promise<void> {
         const strings = await this.#loadWithFallback(locale);
+        this.#activeLocale = locale;
         this.#applyStrings(strings);
     }
+
+    translate(key: string, fallback: string, variables: Record<string, string | number> = {}): string {
+        let value = this.#cache.get(this.#activeLocale)?.[key] ?? this.#cache.get(CONFIG.DEFAULTS.LOCALE)?.[key] ?? fallback;
+        Object.entries(variables).forEach(([name, replacement]) => { value = value.replaceAll(`{${name}}`, String(replacement)); });
+        return value;
+    }
+
+    getKeys(locale = CONFIG.DEFAULTS.LOCALE): string[] { return Object.keys(this.#cache.get(locale) ?? {}); }
 
     async #loadWithFallback(locale: string): Promise<MenuStrings> {
         const defaultStrings = await this.#loadMenu(CONFIG.DEFAULTS.LOCALE).catch(() => ({}));
@@ -48,7 +58,7 @@ export class LocalizationService {
 
     #applyStrings(strings: MenuStrings): void {
         // #22: Single DOM pass for all i18n attributes instead of four separate queries
-        document.querySelectorAll<HTMLElement>('[data-i18n], [data-i18n-placeholder], [data-i18n-aria-label], [data-i18n-title]').forEach((element) => {
+        document.querySelectorAll<HTMLElement>('[data-i18n], [data-i18n-placeholder], [data-i18n-aria-label], [data-i18n-title], [data-i18n-confirm]').forEach((element) => {
             const i18nKey = element.dataset.i18n;
             if (i18nKey && strings[i18nKey]) {
                 // Skip DOM write if current value already matches target (Req 8.2)
@@ -76,6 +86,11 @@ export class LocalizationService {
                 if (element.getAttribute('title') !== strings[titleKey]) {
                     element.setAttribute('title', strings[titleKey]);
                 }
+            }
+
+            const confirmationKey = element.dataset.i18nConfirm;
+            if (confirmationKey && strings[confirmationKey] && element.getAttribute('data-confirmation-message') !== strings[confirmationKey]) {
+                element.setAttribute('data-confirmation-message', strings[confirmationKey]);
             }
         });
     }

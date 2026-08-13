@@ -3,6 +3,7 @@ import { DataLoadError, fetchWithTimeout } from '../utils/Utils.js';
 import { TrieMatcher } from '../utils/TrieMatcher.js';
 import type { StateManager } from '../state/StateManager.js';
 import type { RuleData } from '../types.js';
+import { getLegacyRuleId, getLegacyRuleType, getRuleId, getRuleMapKey, isStableRuleId } from '../utils/RuleIdentity.js';
 
 const DANGEROUS_DATA_RE = /<script[\s>]|on\w+\s*=|javascript:/i;
 const FETCH_TIMEOUT_MS = 10_000;
@@ -12,7 +13,7 @@ const ALLOWED_BULLET_TYPES = new Set(['paragraph', 'list', 'table']);
 
 const stripMarkup = (value: string): string => value.replace(/<[^>]*>/g, ' ');
 const normalizeSearchPart = (value: string | number | null | undefined): string =>
-    stripMarkup(String(value ?? '')).toLowerCase();
+    stripMarkup(String(value ?? '')).normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 const isAbortError = (error: unknown): boolean =>
     error instanceof DOMException && error.name === 'AbortError';
 const isStringArray = (value: unknown): value is string[] =>
@@ -52,6 +53,7 @@ export function validateData(data: unknown): RuleData[] {
     if (!Array.isArray(data)) return [];
     return (data as RuleData[]).filter((entry) => {
         if (!entry || typeof entry !== 'object' || typeof entry.title !== 'string') return false;
+        if (entry.id !== undefined && (typeof entry.id !== 'string' || !isStableRuleId(entry.id))) return false;
         if (entry.optional !== undefined && !ALLOWED_RULE_TYPES.has(entry.optional)) return false;
         if (entry.icon !== undefined && typeof entry.icon !== 'string') return false;
         for (const val of Object.values(entry)) {
@@ -93,11 +95,27 @@ export class DataService {
         this.#stateManager = stateManager;
         // Subscribe to locale changes for TTL-based cache eviction
         if (typeof this.#stateManager.subscribe === 'function') {
-            this.#stateManager.subscribe('settingChanged', (data?: unknown) => {
+            this.#unsubscribeSetting = this.#stateManager.subscribe('settingChanged', (data?: unknown) => {
                 const { key, value } = data as { key: string; value: string };
                 if (key === 'LOCALE') this.#scheduleLocaleEviction(value);
             });
         }
+    }
+
+    #unsubscribeSetting: (() => void) | null = null;
+
+    destroy(): void {
+        this.#unsubscribeSetting?.();
+        this.#unsubscribeSetting = null;
+        if (this.#evictionTimerId !== null) clearTimeout(this.#evictionTimerId);
+        this.#evictionTimerId = null;
+        this.#pendingEvictions.clear();
+        this.#fetchPromises.clear();
+    }
+
+    getCacheMetrics(): { entries: number; pendingEvictions: number } {
+        this.#checkEvictions();
+        return { entries: this.#dataCache.size, pendingEvictions: this.#pendingEvictions.size };
     }
 
     /**
@@ -111,7 +129,7 @@ export class DataService {
 
         // Cancel any pending evictions for the new locale (user switched back quickly)
         for (const cacheKey of [...this.#pendingEvictions.keys()]) {
-            const entryLocale = cacheKey.split('_')[0];
+            const entryLocale = this.#cacheLocale(cacheKey);
             if (entryLocale === newLocale) {
                 this.#pendingEvictions.delete(cacheKey);
             }
@@ -119,7 +137,7 @@ export class DataService {
 
         // Mark all cache entries not belonging to the new locale for eviction
         for (const cacheKey of this.#dataCache.keys()) {
-            const entryLocale = cacheKey.split('_')[0];
+            const entryLocale = this.#cacheLocale(cacheKey);
             if (entryLocale !== newLocale && !this.#pendingEvictions.has(cacheKey)) {
                 this.#pendingEvictions.set(cacheKey, expiresAt);
             }
@@ -127,6 +145,11 @@ export class DataService {
 
         // Schedule cleanup after TTL expires
         this.#scheduleEvictionTimer();
+    }
+
+    #cacheLocale(cacheKey: string): string {
+        const rulesetSeparator = cacheKey.indexOf('_2014_') >= 0 ? '_2014_' : '_2024_';
+        return cacheKey.slice(0, cacheKey.indexOf(rulesetSeparator));
     }
 
     /** Schedule a single setTimeout that fires after the earliest pending eviction expires */
@@ -283,7 +306,7 @@ export class DataService {
 
     async ensureAllDataLoadedForActiveRuleset(): Promise<void> {
         const { use2024Rules } = this.#stateManager.getState().settings;
-        const rulesetKey = this.#getRulesetKey(use2024Rules);
+        const rulesetKey = this.#getRulesetKey(use2024Rules) as '2014' | '2024';
         const localeKey = this.#getLocaleKey();
 
         // Fast path: if all data files are already in the in-memory cache, resolve without
@@ -331,28 +354,34 @@ export class DataService {
     buildRuleMap(): void {
         const state = this.#stateManager.getState();
         const { use2024Rules } = state.settings;
-        const rulesetKey = this.#getRulesetKey(use2024Rules);
+        const rulesetKey: '2014' | '2024' = use2024Rules ? '2024' : '2014';
         const activeRulesetData = state.data.rulesets[rulesetKey];
         state.data.ruleMap.clear();
+        state.data.legacyRuleIds.clear();
 
-        CONFIG.SECTION_CONFIG.forEach((section) => {
+        CONFIG.CATEGORY_REGISTRY.forEach((section) => {
             const srcKey = this.getDataSourceKey(section.dataKey);
             const src = activeRulesetData[srcKey];
             if (Array.isArray(src)) {
                 const rules = section.dataKey.startsWith('environment_')
                     ? src.filter((rule) => rule.tags?.includes(section.dataKey))
                     : src;
-                rules.forEach((rule) => {
+                rules.forEach((rule, index) => {
                     if (rule.title) {
-                        const id = `${section.type}::${rule.title}`;
-                        if (state.data.ruleMap.has(id)) {
-                            console.warn(`Duplicate rule id "${id}" while building rule map; later entry overwrites earlier entry.`);
+                        const stableId = getRuleId(rule, section.id, index, rulesetKey);
+                        const mapKey = getRuleMapKey(rule, section.type);
+                        state.data.legacyRuleIds.set(getLegacyRuleId(getLegacyRuleType(section.id), rule.title), stableId);
+                        if (state.data.ruleMap.has(mapKey)) {
+                            console.warn(`Duplicate rule id "${mapKey}" while building rule map; later entry overwrites earlier entry.`);
                         }
                         // #1: Defer search index construction — store rule immediately, build index lazily
-                        state.data.ruleMap.set(id, {
+                        state.data.ruleMap.set(mapKey, {
+                            id: stableId,
                             ruleData: rule,
                             type: section.type,
                             sectionId: section.id,
+                            categoryId: section.dataKey,
+                            ruleset: rulesetKey,
                             searchIndex: undefined,
                         });
                     }
@@ -397,6 +426,8 @@ export class DataService {
                 rule.subtitle,
                 rule.summary,
                 rule.reference,
+                ...(rule.aliases ?? []),
+                ...(rule.tags ?? []),
                 ...bulletParts,
             ].map(normalizeSearchPart).join('\0');
         });
@@ -423,8 +454,8 @@ export class DataService {
             if (!titleLookup.has(lookupKey)) titleLookup.set(lookupKey, key);
         };
 
-        state.data.ruleMap.forEach((_info, key) => {
-            const title = key.split('::')[1];
+        state.data.ruleMap.forEach((info, key) => {
+            const title = info.ruleData.title;
             if (title) {
                 addTitleAlias(title, key);
                 const titleWithoutRuleMarker = title.replace(/\*+$/u, '').trim();

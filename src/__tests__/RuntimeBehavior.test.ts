@@ -412,6 +412,7 @@ describe('UIController section state resilience', () => {
             {
                 a11y: { announce: vi.fn() },
                 navigation: { invalidateFocusables: vi.fn() },
+                localization: { translate: (_key: string, fallback: string) => fallback },
             } as never,
             {
                 viewRenderer: {},
@@ -445,6 +446,7 @@ describe('UIController section state resilience', () => {
             {
                 a11y: { announce: vi.fn() },
                 navigation: { invalidateFocusables: vi.fn() },
+                localization: { translate: (_key: string, fallback: string) => fallback },
             } as never,
             {
                 viewRenderer: {},

@@ -13,6 +13,12 @@
     opacity: 0.5;
     animation: pulse 1.5s infinite ease-in-out;
 }
+.skeleton-section-delay-1 { animation-delay: 0.15s; }
+.skeleton-section-delay-2 { animation-delay: 0.3s; }
+.app-container { opacity: 0; }
+.app-container:not(.hidden) { opacity: 1; }
+.skip-link { position: absolute; top: -100px; left: 1rem; z-index: 30000; padding: 0.75rem 1rem; background: var(--color-card-bg); color: var(--color-text); }
+.skip-link:focus { top: 1rem; }
 
 @keyframes pulse {
     0% {

@@ -1,5 +1,6 @@
 [
     {
+        "id": "core.2014.environment.1-blindsight",
         "title": "penglihatan buta",
         "optional": "Standard rule",
         "icon": "echoripples",
@@ -30,6 +31,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.2-bright-light",
         "title": "Cahaya Terang",
         "optional": "Standard rule",
         "icon": "starpupil",
@@ -59,6 +61,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.3-darkness",
         "title": "Kegelapan",
         "optional": "Standard rule",
         "icon": "worriedeyes",
@@ -89,6 +92,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.4-darkvision",
         "title": "Darkvision",
         "optional": "Standard rule",
         "icon": "semiclosedeye",
@@ -119,6 +123,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.5-dim-light",
         "title": "Cahaya Redup",
         "optional": "Standard rule",
         "icon": "semiclosedeye",
@@ -149,6 +154,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.6-falling",
         "title": "Jatuh",
         "optional": "Standard rule",
         "icon": "falling",
@@ -178,6 +184,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.7-half-cover",
         "title": "Half Cover",
         "optional": "Standard rule",
         "icon": "brokenshield",
@@ -207,6 +214,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.8-heavily-obscured",
         "title": "Heavily Obscured",
         "optional": "Standard rule",
         "icon": "fog",
@@ -237,6 +245,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.9-lightly-obscured",
         "title": "Lightly Obscured",
         "optional": "Standard rule",
         "icon": "dustcloud",
@@ -266,6 +275,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.10-suffocating",
         "title": "Kehabisan Napas",
         "optional": "Standard rule",
         "icon": "drowning",
@@ -296,6 +306,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.11-food-and-water",
         "title": "Makanan dan Air",
         "optional": "Standard rule",
         "icon": "journey",
@@ -324,6 +335,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.12-three-quarters-cover",
         "title": "Three-Quarters Cover",
         "optional": "Standard rule",
         "icon": "crackedshield",
@@ -353,6 +365,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.13-total-cover",
         "title": "Total Cover",
         "optional": "Standard rule",
         "icon": "shield",
@@ -382,6 +395,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.14-truesight",
         "title": "Truesight",
         "optional": "Standard rule",
         "icon": "eyeshield",
@@ -414,6 +428,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.15-underwater-combat",
         "title": "Combat di Dalam Air",
         "optional": "Standard rule",
         "icon": "atsea",
@@ -444,6 +459,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.16-extreme-cold",
         "title": "Dingin Ekstrem*",
         "optional": "Optional rule",
         "icon": "thermometercold",
@@ -462,6 +478,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.17-extreme-heat",
         "title": "Panas Ekstrem*",
         "optional": "Optional rule",
         "icon": "sun",
@@ -492,6 +509,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.18-fear-and-horror",
         "title": "Fear and Horror*",
         "optional": "Optional rule",
         "icon": "terror",
@@ -519,6 +537,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.19-flanking",
         "title": "Flanking*",
         "optional": "Optional rule",
         "icon": "confrontation",
@@ -549,6 +568,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.20-heavy-precipitation",
         "title": "Hujan/Salju Lebat*",
         "optional": "Optional rule",
         "icon": "raining",
@@ -579,6 +599,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.21-high-altitude",
         "title": "Dataran Tinggi*",
         "optional": "Optional rule",
         "icon": "mountainclimbing",
@@ -605,6 +626,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.22-hitting-cover",
         "title": "Mengenai Cover*",
         "optional": "Optional rule",
         "icon": "roundshield",
@@ -631,6 +653,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.23-desecrated-ground",
         "title": "Desecrated Ground*",
         "optional": "Optional rule",
         "icon": "deadhead",
@@ -657,6 +680,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.24-frigid-water",
         "title": "Air Sangat Dingin*",
         "optional": "Optional rule",
         "icon": "thermometercold",
@@ -683,6 +707,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.25-quicksand",
         "title": "Pasir Hisap*",
         "optional": "Optional rule",
         "icon": "imprisoned",
@@ -711,6 +736,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.26-razorvine",
         "title": "Razorvine*",
         "optional": "Optional rule",
         "icon": "bleedingeye",
@@ -736,6 +762,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.27-lingering-injuries",
         "title": "Cedera Berkepanjangan*",
         "optional": "Optional rule",
         "icon": "swordbreak",
@@ -764,6 +791,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.28-massive-damage",
         "title": "Damage Masif*",
         "optional": "Optional rule",
         "icon": "internalinjury",
@@ -793,6 +821,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.29-morale",
         "title": "Morale*",
         "optional": "Optional rule",
         "icon": "terror",
@@ -823,6 +852,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.30-healer-s-kit-dependency",
         "title": "Butuh Healer's Kit*",
         "optional": "Optional rule",
         "icon": "firstaidkit",
@@ -849,6 +879,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.31-slow-natural-healing",
         "title": "Natural Healing Lambat*",
         "optional": "Optional rule",
         "icon": "nightsleep",
@@ -875,6 +906,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.32-rest-variants",
         "title": "Varian Rest*",
         "optional": "Optional rule",
         "icon": "nightsleep",
@@ -904,6 +936,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.33-slippery-ice",
         "title": "Es Licin*",
         "optional": "Optional rule",
         "icon": "icecube",
@@ -933,6 +966,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.34-thin-ice",
         "title": "Es Tipis*",
         "optional": "Optional rule",
         "icon": "icecube",
@@ -959,6 +993,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.35-strong-wind",
         "title": "Angin Kencang*",
         "optional": "Optional rule",
         "icon": "windsock",
@@ -990,6 +1025,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.36-traps",
         "title": "Trap*",
         "optional": "Optional rule",
         "icon": "tripwire",
@@ -1020,6 +1056,7 @@
         ]
     },
     {
+        "id": "core.2014.environment.37-critical-fumbles",
         "title": "Critical Fumbles**",
         "optional": "Homebrew rule",
         "icon": "brokenshield",

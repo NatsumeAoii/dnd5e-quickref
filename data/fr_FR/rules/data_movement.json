@@ -1,5 +1,6 @@
 [
     {
+        "id": "core.2014.movement.1-climb",
         "title": "Grimper",
         "optional": "Standard rule",
         "icon": "crags",
@@ -27,6 +28,7 @@
         ]
     },
     {
+        "id": "core.2014.movement.2-crawl",
         "title": "Ramper",
         "optional": "Standard rule",
         "icon": "crawl",
@@ -53,6 +55,7 @@
         ]
     },
     {
+        "id": "core.2014.movement.3-difficult-terrain",
         "title": "Terrain difficile",
         "optional": "Standard rule",
         "icon": "stonepile",
@@ -80,6 +83,7 @@
         ]
     },
     {
+        "id": "core.2014.movement.4-drop-prone",
         "title": "Se jeter à terre",
         "optional": "Standard rule",
         "icon": "falling",
@@ -107,6 +111,7 @@
         ]
     },
     {
+        "id": "core.2014.movement.5-grapple-move",
         "title": "Se déplacer en agrippant",
         "optional": "Standard rule",
         "icon": "grab",
@@ -134,6 +139,7 @@
         ]
     },
     {
+        "id": "core.2014.movement.6-high-jump",
         "title": "Saut en hauteur",
         "optional": "Standard rule",
         "icon": "wingfoot",
@@ -162,6 +168,7 @@
         ]
     },
     {
+        "id": "core.2014.movement.7-long-jump",
         "title": "Saut en longueur",
         "optional": "Standard rule",
         "icon": "wingfoot",
@@ -190,6 +197,7 @@
         ]
     },
     {
+        "id": "core.2014.movement.8-mount-dismount",
         "title": "Monter/descendre",
         "optional": "Standard rule",
         "icon": "horsehead",
@@ -217,6 +225,7 @@
         ]
     },
     {
+        "id": "core.2014.movement.9-move",
         "title": "Se déplacer",
         "optional": "Standard rule",
         "icon": "run",
@@ -245,6 +254,7 @@
         ]
     },
     {
+        "id": "core.2014.movement.10-squeezing",
         "title": "Se faufiler dans un espace étroit",
         "optional": "Standard rule",
         "icon": "resize",
@@ -272,6 +282,7 @@
         ]
     },
     {
+        "id": "core.2014.movement.11-stand-up",
         "title": "Se relever",
         "optional": "Standard rule",
         "icon": "strong",
@@ -299,6 +310,7 @@
         ]
     },
     {
+        "id": "core.2014.movement.12-swim",
         "title": "Nager",
         "optional": "Standard rule",
         "icon": "atsea",
@@ -326,6 +338,7 @@
         ]
     },
     {
+        "id": "core.2014.movement.13-travel-pace",
         "title": "Rythme de voyage",
         "optional": "Standard rule",
         "icon": "trail",

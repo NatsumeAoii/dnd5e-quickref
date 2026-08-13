@@ -36,7 +36,7 @@
     if (window.location.hash) {
         var notice = document.getElementById('redirect-notice');
         if (notice) notice.classList.remove('hidden');
-        var safe = /^#[\w\-.,~%!*'();:@&=+$/?]*$/;
+        var safe = /^#[\w\-.,~%!*'();:@&=+$\/\?]*$/;
         if (safe.test(window.location.hash)) {
             window.setTimeout(function () {
                 window.location.replace(appBase + window.location.hash);

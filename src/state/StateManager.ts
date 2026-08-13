@@ -5,6 +5,13 @@ import type { AppState } from '../types.js';
 export interface StateEventMap {
     settingChanged: { key: string; value: boolean | string };
     favoritesChanged: undefined;
+    favoritesReordered: { ids: string[] };
+    notesChanged: { id: string; text: string };
+    sectionStateChanged: { sectionId: string; collapsed: boolean };
+    popupStateChanged: { id: string; state: 'opened' | 'closed' | 'minimized' | 'restored' };
+    transitionStarted: { kind: 'locale' | 'ruleset'; version: number };
+    transitionCompleted: { kind: 'locale' | 'ruleset'; version: number };
+    transitionFailed: { kind: 'locale' | 'ruleset'; version: number };
     externalStateChange: { type: string; payload: unknown };
 }
 
@@ -27,6 +34,7 @@ export class StateManager {
                 ruleLinkerRegex: null,
                 titleLookup: new Map(),
                 ruleLinkerTrie: null,
+                legacyRuleIds: new Map(),
             },
         };
     }
@@ -34,16 +42,20 @@ export class StateManager {
     getState = (): AppState => this.#state;
 
     subscribe<E extends StateEvent>(event: E, callback: (data: StateEventMap[E]) => void): () => void;
+    /** Compatibility boundary for internal legacy tests/adapters only. */
     subscribe(event: string, callback: EventCallback): () => void;
-    subscribe(event: string, callback: EventCallback): () => void {
+    subscribe(event: StateEvent, callback: EventCallback): () => void;
+    subscribe(event: StateEvent, callback: EventCallback): () => void {
         if (!this.#listeners.has(event)) this.#listeners.set(event, []);
         this.#listeners.get(event)!.push(callback);
         return () => this.unsubscribe(event, callback);
     }
 
     unsubscribe<E extends StateEvent>(event: E, callback: (data: StateEventMap[E]) => void): void;
+    /** Compatibility boundary for internal legacy tests/adapters only. */
     unsubscribe(event: string, callback: EventCallback): void;
-    unsubscribe(event: string, callback: EventCallback): void {
+    unsubscribe(event: StateEvent, callback: EventCallback): void;
+    unsubscribe(event: StateEvent, callback: EventCallback): void {
         const listeners = this.#listeners.get(event);
         if (!listeners) return;
         const idx = listeners.indexOf(callback);
@@ -53,12 +65,18 @@ export class StateManager {
 
     // (K) Error isolation — a throwing subscriber must not break sibling listeners
     publish<E extends StateEvent>(event: E, data?: StateEventMap[E]): void;
+    /** Compatibility boundary for internal legacy tests/adapters only. */
     publish(event: string, data?: unknown): void;
-    publish(event: string, data?: unknown): void {
+    publish(event: StateEvent, data?: unknown): void;
+    publish(event: StateEvent, data?: unknown): void {
         const listeners = this.#listeners.get(event);
         if (!listeners) return;
         [...listeners].forEach((cb) => {
             try { cb(data); } catch (e) { console.error(`[StateManager] Listener error for "${event}":`, e); }
         });
+    }
+
+    destroy(): void {
+        this.#listeners.clear();
     }
 }

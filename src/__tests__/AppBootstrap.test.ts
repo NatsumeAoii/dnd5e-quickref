@@ -191,18 +191,16 @@ describe('Application Bootstrap — Cross-Service Event Flow', () => {
         stateManager.subscribe('externalStateChange', (data) => { received.push(data); });
 
         // Simulate incoming message from another tab
-        capturedOnMessage!({ data: { type: 'SETTING_CHANGE', payload: { key: 'OPTIONAL', value: true }, version: CONFIG.APP_VERSION } } as MessageEvent);
+        capturedOnMessage!({ data: { type: 'SETTING_CHANGE', payload: { key: 'OPTIONAL', value: true }, version: CONFIG.APP_VERSION, senderId: 'other-tab', messageId: 'message-1', timestamp: 1 } } as MessageEvent);
 
         expect(received).toHaveLength(1);
         expect(received[0]).toEqual({ type: 'SETTING_CHANGE', payload: { key: 'OPTIONAL', value: true } });
 
         // Verify outbound broadcast
         sync.broadcast('FAVORITE_TOGGLE', { id: 'Action::Dash' });
-        expect(mockPostMessage).toHaveBeenCalledWith({
-            type: 'FAVORITE_TOGGLE',
-            payload: { id: 'Action::Dash' },
-            version: CONFIG.APP_VERSION,
-        });
+        expect(mockPostMessage).toHaveBeenCalledWith(expect.objectContaining({
+            type: 'FAVORITE_TOGGLE', payload: { id: 'Action::Dash' }, version: CONFIG.APP_VERSION,
+        }));
 
         vi.unstubAllGlobals();
     });
@@ -225,7 +223,7 @@ describe('Application Bootstrap — Cross-Service Event Flow', () => {
         const received: unknown[] = [];
         stateManager.subscribe('externalStateChange', (data) => { received.push(data); });
 
-        capturedOnMessage!({ data: { type: 'SETTING_CHANGE', payload: {}, version: '0.0.1' } } as MessageEvent);
+        capturedOnMessage!({ data: { type: 'SETTING_CHANGE', payload: {}, version: '0.0.1', senderId: 'other-tab', messageId: 'message-1', timestamp: 1 } } as MessageEvent);
 
         expect(received).toHaveLength(0);
         vi.unstubAllGlobals();
@@ -308,6 +306,21 @@ describe('Application Bootstrap — ErrorService Integration', () => {
         expect(report).toContain('[WARN]');
         expect(report).toContain('[DataService]');
         expect(report).toContain('fetch timeout');
+    });
+
+    it('provides an opaque reference ID without exposing internal details in notifications', () => {
+        vi.spyOn(console, 'error').mockImplementation(() => undefined);
+        const errorService = new ErrorService();
+        const notifications: string[] = [];
+        errorService.setNotifier((message) => notifications.push(message));
+
+        errorService.report(new Error('private database path'), 'DataService', 'error');
+
+        const id = errorService.getLastErrorId();
+        expect(id).toMatch(/^ERR-[A-Z0-9-]+$/);
+        expect(notifications[0]).toContain(id);
+        expect(notifications[0]).not.toContain('private database path');
+        expect(errorService.formatForReport()).toContain(`[${id}]`);
     });
 });
 

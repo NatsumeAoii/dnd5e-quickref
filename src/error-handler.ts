@@ -39,12 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('error-reset-btn')?.addEventListener('click', () => {
-        if (!window.confirm('This clears local settings, favorites, and session state for this site. Continue?')) return;
+        const message = document.getElementById('error-reset-btn')?.getAttribute('data-confirmation-message')
+            ?? 'This clears local settings, favorites, and session state for this site. Continue?';
+        if (!window.confirm(message)) return;
         localStorage.clear();
         sessionStorage.clear();
         window.location.reload();
     });
 
-    const fontLink = document.getElementById('google-fonts-link') as HTMLLinkElement | null;
-    if (fontLink) fontLink.media = 'all';
 }, { once: true });

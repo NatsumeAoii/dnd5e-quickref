@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <!-- Security Hardening: CSP with Trusted Types & Permissions Policy -->
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; require-trusted-types-for 'script';">
+        content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; require-trusted-types-for 'script';">
     <meta http-equiv="Permissions-Policy"
         content="geolocation=(), microphone=(), camera=(), payment=(), usb=(), vr=(), accelerometer=(), gyroscope=(), magnetometer=()">
 
@@ -40,12 +40,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- #8: Non-render-blocking font loading -->
-    <link rel="preload" as="style"
-        href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap">
     <link id="google-fonts-link"
         href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet" media="print">
+        rel="stylesheet">
     <noscript>
         <link
             href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
@@ -53,26 +50,29 @@
     </noscript>
 
     <link id="theme-stylesheet" rel="stylesheet" type="text/css" href="">
-    <!-- #5: Critical CSS moved to external file to eliminate 'unsafe-inline' from CSP -->
-    <link rel="stylesheet" href="/src/css/critical.css">
-
     <!-- #11/#12: Global error handler moved to external script for CSP compliance -->
     <script type="module" src="/src/error-handler.ts"></script>
 </head>
 
 <body>
+    <a class="skip-link" href="#main-scroll-area">Skip to content</a>
     <div id="global-error-boundary" role="alert">
-        <h1>Something went wrong</h1>
-        <p>We encountered an unexpected error.</p>
+        <h1 data-i18n="fatal.boundaryTitle">Something went wrong</h1>
+        <p data-i18n="fatal.boundaryMessage">We encountered an unexpected error.</p>
         <code id="error-text"></code>
         <div class="error-actions">
-            <button type="button" id="error-reload-btn">Reload Page</button>
-            <button type="button" id="error-reset-btn">Factory
+            <button type="button" id="error-reload-btn" data-i18n="fatal.reload">Reload Page</button>
+            <button type="button" id="error-reset-btn" data-i18n="fatal.factoryReset" data-i18n-confirm="fatal.confirmFactoryReset">Factory
                 Reset</button>
         </div>
     </div>
 
     <div id="notification-container" role="status" aria-live="polite" aria-atomic="false"></div>
+    <div id="connectivity-status" class="connectivity-status" role="status" aria-live="polite"></div>
+    <div id="update-available" class="update-available hidden" role="status" aria-live="polite">
+        <span data-i18n="settings.offline.updateAvailable">An update is available.</span>
+        <button type="button" id="apply-update-btn" data-i18n="settings.offline.updateButton">Reload now</button>
+    </div>
     <div id="aria-announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
 
     <div id="skeleton-loader" class="skeleton-loader" aria-hidden="true">
@@ -85,7 +85,7 @@
                 <div class="skeleton-item"></div>
             </div>
         </div>
-        <div class="skeleton-section" style="animation-delay: 0.15s">
+        <div class="skeleton-section skeleton-section-delay-1">
             <div class="skeleton-title-bar"></div>
             <div class="skeleton-items-grid">
                 <div class="skeleton-item"></div>
@@ -96,7 +96,7 @@
                 <div class="skeleton-item"></div>
             </div>
         </div>
-        <div class="skeleton-section" style="animation-delay: 0.3s">
+        <div class="skeleton-section skeleton-section-delay-2">
             <div class="skeleton-title-bar"></div>
             <div class="skeleton-items-grid">
                 <div class="skeleton-item"></div>
@@ -106,11 +106,27 @@
         </div>
     </div>
 
-    <div id="app-container" class="app-container hidden" style="opacity:0">
+    <div id="app-container" class="app-container hidden">
         <main class="page" id="main-scroll-area">
             <div class="search-bar" id="search-bar">
                 <input type="search" id="search-input" class="search-input" placeholder="Search rules..." autocomplete="off" aria-label="Search rules" data-i18n-placeholder="search.placeholder" data-i18n-aria-label="search.label" />
                 <button type="button" id="search-clear-btn" class="search-clear-btn hidden" aria-label="Clear search" data-i18n-aria-label="search.clear">&times;</button>
+                <label class="visually-hidden" for="search-filter-select">Search scope</label>
+                <select id="search-filter-select" aria-label="Search scope">
+                    <option value="all" data-i18n="search.scope.all">All rules</option>
+                    <option value="favorites" data-i18n="search.scope.favorites">Favorites</option>
+                    <option value="notes" data-i18n="search.scope.notes">Notes</option>
+                </select>
+                <label class="visually-hidden" for="search-category-select">Search category</label>
+                <select id="search-category-select" aria-label="Search category">
+                    <option value="all" data-i18n="search.category.all">All categories</option>
+                    <option value="movement" data-i18n="search.category.movement">Movement</option>
+                    <option value="action" data-i18n="search.category.action">Actions</option>
+                    <option value="bonus_action" data-i18n="search.category.bonus_action">Bonus actions</option>
+                    <option value="reaction" data-i18n="search.category.reaction">Reactions</option>
+                    <option value="condition" data-i18n="search.category.condition">Conditions</option>
+                    <option value="environment" data-i18n="search.category.environment">Environment</option>
+                </select>
             </div>
             <section id="section-favorites" class="section-container hidden" data-section="favorites">
                 <h2 class="section-title section-title-static">
@@ -403,6 +419,32 @@
                                 <div class="item-desc" data-i18n="settings.exportFavorites.description">Download your favorites list (JSON).</div>
                             </div>
                         </button>
+                        <button type="button" class="item itemsize" id="export-backup-btn">
+                            <div class="item-text-container">
+                                <div class="item-title" data-i18n="settings.exportBackup.title">Export Full Backup</div>
+                                <div class="item-desc" data-i18n="settings.exportBackup.description">Save settings, favorites, notes, and section preferences.</div>
+                            </div>
+                        </button>
+                        <button type="button" class="item itemsize" id="import-backup-btn">
+                            <div class="item-text-container">
+                                <div class="item-title" data-i18n="settings.importBackup.title">Import Full Backup</div>
+                                <div class="item-desc" data-i18n="settings.importBackup.description">Restore a local backup with validation and rollback.</div>
+                            </div>
+                        </button>
+                        <input type="file" id="import-backup-input" accept="application/json,.json" class="visually-hidden" tabindex="-1" aria-label="Import full backup">
+                        <button type="button" class="item itemsize" id="refresh-cache-btn">
+                            <div class="item-text-container"><div class="item-title" data-i18n="settings.offline.refresh.title">Refresh Offline Content</div><div class="item-desc" data-i18n="settings.offline.refresh.description">Prepare the active language and ruleset for offline use.</div></div>
+                        </button>
+                        <button type="button" class="item itemsize hidden" id="retry-cache-btn">
+                            <div class="item-text-container"><div class="item-title" data-i18n="settings.offline.retry.title">Retry Offline Content</div><div class="item-desc" data-i18n="settings.offline.retry.description">Retry files that could not be cached.</div></div>
+                        </button>
+                        <button type="button" class="item itemsize" id="clear-cache-btn">
+                            <div class="item-text-container"><div class="item-title" data-i18n="settings.offline.clear.title">Clear Offline Content</div><div class="item-desc" data-i18n="settings.offline.clear.description">Remove cached content but keep the app shell.</div></div>
+                        </button>
+                        <aside class="offline-status-panel" aria-label="Offline content status">
+                            <div class="offline-status" id="offline-status" role="status" aria-live="polite" data-i18n="settings.offline.status">Offline content status unavailable.</div>
+                            <div class="offline-cache-details" id="offline-cache-details" aria-live="polite"></div>
+                        </aside>
                     </div>
                 </div>
             </section>

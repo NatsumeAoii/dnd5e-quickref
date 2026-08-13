@@ -2,6 +2,7 @@ import { CONFIG } from '../config.js';
 import type { StateManager } from '../state/StateManager.js';
 import type { DBService } from './DBService.js';
 import type { SyncService } from './SyncService.js';
+import { isValidImportedSettings, type ImportedSettings } from './SettingsService.js';
 
 const hasUnsafeNoteKeyChar = (key: string): boolean =>
     [...key].some((char) => {
@@ -48,7 +49,8 @@ export class UserDataService {
 
     async initialize(): Promise<void> {
         const state = this.#stateManager.getState();
-        state.user.favorites = new Set(this.#asStringArray(this.#load(CONFIG.STORAGE_KEYS.FAVORITES, [])));
+        const favorites = this.#asStringArray(this.#load(CONFIG.STORAGE_KEYS.FAVORITES, []));
+        state.user.favorites = new Set(favorites);
 
         try {
             const notes = await this.#dbService.getAll();
@@ -69,6 +71,45 @@ export class UserDataService {
         }
     }
 
+    async migrateLegacyReferences(): Promise<void> {
+        const state = this.#stateManager.getState();
+        const resolve = (id: string): string => state.data.legacyRuleIds.get(id) ?? id;
+        const favorites = [...state.user.favorites].map(resolve);
+        if (favorites.some((id, index) => id !== [...state.user.favorites][index])) {
+            state.user.favorites = new Set(favorites);
+            this.#persistFavorites(favorites);
+            this.#stateManager.publish('favoritesChanged');
+        }
+        const migratedNotes = new Map<string, string>();
+        const legacyNotes: [string, string][] = [];
+        state.user.notes.forEach((text, id) => {
+            const migratedId = resolve(id);
+            migratedNotes.set(migratedId, text);
+            if (migratedId !== id) legacyNotes.push([migratedId, text]);
+        });
+        if (migratedNotes.size !== state.user.notes.size || [...migratedNotes.keys()].some((id, index) => id !== [...state.user.notes.keys()][index])) {
+            state.user.notes = migratedNotes;
+            for (const [id, text] of legacyNotes) await this.#dbService.put(id, text);
+        }
+    }
+
+    applyImportedSettings(settings: ImportedSettings): void {
+        if (!isValidImportedSettings(settings)) throw new Error('Backup settings are invalid.');
+        const state = this.#stateManager.getState();
+        const values: [string, boolean | string][] = [
+            ['LOCALE', settings.locale], ['RULES_2024', settings.use2024Rules], ['THEME', settings.theme],
+            ['DENSITY', settings.density], ['MODE', settings.darkMode], ['REDUCE_MOTION', settings.reduceMotion],
+        ];
+        for (const [key, value] of values) {
+            const storageKey = CONFIG.STORAGE_KEYS[key as keyof typeof CONFIG.STORAGE_KEYS];
+            const config = CONFIG.SETTINGS_CONFIG.find((entry) => entry.key === key);
+            if (!config || state.settings[config.stateProp] === value) continue;
+            state.settings[config.stateProp] = value;
+            try { this.#storage.setItem(storageKey, String(value)); } catch (error) { console.warn(`Failed to persist imported setting "${key}":`, error); }
+            this.#stateManager.publish('settingChanged', { key, value });
+        }
+    }
+
     toggleFavorite(id: string, broadcast = true): void {
         const state = this.#stateManager.getState();
         if (state.user.favorites.has(id)) {
@@ -85,6 +126,7 @@ export class UserDataService {
         const state = this.#stateManager.getState();
         state.user.favorites = new Set(newOrderArray);
         this.#persistFavorites(newOrderArray);
+        this.#stateManager.publish('favoritesReordered', { ids: [...state.user.favorites] });
     }
 
     isFavorite = (id: string): boolean => this.#stateManager.getState().user.favorites.has(id);
@@ -113,6 +155,7 @@ export class UserDataService {
                 state.user.notes.set(id, text);
                 await this.#dbService.put(id, text);
             }
+            this.#stateManager.publish('notesChanged', { id, text });
             if (broadcast) this.#syncService.broadcast('NOTE_UPDATE', { id, text });
             return true;
         } catch (e) {

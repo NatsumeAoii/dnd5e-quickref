@@ -2,13 +2,16 @@ import { CONFIG } from '../config.js';
 import { safeHTML } from '../utils/Utils.js';
 import type { DOMProvider } from '../services/DOMProvider.js';
 import type { RuleData, RuleInfo, Bullet } from '../types.js';
+import type { LocalizationService } from '../services/LocalizationService.js';
 
 export class TemplateService {
     #domProvider: DOMProvider;
     #popupTemplateNode: HTMLTemplateElement | null = null;
     #ruleItemTemplateNode: HTMLTemplateElement | null = null;
+    #localization?: LocalizationService;
 
-    constructor(domProvider: DOMProvider) { this.#domProvider = domProvider; }
+    constructor(domProvider: DOMProvider, localization?: LocalizationService) { this.#domProvider = domProvider; this.#localization = localization; }
+    #t(key: string, fallback: string, variables: Record<string, string | number> = {}): string { return this.#localization?.translate(key, fallback, variables) ?? Object.entries(variables).reduce((text, [name, value]) => text.replaceAll(`{${name}}`, String(value)), fallback); }
 
     #getPopupTemplate(): HTMLTemplateElement {
         if (!this.#popupTemplateNode) {
@@ -49,7 +52,7 @@ export class TemplateService {
             scrollRegion.className = 'rule-table-scroll';
             scrollRegion.tabIndex = 0;
             scrollRegion.setAttribute('role', 'region');
-            scrollRegion.setAttribute('aria-label', `Scrollable rule table for ${ruleTitle}`);
+            scrollRegion.setAttribute('aria-label', this.#t('popup.scrollTable', `Scrollable rule table for ${ruleTitle}`, { title: ruleTitle }));
 
             const table = document.createElement('table');
             table.className = 'rule-table';
@@ -89,7 +92,7 @@ export class TemplateService {
                 console.warn(`Unknown bullet type: "${bullet.type}"`);
                 const p = document.createElement('p');
                 p.className = 'rule-detail-unsupported';
-                p.textContent = 'Unsupported rule detail format.';
+                p.textContent = this.#t('popup.unsupported', 'Unsupported rule detail format.');
                 fragment.appendChild(p);
             }
         });
@@ -113,7 +116,7 @@ export class TemplateService {
         item.querySelector('.item-title')!.textContent = title;
         item.querySelector('.item-desc')!.textContent = ruleData.subtitle || '';
         const favoriteBtn = item.querySelector('.favorite-btn') as HTMLButtonElement;
-        const favoriteLabel = `${isFavorite ? 'Remove' : 'Add'} ${title} ${isFavorite ? 'from' : 'to'} favorites`;
+        const favoriteLabel = this.#t(isFavorite ? 'favorite.remove' : 'favorite.add', isFavorite ? 'Remove {title} from favorites' : 'Add {title} to favorites', { title });
         favoriteBtn.classList.toggle(CONFIG.CSS.IS_FAVORITED, isFavorite);
         favoriteBtn.setAttribute('aria-pressed', String(isFavorite));
         favoriteBtn.setAttribute('aria-label', favoriteLabel);
@@ -175,7 +178,7 @@ export class TemplateService {
             // #12: Default to summary view — show summary, hide detailed bullets
             if (ruleData.summary) {
                 bulletsEl.classList.add(CONFIG.CSS.HIDDEN);
-                toggleBtn.textContent = 'Tell Me More';
+                toggleBtn.textContent = this.#t('popup.tellMore', 'Tell Me More');
                 toggleBtn.setAttribute('aria-expanded', 'false');
             }
         }
