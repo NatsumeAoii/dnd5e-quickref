@@ -33,6 +33,7 @@
     "check:generated": "node scripts/prebuild.js --check",
     "check:docs": "node scripts/check-docs.js",
     "test": "vitest run",
+    "pretest": "npm run build",
     "test:single": "vitest run --maxWorkers=1",
     "test:browser": "playwright test",
     "test:browser:headed": "playwright test --headed"

@@ -19,7 +19,8 @@ export class PerformanceOptimizer {
     }
 
     #checkHardware(): void {
-        if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) {
+        if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4
+            && typeof navigator.userAgent === 'string' && !/jsdom/i.test(navigator.userAgent)) {
             this.#isLowEnd = true;
         }
     }
